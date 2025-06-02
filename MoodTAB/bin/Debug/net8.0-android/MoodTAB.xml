@@ -4,6 +4,19 @@
         <name>MoodTAB</name>
     </assembly>
     <members>
+        <member name="T:MoodTAB.ViewModel.DataBaseViewModel">
+            <inheritdoc/>
+            <inheritdoc/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.DataBaseViewModel.Items">
+            <inheritdoc cref="F:MoodTAB.ViewModel.DataBaseViewModel.items"/>
+        </member>
+        <member name="F:MoodTAB.ViewModel.DataBaseViewModel.deleteDoneItemsCommand">
+            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.DataBaseViewModel.DeleteDoneItemsCommand"/>.</summary>
+        </member>
+        <member name="P:MoodTAB.ViewModel.DataBaseViewModel.DeleteDoneItemsCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.DataBaseViewModel.DeleteDoneItems"/>.</summary>
+        </member>
         <member name="T:MoodTAB.ViewModel.MainViewModel">
             <inheritdoc/>
             <inheritdoc/>
@@ -34,11 +47,11 @@
         <member name="P:MoodTAB.ViewModel.MainViewModel.AddItemCommand">
             <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.MainViewModel.AddItem"/>.</summary>
         </member>
-        <member name="F:MoodTAB.ViewModel.MainViewModel.deleteDoneItemsCommand">
-            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.MainViewModel.DeleteDoneItemsCommand"/>.</summary>
+        <member name="F:MoodTAB.ViewModel.MainViewModel.databasePageCommand">
+            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.MainViewModel.DatabasePageCommand"/>.</summary>
         </member>
-        <member name="P:MoodTAB.ViewModel.MainViewModel.DeleteDoneItemsCommand">
-            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.MainViewModel.DeleteDoneItems"/>.</summary>
+        <member name="P:MoodTAB.ViewModel.MainViewModel.DatabasePageCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.MainViewModel.DatabasePage"/>.</summary>
         </member>
         <member name="T:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs">
             <summary>

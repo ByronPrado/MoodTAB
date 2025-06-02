@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MauiApp1;
 using MoodTAB.Models;
 using System;
 using System.Collections.ObjectModel;
@@ -46,7 +47,7 @@ namespace MoodTAB.ViewModel
             }
         }
 
-        // 5) Comando que añade un nuevo elemento a la BD y recarga la lista
+        // 5) Comando que añade un nuevo elemento a la BD 
         [RelayCommand]
         private async Task AddItem()
         {
@@ -73,21 +74,19 @@ namespace MoodTAB.ViewModel
             // Volver a cargar la lista
             await LoadItems();
         }
-
+        
         [RelayCommand]
-        private async Task DeleteDoneItems()
+        private async Task DatabasePage()
         {
-            // 1) Obtener todos los ítems marcados como IsDone == true
-            var doneItems = Items.Where(x => x.IsDone == false).ToList();
-
-            // 2) Para cada uno, borrarlo de la base de datos
-            foreach (var item in doneItems)
+            if (Application.Current?.MainPage?.Navigation != null)
             {
-                await App.Database.DeleteItemAsync(item);
+                await Application.Current.MainPage.Navigation.PushAsync(new DataBasePage());
             }
-
-            // 3) Recargar la lista desde la BD (se vaciará el contenido eliminado)
-            await LoadItems();
+            else
+            {
+                // Handle the case where navigation is not available
+                // For example, show an alert or log an error
+            }
         }
     }
 }

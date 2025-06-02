@@ -1,0 +1,6 @@
+# Archivos de caché y temporales
+bin/
+obj/
+obj/Debug/
+*.cache
+*.tmp

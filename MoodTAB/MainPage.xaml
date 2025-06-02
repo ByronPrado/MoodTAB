@@ -25,22 +25,10 @@
                 HorizontalOptions="Fill" />
 
             <Button
-                Text="Eliminar" 
-                Command="{Binding DeleteDoneItemsCommand}"
+                Text="BD" 
+                Command="{Binding DatabasePageCommand}"
                 HorizontalOptions="Fill" 
                 BackgroundColor="Red"/>
-
-            <CollectionView ItemsSource="{Binding Items}">
-                <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <StackLayout Orientation="Horizontal">
-                        <Label Text="{Binding Nombre}" VerticalOptions="Center" />
-                        <Label Text="{Binding Rut}" VerticalOptions ="Center" />
-                        <CheckBox IsChecked="{Binding Done,Mode=TwoWay}" VerticalOptions="Center" />
-                        </StackLayout>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
         </VerticalStackLayout>
     </ScrollView>
 
