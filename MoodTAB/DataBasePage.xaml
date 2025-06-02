@@ -16,6 +16,7 @@
                 HorizontalOptions="Fill" 
                 />
             <Label Text="Agregar Nueva Persona" FontAttributes="Bold" FontSize="16" />
+            
             <Entry
                 Text="{Binding NuevaPersona}"
                 Placeholder="Ingresa nombre"

@@ -4,12 +4,22 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:MoodTAB"
-    Shell.FlyoutBehavior="Disabled"
+    xmlns:vm="clr-namespace:MoodTAB.ViewModel"
     Title="MoodTAB">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <!-- Flyout Items -->
+        <FlyoutItem Title="Base de Datos" Icon="sql_server.png">
+            <ShellContent ContentTemplate="{DataTemplate local:DataBasePage}" />
+        </FlyoutItem>
 
+        <FlyoutItem Title="Inicio" Icon="house_blank.png">
+            <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
+        </FlyoutItem>
+        
+         <FlyoutItem Title="Cuestionario" Icon="survey.png">
+            <ShellContent ContentTemplate="{DataTemplate local:CuestionarioPage}"/>
+        </FlyoutItem>
+                 <FlyoutItem Title="Agregar Preguntas" Icon="plus.png">
+            <ShellContent ContentTemplate="{DataTemplate local:AddPreguntaPage}"/>
+        </FlyoutItem>
 </Shell>

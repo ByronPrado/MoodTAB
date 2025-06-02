@@ -16,10 +16,11 @@ public partial class App : Application
                 return database;
             }
         }
-	public App()
-	{
-		InitializeComponent();
+    public App()
+    {
+        InitializeComponent();
 
-        MainPage = new NavigationPage(new MainPage());
+        //MainPage = new NavigationPage(new MainPage());
+        MainPage = new AppShell();
 	}
 }

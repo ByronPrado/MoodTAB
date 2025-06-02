@@ -14,6 +14,7 @@ public class TodoItemDataBase
         _database.CreateTableAsync<TodoItem>().Wait();
         _database.CreateTableAsync<Pregunta>().Wait();
         _database.CreateTableAsync<Respuestas>().Wait();
+        //agregar + tablas
     }
 
     public Task<List<TodoItem>> GetItemsAsync()
