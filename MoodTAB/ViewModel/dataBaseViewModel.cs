@@ -16,11 +16,12 @@ namespace MoodTAB.ViewModel
         [ObservableProperty]
         private string nuevoRut;
         [ObservableProperty]
-        private TodoItem selectedItem;
+        private TodoItem? selectedItem;
 
         public DataBaseViewModel()
         {
-            LoadItems();
+           
+            Task.Run(LoadItems);
             NuevaPersona = string.Empty;
             NuevoRut = string.Empty;
         }
