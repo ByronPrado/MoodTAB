@@ -8,18 +8,18 @@
     Title="MoodTAB">
 
     <!-- Flyout Items -->
+    <FlyoutItem Title="Inicio" Icon="house_blank.png">
+        <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
+    </FlyoutItem>
         <FlyoutItem Title="Base de Datos" Icon="sql_server.png">
-            <ShellContent ContentTemplate="{DataTemplate local:DataBasePage}" />
-        </FlyoutItem>
-
-        <FlyoutItem Title="Inicio" Icon="house_blank.png">
-            <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
-        </FlyoutItem>
-        
-         <FlyoutItem Title="Cuestionario" Icon="survey.png">
-            <ShellContent ContentTemplate="{DataTemplate local:CuestionarioPage}"/>
-        </FlyoutItem>
-                 <FlyoutItem Title="Agregar Preguntas" Icon="plus.png">
-            <ShellContent ContentTemplate="{DataTemplate local:AddPreguntaPage}"/>
-        </FlyoutItem>
+        <ShellContent ContentTemplate="{DataTemplate local:DataBasePage}" />
+    </FlyoutItem>
+    
+    <FlyoutItem Title="Cuestionario" Icon="survey.png">
+        <ShellContent ContentTemplate="{DataTemplate local:CuestionarioPage}" />
+    </FlyoutItem>
+    
+    <FlyoutItem Title="Agregar Preguntas" Icon="plus.png">
+        <ShellContent ContentTemplate="{DataTemplate local:AddPreguntaPage}" />
+    </FlyoutItem>
 </Shell>
