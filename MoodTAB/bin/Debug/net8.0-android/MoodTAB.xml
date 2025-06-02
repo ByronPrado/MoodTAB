@@ -51,6 +51,7 @@
             <inheritdoc/>
             <inheritdoc/>
             <inheritdoc/>
+            <inheritdoc/>
         </member>
         <member name="P:MoodTAB.ViewModel.DataBaseViewModel.Items">
             <inheritdoc cref="F:MoodTAB.ViewModel.DataBaseViewModel.items"/>
@@ -63,6 +64,9 @@
         </member>
         <member name="P:MoodTAB.ViewModel.DataBaseViewModel.SelectedItem">
             <inheritdoc cref="F:MoodTAB.ViewModel.DataBaseViewModel.selectedItem"/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.DataBaseViewModel.MostrarEdicion">
+            <inheritdoc cref="F:MoodTAB.ViewModel.DataBaseViewModel.mostrarEdicion"/>
         </member>
         <member name="F:MoodTAB.ViewModel.DataBaseViewModel.addItemCommand">
             <summary>The backing field for <see cref="P:MoodTAB.ViewModel.DataBaseViewModel.AddItemCommand"/>.</summary>
@@ -81,6 +85,12 @@
         </member>
         <member name="P:MoodTAB.ViewModel.DataBaseViewModel.SaveItemCommand">
             <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.DataBaseViewModel.SaveItem"/>.</summary>
+        </member>
+        <member name="F:MoodTAB.ViewModel.DataBaseViewModel.seleccionarItemCommand">
+            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.DataBaseViewModel.SeleccionarItemCommand"/>.</summary>
+        </member>
+        <member name="P:MoodTAB.ViewModel.DataBaseViewModel.SeleccionarItemCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand`1"/> instance wrapping <see cref="M:MoodTAB.ViewModel.DataBaseViewModel.SeleccionarItem(MoodTAB.Models.TodoItem)"/>.</summary>
         </member>
         <member name="T:MoodTAB.ViewModel.MainViewModel">
             <inheritdoc/>
@@ -128,6 +138,9 @@
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.SelectedItem">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "SelectedItem" generated properties.</summary>
         </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.MostrarEdicion">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "MostrarEdicion" generated properties.</summary>
+        </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Title">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Title" generated properties.</summary>
         </member>
@@ -163,6 +176,9 @@
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.SelectedItem">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "SelectedItem" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.MostrarEdicion">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "MostrarEdicion" generated properties.</summary>
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Title">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Title" generated properties.</summary>

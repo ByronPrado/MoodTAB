@@ -18,12 +18,16 @@ namespace MoodTAB.ViewModel
         [ObservableProperty]
         private TodoItem? selectedItem;
 
+        [ObservableProperty]
+        private bool mostrarEdicion;
+
         public DataBaseViewModel()
         {
-           
+
             Task.Run(LoadItems);
             NuevaPersona = string.Empty;
             NuevoRut = string.Empty;
+            MostrarEdicion = false;
         }
 
         private async Task LoadItems()
@@ -84,8 +88,30 @@ namespace MoodTAB.ViewModel
                 SelectedItem.UpdatedAt = DateTime.Now;
                 await App.Database.SaveItemAsync(SelectedItem);
                 await LoadItems(); // Actualizar la vista
+                MostrarEdicion = false; // Ocultar la edición 
                 SelectedItem = null; // Limpiar la selección después de guardar
+
             }
         }
+
+        //public IRelayCommand<TodoItem> SeleccionarItemCommand => new RelayCommand<TodoItem>(SeleccionarItem);
+
+        [RelayCommand]
+        private void SeleccionarItem(TodoItem item)
+        {
+            if (SelectedItem == null)
+            {
+                SelectedItem = item;
+                MostrarEdicion = true;
+            }
+            else if (SelectedItem == item)
+            {
+                SelectedItem = null;
+                MostrarEdicion = false;
+            }
+            // No permitir cambiar a otro ítem
+        }
+
+
     }
 }

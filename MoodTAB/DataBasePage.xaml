@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:MoodTAB.ViewModel"
+             x:Name="page"
              x:Class="MoodTAB.DataBasePage"
              Title="Vista de Base de Datos">
 
@@ -14,6 +15,7 @@
                 Command="{Binding DeleteDoneItemsCommand}"
                 HorizontalOptions="Fill" 
                 />
+            <Label Text="Agregar Nueva Persona" FontAttributes="Bold" FontSize="16" />
             <Entry
                 Text="{Binding NuevaPersona}"
                 Placeholder="Ingresa nombre"
@@ -28,31 +30,35 @@
                 HorizontalOptions="Fill" />
             
 
-            <Label Text="Editar Ítem Seleccionado" FontAttributes="Bold" />
-            
-            <Entry Text="{Binding SelectedItem.Nombre}" Placeholder="Nombre" />
-            <Entry Text="{Binding SelectedItem.Rut}" Placeholder="RUT" />
-            <Switch IsToggled="{Binding SelectedItem.IsDone}" />
-            
-            <Button Text="Guardar Cambios" Command="{Binding SaveItemCommand}" />
+            <StackLayout IsVisible="{Binding MostrarEdicion}">
+                <Label Text="Editar Ítem Seleccionado" FontAttributes="Bold" />
 
-            <CollectionView ItemsSource="{Binding Items}" 
-                SelectionMode="Single"
-                SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Frame BorderColor="Gray" Padding="10" Margin="5">
-                            <VerticalStackLayout>
-                                <Label Text="{Binding Nombre}" />
-                                <Label Text="{Binding Rut}" />
-                                <Label Text="{Binding CreatedAt}" FontSize="10"/>
-                                <Label Text="{Binding UpdatedAt}" FontSize="10" />
-                                <Label Text="check" IsVisible="{Binding IsDone}" />
-                            </VerticalStackLayout>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                <Entry Text="{Binding SelectedItem.Nombre}" Placeholder="Nombre" />
+                <Entry Text="{Binding SelectedItem.Rut}" Placeholder="RUT" />
+                <Switch IsToggled="{Binding SelectedItem.IsDone}" />
+
+                <Button Text="Guardar Cambios" Command="{Binding SaveItemCommand}" />
+            </StackLayout>
+
+            <CollectionView ItemsSource="{Binding Items}" SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BorderColor="Gray" Padding="10" Margin="5">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding BindingContext.SeleccionarItemCommand, Source={x:Reference Name=page}}" CommandParameter="{Binding}" />
+                        </Frame.GestureRecognizers>
+                        <VerticalStackLayout>
+                            <Label Text="{Binding Nombre}" />
+                            <Label Text="{Binding Rut}" />
+                            <Label Text="{Binding CreatedAt}" FontSize="10"/>
+                            <Label Text="{Binding UpdatedAt}" FontSize="10" />
+                            <Label Text="check" IsVisible="{Binding IsDone}" />
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
         </VerticalStackLayout>
     </ScrollView>
 
