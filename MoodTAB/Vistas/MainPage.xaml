@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModel="clr-namespace:MoodTAB.ViewModel" 
-             x:Class="MoodTAB.MainPage">
+             x:Class="MoodTAB.Vistas.MainPage">
 
     <ScrollView>
         <VerticalStackLayout

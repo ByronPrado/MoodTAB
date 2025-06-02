@@ -1,5 +1,7 @@
 ﻿namespace MoodTAB;
+
 using MoodTAB.Data;
+using MoodTAB.Vistas;
 
 public partial class App : Application
 {

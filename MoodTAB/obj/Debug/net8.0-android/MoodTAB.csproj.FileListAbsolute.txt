@@ -45,10 +45,10 @@ C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\resi
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\resizetizer\r\drawable-xhdpi\dotnet_bot.png
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\resizetizer\r\drawable-hdpi\dotnet_bot.png
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\resizetizer\r\drawable-mdpi\dotnet_bot.png
-C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\resizetizer\r\drawable\survey.png
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\resizetizer\r\drawable\sql_server.png
-C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\resizetizer\r\drawable\plus.png
+C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\resizetizer\r\drawable\survey.png
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\resizetizer\r\drawable\house_blank.png
+C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\resizetizer\r\drawable\plus.png
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\mauiimage.stamp
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\mauiimage.outputs
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\libraryprojectimports.cache
@@ -126,7 +126,12 @@ C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\bin\Debug\net8.0-android\com.
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\bin\Debug\net8.0-android\com.companyname.moodtab-Signed.aab
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\bin\Debug\net8.0-android\com.companyname.moodtab-Signed.apk
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\bin\Debug\net8.0-android\com.companyname.moodtab-Signed.apk.idsig
+C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\bin\Debug\net8.0-android\Microsoft.Maui.Controls.HotReload.Forms.dll
+C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\bin\Debug\net8.0-android\Microsoft.VisualStudio.DesignTools.MobileTapContracts.dll
+C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\bin\Debug\net8.0-android\Microsoft.VisualStudio.DesignTools.TapContract.dll
+C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\bin\Debug\net8.0-android\Microsoft.VisualStudio.DesignTools.XamlTapContract.dll
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\XamlC.stamp
+C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\MoodTAB.csproj.Up2Date
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\MoodTAB.dll
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\MoodTAB.pdb
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\MoodTAB.genruntimeconfig.cache
@@ -173,6 +178,7 @@ C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\andr
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\android\assets\Microsoft.Extensions.Primitives.dll
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\android\assets\Microsoft.Maui.Controls.Compatibility.dll
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\android\assets\Microsoft.Maui.Controls.dll
+C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\android\assets\Microsoft.Maui.Controls.HotReload.Forms.dll
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\android\assets\Microsoft.Maui.Controls.pdb
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\android\assets\Microsoft.Maui.Controls.Xaml.dll
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\android\assets\Microsoft.Maui.Controls.Xaml.pdb
@@ -184,6 +190,9 @@ C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\andr
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\android\assets\Microsoft.Maui.pdb
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\android\assets\Microsoft.VisualBasic.Core.dll
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\android\assets\Microsoft.VisualBasic.dll
+C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\android\assets\Microsoft.VisualStudio.DesignTools.MobileTapContracts.dll
+C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\android\assets\Microsoft.VisualStudio.DesignTools.TapContract.dll
+C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\android\assets\Microsoft.VisualStudio.DesignTools.XamlTapContract.dll
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\android\assets\Microsoft.Win32.Primitives.dll
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\android\assets\Microsoft.Win32.Registry.dll
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\android\assets\Mono.Android.dll
@@ -1055,12 +1064,3 @@ C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\stam
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\stamp\_GenerateJavaStubs.stamp
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\stamp\_GeneratePackageManagerJava.stamp
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\stamp\_ResolveLibraryProjectImports.stamp
-C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\android\assets\Microsoft.Maui.Controls.HotReload.Forms.dll
-C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\android\assets\Microsoft.VisualStudio.DesignTools.MobileTapContracts.dll
-C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\android\assets\Microsoft.VisualStudio.DesignTools.TapContract.dll
-C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\android\assets\Microsoft.VisualStudio.DesignTools.XamlTapContract.dll
-C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\bin\Debug\net8.0-android\Microsoft.Maui.Controls.HotReload.Forms.dll
-C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\bin\Debug\net8.0-android\Microsoft.VisualStudio.DesignTools.MobileTapContracts.dll
-C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\bin\Debug\net8.0-android\Microsoft.VisualStudio.DesignTools.TapContract.dll
-C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\bin\Debug\net8.0-android\Microsoft.VisualStudio.DesignTools.XamlTapContract.dll
-C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-android\MoodTAB.csproj.Up2Date

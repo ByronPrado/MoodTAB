@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:MoodTAB.ViewModel"
              x:Name="page"
-             x:Class="MoodTAB.DataBasePage"
+             x:Class="MoodTAB.Vistas.DataBasePage"
              Title="Vista de Base de Datos">
 
 

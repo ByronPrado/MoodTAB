@@ -1,4 +1,4 @@
-namespace MauiApp1;
+namespace MoodTAB.Vistas;
 
 public partial class TestPage : ContentPage
 {

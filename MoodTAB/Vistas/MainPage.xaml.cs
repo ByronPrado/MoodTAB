@@ -1,4 +1,4 @@
-﻿namespace MoodTAB;
+﻿namespace MoodTAB.Vistas;
 using MoodTAB.ViewModel;
 
 public partial class MainPage : ContentPage

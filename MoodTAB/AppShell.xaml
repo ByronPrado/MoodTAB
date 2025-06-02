@@ -5,21 +5,22 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:MoodTAB"
     xmlns:vm="clr-namespace:MoodTAB.ViewModel"
+    xmlns:views="clr-namespace:MoodTAB.Vistas"
     Title="MoodTAB">
 
     <!-- Flyout Items -->
     <FlyoutItem Title="Inicio" Icon="house_blank.png">
-        <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
+        <ShellContent ContentTemplate="{DataTemplate views:MainPage}" />
     </FlyoutItem>
         <FlyoutItem Title="Base de Datos" Icon="sql_server.png">
-        <ShellContent ContentTemplate="{DataTemplate local:DataBasePage}" />
+        <ShellContent ContentTemplate="{DataTemplate views:DataBasePage}" />
     </FlyoutItem>
     
     <FlyoutItem Title="Cuestionario" Icon="survey.png">
-        <ShellContent ContentTemplate="{DataTemplate local:CuestionarioPage}" />
+        <ShellContent ContentTemplate="{DataTemplate views:CuestionarioPage}" />
     </FlyoutItem>
     
     <FlyoutItem Title="Agregar Preguntas" Icon="plus.png">
-        <ShellContent ContentTemplate="{DataTemplate local:AddPreguntaPage}" />
+        <ShellContent ContentTemplate="{DataTemplate views:AddPreguntaPage}" />
     </FlyoutItem>
 </Shell>

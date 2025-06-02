@@ -1,5 +1,5 @@
 ﻿namespace MoodTAB;
-
+using MoodTAB.Vistas;
 public partial class AppShell : Shell
 {
 	public AppShell()

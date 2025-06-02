@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using MauiApp1;
 using MoodTAB.Models;
+using MoodTAB.Vistas;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;

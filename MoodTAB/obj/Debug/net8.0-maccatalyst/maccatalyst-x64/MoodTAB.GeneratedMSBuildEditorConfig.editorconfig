@@ -21,12 +21,6 @@ build_property.ProjectDir = C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 
-[C:/Users/byrom/OneDrive/Escritorio/MoodTAB/MoodTAB/AddPreguntaPage.xaml]
-build_metadata.AdditionalFiles.GenKind = Xaml
-build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.AddPreguntaPage.xaml
-build_metadata.AdditionalFiles.TargetPath = AddPreguntaPage.xaml
-build_metadata.AdditionalFiles.RelativePath = AddPreguntaPage.xaml
-
 [C:/Users/byrom/OneDrive/Escritorio/MoodTAB/MoodTAB/App.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.App.xaml
@@ -38,24 +32,6 @@ build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.AppShell.xaml
 build_metadata.AdditionalFiles.TargetPath = AppShell.xaml
 build_metadata.AdditionalFiles.RelativePath = AppShell.xaml
-
-[C:/Users/byrom/OneDrive/Escritorio/MoodTAB/MoodTAB/CuestionarioPage.xaml]
-build_metadata.AdditionalFiles.GenKind = Xaml
-build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.CuestionarioPage.xaml
-build_metadata.AdditionalFiles.TargetPath = CuestionarioPage.xaml
-build_metadata.AdditionalFiles.RelativePath = CuestionarioPage.xaml
-
-[C:/Users/byrom/OneDrive/Escritorio/MoodTAB/MoodTAB/DataBasePage.xaml]
-build_metadata.AdditionalFiles.GenKind = Xaml
-build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.DataBasePage.xaml
-build_metadata.AdditionalFiles.TargetPath = DataBasePage.xaml
-build_metadata.AdditionalFiles.RelativePath = DataBasePage.xaml
-
-[C:/Users/byrom/OneDrive/Escritorio/MoodTAB/MoodTAB/MainPage.xaml]
-build_metadata.AdditionalFiles.GenKind = Xaml
-build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.MainPage.xaml
-build_metadata.AdditionalFiles.TargetPath = MainPage.xaml
-build_metadata.AdditionalFiles.RelativePath = MainPage.xaml
 
 [C:/Users/byrom/OneDrive/Escritorio/MoodTAB/MoodTAB/Resources/Styles/Colors.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
@@ -69,8 +45,32 @@ build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.Resources.Styles.S
 build_metadata.AdditionalFiles.TargetPath = Resources\Styles\Styles.xaml
 build_metadata.AdditionalFiles.RelativePath = Resources\Styles\Styles.xaml
 
-[C:/Users/byrom/OneDrive/Escritorio/MoodTAB/MoodTAB/TestPage.xaml]
+[C:/Users/byrom/OneDrive/Escritorio/MoodTAB/MoodTAB/Vistas/AddPreguntaPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
-build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.TestPage.xaml
-build_metadata.AdditionalFiles.TargetPath = TestPage.xaml
-build_metadata.AdditionalFiles.RelativePath = TestPage.xaml
+build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.Vistas.AddPreguntaPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Vistas\AddPreguntaPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Vistas\AddPreguntaPage.xaml
+
+[C:/Users/byrom/OneDrive/Escritorio/MoodTAB/MoodTAB/Vistas/CuestionarioPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.Vistas.CuestionarioPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Vistas\CuestionarioPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Vistas\CuestionarioPage.xaml
+
+[C:/Users/byrom/OneDrive/Escritorio/MoodTAB/MoodTAB/Vistas/DataBasePage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.Vistas.DataBasePage.xaml
+build_metadata.AdditionalFiles.TargetPath = Vistas\DataBasePage.xaml
+build_metadata.AdditionalFiles.RelativePath = Vistas\DataBasePage.xaml
+
+[C:/Users/byrom/OneDrive/Escritorio/MoodTAB/MoodTAB/Vistas/MainPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.Vistas.MainPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Vistas\MainPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Vistas\MainPage.xaml
+
+[C:/Users/byrom/OneDrive/Escritorio/MoodTAB/MoodTAB/Vistas/TestPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.Vistas.TestPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Vistas\TestPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Vistas\TestPage.xaml
