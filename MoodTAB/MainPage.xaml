@@ -11,24 +11,18 @@
             <Label
                 Text="{Binding Title}"
                 SemanticProperties.HeadingLevel="Level1" />
-            <Entry
-                Text="{Binding NuevaPersona}"
-                Placeholder="Ingresa nombre"
-            />
-            <Entry
-                Text="{Binding NuevoRut}"
-                Placeholder="Ingresa rut"
-            />
-            <Button
-                Text="Agregar" 
-                Command="{Binding AddItemCommand}"
-                HorizontalOptions="Fill" />
-
+            
             <Button
                 Text="BD" 
                 Command="{Binding DatabasePageCommand}"
                 HorizontalOptions="Fill" 
                 BackgroundColor="Red"/>
+
+            <Button
+                Text="test" 
+                Command="{Binding TestPageCommand}"
+                HorizontalOptions="Fill" 
+                BackgroundColor="green"/>
         </VerticalStackLayout>
     </ScrollView>
 

@@ -9,6 +9,19 @@
     <ScrollView>
         <VerticalStackLayout Padding="20">
             <Label Text="Vista de Datos en Base de Datos" FontSize="20" FontAttributes="Bold" />
+            <Entry
+                Text="{Binding NuevaPersona}"
+                Placeholder="Ingresa nombre"
+            />
+            <Entry
+                Text="{Binding NuevoRut}"
+                Placeholder="Ingresa rut"
+            />
+            <Button
+                Text="Agregar" 
+                Command="{Binding AddItemCommand}"
+                HorizontalOptions="Fill" />
+                
             <CollectionView ItemsSource="{Binding Items}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>

@@ -10,10 +10,19 @@ namespace MoodTAB.ViewModel
     {
         [ObservableProperty]
         ObservableCollection<TodoItem> items = new();
+        [ObservableProperty]
+        private string nuevaPersona;
+        // Propiedad para el RUT ingresado en el Entry
+        [ObservableProperty]
+        private string nuevoRut;
+        [ObservableProperty]
+        private TodoItem selectedItem;
 
         public DataBaseViewModel()
         {
-            _ = LoadItems();
+            LoadItems();
+            NuevaPersona = string.Empty;
+            NuevoRut = string.Empty;
         }
 
         private async Task LoadItems()
@@ -21,7 +30,35 @@ namespace MoodTAB.ViewModel
             var result = await App.Database.GetItemsAsync();
             Items = new ObservableCollection<TodoItem>(result);
         }
-        
+
+
+        // 5) Comando que añade un nuevo elemento a la BD 
+        [RelayCommand]
+        private async Task AddItem()
+        {
+            if (string.IsNullOrWhiteSpace(NuevaPersona))
+                return;
+            if (string.IsNullOrWhiteSpace(NuevoRut))
+                return;
+
+            var todoItem = new TodoItem
+            {
+                Nombre = NuevaPersona,
+                Rut = NuevoRut,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                IsDone = false
+            };
+
+            await App.Database.SaveItemAsync(todoItem);
+
+            // Limpiar el Entry
+            NuevaPersona = string.Empty;
+            NuevoRut = string.Empty;
+
+            // Volver a cargar la lista
+            await LoadItems();
+        }
         [RelayCommand]
         private async Task DeleteDoneItems()
         {
@@ -36,6 +73,18 @@ namespace MoodTAB.ViewModel
 
             // 3) Recargar la lista desde la BD (se vaciará el contenido eliminado)
             await LoadItems();
+        }
+
+        [RelayCommand]
+        private async Task SaveItem()
+        {
+            if (SelectedItem != null)
+            {
+                SelectedItem.UpdatedAt = DateTime.Now;
+                await App.Database.SaveItemAsync(SelectedItem);
+                await LoadItems(); // Actualizar la vista
+                SelectedItem = null; // Limpiar la selección después de guardar
+            }
         }
     }
 }
