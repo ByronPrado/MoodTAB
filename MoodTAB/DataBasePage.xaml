@@ -9,6 +9,11 @@
     <ScrollView>
         <VerticalStackLayout Padding="20">
             <Label Text="Vista de Datos en Base de Datos" FontSize="20" FontAttributes="Bold" />
+            <Button
+                Text="Borrar Base de Datos" 
+                Command="{Binding DeleteDoneItemsCommand}"
+                HorizontalOptions="Fill" 
+                />
             <Entry
                 Text="{Binding NuevaPersona}"
                 Placeholder="Ingresa nombre"
@@ -21,14 +26,27 @@
                 Text="Agregar" 
                 Command="{Binding AddItemCommand}"
                 HorizontalOptions="Fill" />
-                
-            <CollectionView ItemsSource="{Binding Items}">
+            
+
+            <Label Text="Editar Ítem Seleccionado" FontAttributes="Bold" />
+            
+            <Entry Text="{Binding SelectedItem.Nombre}" Placeholder="Nombre" />
+            <Entry Text="{Binding SelectedItem.Rut}" Placeholder="RUT" />
+            <Switch IsToggled="{Binding SelectedItem.IsDone}" />
+            
+            <Button Text="Guardar Cambios" Command="{Binding SaveItemCommand}" />
+
+            <CollectionView ItemsSource="{Binding Items}" 
+                SelectionMode="Single"
+                SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame BorderColor="Gray" Padding="10" Margin="5">
                             <VerticalStackLayout>
                                 <Label Text="{Binding Nombre}" />
-                                <Label Text="{Binding CreatedAt}" FontSize="10" TextColor="Gray" />
+                                <Label Text="{Binding Rut}" />
+                                <Label Text="{Binding CreatedAt}" FontSize="10"/>
+                                <Label Text="{Binding UpdatedAt}" FontSize="10" />
                                 <Label Text="check" IsVisible="{Binding IsDone}" />
                             </VerticalStackLayout>
                         </Frame>

@@ -24,11 +24,30 @@ namespace MoodTAB.ViewModel
         }      
 
         [RelayCommand]
-        private async Task DatabasePage()
+        private async Task MovetoPage(string pageName)
         {
             if (Application.Current?.MainPage?.Navigation != null)
             {
-                await Application.Current.MainPage.Navigation.PushAsync(new DataBasePage());
+                switch (pageName)
+                {
+                    case "DataBase":
+                        await Application.Current.MainPage.Navigation.PushAsync(new DataBasePage());
+                        break;
+                    case "Test":
+                        await Application.Current.MainPage.Navigation.PushAsync(new TestPage());
+                        break;
+                    case "AddPregunta":
+                        await Application.Current.MainPage.Navigation.PushAsync(new AddPreguntaPage());
+                        break;
+                    case "Cuestionario":
+                        await Application.Current.MainPage.Navigation.PushAsync(new CuestionarioPage());
+                        break;
+                    default:
+                        // Main page en caso de error
+                        await Application.Current.MainPage.Navigation.PushAsync(new MainPage());
+
+                        break;
+                }
             }
             else
             {
@@ -36,18 +55,6 @@ namespace MoodTAB.ViewModel
                 // For example, show an alert or log an error
             }
         }
-        [RelayCommand]
-        private async Task TestPage()
-        {
-            if (Application.Current?.MainPage?.Navigation != null)
-            {
-                await Application.Current.MainPage.Navigation.PushAsync(new TestPage());
-            }
-            else
-            {
-                // Handle the case where navigation is not available
-                // For example, show an alert or log an error
-            }
-        }
+        
     }
 }

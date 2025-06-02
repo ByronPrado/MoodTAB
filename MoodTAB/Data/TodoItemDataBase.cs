@@ -2,7 +2,7 @@ using SQLite;
 using MoodTAB.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-namespace MoodTAB.Data; 
+namespace MoodTAB.Data;
 
 public class TodoItemDataBase
 {
@@ -40,4 +40,11 @@ public class TodoItemDataBase
     {
         return _database.DeleteAsync(item);
     }
+    
+    public Task<int> SaveQuestionAsync(Pregunta q) => _database.InsertAsync(q);
+    public Task<List<Pregunta>> GetQuestionsAsync() => _database.Table<Pregunta>().ToListAsync();
+
+    public Task<int> SaveAnswerAsync(Respuestas a) => _database.InsertAsync(a);
+    public Task<List<Respuestas>> GetAnswersAsync() => _database.Table<Respuestas>().ToListAsync();
+
 }

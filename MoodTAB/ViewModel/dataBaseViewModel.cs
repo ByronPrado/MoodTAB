@@ -63,7 +63,7 @@ namespace MoodTAB.ViewModel
         private async Task DeleteDoneItems()
         {
             // 1) Obtener todos los ítems marcados como IsDone == true
-            var doneItems = Items.Where(x => x.IsDone == false).ToList();
+            var doneItems = Items.Where(x => x.IsDone == true).ToList();
 
             // 2) Para cada uno, borrarlo de la base de datos
             foreach (var item in doneItems)

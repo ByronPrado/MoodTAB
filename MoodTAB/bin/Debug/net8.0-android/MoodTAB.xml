@@ -4,6 +4,38 @@
         <name>MoodTAB</name>
     </assembly>
     <members>
+        <member name="T:MoodTAB.ViewModel.AddPregunta">
+            <inheritdoc/>
+            <inheritdoc/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.AddPregunta.Preguntas">
+            <inheritdoc cref="F:MoodTAB.ViewModel.AddPregunta.preguntas"/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.AddPregunta.NuevaPregunta">
+            <inheritdoc cref="F:MoodTAB.ViewModel.AddPregunta.nuevaPregunta"/>
+        </member>
+        <member name="F:MoodTAB.ViewModel.AddPregunta.agregarPreguntaCommand">
+            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.AddPregunta.AgregarPreguntaCommand"/>.</summary>
+        </member>
+        <member name="P:MoodTAB.ViewModel.AddPregunta.AgregarPreguntaCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.AddPregunta.AgregarPregunta"/>.</summary>
+        </member>
+        <member name="T:MoodTAB.ViewModel.Cuestionario">
+            <inheritdoc/>
+            <inheritdoc/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.Cuestionario.PreguntaActual">
+            <inheritdoc cref="F:MoodTAB.ViewModel.Cuestionario.preguntaActual"/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.Cuestionario.RespuestaUsuario">
+            <inheritdoc cref="F:MoodTAB.ViewModel.Cuestionario.respuestaUsuario"/>
+        </member>
+        <member name="F:MoodTAB.ViewModel.Cuestionario.guardarRespuestaCommand">
+            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.Cuestionario.GuardarRespuestaCommand"/>.</summary>
+        </member>
+        <member name="P:MoodTAB.ViewModel.Cuestionario.GuardarRespuestaCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.Cuestionario.GuardarRespuesta"/>.</summary>
+        </member>
         <member name="T:MoodTAB.ViewModel.DataBaseViewModel">
             <inheritdoc/>
             <inheritdoc/>
@@ -43,28 +75,33 @@
         <member name="T:MoodTAB.ViewModel.MainViewModel">
             <inheritdoc/>
             <inheritdoc/>
-            <inheritdoc/>
         </member>
         <member name="P:MoodTAB.ViewModel.MainViewModel.Title">
             <inheritdoc cref="F:MoodTAB.ViewModel.MainViewModel._title"/>
         </member>
-        <member name="F:MoodTAB.ViewModel.MainViewModel.databasePageCommand">
-            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.MainViewModel.DatabasePageCommand"/>.</summary>
+        <member name="F:MoodTAB.ViewModel.MainViewModel.movetoPageCommand">
+            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.MainViewModel.MovetoPageCommand"/>.</summary>
         </member>
-        <member name="P:MoodTAB.ViewModel.MainViewModel.DatabasePageCommand">
-            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.MainViewModel.DatabasePage"/>.</summary>
-        </member>
-        <member name="F:MoodTAB.ViewModel.MainViewModel.testPageCommand">
-            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.MainViewModel.TestPageCommand"/>.</summary>
-        </member>
-        <member name="P:MoodTAB.ViewModel.MainViewModel.TestPageCommand">
-            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.MainViewModel.TestPage"/>.</summary>
+        <member name="P:MoodTAB.ViewModel.MainViewModel.MovetoPageCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand`1"/> instance wrapping <see cref="M:MoodTAB.ViewModel.MainViewModel.MovetoPage(System.String)"/>.</summary>
         </member>
         <member name="T:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs">
             <summary>
             A helper type providing cached, reusable <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instances
             for all properties generated with <see cref="T:CommunityToolkit.Mvvm.ComponentModel.ObservablePropertyAttribute"/>.
             </summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Preguntas">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Preguntas" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.NuevaPregunta">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "NuevaPregunta" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.PreguntaActual">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "PreguntaActual" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.RespuestaUsuario">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "RespuestaUsuario" generated properties.</summary>
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Items">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Items" generated properties.</summary>
@@ -86,6 +123,18 @@
             A helper type providing cached, reusable <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instances
             for all properties generated with <see cref="T:CommunityToolkit.Mvvm.ComponentModel.ObservablePropertyAttribute"/>.
             </summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Preguntas">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Preguntas" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.NuevaPregunta">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "NuevaPregunta" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.PreguntaActual">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "PreguntaActual" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.RespuestaUsuario">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "RespuestaUsuario" generated properties.</summary>
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Items">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Items" generated properties.</summary>

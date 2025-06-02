@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MoodTAB.AddPreguntaPage"
+             Title="AddPreguntaPage">
+    <VerticalStackLayout Padding="20">
+        <Label Text="Agregar Pregunta" FontAttributes="Bold" FontSize="20"/>
+        <Entry Placeholder="Escribe tu pregunta" Text="{Binding NuevaPregunta}" />
+        <Button Text="Guardar" Command="{Binding AgregarPreguntaCommand}" />
+
+        <CollectionView ItemsSource="{Binding Preguntas}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BorderColor="LightGray" Padding="10" Margin="5">
+                        <Label Text="{Binding Texto_Pregunta}" FontSize="16"/>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </VerticalStackLayout>
+</ContentPage>

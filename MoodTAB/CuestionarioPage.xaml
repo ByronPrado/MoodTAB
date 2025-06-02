@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MoodTAB.CuestionarioPage"
+             Title="CuestionarioPage">
+    <VerticalStackLayout Padding="20">
+        <Label Text="Pregunta:" FontSize="16" FontAttributes="Bold"/>
+        <Label Text="{Binding PreguntaActual.Texto}" FontSize="14"/>
+
+        <Editor Placeholder="Escribe tu respuesta aquí..." 
+                AutoSize="TextChanges"
+                Text="{Binding RespuestaUsuario}" />
+
+        <Button Text="Guardar Respuesta" Command="{Binding GuardarRespuestaCommand}" />
+    </VerticalStackLayout>
+</ContentPage>

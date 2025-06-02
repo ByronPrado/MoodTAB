@@ -14,15 +14,30 @@
             
             <Button
                 Text="BD" 
-                Command="{Binding DatabasePageCommand}"
+                Command="{Binding MovetoPageCommand}"
+                CommandParameter="DataBase"
                 HorizontalOptions="Fill" 
                 BackgroundColor="Red"/>
 
             <Button
                 Text="test" 
-                Command="{Binding TestPageCommand}"
+                Command="{Binding MovetoPageCommand}"
+                CommandParameter="Test"
                 HorizontalOptions="Fill" 
                 BackgroundColor="green"/>
+             <Button
+                Text="Cuestionario" 
+                Command="{Binding MovetoPageCommand}"
+                CommandParameter="Cuestionario"
+                HorizontalOptions="Fill" 
+                BackgroundColor="blue"/>
+             <Button
+                Text="Agregar Pregunta" 
+                Command="{Binding MovetoPageCommand}"
+                CommandParameter="AddPregunta"
+                HorizontalOptions="Fill" 
+                BackgroundColor="cyan"/>
+            
         </VerticalStackLayout>
     </ScrollView>
 
