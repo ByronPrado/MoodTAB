@@ -8,5 +8,9 @@
             Text="Welcome to .NET MAUI!"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+
+        <!-- TestPage.xaml -->
+        <Label x:Name="NombreLabel" Text="Test Page" />
+        <Button Text="Mostrar ruta" Clicked="OnButtonClicked"/>
     </VerticalStackLayout>
 </ContentPage>
