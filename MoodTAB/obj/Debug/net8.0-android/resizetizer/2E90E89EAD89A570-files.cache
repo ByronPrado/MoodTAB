@@ -1,4 +1,10 @@
+<<<<<<< Updated upstream
 ﻿obj\Debug\net8.0-android\resizetizer\r\drawable\house_blank.png
+=======
+﻿obj\Debug\net8.0-android\resizetizer\r\drawable\debug.png
+obj\Debug\net8.0-android\resizetizer\r\drawable\house_blank.png
+obj\Debug\net8.0-android\resizetizer\r\drawable\mt.png
+>>>>>>> Stashed changes
 obj\Debug\net8.0-android\resizetizer\r\drawable\plus.png
 obj\Debug\net8.0-android\resizetizer\r\drawable\sql_server.png
 obj\Debug\net8.0-android\resizetizer\r\drawable\survey.png
