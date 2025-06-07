@@ -44,7 +44,13 @@ public class TodoItemDataBase
         return _database.DeleteAsync(item);
     }
     // nuevas funciones para Preguntas y Respuestas
-    public Task<int> SaveQuestionAsync(Pregunta q) => _database.InsertAsync(q);
+    public Task<int> SaveQuestionAsync(Pregunta q)
+    {
+        if (q.Id != 0)
+            return _database.UpdateAsync(q);
+        else
+            return _database.InsertAsync(q);
+    } 
     public Task<List<Pregunta>> GetQuestionsAsync() => _database.Table<Pregunta>().ToListAsync();
     public Task<int> DeleteQuestionAsync(Pregunta q)=> _database.DeleteAsync(q);
 

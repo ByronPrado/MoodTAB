@@ -40,7 +40,24 @@ namespace MoodTAB.ViewModel
 
             await App.Database.SaveQuestionAsync(pregunta);
             NuevaPregunta = string.Empty;
-            await LoadPreguntasAsync();
+            _= LoadPreguntasAsync();
+        }
+
+        [RelayCommand]
+        private async Task EliminarPregunta(Pregunta pregunta)
+        {
+            if (pregunta is null)
+            {
+                await Shell.Current.DisplayAlert("pregunta nula", "No se puede eliminar una pregunta nula.", "OK"); 
+                return;
+            }
+            bool confirm = await Shell.Current.DisplayAlert("Confirmar", "¿Eliminar esta pregunta?", "Sí", "No");
+
+            if (confirm)
+            {
+                await App.Database.DeleteQuestionAsync(pregunta);
+                Preguntas.Remove(pregunta); // Actualiza solo la colección, más eficiente
+            }
         }
     }
 }

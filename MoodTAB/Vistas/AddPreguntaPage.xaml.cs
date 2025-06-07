@@ -1,5 +1,4 @@
 namespace MoodTAB.Vistas;
-using MoodTAB.ViewModel;
 
 public partial class AddPreguntaPage : ContentPage
 {	

@@ -1,0 +1,25 @@
+@model List<Paciente>
+
+<h2>Pacientes</h2>
+<a href="/Pacientes/Create" class="btn btn-primary mb-3">Agregar Paciente</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr><th>Id</th><th>Nombre Completo</th><th>Preguntas</th><th>Acciones</th></tr>
+    </thead>
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td>@c.Id</td>
+                <td>@c.Name</td>
+                <td></td>
+                <td>
+                    <a href="/Pacientes/Edit/@c.Id" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="/Pacientes/Delete/@c.Id" class="btn btn-danger btn-sm"
+                       onclick="return confirm('¿Seguro que quieres borrar este paciente?');">Borrar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

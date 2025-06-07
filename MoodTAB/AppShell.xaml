@@ -8,7 +8,6 @@
     xmlns:views="clr-namespace:MoodTAB.Vistas"
     Title="MoodTAB">
 
-    <!-- Flyout Items -->
     <FlyoutItem Title="Inicio" Icon="house_blank.png">
         <ShellContent ContentTemplate="{DataTemplate views:MainPage}" />
     </FlyoutItem>

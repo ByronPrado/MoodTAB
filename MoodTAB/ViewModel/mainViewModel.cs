@@ -4,6 +4,7 @@ using MoodTAB.Models;
 using MoodTAB.Vistas;
 using System;
 using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace MoodTAB.ViewModel
@@ -12,15 +13,16 @@ namespace MoodTAB.ViewModel
     {
        
 
-        // 3) Título enlazado al Label
         [ObservableProperty]
-        private string _title = "MoodTAB";
+        private string _title = "Bienvenido a MoodTAB";
+        private string _nameUser;
 
         
 
         public MainViewModel()
         {
-           
+            // Inicializar el nombre de usuario
+            _nameUser = "Usuario";
         }      
 
         [RelayCommand]

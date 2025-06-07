@@ -9,35 +9,20 @@
             Padding="30,0"
             Spacing="25">
             <Label
-                Text="{Binding Title}"
-                SemanticProperties.HeadingLevel="Level1" />
+                Text="{Binding Title}" FontSize="Title" />
             
-            <Button
-                Text="BD" 
-                Command="{Binding MovetoPageCommand}"
-                CommandParameter="DataBase"
-                HorizontalOptions="Fill" 
-                BackgroundColor="Red"/>
-
+            <Image
+                Source="mt.png"
+                HorizontalOptions="Center"
+                VerticalOptions="Center" />
+            
             <Button
                 Text="test" 
                 Command="{Binding MovetoPageCommand}"
                 CommandParameter="Test"
                 HorizontalOptions="Fill" 
                 BackgroundColor="green"/>
-             <Button
-                Text="Cuestionario" 
-                Command="{Binding MovetoPageCommand}"
-                CommandParameter="Cuestionario"
-                HorizontalOptions="Fill" 
-                BackgroundColor="blue"/>
-             <Button
-                Text="Agregar Pregunta" 
-                Command="{Binding MovetoPageCommand}"
-                CommandParameter="AddPregunta"
-                HorizontalOptions="Fill" 
-                BackgroundColor="cyan"/>
-            
+                        
         </VerticalStackLayout>
     </ScrollView>
 
