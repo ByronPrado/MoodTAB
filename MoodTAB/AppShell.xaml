@@ -6,8 +6,16 @@
     xmlns:local="clr-namespace:MoodTAB"
     xmlns:vm="clr-namespace:MoodTAB.ViewModel"
     xmlns:views="clr-namespace:MoodTAB.Vistas"
-    Title="MoodTAB">
+    xmlns:controls="clr-namespace:MoodTAB.Controls"
+    Title="MoodTAB"
+    FlyoutBackgroundColor="white"
+    FlyoutHeaderBehavior="CollapseOnScroll">
+    
+        <Shell.FlyoutHeader>
+        <controls:FlyoutHeader />
+    </Shell.FlyoutHeader>
 
+<<<<<<< Updated upstream
     <!-- Flyout Items -->
     <FlyoutItem Title="Inicio" Icon="house_blank.png">
         <ShellContent ContentTemplate="{DataTemplate views:MainPage}" />
@@ -22,5 +30,19 @@
     
     <FlyoutItem Title="Agregar Preguntas" Icon="plus.png">
         <ShellContent ContentTemplate="{DataTemplate views:AddPreguntaPage}" />
+=======
+    <Shell.FlyoutFooter>
+        <controls:FlyoutFooter />
+    </Shell.FlyoutFooter>
+
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems" >
+        <ShellContent Title="MoodTAB" Icon="house_blank.png" ContentTemplate="{DataTemplate views:MainPage}" />
+        <ShellContent Title="Cuestionario" Icon="survey.png" ContentTemplate="{DataTemplate views:CuestionarioPage}" />
+
+        <Tab Title="Debug" Icon="debug.png">
+            <ShellContent Title="DataBase" Icon="sql_server.png" ContentTemplate="{DataTemplate views:DataBasePage}" />
+            <ShellContent Title="Agregar Preguntas" Icon="plus.png" ContentTemplate="{DataTemplate views:AddPreguntaPage}" />
+        </Tab>
+>>>>>>> Stashed changes
     </FlyoutItem>
 </Shell>

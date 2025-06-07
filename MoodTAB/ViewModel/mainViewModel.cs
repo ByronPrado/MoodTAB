@@ -52,7 +52,7 @@ namespace MoodTAB.ViewModel
             else
             {
                 // Handle the case where navigation is not available
-                // For example, show an alert or log an error
+                // For example, show an alert or log an errorS
             }
         }
         
