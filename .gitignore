@@ -14,7 +14,7 @@ obj\
 \MoodTAB\obj\
 **\bin\
 **\obj\
-obj\Debug\
+**\obj\Debug\
 
 # Ignore Visual Studio files
 .vs/
@@ -27,11 +27,22 @@ obj\Debug\
 
 # Ignore build artifacts
 *.dll
+*.Android.Resource.Designer.dll
 *.exe
 *.pdb
 *.log
 *.cache
 *.mdb
+*.props
+*.inputs
+*.outputs
+*.AssemblyInfo.cs
+*.AssemblyInfoInputs.cache
+*.assets.cache
+*.csproj.AssemblyReference.cache
+*.editorconfig
+*.txt
+*.nfloat.g.cs
 
 # Ignore Rider files
 .idea/
