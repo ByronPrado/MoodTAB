@@ -15,22 +15,6 @@
         <controls:FlyoutHeader />
     </Shell.FlyoutHeader>
 
-<<<<<<< Updated upstream
-    <!-- Flyout Items -->
-    <FlyoutItem Title="Inicio" Icon="house_blank.png">
-        <ShellContent ContentTemplate="{DataTemplate views:MainPage}" />
-    </FlyoutItem>
-        <FlyoutItem Title="Base de Datos" Icon="sql_server.png">
-        <ShellContent ContentTemplate="{DataTemplate views:DataBasePage}" />
-    </FlyoutItem>
-    
-    <FlyoutItem Title="Cuestionario" Icon="survey.png">
-        <ShellContent ContentTemplate="{DataTemplate views:CuestionarioPage}" />
-    </FlyoutItem>
-    
-    <FlyoutItem Title="Agregar Preguntas" Icon="plus.png">
-        <ShellContent ContentTemplate="{DataTemplate views:AddPreguntaPage}" />
-=======
     <Shell.FlyoutFooter>
         <controls:FlyoutFooter />
     </Shell.FlyoutFooter>
@@ -43,6 +27,5 @@
             <ShellContent Title="DataBase" Icon="sql_server.png" ContentTemplate="{DataTemplate views:DataBasePage}" />
             <ShellContent Title="Agregar Preguntas" Icon="plus.png" ContentTemplate="{DataTemplate views:AddPreguntaPage}" />
         </Tab>
->>>>>>> Stashed changes
     </FlyoutItem>
 </Shell>

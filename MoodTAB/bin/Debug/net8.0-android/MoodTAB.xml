@@ -20,25 +20,28 @@
         <member name="P:MoodTAB.ViewModel.AddPregunta.AgregarPreguntaCommand">
             <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.AddPregunta.AgregarPregunta"/>.</summary>
         </member>
+        <member name="T:MoodTAB.ViewModel.PreguntaConRespuesta">
+            <inheritdoc/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.PreguntaConRespuesta.RespuestaUsuario">
+            <inheritdoc cref="F:MoodTAB.ViewModel.PreguntaConRespuesta.respuestaUsuario"/>
+        </member>
         <member name="T:MoodTAB.ViewModel.Cuestionario">
             <inheritdoc/>
             <inheritdoc/>
             <inheritdoc/>
         </member>
-        <member name="P:MoodTAB.ViewModel.Cuestionario.PreguntaActual">
-            <inheritdoc cref="F:MoodTAB.ViewModel.Cuestionario.preguntaActual"/>
+        <member name="P:MoodTAB.ViewModel.Cuestionario.PreguntasConRespuesta">
+            <inheritdoc cref="F:MoodTAB.ViewModel.Cuestionario.preguntasConRespuesta"/>
         </member>
         <member name="P:MoodTAB.ViewModel.Cuestionario.RespuestasLista">
             <inheritdoc cref="F:MoodTAB.ViewModel.Cuestionario.respuestasLista"/>
         </member>
-        <member name="P:MoodTAB.ViewModel.Cuestionario.RespuestaUsuario">
-            <inheritdoc cref="F:MoodTAB.ViewModel.Cuestionario.respuestaUsuario"/>
+        <member name="F:MoodTAB.ViewModel.Cuestionario.guardarRespuestasCommand">
+            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.Cuestionario.GuardarRespuestasCommand"/>.</summary>
         </member>
-        <member name="F:MoodTAB.ViewModel.Cuestionario.guardarRespuestaCommand">
-            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.Cuestionario.GuardarRespuestaCommand"/>.</summary>
-        </member>
-        <member name="P:MoodTAB.ViewModel.Cuestionario.GuardarRespuestaCommand">
-            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.Cuestionario.GuardarRespuesta"/>.</summary>
+        <member name="P:MoodTAB.ViewModel.Cuestionario.GuardarRespuestasCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.Cuestionario.GuardarRespuestas"/>.</summary>
         </member>
         <member name="F:MoodTAB.ViewModel.Cuestionario.borrarBaseDatosCommand">
             <summary>The backing field for <see cref="P:MoodTAB.ViewModel.Cuestionario.BorrarBaseDatosCommand"/>.</summary>
@@ -117,14 +120,14 @@
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.NuevaPregunta">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "NuevaPregunta" generated properties.</summary>
         </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.PreguntaActual">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "PreguntaActual" generated properties.</summary>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.RespuestaUsuario">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "RespuestaUsuario" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.PreguntasConRespuesta">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "PreguntasConRespuesta" generated properties.</summary>
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.RespuestasLista">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "RespuestasLista" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.RespuestaUsuario">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "RespuestaUsuario" generated properties.</summary>
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Items">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Items" generated properties.</summary>
@@ -156,14 +159,14 @@
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.NuevaPregunta">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "NuevaPregunta" generated properties.</summary>
         </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.PreguntaActual">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "PreguntaActual" generated properties.</summary>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.RespuestaUsuario">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "RespuestaUsuario" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.PreguntasConRespuesta">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "PreguntasConRespuesta" generated properties.</summary>
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.RespuestasLista">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "RespuestasLista" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.RespuestaUsuario">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "RespuestaUsuario" generated properties.</summary>
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Items">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Items" generated properties.</summary>

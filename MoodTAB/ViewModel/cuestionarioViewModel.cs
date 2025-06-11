@@ -18,7 +18,7 @@ namespace MoodTAB.ViewModel
     public partial class Cuestionario : ObservableObject
     {
 
-        private readonly MainViewModel _mainViewModel;
+        //private readonly MainViewModel _mainViewModel;
 
         [ObservableProperty]
         ObservableCollection<PreguntaConRespuesta> preguntasConRespuesta = new();
@@ -26,9 +26,9 @@ namespace MoodTAB.ViewModel
         [ObservableProperty]
         ObservableCollection<Respuestas> respuestasLista = new();
 
-        public Cuestionario(MainViewModel mainViewModel)
+        public Cuestionario()
         {
-            _mainViewModel = mainViewModel;
+            //_mainViewModel = mainViewModel;
 
             Task.Run(async () =>
             {
