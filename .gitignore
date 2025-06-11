@@ -1,14 +1,13 @@
 # Archivos de caché y temporales
 bin/
 obj/
+**/MoodTAB/bin/
+**/MoodTAB/obj/
 /MoodTAB/bin/
 /MoodTAB/obj/
 **/bin/
 **/obj/
 obj/Debug/
-*.cache
-*.tmp
-
 bin\
 obj\
 \MoodTAB\bin\
@@ -16,3 +15,23 @@ obj\
 **\bin\
 **\obj\
 obj\Debug\
+
+# Ignore Visual Studio files
+.vs/
+*.user
+*.suo
+
+# Ignore cache/temp files
+*.cache
+*.tmp
+
+# Ignore build artifacts
+*.dll
+*.exe
+*.pdb
+*.log
+*.cache
+*.mdb
+
+# Ignore Rider files
+.idea/
