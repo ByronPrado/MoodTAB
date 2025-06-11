@@ -8,20 +8,30 @@
         <VerticalStackLayout Padding="20" Spacing="15">
             <Label Text="Cuestionario Diario" FontAttributes="Bold" FontSize="24" HorizontalOptions="Center" />
 
-            <Label Text="Pregunta:" FontSize="16" FontAttributes="Bold" />
-            <Label Text="{Binding PreguntaActual.Texto_Pregunta}" FontSize="14" />
+            <Label Text="Preguntas:" FontSize="16" FontAttributes="Bold" />
 
-            <Editor Placeholder="Escribe tu respuesta aquí..."
-                    AutoSize="TextChanges"
-                    Text="{Binding RespuestaUsuario}" />
+            <CollectionView ItemsSource="{Binding PreguntasConRespuesta}" Margin="0,0,0,20">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BorderColor="LightGray" Padding="10" Margin="5">
+                            <VerticalStackLayout>
+                                <Label Text="{Binding Pregunta.Texto_Pregunta}" FontSize="14" />
 
-            <Button Text="Guardar Respuesta" Command="{Binding GuardarRespuestaCommand}" />
+                                <Editor Placeholder="Escribe tu respuesta aquí..."
+                                        AutoSize="TextChanges"
+                                        Text="{Binding RespuestaUsuario, Mode=TwoWay}" />
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Button Text="Guardar Respuestas"
+                    Command="{Binding GuardarRespuestasCommand}" />
 
             <Label Text="Respuestas guardadas:" FontAttributes="Bold" FontSize="16" />
 
-            <CollectionView ItemsSource="{Binding RespuestasLista}" 
-                            Margin="0,0,0,30"
-                            HeightRequest="400"> <!-- Ajusta este valor según lo que necesites -->
+            <CollectionView ItemsSource="{Binding RespuestasLista}" HeightRequest="400">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame BorderColor="LightGray" Padding="10" Margin="5">

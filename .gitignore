@@ -1,6 +1,10 @@
 # Archivos de caché y temporales
 bin/
 obj/
+/MoodTAB/bin/
+/MoodTAB/obj/
+**/bin/
+**/obj/
 obj/Debug/
 *.cache
 *.tmp

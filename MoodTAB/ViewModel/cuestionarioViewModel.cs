@@ -6,55 +6,70 @@ using System.Threading.Tasks;
 
 namespace MoodTAB.ViewModel
 {
+
+    public partial class PreguntaConRespuesta : ObservableObject
+    {
+        public Pregunta Pregunta { get; set; } = null!;
+
+        [ObservableProperty]
+        private string respuestaUsuario = string.Empty;
+    }
+
     public partial class Cuestionario : ObservableObject
     {
+
+        private readonly MainViewModel _mainViewModel;
+
         [ObservableProperty]
-        Pregunta preguntaActual = null!;
+        ObservableCollection<PreguntaConRespuesta> preguntasConRespuesta = new();
 
         [ObservableProperty]
         ObservableCollection<Respuestas> respuestasLista = new();
-        [ObservableProperty]
-        string respuestaUsuario = string.Empty;
 
-        public Cuestionario()
+        public Cuestionario(MainViewModel mainViewModel)
         {
+            _mainViewModel = mainViewModel;
+
             Task.Run(async () =>
             {
-                await ObtenerPreguntaAleatoria();
+                await CargarPreguntas();
                 await CargarRespuestas();
             });
         }
 
-        private async Task ObtenerPreguntaAleatoria()
+        private async Task CargarPreguntas()
         {
             var preguntas = await App.Database.GetQuestionsAsync();
-            if (preguntas.Count != 0)
+            var lista = preguntas.Select(p => new PreguntaConRespuesta
             {
-                var random = new Random();
-                PreguntaActual = preguntas[random.Next(preguntas.Count)];
+                Pregunta = p,
+                RespuestaUsuario = string.Empty
+            });
 
-            }
+            PreguntasConRespuesta = new ObservableCollection<PreguntaConRespuesta>(lista);
         }
 
+
+
         [RelayCommand]
-        private async Task GuardarRespuesta()
+        private async Task GuardarRespuestas()
         {
-            if (PreguntaActual == null || string.IsNullOrWhiteSpace(RespuestaUsuario))
-                return;
-
-            var respuesta = new Respuestas
+            foreach (var item in PreguntasConRespuesta)
             {
-                Texto_Respuesta = RespuestaUsuario,
-                PreguntaId = PreguntaActual.Id,
-                CreatedAt = DateTime.Now
-            };
+                if (!string.IsNullOrWhiteSpace(item.RespuestaUsuario))
+                {
+                    var respuesta = new Respuestas
+                    {
+                        Texto_Respuesta = item.RespuestaUsuario,
+                        PreguntaId = item.Pregunta.Id,
+                        CreatedAt = DateTime.Now
+                    };
 
-            await App.Database.SaveAnswerAsync(respuesta);
-            RespuestaUsuario = string.Empty;
+                    await App.Database.SaveAnswerAsync(respuesta);
+                }
+            }
 
-            await ObtenerPreguntaAleatoria(); // para responder otra
-            await CargarRespuestas(); // para cargar las respuestas
-
+            await CargarRespuestas();
         }
 
         private async Task CargarRespuestas()
@@ -68,20 +83,17 @@ namespace MoodTAB.ViewModel
 
             RespuestasLista = new ObservableCollection<Respuestas>(todas);
         }
+
         [RelayCommand]
         private async Task BorrarBaseDatos()
         {
-            // 1) Obtener todos los ítems marcados como IsDone == true
             var doneItems = RespuestasLista.ToList();
-
-            // 2) Para cada uno, borrarlo de la base de datos
             foreach (Respuestas res in doneItems)
             {
                 await App.Database.DeleteAnswersAsync(res);
             }
-
-            // 3) Recargar la lista desde la BD (se vaciará el contenido eliminado)
             await CargarRespuestas();
         }
+    
     }
 }

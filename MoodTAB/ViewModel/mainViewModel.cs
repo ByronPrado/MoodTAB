@@ -4,6 +4,7 @@ using MoodTAB.Models;
 using MoodTAB.Vistas;
 using System;
 using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace MoodTAB.ViewModel
@@ -12,15 +13,22 @@ namespace MoodTAB.ViewModel
     {
        
 
-        // 3) Título enlazado al Label
         [ObservableProperty]
-        private string _title = "MoodTAB";
+        private string _title = "Bienvenido a MoodTAB";
+        private string _nameUser;
 
-        
+        public string NameUser
+        {
+            get => _nameUser;
+            set => SetProperty(ref _nameUser, value);
+        }
+
 
         public MainViewModel()
         {
-           
+            // Inicializar el nombre de usuario
+            _nameUser = "Usuario";
+            _title = $"Bienvenido a MoodTAB {_nameUser}";
         }      
 
         [RelayCommand]
@@ -52,7 +60,7 @@ namespace MoodTAB.ViewModel
             else
             {
                 // Handle the case where navigation is not available
-                // For example, show an alert or log an errorS
+                // For example, show an alert or log an error
             }
         }
         
