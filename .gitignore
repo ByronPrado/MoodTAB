@@ -8,3 +8,11 @@ obj/
 obj/Debug/
 *.cache
 *.tmp
+
+bin\
+obj\
+\MoodTAB\bin\
+\MoodTAB\obj\
+**\bin\
+**\obj\
+obj\Debug\
