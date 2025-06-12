@@ -67,6 +67,12 @@ namespace MoodTAB.ViewModel
 
                     await App.Database.SaveAnswerAsync(respuesta);
                 }
+                else
+                { 
+
+                    await Shell.Current.DisplayAlert("Respuesta vacía", $"La respuesta para la pregunta '{item.Pregunta.Texto_Pregunta}' está vacía. Por favor, ingresa una respuesta antes de guardar.", "OK");
+                    return; // Salir si alguna respuesta está vacía
+                }
             }
 
             await CargarRespuestas();
