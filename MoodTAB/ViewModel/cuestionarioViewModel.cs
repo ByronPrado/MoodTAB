@@ -13,6 +13,9 @@ namespace MoodTAB.ViewModel
 
         [ObservableProperty]
         private string respuestaUsuario = string.Empty;
+        public bool EsAbierta => Pregunta?.Tipo_Pregunta == "Abierta";
+        public bool EsEscala => Pregunta?.Tipo_Pregunta == "Escala";
+        public bool EsSeleccion => Pregunta?.Tipo_Pregunta == "Seleccion";
     }
 
     public partial class Cuestionario : ObservableObject
@@ -108,6 +111,19 @@ namespace MoodTAB.ViewModel
             }
             await CargarRespuestas();
         }
-    
+        [RelayCommand]
+        private void SeleccionarSi(PreguntaConRespuesta pregunta)
+        {
+            if (pregunta != null)
+                pregunta.RespuestaUsuario = "SI";
+        }
+
+        [RelayCommand]
+        private void SeleccionarNo(PreguntaConRespuesta pregunta)
+        {
+            if (pregunta != null)
+                pregunta.RespuestaUsuario = "NO";
+        }
+            
     }
 }

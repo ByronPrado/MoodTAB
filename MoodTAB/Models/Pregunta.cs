@@ -7,8 +7,8 @@ public class Pregunta
     
     [NotNull]
     public string? Texto_Pregunta { get; set; }
+    [NotNull]
+    public string? Tipo_Pregunta { get; set; }
   
     public DateTime CreatedAt { get; set; } = DateTime.Now;
-    
-    public DateTime UpdatedAt { get; set; } = DateTime.Now;
-}
+    }
