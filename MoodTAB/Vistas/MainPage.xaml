@@ -11,13 +11,11 @@
             <Label
                 Text="{Binding Title}"
                 SemanticProperties.HeadingLevel="Level1" />
-            
-            <Button
-                Text="BD" 
-                Command="{Binding MovetoPageCommand}"
-                CommandParameter="DataBase"
-                HorizontalOptions="Fill" 
-                BackgroundColor="Red"/>
+            <Image
+                Source="mt.png"
+                SemanticProperties.HeadingLevel="Level1"
+                HorizontalOptions="Center" />
+
 
             <Button
                 Text="test" 
@@ -31,13 +29,6 @@
                 CommandParameter="Cuestionario"
                 HorizontalOptions="Fill" 
                 BackgroundColor="blue"/>
-             <Button
-                Text="Agregar Pregunta" 
-                Command="{Binding MovetoPageCommand}"
-                CommandParameter="AddPregunta"
-                HorizontalOptions="Fill" 
-                BackgroundColor="cyan"/>
-            
         </VerticalStackLayout>
     </ScrollView>
 
