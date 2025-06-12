@@ -33,6 +33,18 @@ build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.AppShell.xaml
 build_metadata.AdditionalFiles.TargetPath = AppShell.xaml
 build_metadata.AdditionalFiles.RelativePath = AppShell.xaml
 
+[C:/Users/byrom/OneDrive/Escritorio/MoodTAB/MoodTAB/Controls/FlyoutFooter.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.Controls.FlyoutFooter.xaml
+build_metadata.AdditionalFiles.TargetPath = Controls\FlyoutFooter.xaml
+build_metadata.AdditionalFiles.RelativePath = Controls\FlyoutFooter.xaml
+
+[C:/Users/byrom/OneDrive/Escritorio/MoodTAB/MoodTAB/Controls/FlyoutHeader.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.Controls.FlyoutHeader.xaml
+build_metadata.AdditionalFiles.TargetPath = Controls\FlyoutHeader.xaml
+build_metadata.AdditionalFiles.RelativePath = Controls\FlyoutHeader.xaml
+
 [C:/Users/byrom/OneDrive/Escritorio/MoodTAB/MoodTAB/Resources/Styles/Colors.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.Resources.Styles.Colors.xaml
