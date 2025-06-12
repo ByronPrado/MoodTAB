@@ -54,25 +54,33 @@ namespace MoodTAB.ViewModel
         [RelayCommand]
         private async Task GuardarRespuestas()
         {
+            // Verifica si alguna respuesta está vacía
+            var noRespondidas = PreguntasConRespuesta
+                .Where(item => string.IsNullOrWhiteSpace(item.RespuestaUsuario))
+                .ToList();
+
+            if (noRespondidas.Any())
+            {
+                // Puedes mostrar el texto de la primera pregunta no respondida, por ejemplo
+                var pregunta = noRespondidas.First().Pregunta;
+                await Shell.Current.DisplayAlert(
+                    "Respuesta vacía",
+                    $"Por favor, responde todas las preguntas antes de guardar.\nFalta: '{pregunta.Texto_Pregunta}'",
+                    "OK");
+                return;
+            }
+
+            // Si todas están respondidas, guarda normalmente
             foreach (var item in PreguntasConRespuesta)
             {
-                if (!string.IsNullOrWhiteSpace(item.RespuestaUsuario))
+                var respuesta = new Respuestas
                 {
-                    var respuesta = new Respuestas
-                    {
-                        Texto_Respuesta = item.RespuestaUsuario,
-                        PreguntaId = item.Pregunta.Id,
-                        CreatedAt = DateTime.Now
-                    };
+                    Texto_Respuesta = item.RespuestaUsuario,
+                    PreguntaId = item.Pregunta.Id,
+                    CreatedAt = DateTime.Now
+                };
 
-                    await App.Database.SaveAnswerAsync(respuesta);
-                }
-                else
-                { 
-
-                    await Shell.Current.DisplayAlert("Respuesta vacía", $"La respuesta para la pregunta '{item.Pregunta.Texto_Pregunta}' está vacía. Por favor, ingresa una respuesta antes de guardar.", "OK");
-                    return; // Salir si alguna respuesta está vacía
-                }
+                await App.Database.SaveAnswerAsync(respuesta);
             }
 
             await CargarRespuestas();

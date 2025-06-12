@@ -28,6 +28,10 @@
 
             <Button Text="Guardar Respuestas"
                     Command="{Binding GuardarRespuestasCommand}" />
+            
+            <Button Text="DUMP DB"
+                    BackgroundColor="Red"
+                    Command="{Binding BorrarBaseDatosCommand}" />
 
             <Label Text="Respuestas guardadas:" FontAttributes="Bold" FontSize="16" />
 
