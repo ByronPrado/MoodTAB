@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MoodTAB.Vistas.HealthDataPage"
+             Title="HealthData">
+    <VerticalStackLayout>      
+        <Label Text="Health Connect Demo" FontSize="24" />
+        <Button Text="Verificar Health Connect" Clicked="OnCheckClicked"/>
+        <Button Text="Pedir Permisos" Clicked="OnRequestPermissionsClicked"/>
+        <Button Text="Leer Pasos de Hoy" Clicked="OnReadStepsClicked"/>
+        <Label x:Name="StepsLabel" Text="Pasos: ?" FontSize="18" />
+    </VerticalStackLayout>
+</ContentPage>

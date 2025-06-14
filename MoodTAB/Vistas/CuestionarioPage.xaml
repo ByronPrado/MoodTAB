@@ -31,7 +31,7 @@
                                 <Frame IsVisible="{Binding EsSeleccion}">
                                     <VerticalStackLayout>
                                         <Grid ColumnDefinitions="Auto,Auto" ColumnSpacing="10">
-                                        <Button Text ="Si" Command ="{Binding BindingContext.SeleccionarSiCommand, Source={x:Reference PreguntasColl}}"  CommandParameter="{Binding .}" Grid.Column ="0"></Button>
+                                        <Button Text ="Si" Command ="{Binding BindingContext.SeleccionarCommand, Source={x:Reference PreguntasColl}}"  CommandParameter="SI" Grid.Column ="0"></Button>
                                         <Button Text ="No" Command ="{Binding BindingContext.SeleccionarNoCommand, Source={x:Reference PreguntasColl}}"  CommandParameter="{Binding .}" Grid.Column ="1"></Button>
                                         </Grid>
 

@@ -112,18 +112,18 @@ namespace MoodTAB.ViewModel
             await CargarRespuestas();
         }
         [RelayCommand]
-        private void SeleccionarSi(PreguntaConRespuesta pregunta)
-        {
-            if (pregunta != null)
-                pregunta.RespuestaUsuario = "SI";
-        }
+    private void SeleccionarSi(PreguntaConRespuesta pregunta)
+    {
+        if (pregunta != null)
+            pregunta.RespuestaUsuario = "SI";
+    }
 
-        [RelayCommand]
-        private void SeleccionarNo(PreguntaConRespuesta pregunta)
-        {
-            if (pregunta != null)
-                pregunta.RespuestaUsuario = "NO";
-        }
-            
+    [RelayCommand]
+    private void SeleccionarNo(PreguntaConRespuesta pregunta)
+    {
+        if (pregunta != null)
+            pregunta.RespuestaUsuario = "NO";
+    }
+        
     }
 }
