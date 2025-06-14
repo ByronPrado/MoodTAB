@@ -1,22 +1,13 @@
 namespace MoodTAB.Vistas;
+using MoodTAB.ViewModel;
 
 public partial class HealthDataPage : ContentPage
-{
+{   
+    private ViewModel.HealthDataViewModel viewModel;
     public HealthDataPage()
     {
         InitializeComponent();
-    }
-
-    void OnCheckClicked(object sender, EventArgs e)
-    {
-
-    }
-
-    void OnRequestPermissionsClicked(object sender, EventArgs e)
-    {
-    }
-
-    public void OnReadStepsClicked(object sender, EventArgs e)
-    {
+        viewModel = new ViewModel.HealthDataViewModel();
+        BindingContext = viewModel;
     }
 }

@@ -5,9 +5,9 @@
              Title="HealthData">
     <VerticalStackLayout>      
         <Label Text="Health Connect Demo" FontSize="24" />
-        <Button Text="Verificar Health Connect" Clicked="OnCheckClicked"/>
-        <Button Text="Pedir Permisos" Clicked="OnRequestPermissionsClicked"/>
-        <Button Text="Leer Pasos de Hoy" Clicked="OnReadStepsClicked"/>
+        <Button Text="Verificar Health Connect" Command="{Binding CheckClicked}"/>
+        <Button Text="Pedir Permisos" Command="{Binding RequestPermissionsClicked}"/>
+        <Button Text="Leer Pasos de Hoy" Command="{Binding ReadStepsClicked}"/>
         <Label x:Name="StepsLabel" Text="Pasos: ?" FontSize="18" />
     </VerticalStackLayout>
 </ContentPage>
