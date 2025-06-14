@@ -7,6 +7,7 @@
         <member name="T:MoodTAB.ViewModel.AddPregunta">
             <inheritdoc/>
             <inheritdoc/>
+            <inheritdoc/>
         </member>
         <member name="P:MoodTAB.ViewModel.AddPregunta.Preguntas">
             <inheritdoc cref="F:MoodTAB.ViewModel.AddPregunta.preguntas"/>
@@ -19,6 +20,12 @@
         </member>
         <member name="P:MoodTAB.ViewModel.AddPregunta.AgregarPreguntaCommand">
             <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.AddPregunta.AgregarPregunta"/>.</summary>
+        </member>
+        <member name="F:MoodTAB.ViewModel.AddPregunta.eliminarPreguntaCommand">
+            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.AddPregunta.EliminarPreguntaCommand"/>.</summary>
+        </member>
+        <member name="P:MoodTAB.ViewModel.AddPregunta.EliminarPreguntaCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand`1"/> instance wrapping <see cref="M:MoodTAB.ViewModel.AddPregunta.EliminarPregunta(MoodTAB.Models.Pregunta)"/>.</summary>
         </member>
         <member name="T:MoodTAB.ViewModel.PreguntaConRespuesta">
             <inheritdoc/>

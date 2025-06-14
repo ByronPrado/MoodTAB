@@ -167,11 +167,12 @@ C:\Users\USUARIO\Documents\GitHub\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.1
 C:\Users\USUARIO\Documents\GitHub\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.scale-125.png
 C:\Users\USUARIO\Documents\GitHub\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.scale-100.png
 C:\Users\USUARIO\Documents\GitHub\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appicon.ico
-C:\Users\USUARIO\Documents\GitHub\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\plus.scale-100.png
-C:\Users\USUARIO\Documents\GitHub\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\debug.scale-100.png
 C:\Users\USUARIO\Documents\GitHub\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\sql_server.scale-100.png
-C:\Users\USUARIO\Documents\GitHub\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\survey.scale-100.png
+C:\Users\USUARIO\Documents\GitHub\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\debug.scale-100.png
+C:\Users\USUARIO\Documents\GitHub\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\plus.scale-100.png
 C:\Users\USUARIO\Documents\GitHub\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\house_blank.scale-100.png
+C:\Users\USUARIO\Documents\GitHub\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\mt.scale-100.PNG
+C:\Users\USUARIO\Documents\GitHub\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\survey.scale-100.png
 C:\Users\USUARIO\Documents\GitHub\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\mauiimage.stamp
 C:\Users\USUARIO\Documents\GitHub\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\mauiimage.outputs
 C:\Users\USUARIO\Documents\GitHub\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\MoodTAB.AssemblyInfoInputs.cache

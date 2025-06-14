@@ -18,7 +18,7 @@ namespace MoodTAB.Services
         public async Task<List<string>> GetPreguntasAsync()
         {
             // Cambia la URL por la de tu backend (puede ser IP local o dominio)
-            var url = "http://192.168.1.89:5051/api/preguntas";
+            var url = "http://10.0.2.2:5051/api/preguntas";
             var response = await _httpClient.GetAsync(url);
             response.EnsureSuccessStatusCode();
             var json = await response.Content.ReadAsStringAsync();
