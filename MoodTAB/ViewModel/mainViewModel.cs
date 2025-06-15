@@ -51,7 +51,7 @@ namespace MoodTAB.ViewModel
                         await Application.Current.MainPage.Navigation.PushAsync(new CuestionarioPage());
                         break;
                     case "Diario":
-                        await Application.Current.MainPage.Navigation.PushAsync(new HealthDataPage());
+                        await Application.Current.MainPage.Navigation.PushAsync(new DiarioPage());
                         break;
                     default:
                         // Main page en caso de error
