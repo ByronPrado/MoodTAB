@@ -1,18 +1,23 @@
 // Models/Paciente.cs
+using System;
 using System.Collections.Generic;
 
-public class Paciente
+namespace WebConTablas.Models
 {
-    public int Id { get; set; }
-
-    public required string Name { get; set; }
-
-    public int IdPsiquiatra { get; set; }
-
-    public required ICollection<PacientePregunta> PacientePreguntas { get; set; }
-
-    public Paciente()
+    public class Paciente
     {
-        PacientePreguntas = new List<PacientePregunta>();
+        public int ID_Paciente { get; set; }
+        public string Nombre { get; set; }
+        public string? Diagnostico { get; set; }
+        public int Edad { get; set; }
+        public string? Sexo { get; set; }
+        public string? Email { get; set; }
+        public string? Telefono { get; set; }
+
+        public int? ID_Psiquiatra { get; set; }
+        public Psiquiatra? Psiquiatra { get; set; }
+
+        public ICollection<FormularioAsignado> FormulariosAsignados { get; set; } = new List<FormularioAsignado>();
+        public ICollection<DiarioEmocional> DiariosEmocionales { get; set; } = new List<DiarioEmocional>();
     }
 }

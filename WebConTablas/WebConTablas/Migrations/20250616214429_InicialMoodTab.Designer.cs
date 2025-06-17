@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebConTablas.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250616214429_InicialMoodTab")]
+    partial class InicialMoodTab
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.5");
@@ -26,10 +29,6 @@ namespace WebConTablas.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Emociones")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Estado")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Fecha")
@@ -63,7 +62,6 @@ namespace WebConTablas.Migrations
                             ID_Diario = 1,
                             Descripcion = "Tuve un día difícil",
                             Emociones = "{\"feliz\":0,\"triste\":1}",
-                            Estado = "inhibido",
                             Fecha = new DateTime(2024, 6, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Hora_dormida = "23:00",
                             Horas_celular = 4,

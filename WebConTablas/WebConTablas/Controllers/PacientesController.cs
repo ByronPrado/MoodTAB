@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using WebConTablas.Models;
+using System.Linq;
+using Microsoft.AspNetCore.Http;
 
 public class PacientesController : Controller
 {
@@ -21,7 +24,10 @@ public class PacientesController : Controller
         }
 
         var pacientes = await _context.Pacientes
-            .Where(p => p.IdPsiquiatra == idPsiquiatra)
+            .Where(p => p.ID_Psiquiatra == idPsiquiatra)
+            .Include(p => p.DiariosEmocionales)
+            .Include(p => p.FormulariosAsignados)
+                .ThenInclude(fa => fa.Formulario)
             .ToListAsync();
 
         return View(pacientes);
@@ -43,7 +49,6 @@ public class PacientesController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-
     public async Task<IActionResult> Create(Paciente paciente)
     {
         var idPsiquiatra = HttpContext.Session.GetInt32("PsiquiatraId");
@@ -53,7 +58,7 @@ public class PacientesController : Controller
             return RedirectToAction("Login", "Psiquiatras");
         }
 
-        paciente.IdPsiquiatra = idPsiquiatra.Value;
+        paciente.ID_Psiquiatra = idPsiquiatra.Value;
 
         if (ModelState.IsValid)
         {
@@ -65,6 +70,7 @@ public class PacientesController : Controller
         return View(paciente);
     }
 
+    [HttpPost]
     public async Task<IActionResult> Edit(Paciente paciente)
     {
         var idPsiquiatra = HttpContext.Session.GetInt32("PsiquiatraId");
@@ -74,14 +80,19 @@ public class PacientesController : Controller
 
         // Asegúrate que el paciente le pertenece a ese psiquiatra
         var pacienteExistente = await _context.Pacientes
-            .FirstOrDefaultAsync(p => p.Id == paciente.Id && p.IdPsiquiatra == idPsiquiatra);
+            .FirstOrDefaultAsync(p => p.ID_Paciente == paciente.ID_Paciente && p.ID_Psiquiatra == idPsiquiatra);
 
         if (pacienteExistente == null)
             return Unauthorized(); // o NotFound()
 
         if (ModelState.IsValid)
         {
-            pacienteExistente.Name = paciente.Name;
+            pacienteExistente.Nombre = paciente.Nombre;
+            pacienteExistente.Diagnostico = paciente.Diagnostico;
+            pacienteExistente.Edad = paciente.Edad;
+            pacienteExistente.Sexo = paciente.Sexo;
+            pacienteExistente.Email = paciente.Email;
+            pacienteExistente.Telefono = paciente.Telefono;
             _context.Pacientes.Update(pacienteExistente);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -98,7 +109,7 @@ public class PacientesController : Controller
             return RedirectToAction("Login", "Psiquiatras");
 
         var paciente = await _context.Pacientes
-            .FirstOrDefaultAsync(p => p.Id == id && p.IdPsiquiatra == idPsiquiatra);
+            .FirstOrDefaultAsync(p => p.ID_Paciente == id && p.ID_Psiquiatra == idPsiquiatra);
 
         if (paciente == null)
             return NotFound();

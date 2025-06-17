@@ -1,0 +1,27 @@
+@model IEnumerable<WebConTablas.Models.FormularioAsignado>
+
+<h2>Formularios Asignados</h2>
+<a href="/FormulariosAsignados/Asignar" class="btn btn-primary mb-3">Asignar nuevo formulario</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Paciente</th>
+            <th>Formulario</th>
+            <th>Fecha Asignación</th>
+            <th>Fecha Límite</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var fa in Model)
+        {
+            <tr>
+                <td>@fa.Paciente?.Nombre</td>
+                <td>@fa.Formulario?.Titulo</td>
+                <td>@fa.Fecha_Asignacion.ToShortDateString()</td>
+                <td>@fa.Fecha_Limite?.ToShortDateString()</td>
+                <td>@fa.Estado</td>
+            </tr>
+        }
+    </tbody>
+</table>

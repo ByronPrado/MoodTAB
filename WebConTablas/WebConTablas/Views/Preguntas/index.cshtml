@@ -1,0 +1,18 @@
+@model IEnumerable<WebConTablas.Models.Pregunta>
+<h2>Preguntas</h2>
+<table class="table">
+    <thead>
+        <tr><th>ID</th><th>Contenido</th><th>Tipo</th><th>Creada</th></tr>
+    </thead>
+    <tbody>
+    @foreach(var p in Model)
+    {
+        <tr>
+            <td>@p.ID_Pregunta</td>
+            <td>@p.Contenido</td>
+            <td>@p.Tipo</td>
+            <td>@p.Created_at</td>
+        </tr>
+    }
+    </tbody>
+</table>

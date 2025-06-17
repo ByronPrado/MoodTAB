@@ -1,11 +1,19 @@
 // Models/Pregunta.cs
+using System;
 using System.Collections.Generic;
 
-public class Pregunta
+namespace WebConTablas.Models
 {
-    public int Id { get; set; }
-    public required string Texto { get; set; }
+    public class Pregunta
+    {
+        public int ID_Pregunta { get; set; }
+        public string Contenido { get; set; }
+        public string? Extra { get; set; }
+        public string? Tipo { get; set; }
+        public DateTime? Created_at { get; set; }
+        public DateTime? Edited_at { get; set; }
 
-    // Relación muchos a muchos con pacientes
-    public required ICollection<PacientePregunta> PacientePreguntas { get; set; }
+        public ICollection<FormularioPregunta> Formularios { get; set; }
+        public ICollection<Respuesta> Respuestas { get; set; } = new List<Respuesta>();
+    }
 }

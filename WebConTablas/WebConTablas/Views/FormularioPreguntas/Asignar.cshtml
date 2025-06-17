@@ -1,0 +1,21 @@
+@{
+    var formulario = ViewBag.Formulario as WebConTablas.Models.Formulario;
+    var preguntas = ViewBag.Preguntas as List<WebConTablas.Models.Pregunta>;
+}
+
+<h2>Asignar preguntas a formulario: @formulario.Titulo</h2>
+<form asp-action="Asignar" method="post">
+    <input type="hidden" name="id" value="@formulario.ID_Formulario" />
+    <div class="form-group">
+        @foreach (var pregunta in preguntas)
+        {
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="preguntasSeleccionadas" value="@pregunta.ID_Pregunta" id="pregunta_@pregunta.ID_Pregunta" />
+                <label class="form-check-label" for="pregunta_@pregunta.ID_Pregunta">
+                    @pregunta.Contenido
+                </label>
+            </div>
+        }
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Asignar</button>
+</form>

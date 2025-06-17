@@ -1,0 +1,19 @@
+@model IEnumerable<WebConTablas.Models.Formulario>
+<h2>Formularios</h2>
+<table class="table">
+    <thead>
+        <tr><th>ID</th><th>Título</th><th>Descripción</th><th>Psiquiatra</th><th>Creado</th></tr>
+    </thead>
+    <tbody>
+    @foreach(var f in Model)
+    {
+        <tr>
+            <td>@f.ID_Formulario</td>
+            <td>@f.Titulo</td>
+            <td>@f.Descripcion</td>
+            <td>@f.Psiquiatra?.Nombre</td>
+            <td>@f.Created_at</td>
+        </tr>
+    }
+    </tbody>
+</table>

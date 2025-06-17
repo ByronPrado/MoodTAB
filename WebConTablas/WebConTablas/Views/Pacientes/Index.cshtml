@@ -1,4 +1,4 @@
-@model List<Paciente>
+@model IEnumerable<WebConTablas.Models.Paciente>
 
 <h2>Pacientes</h2>
 <a href="/Pacientes/Create" class="btn btn-primary mb-3">Agregar Paciente</a>
@@ -11,15 +11,78 @@
         @foreach (var c in Model)
         {
             <tr>
-                <td>@c.Id</td>
-                <td>@c.Name</td>
+                <td>@c.ID_Paciente</td>
+                <td>@c.Nombre</td>
                 <td></td>
                 <td>
-                    <a href="/Pacientes/Edit/@c.Id" class="btn btn-warning btn-sm">Editar</a>
-                    <a href="/Pacientes/Delete/@c.Id" class="btn btn-danger btn-sm"
+                    <a href="/Pacientes/Edit/@c.ID_Paciente" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="/Pacientes/Delete/@c.ID_Paciente" class="btn btn-danger btn-sm"
                        onclick="return confirm('¿Seguro que quieres borrar este paciente?');">Borrar</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+@foreach(var p in Model)
+{
+    <div class="card mb-3">
+        <div class="card-header">
+            <strong>@p.Nombre</strong> (ID: @p.ID_Paciente) - @p.Diagnostico
+        </div>
+        <div class="card-body">
+            <p><b>Edad:</b> @p.Edad | <b>Sexo:</b> @p.Sexo | <b>Email:</b> @p.Email | <b>Teléfono:</b> @p.Telefono</p>
+            <h5>Diarios emocionales</h5>
+            @if (p.DiariosEmocionales != null && p.DiariosEmocionales.Any())
+            {
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Emociones</th>
+                            <th>Descripción</th>
+                            <th>Pasos</th>
+                            <th>Horas Celular</th>
+                            <th>Horas Redes</th>
+                            <th>Hora Dormida</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var d in p.DiariosEmocionales)
+                        {
+                            <tr>
+                                <td>@d.Fecha.ToShortDateString()</td>
+                                <td>@d.Emociones</td>
+                                <td>@d.Descripcion</td>
+                                <td>@d.Pasos</td>
+                                <td>@d.Horas_celular</td>
+                                <td>@d.Horas_redes</td>
+                                <td>@d.Hora_dormida</td>
+                                <td>
+                                    <span class="badge 
+                                        @(d.Estado == "exitado" ? "bg-success" : d.Estado == "inhibido" ? "bg-danger" : "bg-secondary")">
+                                        @d.Estado
+                                    </span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p class="text-muted">No hay diarios emocionales registrados.</p>
+            }
+            <h5>Formularios respondidos</h5>
+            <ul>
+                @foreach(var fa in p.FormulariosAsignados)
+                {
+                    <li>
+                        <b>@fa.Formulario?.Titulo</b> (@fa.Estado) - Asignado: @fa.Fecha_Asignacion.ToShortDateString()
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+}
