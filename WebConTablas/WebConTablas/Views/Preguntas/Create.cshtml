@@ -1,0 +1,15 @@
+@model WebConTablas.Models.Pregunta
+
+<h2>Crear Pregunta</h2>
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label class="form-label">Contenido</label>
+        <input asp-for="Contenido" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Tipo</label>
+        <input asp-for="Tipo" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

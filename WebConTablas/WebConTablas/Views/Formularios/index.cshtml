@@ -1,19 +1,27 @@
 @model IEnumerable<WebConTablas.Models.Formulario>
+
 <h2>Formularios</h2>
-<table class="table">
+<a asp-action="Create" class="btn btn-primary mb-3">Nuevo Formulario</a>
+<table class="table table-striped">
     <thead>
-        <tr><th>ID</th><th>Título</th><th>Descripción</th><th>Psiquiatra</th><th>Creado</th></tr>
+        <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Descripción</th>
+            <th>Psiquiatra</th>
+            <th>Creado</th>
+        </tr>
     </thead>
     <tbody>
-    @foreach(var f in Model)
-    {
-        <tr>
-            <td>@f.ID_Formulario</td>
-            <td>@f.Titulo</td>
-            <td>@f.Descripcion</td>
-            <td>@f.Psiquiatra?.Nombre</td>
-            <td>@f.Created_at</td>
-        </tr>
-    }
+        @foreach(var f in Model)
+        {
+            <tr>
+                <td>@f.ID_Formulario</td>
+                <td>@f.Titulo</td>
+                <td>@f.Descripcion</td>
+                <td>@f.Psiquiatra?.Nombre</td>
+                <td>@f.Created_at</td>
+            </tr>
+        }
     </tbody>
 </table>

@@ -1,0 +1,28 @@
+@model WebConTablas.Models.Formulario
+@{
+    var psiquiatras = ViewBag.Psiquiatras as List<WebConTablas.Models.Psiquiatra>;
+}
+
+<h2>Crear Formulario</h2>
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label class="form-label">Título</label>
+        <input asp-for="Titulo" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Descripción</label>
+        <textarea asp-for="Descripcion" class="form-control"></textarea>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Psiquiatra</label>
+        <select asp-for="ID_Psiquiatra" class="form-control" required>
+            <option value="">Seleccione...</option>
+            @foreach(var p in psiquiatras)
+            {
+                <option value="@p.ID_Psiquiatra">@p.Nombre</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
