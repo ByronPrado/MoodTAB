@@ -34,11 +34,26 @@ public class UsageStatsHelper
         return appUsage;
     }
 
-        public static void OpenUsageAccessSettings()
+    public static void OpenUsageAccessSettings()
     {
         var intent = new Intent(Android.Provider.Settings.ActionUsageAccessSettings);
         intent.SetFlags(ActivityFlags.NewTask);
         Android.App.Application.Context.StartActivity(intent);
+    }
+    public static bool TienePermisoDeUso()
+    {
+        var context = Android.App.Application.Context;
+        AppOpsManager appOps = (AppOpsManager)context.GetSystemService(Context.AppOpsService);
+        int mode;
+        if (Build.VERSION.SdkInt >= BuildVersionCodes.Q) // Android 10 (API 29) and above
+        {
+            mode = (int)appOps.UnsafeCheckOpNoThrow("android:get_usage_stats", Process.MyUid(), context.PackageName);
+        }
+        else
+        {
+            mode = (int)appOps.CheckOpNoThrow("android:get_usage_stats", Process.MyUid(), context.PackageName);
+        }
+        return mode == (int)AppOpsManagerMode.Allowed;
     }
 }
 #endif
