@@ -10,9 +10,20 @@ public class FormularioPreguntasController : Controller
     // GET: FormularioPreguntas/Asignar/5
     public IActionResult Asignar(int id)
     {
-        var formulario = _context.Formularios.Find(id);
+        var formulario = _context.Formularios
+            .Include(f => f.Preguntas)
+            .FirstOrDefault(f => f.ID_Formulario == id);
+
+        // Obtén los IDs de las preguntas ya asignadas
+        var preguntasAsignadasIds = formulario.Preguntas.Select(fp => fp.ID_Pregunta).ToList();
+
+        // Filtra las preguntas para mostrar solo las NO asignadas
+        var preguntasNoAsignadas = _context.Preguntas
+            .Where(p => !preguntasAsignadasIds.Contains(p.ID_Pregunta))
+            .ToList();
+
         ViewBag.Formulario = formulario;
-        ViewBag.Preguntas = _context.Preguntas.ToList();
+        ViewBag.Preguntas = preguntasNoAsignadas;
         return View();
     }
 
