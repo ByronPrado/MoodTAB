@@ -148,6 +148,9 @@
         <member name="P:MoodTAB.ViewModel.DiarioViewModel.HorasRedes">
             <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.horasRedes"/>
         </member>
+        <member name="P:MoodTAB.ViewModel.DiarioViewModel.HorasYT">
+            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.horasYT"/>
+        </member>
         <member name="P:MoodTAB.ViewModel.DiarioViewModel.CantidadPasos">
             <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.cantidadPasos"/>
         </member>
@@ -296,6 +299,9 @@
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.HorasRedes">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "HorasRedes" generated properties.</summary>
         </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.HorasYT">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "HorasYT" generated properties.</summary>
+        </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.CantidadPasos">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "CantidadPasos" generated properties.</summary>
         </member>
@@ -370,6 +376,9 @@
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.HorasRedes">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "HorasRedes" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.HorasYT">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "HorasYT" generated properties.</summary>
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.CantidadPasos">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "CantidadPasos" generated properties.</summary>

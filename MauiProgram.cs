@@ -1,5 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using MoodTAB.Vistas;
+using MoodTAB.Services;
+
+#if ANDROID
+	using MoodTAB.Platforms.Android;
+#endif
 
 
 namespace MoodTAB;
@@ -25,6 +30,11 @@ public static class MauiProgram
 
 		builder.Services.AddTransient<ViewModel.DataBaseViewModel>();
 		builder.Services.AddTransient<DataBasePage>();
+#endif
+
+#if ANDROID
+		builder.Services.AddSingleton<IStepCounterService, StepCounterService>();
+		builder.Services.AddTransient<DiarioPage>();
 #endif
 
 		return builder.Build();

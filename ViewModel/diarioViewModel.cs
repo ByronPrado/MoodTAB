@@ -17,7 +17,7 @@ namespace MoodTAB.ViewModel
         ObservableCollection<Diario> diarios = new();
 
         [ObservableProperty]
-        string emocionDiaria;
+        ObservableCollection<string> emocionDiaria = new();
 
         [ObservableProperty]
         string descDia;
@@ -26,7 +26,10 @@ namespace MoodTAB.ViewModel
         double horasCelular;
 
         [ObservableProperty]
-        int horasRedes;
+        double horasRedes;
+
+        [ObservableProperty]
+        double horasYT;
 
         [ObservableProperty]
         int cantidadPasos;
@@ -39,35 +42,56 @@ namespace MoodTAB.ViewModel
 
         [ObservableProperty]
         string error;
-        public DiarioViewModel()
+        public List<string> redes =
+    [
+        "com.whatsapp",                 //whatsapp
+        "com.instagram.android",        //instagram
+        "com.facebook.katana",          //facebook
+        "com.discord",                  //discord
+        "com.zhiliaoapp.musically",     //tiktok
+        "com.pinterest",                //pinterest
+        "com.tumblr"                    //tumblr
+    ];
+        public long redesociales = 0;
+        public long horast = 0;
+        public long horasyutu = 0;
+        private readonly IStepCounterService stepService;
+    
+        public DiarioViewModel(IStepCounterService stepService)
         {
-            EmocionDiaria = "Seleccione su Emoción";
+            this.stepService = stepService;
+            stepService.Start();
+
             DescDia = "";
-            HorasCelular = 0.0;
+            HorasCelular = 0;
             HorasRedes = 0;
-            CantidadPasos = 0;
+            HorasYT = 0;
+            CantidadPasos = (int)stepService.TotalSteps;
             HorasSueno = "0";
             Error = "";
             anotado = false;
 
-            var uptime = DependencyService.Get<IDeviceUptimeService>()?.GetUptime();
-            if (uptime != null)
-            {
-                // Función sin poder probar
-                HorasCelular = uptime.Value.TotalHours;
-            }
-            else
-            {
-                HorasCelular = 1.0;
-            }
-
+            
+    
             _ = LoadDiariosAsync();
+        }
+
+        public string UnirConComas(ObservableCollection<string> lista)
+        {
+            return string.Join(",", lista);
         }
 
         [RelayCommand]
         private void SeleccionarEmocion(string emocion)
         {
-            EmocionDiaria = emocion;
+            if (EmocionDiaria.Contains(emocion))
+            {
+                EmocionDiaria.Remove(emocion);
+            }
+            else
+            {
+                EmocionDiaria.Add(emocion);
+            }
         }
 
         partial void OnHorasSuenoChanged(string value)
@@ -76,12 +100,39 @@ namespace MoodTAB.ViewModel
             {
                 HorasSueno = new string(value.Where(char.IsDigit).ToArray());
             }
+            if (int.TryParse(value, out int intValue) && intValue > 24) {
+                HorasSueno = "24";
+            }
         }
 
         private async Task LoadDiariosAsync()
         {
             var items = await App.Database.GetDiarioAsync();
             Diarios = new ObservableCollection<Diario>(items);
+            #if ANDROID
+                var stats = UsageStatsHelper.GetAppUsageStats();
+                redesociales = 0;
+                horast = 0;
+                horasyutu = 0;
+                foreach (var stat in stats.OrderByDescending(x => x.Value).Take(20)) // Top 20 apps
+                {
+                    var appName = stat.Key;
+                    var timeMinutes = stat.Value / 60000;
+                    if (redes.Contains(appName))
+                    {
+                        redesociales += timeMinutes;
+                    }
+                    if (appName == "com.google.android.youtube"){
+                        horasyutu += timeMinutes;
+                    }
+                    horast += timeMinutes;
+                }
+
+                HorasRedes = redesociales/60.0;
+                HorasCelular = horast/60.0;
+                HorasYT = horasyutu/60.0;
+
+            #endif
         }
 
         [RelayCommand]
@@ -94,17 +145,18 @@ namespace MoodTAB.ViewModel
                     await Shell.Current.DisplayAlert("Diaro ya subido", "Usted ya subió su diario emocional hoy", "OK");
                     return;
                 }
-                if (string.IsNullOrWhiteSpace(EmocionDiaria) || string.IsNullOrWhiteSpace(DescDia))
+                if (EmocionDiaria.Count == 0 || string.IsNullOrWhiteSpace(DescDia))
                 {
                     await Shell.Current.DisplayAlert("Campos en blanco", "No se puede dejar los campos en blanco", "OK");
                     return;
                 }
                 var diario = new Diario
                 {
-                    Emocion_Diaria = EmocionDiaria.Split(" ", 2)[1],
+                    Emocion_Diaria = UnirConComas(EmocionDiaria),
                     Descripcion = DescDia,
                     Horas_Celular = HorasCelular,
                     Horas_Redes = HorasRedes,
+                    Horas_Yt = HorasYT,
                     Horas_Sueno = HorasSueno,
                     Cantidad_Pasos = CantidadPasos,
                     CreatedAt = DateTime.Now,

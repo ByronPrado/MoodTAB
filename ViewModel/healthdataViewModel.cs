@@ -22,7 +22,7 @@ public partial class HealthDataViewModel : ObservableObject
 
     [ObservableProperty]
     private string _stepsText = "?";
-    public HealthDataViewModel(){}
+    public HealthDataViewModel(){}    
     
     [RelayCommand]
     public void CheckClicked()
@@ -53,7 +53,6 @@ public partial class HealthDataViewModel : ObservableObject
         AppUsageStats.Clear();
 
         var stats = UsageStatsHelper.GetAppUsageStats();
-
         foreach (var stat in stats.OrderByDescending(x => x.Value).Take(10)) // Top 10 apps
         {
             var appName = stat.Key;

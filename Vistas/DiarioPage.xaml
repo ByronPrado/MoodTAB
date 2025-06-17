@@ -8,41 +8,66 @@
         <VerticalStackLayout Padding="20" Spacing="15">
 
             <Label Text="¿Cómo te sentiste hoy?" FontSize="16" FontAttributes="Bold" />
+            <Label Text="Seleccione las emociones que sintió hoy, seleccione de nuevo para quitarla del listado" FontSize="12"/>
 
-            <Button Text="{Binding EmocionDiaria}" FontSize="16" TextColor="Black" HorizontalOptions="Center" Background="White" BorderColor="Gray"/>
-
-            <Grid ColumnSpacing="10" RowSpacing="10"
-                RowDefinitions="*,*"
-                ColumnDefinitions="Auto,Auto,Auto,Auto"
+            <Grid ColumnSpacing="5" RowSpacing="5"
+                RowDefinitions="*,*,*"
+                ColumnDefinitions="Auto,Auto,Auto"
                 HorizontalOptions="Center"
                 >
 
-                <Button Text="😊" FontSize="18" Grid.Row="0" Grid.Column="0" CommandParameter="😊 Feliz" Command="{Binding SeleccionarEmocionCommand}"/>
-                <Button Text="😢" FontSize="18" Grid.Row="0" Grid.Column="1" CommandParameter="😢 Triste" Command="{Binding SeleccionarEmocionCommand}"/>
-                <Button Text="😠" FontSize="18" Grid.Row="0" Grid.Column="2" CommandParameter="😠 Enojado" Command="{Binding SeleccionarEmocionCommand}"/>
-                <Button Text="😃" FontSize="18" Grid.Row="0" Grid.Column="3" CommandParameter="😃 Emocionado" Command="{Binding SeleccionarEmocionCommand}"/>
-                <Button Text="😰" FontSize="18" Grid.Row="1" Grid.Column="0" CommandParameter="😰 Angustiado" Command="{Binding SeleccionarEmocionCommand}"/>
-                <Button Text="😑" FontSize="18" Grid.Row="1" Grid.Column="1" CommandParameter="😑 Neutro" Command="{Binding SeleccionarEmocionCommand}"/>
-                <Button Text="😪" FontSize="18" Grid.Row="1" Grid.Column="2" CommandParameter="😪 Cansado" Command="{Binding SeleccionarEmocionCommand}"/>
-                <Button Text="😖" FontSize="18" Grid.Row="1" Grid.Column="3" CommandParameter="😖 Frustrado" Command="{Binding SeleccionarEmocionCommand}"/>
+                <Button Text="😊Feliz"      Margin="0,0,0,0" FontSize="12" Grid.Row="0" Grid.Column="0" CommandParameter="Feliz" Command="{Binding SeleccionarEmocionCommand}"/>
+                <Button Text="😢Triste"     Margin="0,0,0,0" FontSize="12" Grid.Row="1" Grid.Column="0" CommandParameter="Triste" Command="{Binding SeleccionarEmocionCommand}"/>
+                <Button Text="😑Neutro"     Margin="0,0,0,0" FontSize="12" Grid.Row="2" Grid.Column="0" CommandParameter="Neutro" Command="{Binding SeleccionarEmocionCommand}"/>
+                <Button Text="😃Emocionado" Margin="0,0,0,0" FontSize="12" Grid.Row="0" Grid.Column="1" CommandParameter="Emocionado" Command="{Binding SeleccionarEmocionCommand}"/>
+                <Button Text="😖Frustrado"  Margin="0,0,0,0" FontSize="12" Grid.Row="1" Grid.Column="1" CommandParameter="Frustrado" Command="{Binding SeleccionarEmocionCommand}"/>
+                <Button Text="😰Angustiado" Margin="0,0,0,0" FontSize="12" Grid.Row="2" Grid.Column="1" CommandParameter="Angustiado" Command="{Binding SeleccionarEmocionCommand}"/>
+                <Button Text="😪Cansado"    Margin="0,0,0,0" FontSize="12" Grid.Row="0" Grid.Column="2" CommandParameter="Cansado" Command="{Binding SeleccionarEmocionCommand}"/>
+                <Button Text="😠Enojado"    Margin="0,0,0,0" FontSize="12" Grid.Row="1" Grid.Column="2" CommandParameter="Enojado" Command="{Binding SeleccionarEmocionCommand}"/>
+                <Button Text="🫨Ansioso"    Margin="0,0,0,0" FontSize="12" Grid.Row="2" Grid.Column="2" CommandParameter="Ansioso" Command="{Binding SeleccionarEmocionCommand}"/>
             </Grid>
+
+            <CollectionView ItemsSource="{Binding EmocionDiaria}"
+                ItemsLayout="VerticalGrid, 3"
+                HorizontalOptions="Center">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BorderColor="LightGray" Padding="10" Margin="5">
+                            <HorizontalStackLayout>
+                                <Label Text="{Binding .}" FontSize="10"/>
+                            </HorizontalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
             <Entry Placeholder="Describa su día" Text="{Binding DescDia}"/>
 
             <Grid ColumnSpacing="10" RowSpacing="10"
-                RowDefinitions="*,*,*,*"
-                ColumnDefinitions="*,50"
+                RowDefinitions="*,*,*,*,*"
+                ColumnDefinitions="*,*"
                 HorizontalOptions="Center"
                 >
-            <Label Text="Pasos dados hoy:"       Padding="-30,0,0,0" Grid.Row="0" Grid.Column="0" FontSize="14" FontAttributes="Bold" />
-            <Label Text="Uso de celular:"        Padding="-30,0,0,0" Grid.Row="1" Grid.Column="0" FontSize="14" FontAttributes="Bold" />
-            <Label Text="Uso de redes sociales:" Padding="-30,0,0,0" Grid.Row="2" Grid.Column="0" FontSize="14" FontAttributes="Bold" />
-            <Label Text="Horas de sueño:"        Padding="-30,10,0,0" Grid.Row="3" Grid.Column="0" FontSize="14" FontAttributes="Bold" />
+                <Label Text="Pasos dados hoy:"       Padding="-30,0,0,0" Grid.Row="0" Grid.Column="0" FontSize="14" FontAttributes="Bold" />
+                <Label Text="Uso de celular:"        Padding="-30,0,0,0" Grid.Row="1" Grid.Column="0" FontSize="14" FontAttributes="Bold" />
+                <Label Text="Uso de redes sociales:" Padding="-30,0,0,0" Grid.Row="2" Grid.Column="0" FontSize="14" FontAttributes="Bold" />
+                <Label Text="Horas de Youtube:"      Padding="-30,0,0,0" Grid.Row="3" Grid.Column="0" FontSize="14" FontAttributes="Bold" />
+                <Label Text="Horas de sueño:"        Padding="-30,10,0,0" Grid.Row="4" Grid.Column="0" FontSize="14" FontAttributes="Bold" />
 
-            <Label Text="{Binding CantidadPasos}" Grid.Row="0" Grid.Column="1" FontSize="14" FontAttributes="Bold" />
-            <Label Text="{Binding HorasCelular}"  Grid.Row="1" Grid.Column="1" FontSize="14" FontAttributes="Bold" />
-            <Label Text="{Binding HorasRedes}"    Grid.Row="2" Grid.Column="1" FontSize="14" FontAttributes="Bold" />
-            <Entry Text="{Binding HorasSueno}"    Grid.Row="3" Grid.Column="1" FontSize="14" FontAttributes="Bold" Keyboard="Numeric" />
+                <Label Text="{Binding CantidadPasos}"                            Grid.Row="0" Grid.Column="1" FontSize="14" FontAttributes="Bold" />
+                <Label Text="{Binding HorasCelular, StringFormat='{0:F1} hrs'}"  Grid.Row="1" Grid.Column="1" FontSize="14" FontAttributes="Bold" />
+                <Label Text="{Binding HorasRedes, StringFormat='{0:F1} hrs'}"    Grid.Row="2" Grid.Column="1" FontSize="14" FontAttributes="Bold" />
+                <Label Text="{Binding HorasYT, StringFormat='{0:F1} hrs'}"       Grid.Row="3" Grid.Column="1" FontSize="14" FontAttributes="Bold" />
+                <Grid ColumnSpacing="10" RowSpacing="10"
+                    RowDefinitions="*"
+                    ColumnDefinitions="30,*"
+                    HorizontalOptions="Center"
+                    Grid.Row="4" Grid.Column="1"
+                    Padding="-5,-10,0,0"
+                    >
+                <Entry Text="{Binding HorasSueno}" Grid.Column="0" FontSize="14" FontAttributes="Bold" Keyboard="Numeric"/>
+                <Label Text="hrs"                  Grid.Column="1" FontSize="14" FontAttributes="Bold" Padding="-10,15,0,0"/>
+                </Grid>
 
             </Grid>
 
@@ -61,6 +86,7 @@
                                 <Label Text="{Binding Horas_Celular,StringFormat='Hrs Celular: {0}'}" FontSize="12" TextColor="grey"/>
                                 <Label Text="{Binding Horas_Redes,StringFormat='Hrs Redes: {0}'}" FontSize="12" TextColor="grey"/>
                                 <Label Text="{Binding Horas_Sueno,StringFormat='Hrs Sueño: {0}'}" FontSize="12" TextColor="grey"/>
+                                <Label Text="{Binding Horas_Yt,StringFormat='Hrs yt: {0}'}" FontSize="12" TextColor="grey"/>
                                 <Label Text="{Binding Cantidad_Pasos,StringFormat='Pasos: {0}'}" FontSize="12" TextColor="grey"/>
                             </VerticalStackLayout>
                         </Frame>

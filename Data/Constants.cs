@@ -19,5 +19,6 @@ namespace MoodTAB.Data
         public const string TodoItemTableName = "TodoItem";
         public const string PreguntaTableName = "Pregunta";
         public const string RespuestasTableName = "Respuestas";
+        public const string DiarioTableName = "Diario";
     }
 }

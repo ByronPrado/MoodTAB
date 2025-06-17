@@ -1,13 +1,17 @@
-namespace MoodTAB.Vistas;
+using Microsoft.Extensions.DependencyInjection;
 using MoodTAB.ViewModel;
+using MoodTAB.Services;
+
+namespace MoodTAB.Vistas;
 
 public partial class DiarioPage : ContentPage
 {
-	private ViewModel.DiarioViewModel viewModel;
-	public DiarioPage()
-	{
-		InitializeComponent();
-		viewModel = new ViewModel.DiarioViewModel();
-		BindingContext = viewModel;
-	}
+    private DiarioViewModel viewModel;
+
+    public DiarioPage(IStepCounterService stepService)
+    {
+        InitializeComponent();
+        viewModel = new DiarioViewModel(stepService);
+        BindingContext = viewModel;
+    }
 }

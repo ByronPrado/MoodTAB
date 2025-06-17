@@ -1,0 +1,4 @@
+C:\Users\munoz\OneDrive\Escritorio\Universidad\Feria\MoodTAB\bin\Release\net8.0-android\android-arm64\publish\com.companyname.moodtab-Signed.aab
+C:\Users\munoz\OneDrive\Escritorio\Universidad\Feria\MoodTAB\bin\Release\net8.0-android\android-arm64\publish\com.companyname.moodtab.aab
+C:\Users\munoz\OneDrive\Escritorio\Universidad\Feria\MoodTAB\bin\Release\net8.0-android\android-arm64\publish\com.companyname.moodtab-Signed.apk
+C:\Users\munoz\OneDrive\Escritorio\Universidad\Feria\MoodTAB\bin\Release\net8.0-android\android-arm64\publish\_Microsoft.Android.Resource.Designer.dll
