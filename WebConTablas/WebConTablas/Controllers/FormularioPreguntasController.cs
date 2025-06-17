@@ -35,4 +35,19 @@ public class FormularioPreguntasController : Controller
         await _context.SaveChangesAsync();
         return RedirectToAction("Index", "Formularios");
     }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Desasignar(int formularioId, int preguntaId)
+    {
+        var relacion = await _context.FormularioPreguntas
+            .FirstOrDefaultAsync(fp => fp.ID_Formulario == formularioId && fp.ID_Pregunta == preguntaId);
+
+        if (relacion != null)
+        {
+            _context.FormularioPreguntas.Remove(relacion);
+            await _context.SaveChangesAsync();
+        }
+        return RedirectToAction("Details", "Formularios", new { id = formularioId });
+    }
 }

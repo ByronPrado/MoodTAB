@@ -14,21 +14,22 @@ public class FormulariosController : Controller
         ViewBag.Psiquiatras = _context.Psiquiatras.ToList();
         return View();
     }
+    
+    public async Task<IActionResult> Details(int? id)
+    {
+        if (id == null) return NotFound();
 
-//    [HttpPost]
-//    [ValidateAntiForgeryToken]
-//    public async Task<IActionResult> Create(Formulario formulario)
-//    {
-//        if (ModelState.IsValid)
-//        {
-//            formulario.Created_at = DateTime.Now;
-//            _context.Add(formulario);
-//            await _context.SaveChangesAsync();
-//            return RedirectToAction(nameof(Index));
-//        }
-//        ViewBag.Psiquiatras = _context.Psiquiatras.ToList();
-//        return View(formulario);
-//    }
+        var formulario = await _context.Formularios
+            .Include(f => f.Psiquiatra)
+            .Include(f => f.Preguntas)
+                .ThenInclude(fp => fp.Pregunta)
+            .FirstOrDefaultAsync(f => f.ID_Formulario == id);
+
+        if (formulario == null) return NotFound();
+
+        return View(formulario);
+    }
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(Formulario formulario)
