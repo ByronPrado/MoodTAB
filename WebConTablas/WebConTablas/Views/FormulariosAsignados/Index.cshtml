@@ -10,6 +10,7 @@
             <th>Fecha Asignación</th>
             <th>Fecha Límite</th>
             <th>Estado</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
@@ -21,6 +22,11 @@
                 <td>@fa.Fecha_Asignacion.ToShortDateString()</td>
                 <td>@fa.Fecha_Limite?.ToShortDateString()</td>
                 <td>@fa.Estado</td>
+                <td>
+                    <form asp-action="Delete" asp-route-id="@fa.ID_Asignacion" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar esta asignación?');">Eliminar</button>
+                    </form>
+                </td>
             </tr>
         }
     </tbody>

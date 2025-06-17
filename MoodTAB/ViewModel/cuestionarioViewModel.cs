@@ -13,6 +13,9 @@ namespace MoodTAB.ViewModel
 
         [ObservableProperty]
         private string respuestaUsuario = string.Empty;
+        public bool EsAbierta => Pregunta?.Tipo_Pregunta == "Abierta";
+        public bool EsEscala => Pregunta?.Tipo_Pregunta == "Escala";
+        public bool EsSeleccion => Pregunta?.Tipo_Pregunta == "Seleccion";
     }
 
     public partial class Cuestionario : ObservableObject
@@ -54,19 +57,33 @@ namespace MoodTAB.ViewModel
         [RelayCommand]
         private async Task GuardarRespuestas()
         {
+            // Verifica si alguna respuesta está vacía
+            var noRespondidas = PreguntasConRespuesta
+                .Where(item => string.IsNullOrWhiteSpace(item.RespuestaUsuario))
+                .ToList();
+
+            if (noRespondidas.Any())
+            {
+                // Puedes mostrar el texto de la primera pregunta no respondida, por ejemplo
+                var pregunta = noRespondidas.First().Pregunta;
+                await Shell.Current.DisplayAlert(
+                    "Respuesta vacía",
+                    $"Por favor, responde todas las preguntas antes de guardar.\nFalta: '{pregunta.Texto_Pregunta}'",
+                    "OK");
+                return;
+            }
+
+            // Si todas están respondidas, guarda normalmente
             foreach (var item in PreguntasConRespuesta)
             {
-                if (!string.IsNullOrWhiteSpace(item.RespuestaUsuario))
+                var respuesta = new Respuestas
                 {
-                    var respuesta = new Respuestas
-                    {
-                        Texto_Respuesta = item.RespuestaUsuario,
-                        PreguntaId = item.Pregunta.Id,
-                        CreatedAt = DateTime.Now
-                    };
+                    Texto_Respuesta = item.RespuestaUsuario,
+                    PreguntaId = item.Pregunta.Id,
+                    CreatedAt = DateTime.Now
+                };
 
-                    await App.Database.SaveAnswerAsync(respuesta);
-                }
+                await App.Database.SaveAnswerAsync(respuesta);
             }
 
             await CargarRespuestas();
@@ -94,6 +111,19 @@ namespace MoodTAB.ViewModel
             }
             await CargarRespuestas();
         }
-    
+        [RelayCommand]
+    private void SeleccionarSi(PreguntaConRespuesta pregunta)
+    {
+        if (pregunta != null)
+            pregunta.RespuestaUsuario = "SI";
+    }
+
+    [RelayCommand]
+    private void SeleccionarNo(PreguntaConRespuesta pregunta)
+    {
+        if (pregunta != null)
+            pregunta.RespuestaUsuario = "NO";
+    }
+        
     }
 }

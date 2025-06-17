@@ -11,19 +11,23 @@ public class PreguntasController : Controller
 
     public IActionResult Create() => View();
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(Pregunta pregunta)
-    {
-        if (ModelState.IsValid)
-        {
-            pregunta.Created_at = DateTime.Now;
-            _context.Add(pregunta);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-        return View(pregunta);
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Create(Pregunta pregunta)
+{
+    if (ModelState.IsValid)
+    {   
+        pregunta.Created_at = DateTime.Now;
+        _context.Add(pregunta);
+        await _context.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
     }
+    foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+    {
+        Console.WriteLine("Error de validación: " + error.ErrorMessage);
+    }
+    return View(pregunta);
+}
 
     public async Task<IActionResult> Edit(int? id)
     {

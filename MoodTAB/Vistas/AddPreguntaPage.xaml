@@ -4,15 +4,21 @@
              x:Class="MoodTAB.Vistas.AddPreguntaPage"
              x:Name="AddPregunta"
              Title="AddPreguntaPage">
-    <VerticalStackLayout Padding="20">
+<ScrollView>
+        <VerticalStackLayout Padding="20">
         <Label Text="Agregar Pregunta" FontAttributes="Bold" FontSize="20"/>
         <Entry Placeholder="Escribe tu pregunta" Text="{Binding NuevaPregunta}" />
+        <Picker Title="Tipo de Pregunta" 
+                ItemsSource="{Binding TiposPreguntas}"
+                SelectedItem="{Binding TipoPregunta,Mode=TwoWay}" 
+         />
         <Button Text="Guardar" Command="{Binding AgregarPreguntaCommand}" />
+        <Button Text="Borrar Base de Datos" BackgroundColor="Red" Command="{Binding BorrarBaseDatosCommand}" />
 
         <CollectionView ItemsSource="{Binding Preguntas}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-<SwipeView>
+                    <SwipeView>
                             <SwipeView.RightItems>
                                 <SwipeItems>
                                     <SwipeItem
@@ -24,7 +30,10 @@
                             </SwipeView.RightItems>
 
                             <Frame BorderColor="LightGray" Padding="10" Margin="5" >
-                                <Label Text="{Binding Texto_Pregunta}" FontSize="16" />
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding Texto_Pregunta}" FontSize="16" />
+                                    <Label Text="{Binding Tipo_Pregunta}" FontSize="14" TextColor="Gray" />
+                                </VerticalStackLayout>
                             </Frame>
                         </SwipeView>
                 </DataTemplate>
@@ -32,4 +41,5 @@
         </CollectionView>
 
     </VerticalStackLayout>
+</ScrollView>
 </ContentPage>

@@ -14,6 +14,7 @@ public class TodoItemDataBase
         _database.CreateTableAsync<TodoItem>().Wait();
         _database.CreateTableAsync<Pregunta>().Wait();
         _database.CreateTableAsync<Respuestas>().Wait();
+        _database.CreateTableAsync<Diario>().Wait();
         //agregar + tablas
     }
 
@@ -46,16 +47,27 @@ public class TodoItemDataBase
     // nuevas funciones para Preguntas y Respuestas
     public Task<int> SaveQuestionAsync(Pregunta q) => _database.InsertAsync(q);
     public Task<List<Pregunta>> GetQuestionsAsync() => _database.Table<Pregunta>().ToListAsync();
-    public Task<int> DeleteQuestionAsync(Pregunta q)=> _database.DeleteAsync(q);
+    public Task<int> DeleteQuestionAsync(Pregunta q) => _database.DeleteAsync(q);
 
     public Task<Pregunta> GetQuestionByIdAsync(int id)
     {
         return _database.Table<Pregunta>().Where(i => i.Id == id).FirstOrDefaultAsync();
     }
-    
+
 
     public Task<int> SaveAnswerAsync(Respuestas a) => _database.InsertAsync(a);
     public Task<List<Respuestas>> GetAnswersAsync() => _database.Table<Respuestas>().ToListAsync();
-    public Task<int> DeleteAnswersAsync(Respuestas a)=> _database.DeleteAsync(a);
+    public Task<int> DeleteAnswersAsync(Respuestas a) => _database.DeleteAsync(a);
+
+    public Task<int> SaveDiarioAsync(Diario d) => _database.InsertAsync(d);
+    public Task<List<Diario>> GetDiarioAsync() => _database.Table<Diario>().ToListAsync();
+    public Task<int> DeleteDiarioAsync(Diario d) => _database.DeleteAsync(d);
+
+    public Task<Diario> GetDiarioByIdAsync(int id)
+    {
+        return _database.Table<Diario>().Where(i => i.Id == id).FirstOrDefaultAsync();
+    }
+    
+
 
 }

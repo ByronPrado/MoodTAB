@@ -15,16 +15,42 @@ public class FormulariosController : Controller
         return View();
     }
 
+//    [HttpPost]
+//    [ValidateAntiForgeryToken]
+//    public async Task<IActionResult> Create(Formulario formulario)
+//    {
+//        if (ModelState.IsValid)
+//        {
+//            formulario.Created_at = DateTime.Now;
+//            _context.Add(formulario);
+//            await _context.SaveChangesAsync();
+//            return RedirectToAction(nameof(Index));
+//        }
+//        ViewBag.Psiquiatras = _context.Psiquiatras.ToList();
+//        return View(formulario);
+//    }
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(Formulario formulario)
-    {
+    {   
+        if (!ModelState.IsValid)
+        {
+            foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+            {
+                Console.WriteLine("Error de validación: " + error.ErrorMessage);
+            }
+            ViewBag.Psiquiatras = _context.Psiquiatras.ToList();
+            return View(formulario);
+        }
         if (ModelState.IsValid)
         {
             formulario.Created_at = DateTime.Now;
             _context.Add(formulario);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            // Redirige a la asignación de preguntas
+            Console.WriteLine("ID generado: " + formulario.ID_Formulario);
+            var id = formulario.ID_Formulario;
+            return RedirectToAction("Asignar", "FormularioPreguntas", new { id = formulario.ID_Formulario });
         }
         ViewBag.Psiquiatras = _context.Psiquiatras.ToList();
         return View(formulario);

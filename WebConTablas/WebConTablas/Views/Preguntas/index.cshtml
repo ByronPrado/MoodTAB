@@ -1,25 +1,24 @@
 @model IEnumerable<WebConTablas.Models.Pregunta>
-
 <h2>Preguntas</h2>
 <a asp-action="Create" class="btn btn-primary mb-3">Nueva Pregunta</a>
-<table class="table table-striped">
+<table class="table">
     <thead>
-        <tr>
-            <th>ID</th>
-            <th>Contenido</th>
-            <th>Tipo</th>
-            <th>Creada</th>
-        </tr>
+        <tr><th>ID</th><th>Contenido</th><th>Tipo</th><th>Creada</th><th>Acciones</th></tr>
     </thead>
     <tbody>
-        @foreach(var p in Model)
-        {
-            <tr>
-                <td>@p.ID_Pregunta</td>
-                <td>@p.Contenido</td>
-                <td>@p.Tipo</td>
-                <td>@p.Created_at</td>
-            </tr>
-        }
+    @foreach(var p in Model)
+    {
+        <tr>
+            <td>@p.ID_Pregunta</td>
+            <td>@p.Contenido</td>
+            <td>@p.Tipo</td>
+            <td>@p.Created_at</td>
+            <td>
+                <form asp-action="Delete" asp-route-id="@p.ID_Pregunta" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar esta pregunta?');">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+    }
     </tbody>
 </table>

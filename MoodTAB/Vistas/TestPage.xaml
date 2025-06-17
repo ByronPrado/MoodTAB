@@ -12,6 +12,5 @@
         <!-- TestPage.xaml -->
         <Label x:Name="NombreLabel" Text="Test Page" />
         <Button Text="Mostrar ruta" Clicked="OnButtonClicked"/>
-        <Button Text="Prueba Api" Clicked="OnTestApiClicked" />
     </VerticalStackLayout>
 </ContentPage>

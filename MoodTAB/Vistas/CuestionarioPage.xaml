@@ -10,16 +10,34 @@
 
             <Label Text="Preguntas:" FontSize="16" FontAttributes="Bold" />
 
-            <CollectionView ItemsSource="{Binding PreguntasConRespuesta}" Margin="0,0,0,20">
+            <CollectionView x:Name="PreguntasColl" ItemsSource="{Binding PreguntasConRespuesta}" Margin="0,0,0,20">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame BorderColor="LightGray" Padding="10" Margin="5">
                             <VerticalStackLayout>
                                 <Label Text="{Binding Pregunta.Texto_Pregunta}" FontSize="14" />
-
-                                <Editor Placeholder="Escribe tu respuesta aquí..."
+                                <Label Text="{Binding Pregunta.Tipo_Pregunta}" FontSize="12" TextColor="Gray" />
+                                
+                                <Frame IsVisible="{Binding EsAbierta}">                                    
+                                        <Editor Placeholder="Escribe tu respuesta aquí..."
                                         AutoSize="TextChanges"
                                         Text="{Binding RespuestaUsuario, Mode=TwoWay}" />
+                                </Frame>
+
+                                <Frame IsVisible="{Binding EsEscala}">                                    
+                                    <Slider Minimum="0" Maximum="10"
+                                            Value="{Binding RespuestaUsuario, Mode=TwoWay}" />
+                                </Frame>
+                                <Frame IsVisible="{Binding EsSeleccion}">
+                                    <VerticalStackLayout>
+                                        <Grid ColumnDefinitions="Auto,Auto" ColumnSpacing="10">
+                                        <Button Text ="Si" Command ="{Binding BindingContext.SeleccionarCommand, Source={x:Reference PreguntasColl}}"  CommandParameter="SI" Grid.Column ="0"></Button>
+                                        <Button Text ="No" Command ="{Binding BindingContext.SeleccionarNoCommand, Source={x:Reference PreguntasColl}}"  CommandParameter="{Binding .}" Grid.Column ="1"></Button>
+                                        </Grid>
+
+                                    </VerticalStackLayout>
+                                </Frame>
+
                             </VerticalStackLayout>
                         </Frame>
                     </DataTemplate>
@@ -28,6 +46,10 @@
 
             <Button Text="Guardar Respuestas"
                     Command="{Binding GuardarRespuestasCommand}" />
+            
+            <Button Text="DUMP DB"
+                    BackgroundColor="Red"
+                    Command="{Binding BorrarBaseDatosCommand}" />
 
             <Label Text="Respuestas guardadas:" FontAttributes="Bold" FontSize="16" />
 

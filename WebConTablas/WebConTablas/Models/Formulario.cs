@@ -7,7 +7,7 @@ namespace WebConTablas.Models
     {
         public int ID_Formulario { get; set; }
         public int ID_Psiquiatra { get; set; }
-        public Psiquiatra Psiquiatra { get; set; }
+        public Psiquiatra? Psiquiatra { get; set; }
         public string? Titulo { get; set; }
         public string? Descripcion { get; set; }
         public DateTime? Created_at { get; set; }

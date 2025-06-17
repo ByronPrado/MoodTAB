@@ -1,4 +1,6 @@
 @model IEnumerable<WebConTablas.Models.Paciente>
+@using System.Text.Json
+@using System.Collections.Generic
 
 <h2>Pacientes</h2>
 <a href="/Pacientes/Create" class="btn btn-primary mb-3">Agregar Paciente</a>
@@ -53,7 +55,10 @@
                         {
                             <tr>
                                 <td>@d.Fecha.ToShortDateString()</td>
-                                <td>@d.Emociones</td>
+                                @{
+                                    var emocionesDict = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, int>>(d.Emociones);
+                                }
+                                <td>@string.Join(", ", emocionesDict.Keys)</td>
                                 <td>@d.Descripcion</td>
                                 <td>@d.Pasos</td>
                                 <td>@d.Horas_celular</td>

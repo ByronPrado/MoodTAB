@@ -8,12 +8,16 @@
             <inheritdoc/>
             <inheritdoc/>
             <inheritdoc/>
+            <inheritdoc/>
         </member>
         <member name="P:MoodTAB.ViewModel.AddPregunta.Preguntas">
             <inheritdoc cref="F:MoodTAB.ViewModel.AddPregunta.preguntas"/>
         </member>
         <member name="P:MoodTAB.ViewModel.AddPregunta.NuevaPregunta">
             <inheritdoc cref="F:MoodTAB.ViewModel.AddPregunta.nuevaPregunta"/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.AddPregunta.TipoPregunta">
+            <inheritdoc cref="F:MoodTAB.ViewModel.AddPregunta.tipoPregunta"/>
         </member>
         <member name="F:MoodTAB.ViewModel.AddPregunta.agregarPreguntaCommand">
             <summary>The backing field for <see cref="P:MoodTAB.ViewModel.AddPregunta.AgregarPreguntaCommand"/>.</summary>
@@ -27,6 +31,12 @@
         <member name="P:MoodTAB.ViewModel.AddPregunta.EliminarPreguntaCommand">
             <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand`1"/> instance wrapping <see cref="M:MoodTAB.ViewModel.AddPregunta.EliminarPregunta(MoodTAB.Models.Pregunta)"/>.</summary>
         </member>
+        <member name="F:MoodTAB.ViewModel.AddPregunta.borrarBaseDatosCommand">
+            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.AddPregunta.BorrarBaseDatosCommand"/>.</summary>
+        </member>
+        <member name="P:MoodTAB.ViewModel.AddPregunta.BorrarBaseDatosCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.AddPregunta.BorrarBaseDatos"/>.</summary>
+        </member>
         <member name="T:MoodTAB.ViewModel.PreguntaConRespuesta">
             <inheritdoc/>
         </member>
@@ -34,6 +44,8 @@
             <inheritdoc cref="F:MoodTAB.ViewModel.PreguntaConRespuesta.respuestaUsuario"/>
         </member>
         <member name="T:MoodTAB.ViewModel.Cuestionario">
+            <inheritdoc/>
+            <inheritdoc/>
             <inheritdoc/>
             <inheritdoc/>
             <inheritdoc/>
@@ -55,6 +67,18 @@
         </member>
         <member name="P:MoodTAB.ViewModel.Cuestionario.BorrarBaseDatosCommand">
             <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.Cuestionario.BorrarBaseDatos"/>.</summary>
+        </member>
+        <member name="F:MoodTAB.ViewModel.Cuestionario.seleccionarSiCommand">
+            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.Cuestionario.SeleccionarSiCommand"/>.</summary>
+        </member>
+        <member name="P:MoodTAB.ViewModel.Cuestionario.SeleccionarSiCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand`1"/> instance wrapping <see cref="M:MoodTAB.ViewModel.Cuestionario.SeleccionarSi(MoodTAB.ViewModel.PreguntaConRespuesta)"/>.</summary>
+        </member>
+        <member name="F:MoodTAB.ViewModel.Cuestionario.seleccionarNoCommand">
+            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.Cuestionario.SeleccionarNoCommand"/>.</summary>
+        </member>
+        <member name="P:MoodTAB.ViewModel.Cuestionario.SeleccionarNoCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand`1"/> instance wrapping <see cref="M:MoodTAB.ViewModel.Cuestionario.SeleccionarNo(MoodTAB.ViewModel.PreguntaConRespuesta)"/>.</summary>
         </member>
         <member name="T:MoodTAB.ViewModel.DataBaseViewModel">
             <inheritdoc/>
@@ -102,6 +126,112 @@
         <member name="P:MoodTAB.ViewModel.DataBaseViewModel.SeleccionarItemCommand">
             <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand`1"/> instance wrapping <see cref="M:MoodTAB.ViewModel.DataBaseViewModel.SeleccionarItem(MoodTAB.Models.TodoItem)"/>.</summary>
         </member>
+        <member name="T:MoodTAB.ViewModel.DiarioViewModel">
+            <inheritdoc/>
+            <inheritdoc/>
+            <inheritdoc/>
+            <inheritdoc/>
+            <inheritdoc/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.DiarioViewModel.Diarios">
+            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.diarios"/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.DiarioViewModel.EmocionDiaria">
+            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.emocionDiaria"/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.DiarioViewModel.DescDia">
+            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.descDia"/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.DiarioViewModel.HorasCelular">
+            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.horasCelular"/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.DiarioViewModel.HorasRedes">
+            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.horasRedes"/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.DiarioViewModel.HorasYT">
+            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.horasYT"/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.DiarioViewModel.CantidadPasos">
+            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.cantidadPasos"/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.DiarioViewModel.HorasSueno">
+            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.horasSueno"/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.DiarioViewModel.Anotado">
+            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.anotado"/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.DiarioViewModel.Error">
+            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.error"/>
+        </member>
+        <member name="M:MoodTAB.ViewModel.DiarioViewModel.OnHorasSuenoChanged(System.String)">
+            <summary>Executes the logic for when <see cref="P:MoodTAB.ViewModel.DiarioViewModel.HorasSueno"/> just changed.</summary>
+            <param name="value">The new property value that was set.</param>
+            <remarks>This method is invoked right after the value of <see cref="P:MoodTAB.ViewModel.DiarioViewModel.HorasSueno"/> is changed.</remarks>
+        </member>
+        <member name="F:MoodTAB.ViewModel.DiarioViewModel.seleccionarEmocionCommand">
+            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.DiarioViewModel.SeleccionarEmocionCommand"/>.</summary>
+        </member>
+        <member name="P:MoodTAB.ViewModel.DiarioViewModel.SeleccionarEmocionCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand`1"/> instance wrapping <see cref="M:MoodTAB.ViewModel.DiarioViewModel.SeleccionarEmocion(System.String)"/>.</summary>
+        </member>
+        <member name="F:MoodTAB.ViewModel.DiarioViewModel.guardarDiarioCommand">
+            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.DiarioViewModel.GuardarDiarioCommand"/>.</summary>
+        </member>
+        <member name="P:MoodTAB.ViewModel.DiarioViewModel.GuardarDiarioCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.DiarioViewModel.GuardarDiario"/>.</summary>
+        </member>
+        <member name="F:MoodTAB.ViewModel.DiarioViewModel.borrarDiarioCommand">
+            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.DiarioViewModel.BorrarDiarioCommand"/>.</summary>
+        </member>
+        <member name="P:MoodTAB.ViewModel.DiarioViewModel.BorrarDiarioCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.DiarioViewModel.BorrarDiario"/>.</summary>
+        </member>
+        <member name="F:MoodTAB.ViewModel.DiarioViewModel.cambiarAnotadoCommand">
+            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.DiarioViewModel.CambiarAnotadoCommand"/>.</summary>
+        </member>
+        <member name="P:MoodTAB.ViewModel.DiarioViewModel.CambiarAnotadoCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.DiarioViewModel.CambiarAnotado"/>.</summary>
+        </member>
+        <member name="T:MoodTAB.ViewModel.HealthDataViewModel">
+            <inheritdoc/>
+            <inheritdoc/>
+            <inheritdoc/>
+            <inheritdoc/>
+            <inheritdoc/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.HealthDataViewModel.Title">
+            <inheritdoc cref="F:MoodTAB.ViewModel.HealthDataViewModel._title"/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.HealthDataViewModel.AppUsageStats">
+            <inheritdoc cref="F:MoodTAB.ViewModel.HealthDataViewModel._appUsageStats"/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.HealthDataViewModel.StepsText">
+            <inheritdoc cref="F:MoodTAB.ViewModel.HealthDataViewModel._stepsText"/>
+        </member>
+        <member name="F:MoodTAB.ViewModel.HealthDataViewModel.checkClickedCommand">
+            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.HealthDataViewModel.CheckClickedCommand"/>.</summary>
+        </member>
+        <member name="P:MoodTAB.ViewModel.HealthDataViewModel.CheckClickedCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.HealthDataViewModel.CheckClicked"/>.</summary>
+        </member>
+        <member name="F:MoodTAB.ViewModel.HealthDataViewModel.openUsageAccessSettingsCommand">
+            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.HealthDataViewModel.OpenUsageAccessSettingsCommand"/>.</summary>
+        </member>
+        <member name="P:MoodTAB.ViewModel.HealthDataViewModel.OpenUsageAccessSettingsCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.HealthDataViewModel.OpenUsageAccessSettings"/>.</summary>
+        </member>
+        <member name="F:MoodTAB.ViewModel.HealthDataViewModel.requestPermissionsClickedCommand">
+            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.HealthDataViewModel.RequestPermissionsClickedCommand"/>.</summary>
+        </member>
+        <member name="P:MoodTAB.ViewModel.HealthDataViewModel.RequestPermissionsClickedCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.HealthDataViewModel.RequestPermissionsClicked"/>.</summary>
+        </member>
+        <member name="F:MoodTAB.ViewModel.HealthDataViewModel.readStepsClickedCommand">
+            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.HealthDataViewModel.ReadStepsClickedCommand"/>.</summary>
+        </member>
+        <member name="P:MoodTAB.ViewModel.HealthDataViewModel.ReadStepsClickedCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.HealthDataViewModel.ReadStepsClicked"/>.</summary>
+        </member>
         <member name="T:MoodTAB.ViewModel.MainViewModel">
             <inheritdoc/>
             <inheritdoc/>
@@ -127,6 +257,9 @@
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.NuevaPregunta">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "NuevaPregunta" generated properties.</summary>
         </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.TipoPregunta">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "TipoPregunta" generated properties.</summary>
+        </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.RespuestaUsuario">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "RespuestaUsuario" generated properties.</summary>
         </member>
@@ -151,8 +284,44 @@
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.MostrarEdicion">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "MostrarEdicion" generated properties.</summary>
         </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Diarios">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Diarios" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.EmocionDiaria">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "EmocionDiaria" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.DescDia">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "DescDia" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.HorasCelular">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "HorasCelular" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.HorasRedes">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "HorasRedes" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.HorasYT">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "HorasYT" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.CantidadPasos">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "CantidadPasos" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.HorasSueno">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "HorasSueno" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Anotado">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Anotado" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Error">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Error" generated properties.</summary>
+        </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Title">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Title" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.AppUsageStats">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "AppUsageStats" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.StepsText">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "StepsText" generated properties.</summary>
         </member>
         <member name="T:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs">
             <summary>
@@ -165,6 +334,9 @@
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.NuevaPregunta">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "NuevaPregunta" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.TipoPregunta">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "TipoPregunta" generated properties.</summary>
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.RespuestaUsuario">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "RespuestaUsuario" generated properties.</summary>
@@ -190,8 +362,44 @@
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.MostrarEdicion">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "MostrarEdicion" generated properties.</summary>
         </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Diarios">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Diarios" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.EmocionDiaria">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "EmocionDiaria" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.DescDia">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "DescDia" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.HorasCelular">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "HorasCelular" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.HorasRedes">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "HorasRedes" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.HorasYT">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "HorasYT" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.CantidadPasos">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "CantidadPasos" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.HorasSueno">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "HorasSueno" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Anotado">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Anotado" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Error">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Error" generated properties.</summary>
+        </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Title">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Title" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.AppUsageStats">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "AppUsageStats" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.StepsText">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "StepsText" generated properties.</summary>
         </member>
     </members>
 </doc>

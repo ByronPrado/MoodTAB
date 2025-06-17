@@ -29,6 +29,13 @@
                 CommandParameter="Cuestionario"
                 HorizontalOptions="Fill" 
                 BackgroundColor="blue"/>
+
+                         <Button
+                Text="DIARIO" 
+                Command="{Binding MovetoPageCommand}"
+                CommandParameter="Diario"
+                HorizontalOptions="Fill" 
+                BackgroundColor="cyan"/>
         </VerticalStackLayout>
     </ScrollView>
 

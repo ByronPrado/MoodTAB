@@ -17,6 +17,20 @@ public class FormulariosAsignadosController : Controller
         return View(asignaciones);
     }
 
+    // Borrar asignaciones.
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var asignacion = await _context.FormulariosAsignados.FindAsync(id);
+        if (asignacion != null)
+        {
+            _context.FormulariosAsignados.Remove(asignacion);
+            await _context.SaveChangesAsync();
+        }
+        return RedirectToAction(nameof(Index));
+    }
+
     // GET: FormulariosAsignados/Asignar
     public IActionResult Asignar()
     {

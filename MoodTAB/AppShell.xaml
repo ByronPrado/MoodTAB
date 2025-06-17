@@ -26,6 +26,7 @@
         <Tab Title="Debug" Icon="debug.png">
             <ShellContent Title="DataBase" Icon="sql_server.png" ContentTemplate="{DataTemplate views:DataBasePage}" />
             <ShellContent Title="Agregar Preguntas" Icon="plus.png" ContentTemplate="{DataTemplate views:AddPreguntaPage}" />
+            <ShellContent Title="HealthDataPage" ContentTemplate="{DataTemplate views:HealthDataPage}" />
         </Tab>
     </FlyoutItem>
 </Shell>
