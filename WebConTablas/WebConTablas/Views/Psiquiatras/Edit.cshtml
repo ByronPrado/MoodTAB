@@ -1,26 +1,26 @@
-@model Psiquiatras
+@model WebConTablas.Models.Psiquiatra
 
 <h2>Editar Psiquiatra</h2>
 
 <form method="post">
-    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="ID_Psiquiatra" />
 
     <div class="mb-3">
-        <label asp-for="Name" class="form-label">Nombre</label>
-        <input asp-for="Name" class="form-control" required />
-        <span asp-validation-for="Name" class="text-danger"></span>
+        <label asp-for="Nombre" class="form-label">Nombre</label>
+        <input asp-for="Nombre" class="form-control" required />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label asp-for="Correo" class="form-label">Correo</label>
-        <input asp-for="Correo" type="email" class="form-control" required />
-        <span asp-validation-for="Correo" class="text-danger"></span>
+        <label asp-for="Email" class="form-label">Correo</label>
+        <input asp-for="Email" type="email" class="form-control" required />
+        <span asp-validation-for="Email" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label asp-for="Password" class="form-label">Contraseña</label>
-        <input asp-for="Password" type="password" class="form-control" required />
-        <span asp-validation-for="Password" class="text-danger"></span>
+        <label asp-for="Contrasena" class="form-label">Contraseña</label>
+        <input asp-for="Contrasena" type="password" class="form-control" required />
+        <span asp-validation-for="Contrasena" class="text-danger"></span>
     </div>
 
     <button type="submit" class="btn btn-success">Guardar</button>

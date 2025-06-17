@@ -1,4 +1,4 @@
-@model Psiquiatras
+@model WebConTablas.Models.Psiquiatra
 
 @{
     ViewData["Title"] = "Login";
@@ -8,12 +8,12 @@
 
 <form asp-action="Login" method="post">
     <div>
-        <label asp-for="Name"></label>
-        <input asp-for="Name" />
+        <label asp-for="Nombre"></label>
+        <input asp-for="Nombre" />
     </div>
     <div>
-        <label asp-for="Correo"></label>
-        <input asp-for="Correo" />
+        <label asp-for="Email"></label>
+        <input asp-for="Email" />
     </div>
     <button type="submit">Iniciar sesión</button>
 </form>

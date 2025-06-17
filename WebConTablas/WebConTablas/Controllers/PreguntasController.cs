@@ -1,89 +1,74 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
+using WebConTablas.Models;
 
 public class PreguntasController : Controller
 {
     private readonly AppDbContext _context;
+    public PreguntasController(AppDbContext context) => _context = context;
 
-    public PreguntasController(AppDbContext context)
-    {
-        _context = context;
+    public async Task<IActionResult> Index() => View(await _context.Preguntas.ToListAsync());
+
+    public IActionResult Create() => View();
+
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Create(Pregunta pregunta)
+{
+    if (ModelState.IsValid)
+    {   
+        pregunta.Created_at = DateTime.Now;
+        _context.Add(pregunta);
+        await _context.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
     }
-
-    public IActionResult Create(int idPaciente)
+    foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
     {
-        var pregunta = new Pregunta { IdPaciente = idPaciente };
+        Console.WriteLine("Error de validación: " + error.ErrorMessage);
+    }
+    return View(pregunta);
+}
+
+    public async Task<IActionResult> Edit(int? id)
+    {
+        if (id == null) return NotFound();
+        var pregunta = await _context.Preguntas.FindAsync(id);
+        if (pregunta == null) return NotFound();
         return View(pregunta);
     }
-
-    [HttpGet]
-    public async Task<IActionResult> Edit(int idPaciente)
-    {
-        var paciente = await _context.Pacientes
-            .Include(p => p.Preguntas)
-            .FirstOrDefaultAsync(p => p.Id == idPaciente);
-
-        if (paciente == null)
-            return NotFound();
-
-        return View(paciente);
-    }
-
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(Pregunta pregunta)
+    public async Task<IActionResult> Edit(int id, Pregunta pregunta)
     {
-        Console.WriteLine("Entrando al POST de Pregunta con contenido: " + pregunta.Contenido);
-
+        if (id != pregunta.ID_Pregunta) return NotFound();
         if (ModelState.IsValid)
         {
-            _context.Preguntas.Add(pregunta);
+            _context.Update(pregunta);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index", "Pacientes");
+            return RedirectToAction(nameof(Index));
         }
-
-        if (!ModelState.IsValid)
-        {
-            foreach (var key in ModelState.Keys)
-            {
-                var state = ModelState[key];
-                foreach (var error in state.Errors)
-                {
-                    Console.WriteLine($"Error en {key}: {error.ErrorMessage}");
-                }
-            }
-        }
-
-
-        Console.WriteLine("ModelState inválido.");
         return View(pregunta);
     }
 
-    public async Task<IActionResult> UpdatePregunta(int Id, string Contenido, int IdPaciente)
+    public async Task<IActionResult> Delete(int? id)
     {
-        var pregunta = await _context.Preguntas.FindAsync(Id);
-        if (pregunta == null)
-            return NotFound();
-
-        pregunta.Contenido = Contenido;
-        _context.Preguntas.Update(pregunta);
-        await _context.SaveChangesAsync();
-
-        return RedirectToAction("Edit", new { idPaciente = IdPaciente });
+        if (id == null) return NotFound();
+        var pregunta = await _context.Preguntas.FindAsync(id);
+        if (pregunta == null) return NotFound();
+        return View(pregunta);
     }
 
-    public async Task<IActionResult> DeletePregunta(int Id, int IdPaciente)
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(int id)
     {
-        var pregunta = await _context.Preguntas.FindAsync(Id);
-        if (pregunta == null)
-            return NotFound();
-
-        _context.Preguntas.Remove(pregunta);
-        await _context.SaveChangesAsync();
-
-        return RedirectToAction("Edit", new { idPaciente = IdPaciente });
+        var pregunta = await _context.Preguntas.FindAsync(id);
+        if (pregunta != null)
+        {
+            _context.Preguntas.Remove(pregunta);
+            await _context.SaveChangesAsync();
+        }
+        return RedirectToAction(nameof(Index));
     }
-
 }

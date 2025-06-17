@@ -10,6 +10,17 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddSession();
 
+builder.Services.AddControllers();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 
 var app = builder.Build();
 
@@ -23,6 +34,9 @@ app.UseSession();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseCors();
+app.MapControllers();
 
 app.MapControllerRoute(
     name: "default",

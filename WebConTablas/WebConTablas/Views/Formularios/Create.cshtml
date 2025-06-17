@@ -1,0 +1,30 @@
+@model WebConTablas.Models.Formulario
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<h2>Crear Nuevo Formulario</h2>
+@Html.ValidationSummary(true, "x", new { @class = "text-danger" })
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label asp-for="Titulo" class="form-label">Título</label>
+        <input asp-for="Titulo" class="form-control" required />
+        <span asp-validation-for="Titulo" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Descripcion" class="form-label">Descripción</label>
+        <textarea asp-for="Descripcion" class="form-control"></textarea>
+        <span asp-validation-for="Descripcion" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="ID_Psiquiatra" class="form-label">Psiquiatra</label>
+        
+        <select asp-for="ID_Psiquiatra" asp-items="@(new SelectList(ViewBag.Psiquiatras, "ID_Psiquiatra", "Nombre"))" class="form-control" required>
+            <option value="">Seleccione un psiquiatra</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

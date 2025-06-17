@@ -1,0 +1,33 @@
+@{
+    var formularios = ViewBag.Formularios as List<WebConTablas.Models.Formulario>;
+    var pacientes = ViewBag.Pacientes as List<WebConTablas.Models.Paciente>;
+}
+
+<h2>Asignar Formulario a Paciente</h2>
+<form asp-action="Asignar" method="post">
+    <div class="form-group">
+        <label for="ID_Formulario">Formulario</label>
+        <select name="ID_Formulario" class="form-control" required>
+            <option value="">Seleccione un formulario</option>
+            @foreach (var f in formularios)
+            {
+                <option value="@f.ID_Formulario">@f.Titulo</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="ID_Paciente">Paciente</label>
+        <select name="ID_Paciente" class="form-control" required>
+            <option value="">Seleccione un paciente</option>
+            @foreach (var p in pacientes)
+            {
+                <option value="@p.ID_Paciente">@p.Nombre</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="Fecha_Limite">Fecha Límite (opcional)</label>
+        <input type="date" name="Fecha_Limite" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Asignar</button>
+</form>
