@@ -275,6 +275,9 @@
         <member name="P:MoodTAB.ViewModel.MainViewModel.Title">
             <inheritdoc cref="F:MoodTAB.ViewModel.MainViewModel._title"/>
         </member>
+        <member name="P:MoodTAB.ViewModel.MainViewModel.TitleApi">
+            <inheritdoc cref="F:MoodTAB.ViewModel.MainViewModel._titleApi"/>
+        </member>
         <member name="F:MoodTAB.ViewModel.MainViewModel.movetoPageCommand">
             <summary>The backing field for <see cref="P:MoodTAB.ViewModel.MainViewModel.MovetoPageCommand"/>.</summary>
         </member>
@@ -395,6 +398,9 @@
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.StepsText">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "StepsText" generated properties.</summary>
         </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.TitleApi">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "TitleApi" generated properties.</summary>
+        </member>
         <member name="T:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs">
             <summary>
             A helper type providing cached, reusable <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instances
@@ -508,6 +514,9 @@
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.StepsText">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "StepsText" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.TitleApi">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "TitleApi" generated properties.</summary>
         </member>
     </members>
 </doc>

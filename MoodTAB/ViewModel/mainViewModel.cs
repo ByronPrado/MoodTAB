@@ -6,16 +6,19 @@ using System;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Net.Http; // <-- Este using debe ir aquí
+// using System.Net.Http.Json; // No lo necesitas para GetStringAsync
 
 namespace MoodTAB.ViewModel
 {
     public partial class MainViewModel : ObservableObject
     {
-
-
         [ObservableProperty]
         private string _title = "Bienvenido a MoodTAB";
         private string _nameUser;
+
+        [ObservableProperty]
+        private string _titleApi = "Bienvenido a MoodTAB";
 
         public string NameUser
         {
@@ -23,12 +26,32 @@ namespace MoodTAB.ViewModel
             set => SetProperty(ref _nameUser, value);
         }
 
-
         public MainViewModel()
         {
             // Inicializar el nombre de usuario
             _nameUser = Globals.nombre_usuario;
             _title = $"Bienvenido a MoodTAB {_nameUser}";
+            // No puedes usar await aquí, así que llama a un método async void
+            CargarSaludoAsync();
+        }
+
+        private async void CargarSaludoAsync()
+        {
+            try
+            {
+                TitleApi = await ObtenerSaludoAsync();
+            }
+            catch (Exception ex)
+            {
+                TitleApi = $"Error: {ex.Message}";
+            }
+        }
+
+        public async Task<string> ObtenerSaludoAsync()
+        {
+            using var client = new HttpClient();
+            var url = "http://10.0.2.2:5051/api/pacientes";
+            return await client.GetStringAsync(url);
         }
 
         [RelayCommand]
@@ -66,7 +89,6 @@ namespace MoodTAB.ViewModel
                     default:
                         // Main page en caso de error
                         await Application.Current.MainPage.Navigation.PushAsync(new MainPage());
-
                         break;
                 }
             }
@@ -76,6 +98,5 @@ namespace MoodTAB.ViewModel
                 // For example, show an alert or log an error
             }
         }
-
     }
 }

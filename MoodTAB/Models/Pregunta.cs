@@ -3,15 +3,15 @@ namespace MoodTAB.Models;
 public class Pregunta
 {
     [PrimaryKey, AutoIncrement]
-    public int Id { get; set; }
+    public int ID_Pregunta { get; set; }
+    [NotNull]
+    public string? Contenido { get; set; }
+    public string? Extra { get; set; }
+    [NotNull]
+    public string? Tipo { get; set; }
     [NotNull]
     public int Usuario_dirigido { get; set; }
-    [NotNull]
-    public string? Texto_Pregunta { get; set; }
-    [NotNull]
-    public string? Tipo_Pregunta { get; set; }
-
-    public string? Opciones_Seleccion { get; set; }
   
-    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime? Created_at { get; set; }
+    public DateTime? Edited_at { get; set; }
     }

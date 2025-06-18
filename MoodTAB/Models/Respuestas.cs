@@ -4,7 +4,7 @@ namespace MoodTAB.Models;
 public class Respuestas
 {
     [PrimaryKey, AutoIncrement]
-    public int Id { get; set; }
+    public int ID_Respuesta { get; set; }
 
     [Indexed]
     public int PreguntaId { get; set; } // Foreign key to Pregunta

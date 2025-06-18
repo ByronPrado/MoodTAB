@@ -36746,11 +36746,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\munoz\\OneDrive\\Escritorio\\Universidad\\Feria\\MoodTAB\\MoodTAB.csproj",
+      "projectUniqueName": "C:\\Users\\munoz\\OneDrive\\Escritorio\\Universidad\\Feria\\MoodTAB\\MoodTAB\\MoodTAB.csproj",
       "projectName": "MoodTAB",
-      "projectPath": "C:\\Users\\munoz\\OneDrive\\Escritorio\\Universidad\\Feria\\MoodTAB\\MoodTAB.csproj",
+      "projectPath": "C:\\Users\\munoz\\OneDrive\\Escritorio\\Universidad\\Feria\\MoodTAB\\MoodTAB\\MoodTAB.csproj",
       "packagesPath": "C:\\Users\\munoz\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\munoz\\OneDrive\\Escritorio\\Universidad\\Feria\\MoodTAB\\obj\\",
+      "outputPath": "C:\\Users\\munoz\\OneDrive\\Escritorio\\Universidad\\Feria\\MoodTAB\\MoodTAB\\obj\\",
       "projectStyle": "PackageReference",
       "crossTargeting": true,
       "configFilePaths": [

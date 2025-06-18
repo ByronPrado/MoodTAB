@@ -11,6 +11,9 @@
             <Label
                 Text="{Binding Title}"
                 SemanticProperties.HeadingLevel="Level1" />
+            <Label
+                Text="{Binding TitleApi}"
+                SemanticProperties.HeadingLevel="Level1" />    
             <Image
                 Source="mt.png"
                 SemanticProperties.HeadingLevel="Level1"
