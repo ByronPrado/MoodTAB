@@ -24,11 +24,14 @@ public class PacientesController : Controller
         }
 
         var pacientes = await _context.Pacientes
-            .Where(p => p.ID_Psiquiatra == idPsiquiatra)
-            .Include(p => p.DiariosEmocionales)
-            .Include(p => p.FormulariosAsignados)
-                .ThenInclude(fa => fa.Formulario)
-            .ToListAsync();
+        .Where(p => p.ID_Psiquiatra == idPsiquiatra)
+        .Include(p => p.DiariosEmocionales)
+        .Include(p => p.FormulariosAsignados)
+            .ThenInclude(fa => fa.Formulario)
+        .Include(p => p.FormulariosAsignados)
+            .ThenInclude(fa => fa.Respuestas)
+                .ThenInclude(r => r.Pregunta)
+        .ToListAsync();
 
         return View(pacientes);
     }

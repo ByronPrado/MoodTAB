@@ -63,13 +63,13 @@
                         <Frame BorderColor="LightGray" Padding="10" Margin="5">
                             <VerticalStackLayout>
                                 <Label Text="Pregunta:" FontAttributes="Bold" />
-                                <Label Text="{Binding Pregunta.Contenido}" FontSize="14" />
+                                <Label Text="{Binding PreguntaId}" FontSize="14" />
                                 
                                 <Label Text="Respuesta:" FontAttributes="Bold" />
                                 <Label Text="{Binding Texto_Respuesta}" FontSize="16" />
 
                                 <Label Text="ID:" FontAttributes="Italic" FontSize="12" />
-                                <Label Text="{Binding PreguntaId}" FontSize="12" TextColor="Gray" />
+                                <Label Text="{Binding ID_Respuesta}" FontSize="12" TextColor="Gray" />
                             </VerticalStackLayout>
                         </Frame>
                     </DataTemplate>

@@ -154,6 +154,32 @@ namespace MoodTAB.ViewModel
 
                 await App.Database.SaveAnswerAsync(respuesta);
             }
+            var payload = new
+            {
+                ID_Asignacion = 9,
+                Respuestas = PreguntasConRespuesta.Select(p => new {
+                    ID_Pregunta = p.Pregunta.ID_Pregunta,
+                    Contenido = p.RespuestaUsuario
+                }).ToList()
+            };
+
+            var url = "http://10.0.2.2:5051/api/formulario/responder";
+            var json = JsonSerializer.Serialize(payload);
+            var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+            using var client = new HttpClient();
+            var response = await client.PostAsync(url, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                await Shell.Current.DisplayAlert("¡Listo!", "Respuestas enviadas correctamente.", "OK");
+            }
+            else
+            {
+                await Shell.Current.DisplayAlert("Error", "No se pudieron enviar las respuestas.", "OK");
+            }
+            
+            
 
             await CargarRespuestas();
         }
