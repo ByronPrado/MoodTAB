@@ -1,0 +1,48 @@
+# Archivos de caché y temporales
+bin/
+obj/
+**/MoodTAB/bin/
+**/MoodTAB/obj/
+/MoodTAB/bin/
+/MoodTAB/obj/
+**/bin/
+**/obj/
+obj/Debug/
+bin\
+obj\
+\MoodTAB\bin\
+\MoodTAB\obj\
+**\bin\
+**\obj\
+**\obj\Debug\
+
+# Ignore Visual Studio files
+.vs/
+*.user
+*.suo
+
+# Ignore cache/temp files
+*.cache
+*.tmp
+
+# Ignore build artifacts
+*.dll
+*.Android.Resource.Designer.dll
+*.exe
+*.pdb
+*.log
+*.cache
+*.mdb
+*.props
+*.inputs
+*.outputs
+*.AssemblyInfo.cs
+*.AssemblyInfoInputs.cache
+*.assets.cache
+*.csproj.AssemblyReference.cache
+*.editorconfig
+*.txt
+*.nfloat.g.cs
+
+# Ignore Rider files
+.idea/
