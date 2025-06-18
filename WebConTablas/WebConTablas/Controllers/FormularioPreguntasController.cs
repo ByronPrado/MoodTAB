@@ -14,6 +14,11 @@ public class FormularioPreguntasController : Controller
             .Include(f => f.Preguntas)
             .FirstOrDefault(f => f.ID_Formulario == id);
 
+        if (formulario == null)
+        {
+            return NotFound(); // O puedes mostrar una vista de error personalizada
+        }
+
         // Obtén los IDs de las preguntas ya asignadas
         var preguntasAsignadasIds = formulario.Preguntas.Select(fp => fp.ID_Pregunta).ToList();
 

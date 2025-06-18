@@ -10,7 +10,19 @@ namespace MoodTAB.ViewModel
 
     public partial class PreguntaConRespuesta : ObservableObject
     {
-        public Pregunta Pregunta { get; set; } = null!;
+        private Pregunta _pregunta;
+        public Pregunta Pregunta
+        {
+            get => _pregunta;
+            set
+            {
+                SetProperty(ref _pregunta, value);
+                OnPropertyChanged(nameof(EsAbierta));
+                OnPropertyChanged(nameof(EsEscala));
+                OnPropertyChanged(nameof(EsSeleccion));
+            }
+        }
+        
 
         [ObservableProperty]
         private string respuestaUsuario = string.Empty;
@@ -87,7 +99,7 @@ namespace MoodTAB.ViewModel
                         RespuestaUsuario = string.Empty
                     };
 
-                    // Maneja escala y selección si aplica
+
                     if (pregunta.Tipo == "Escala")
                     {
                         if (preguntaJson.TryGetProperty("escalaMin", out var minProp) && minProp.ValueKind == JsonValueKind.Number)
