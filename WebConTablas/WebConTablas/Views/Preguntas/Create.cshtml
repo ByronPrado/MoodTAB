@@ -12,8 +12,29 @@
     </div>
     <div class="mb-3">
         <label asp-for="Tipo" class="form-label">Tipo</label>
-        <input asp-for="Tipo" class="form-control" />
+        <select asp-for="Tipo" class="form-control" id="tipoPregunta" required>
+            <option value="">Seleccione tipo</option>
+            <option value="Abierta">Abierta</option>
+            <option value="Seleccion">Selección</option>
+            <option value="Escala">Escala</option>
+        </select>
         <span asp-validation-for="Tipo" class="text-danger"></span>
+    </div>
+    <div class="mb-3" id="opcionesSeleccionDiv" style="display:none;">
+        <label asp-for="OpcionesSeleccion" class="form-label">Opciones (separadas por coma)</label>
+        <input asp-for="OpcionesSeleccion" class="form-control" />
+        <span asp-validation-for="OpcionesSeleccion" class="text-danger"></span>
+    </div>
+    <div class="mb-3" id="escalaDiv" style="display:none;">
+        <label class="form-label">Rango de escala</label>
+        <div class="input-group">
+            <span class="input-group-text">Mínimo</span>
+            <input asp-for="EscalaMin" class="form-control" type="number" />
+            <span class="input-group-text">Máximo</span>
+            <input asp-for="EscalaMax" class="form-control" type="number" />
+        </div>
+        <span asp-validation-for="EscalaMin" class="text-danger"></span>
+        <span asp-validation-for="EscalaMax" class="text-danger"></span>
     </div>
     <div class="mb-3">
         <label asp-for="Extra" class="form-label">Extra (opcional)</label>
@@ -26,4 +47,15 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        function mostrarCamposTipo() {
+            var tipo = $('#tipoPregunta').val();
+            $('#opcionesSeleccionDiv').toggle(tipo === 'Seleccion');
+            $('#escalaDiv').toggle(tipo === 'Escala');
+        }
+        $(document).ready(function () {
+            $('#tipoPregunta').change(mostrarCamposTipo);
+            mostrarCamposTipo();
+        });
+    </script>
 }

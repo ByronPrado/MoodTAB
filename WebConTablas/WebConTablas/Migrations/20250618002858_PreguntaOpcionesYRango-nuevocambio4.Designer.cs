@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebConTablas.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250618002858_PreguntaOpcionesYRango-nuevocambio4")]
+    partial class PreguntaOpcionesYRangonuevocambio4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.5");
@@ -240,16 +243,7 @@ namespace WebConTablas.Migrations
                     b.Property<DateTime?>("Edited_at")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("EscalaMax")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("EscalaMin")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Extra")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("OpcionesSeleccion")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Tipo")

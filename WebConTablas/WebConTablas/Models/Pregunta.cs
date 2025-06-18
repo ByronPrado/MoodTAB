@@ -15,6 +15,11 @@ namespace WebConTablas.Models
         public DateTime? Created_at { get; set; }
         public DateTime? Edited_at { get; set; }
 
+        // NUEVOS CAMPOS
+        public string? OpcionesSeleccion { get; set; } // Para preguntas de selección (separadas por coma)
+        public int? EscalaMin { get; set; }            // Para preguntas de escala
+        public int? EscalaMax { get; set; }            // Para preguntas de escala
+
         public ICollection<FormularioPregunta> Formularios { get; set; } = new List<FormularioPregunta>();
         public ICollection<Respuesta> Respuestas { get; set; } = new List<Respuesta>();
     }
