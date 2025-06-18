@@ -47,11 +47,11 @@ namespace MoodTAB.ViewModel
 
             var pregunta = new Pregunta
             {
-                Texto_Pregunta = NuevaPregunta,
-                Tipo_Pregunta = TipoPregunta,
-                CreatedAt = DateTime.Now,
+                Contenido = NuevaPregunta,
+                Tipo = TipoPregunta,
+                Created_at = DateTime.Now,
                 Usuario_dirigido = IdUser,
-                Opciones_Seleccion = Opciones
+                Extra = Opciones
             };
 
             await App.Database.SaveQuestionAsync(pregunta);

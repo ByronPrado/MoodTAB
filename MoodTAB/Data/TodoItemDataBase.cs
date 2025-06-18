@@ -51,7 +51,7 @@ public class TodoItemDataBase
 
     public Task<Pregunta> GetQuestionByIdAsync(int id)
     {
-        return _database.Table<Pregunta>().Where(i => i.Id == id).FirstOrDefaultAsync();
+        return _database.Table<Pregunta>().Where(i => i.ID_Pregunta == id).FirstOrDefaultAsync();
     }
 
     public Task<List<Pregunta>> GetQuestionsByUserIdAsync(int id)

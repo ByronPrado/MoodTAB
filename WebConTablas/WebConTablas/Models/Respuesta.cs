@@ -4,7 +4,6 @@ namespace WebConTablas.Models
 {
     public class Respuesta
     {
-        [PrimaryKey, AutoIncrement]
         public int ID_Respuesta { get; set; }
         public int ID_Asignacion { get; set; }
         public FormularioAsignado FormularioAsignado { get; set; }

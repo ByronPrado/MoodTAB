@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using MoodTAB.Models;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace MoodTAB.ViewModel
 {
@@ -14,9 +15,9 @@ namespace MoodTAB.ViewModel
         [ObservableProperty]
         private string respuestaUsuario = string.Empty;
 
-        public bool EsAbierta => Pregunta?.Tipo_Pregunta == "Abierta";
-        public bool EsEscala => Pregunta?.Tipo_Pregunta == "Escala";
-        public bool EsSeleccion => Pregunta?.Tipo_Pregunta == "Seleccion";
+        public bool EsAbierta => Pregunta?.Tipo == "Abierta";
+        public bool EsEscala => Pregunta?.Tipo == "Escala";
+        public bool EsSeleccion => Pregunta?.Tipo == "Seleccion";
         public int MinimoEscala { get; set; } = 0;
         public int MaximoEscala { get; set; } = 10;
         public List<string> OpcionesSeleccion = [];
@@ -49,37 +50,62 @@ namespace MoodTAB.ViewModel
 
         private async Task CargarPreguntas()
         {
-            var preguntas = await App.Database.GetQuestionsByUserIdAsync(Globals.id_usuario);
-            var lista = preguntas.Select(p =>
+            var url = $"http://10.0.2.2:5051/api/formulario/{Globals.id_usuario}";
+            using var client = new HttpClient();
+            var response = await client.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+                return;
+
+            var json = await response.Content.ReadAsStringAsync();
+
+            // Usa System.Text.Json para navegar el JSON y extraer las preguntas
+            using var doc = JsonDocument.Parse(json);
+            var root = doc.RootElement;
+
+            // Navega hasta formulario.preguntas
+            if (root.TryGetProperty("formulario", out var formulario) &&
+                formulario.TryGetProperty("preguntas", out var preguntasJson) &&
+                preguntasJson.ValueKind == JsonValueKind.Array)
             {
-                var preguntaRespuesta = new PreguntaConRespuesta
-                {
-                    Pregunta = p,
-                    RespuestaUsuario = string.Empty
-                };
+                var lista = new List<PreguntaConRespuesta>();
 
-                if (p.Tipo_Pregunta == "Escala" && !string.IsNullOrWhiteSpace(p.Opciones_Seleccion))
+                foreach (var preguntaJson in preguntasJson.EnumerateArray())
                 {
-                    var partes = p.Opciones_Seleccion.Split(',');
-
-                    if (partes.Length == 2 &&
-                        int.TryParse(partes[0], out int min) &&
-                        int.TryParse(partes[1], out int max))
+                    var pregunta = new Pregunta
                     {
-                        preguntaRespuesta.MinimoEscala = min;
-                        preguntaRespuesta.MaximoEscala = max;
+                        ID_Pregunta = preguntaJson.GetProperty("iD_Pregunta").GetInt32(),
+                        Contenido = preguntaJson.GetProperty("contenido").GetString(),
+                        Tipo = preguntaJson.GetProperty("tipo").GetString(),
+                        Extra = preguntaJson.TryGetProperty("extra", out var extraProp) ? extraProp.GetString() : null
+                        // Agrega más campos si los necesitas
+                    };
+
+                    var preguntaRespuesta = new PreguntaConRespuesta
+                    {
+                        Pregunta = pregunta,
+                        RespuestaUsuario = string.Empty
+                    };
+
+                    // Maneja escala y selección si aplica
+                    if (pregunta.Tipo == "Escala")
+                    {
+                        if (preguntaJson.TryGetProperty("escalaMin", out var minProp) && minProp.ValueKind == JsonValueKind.Number)
+                            preguntaRespuesta.MinimoEscala = minProp.GetInt32();
+                        if (preguntaJson.TryGetProperty("escalaMax", out var maxProp) && maxProp.ValueKind == JsonValueKind.Number)
+                            preguntaRespuesta.MaximoEscala = maxProp.GetInt32();
                     }
+                    if (pregunta.Tipo == "Seleccion")
+                    {
+                        if (preguntaJson.TryGetProperty("opcionesSeleccion", out var opcionesProp) && opcionesProp.ValueKind == JsonValueKind.String)
+                            preguntaRespuesta.OpcionesSeleccion = opcionesProp.GetString()?.Split(',').Select(o => o.Trim()).ToList() ?? new List<string>();
+                    }
+
+                    lista.Add(preguntaRespuesta);
                 }
 
-                if (p.Tipo_Pregunta == "Seleccion" && !string.IsNullOrWhiteSpace(p.Opciones_Seleccion))
-                {
-                    preguntaRespuesta.OpcionesSeleccion =  p.Opciones_Seleccion.Split(',').Select(o => o.Trim()).ToList();
-                }
-
-                return preguntaRespuesta;
-            });
-
-            PreguntasConRespuesta = new ObservableCollection<PreguntaConRespuesta>(lista);
+                PreguntasConRespuesta = new ObservableCollection<PreguntaConRespuesta>(lista);
+            }
         }
 
 
@@ -99,7 +125,7 @@ namespace MoodTAB.ViewModel
                 var pregunta = noRespondidas.First().Pregunta;
                 await Shell.Current.DisplayAlert(
                     "Respuesta vacía",
-                    $"Por favor, responde todas las preguntas antes de guardar.\nFalta: '{pregunta.Texto_Pregunta}'",
+                    $"Por favor, responde todas las preguntas antes de guardar.\nFalta: '{pregunta.Contenido}'",
                     "OK");
                 return;
             }
@@ -110,7 +136,7 @@ namespace MoodTAB.ViewModel
                 var respuesta = new Respuestas
                 {
                     Texto_Respuesta = item.RespuestaUsuario,
-                    PreguntaId = item.Pregunta.Id,
+                    PreguntaId = item.Pregunta.ID_Pregunta,
                     CreatedAt = DateTime.Now
                 };
 

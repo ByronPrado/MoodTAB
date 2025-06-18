@@ -33,9 +33,9 @@
 
                             <Frame BorderColor="LightGray" Padding="10" Margin="5" >
                                 <VerticalStackLayout>
-                                    <Label Text="{Binding Texto_Pregunta}" FontSize="16" />
-                                    <Label Text="{Binding Tipo_Pregunta}" FontSize="14" TextColor="Gray" />
-                                    <Label Text="{Binding Opciones_Seleccion}" FontSize="14" TextColor="Gray" />
+                                    <Label Text="{Binding Contenido}" FontSize="16" />
+                                    <Label Text="{Binding Tipo}" FontSize="14" TextColor="Gray" />
+                                    <Label Text="{Binding Extra}" FontSize="14" TextColor="Gray" />
                                     <Label Text="{Binding Usuario_dirigido}" FontSize="14" TextColor="Gray" />
                                 </VerticalStackLayout>
                             </Frame>

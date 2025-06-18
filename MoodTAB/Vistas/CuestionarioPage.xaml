@@ -15,7 +15,7 @@
                     <DataTemplate>
                         <Frame BorderColor="LightGray" Padding="10" Margin="5">
                             <VerticalStackLayout>
-                                <Label Text="{Binding Pregunta.Texto_Pregunta}" FontSize="14" />
+                                <Label Text="{Binding Pregunta.Contenido}" FontSize="14" />
                                 
                                 <Frame IsVisible="{Binding EsAbierta}">                                    
                                         <Editor Placeholder="Escribe tu respuesta aquí..."
@@ -63,7 +63,7 @@
                         <Frame BorderColor="LightGray" Padding="10" Margin="5">
                             <VerticalStackLayout>
                                 <Label Text="Pregunta:" FontAttributes="Bold" />
-                                <Label Text="{Binding Pregunta.Texto_Pregunta}" FontSize="14" />
+                                <Label Text="{Binding Pregunta.Contenido}" FontSize="14" />
                                 
                                 <Label Text="Respuesta:" FontAttributes="Bold" />
                                 <Label Text="{Binding Texto_Respuesta}" FontSize="16" />
