@@ -15,6 +15,10 @@ namespace MoodTAB.ViewModel
         string nuevaPregunta;
         [ObservableProperty]
         string tipoPregunta;
+        [ObservableProperty]
+        int idUser;
+        [ObservableProperty]
+        string opciones;
         public ObservableCollection<string> TiposPreguntas { get; set; } = new();
 
         public AddPregunta()
@@ -23,7 +27,9 @@ namespace MoodTAB.ViewModel
             TipoPregunta = "Abierta"; // Valor por defecto
             TiposPreguntas.Add("Abierta");
             TiposPreguntas.Add("Seleccion");
-            TiposPreguntas.Add("Escala");    
+            TiposPreguntas.Add("Escala");
+            IdUser = 1;
+            Opciones = string.Empty;
             _ = LoadPreguntasAsync();
         }
 
@@ -44,11 +50,13 @@ namespace MoodTAB.ViewModel
                 Texto_Pregunta = NuevaPregunta,
                 Tipo_Pregunta = TipoPregunta,
                 CreatedAt = DateTime.Now,
-
+                Usuario_dirigido = IdUser,
+                Opciones_Seleccion = Opciones
             };
 
             await App.Database.SaveQuestionAsync(pregunta);
             NuevaPregunta = string.Empty;
+            Opciones = string.Empty;
             TipoPregunta = "Abierta"; // valor psor defecto
             await LoadPreguntasAsync();
         }

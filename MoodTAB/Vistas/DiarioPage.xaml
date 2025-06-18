@@ -16,18 +16,18 @@
                 HorizontalOptions="Center"
                 >
 
-                <Button Text="😊Feliz"      Margin="0,0,0,0" FontSize="12" Grid.Row="0" Grid.Column="0" CommandParameter="Feliz" Command="{Binding SeleccionarEmocionCommand}"/>
-                <Button Text="😢Triste"     Margin="0,0,0,0" FontSize="12" Grid.Row="1" Grid.Column="0" CommandParameter="Triste" Command="{Binding SeleccionarEmocionCommand}"/>
-                <Button Text="😑Neutro"     Margin="0,0,0,0" FontSize="12" Grid.Row="2" Grid.Column="0" CommandParameter="Neutro" Command="{Binding SeleccionarEmocionCommand}"/>
-                <Button Text="😃Emocionado" Margin="0,0,0,0" FontSize="12" Grid.Row="0" Grid.Column="1" CommandParameter="Emocionado" Command="{Binding SeleccionarEmocionCommand}"/>
-                <Button Text="😖Frustrado"  Margin="0,0,0,0" FontSize="12" Grid.Row="1" Grid.Column="1" CommandParameter="Frustrado" Command="{Binding SeleccionarEmocionCommand}"/>
-                <Button Text="😰Angustiado" Margin="0,0,0,0" FontSize="12" Grid.Row="2" Grid.Column="1" CommandParameter="Angustiado" Command="{Binding SeleccionarEmocionCommand}"/>
-                <Button Text="😪Cansado"    Margin="0,0,0,0" FontSize="12" Grid.Row="0" Grid.Column="2" CommandParameter="Cansado" Command="{Binding SeleccionarEmocionCommand}"/>
-                <Button Text="😠Enojado"    Margin="0,0,0,0" FontSize="12" Grid.Row="1" Grid.Column="2" CommandParameter="Enojado" Command="{Binding SeleccionarEmocionCommand}"/>
-                <Button Text="🫨Ansioso"    Margin="0,0,0,0" FontSize="12" Grid.Row="2" Grid.Column="2" CommandParameter="Ansioso" Command="{Binding SeleccionarEmocionCommand}"/>
+                <Button Text="😊Feliz"      Margin="0,0,0,0" FontSize="12" Grid.Row="0" Grid.Column="0" CommandParameter="Feliz" Command="{Binding SeleccionarEmocionCommand}"   BackgroundColor="{Binding ColorFeliz}"/>
+                <Button Text="😢Triste"     Margin="0,0,0,0" FontSize="12" Grid.Row="1" Grid.Column="0" CommandParameter="Triste" Command="{Binding SeleccionarEmocionCommand}"  BackgroundColor="{Binding ColorTriste}"/>
+                <Button Text="😑Neutro"     Margin="0,0,0,0" FontSize="12" Grid.Row="2" Grid.Column="0" CommandParameter="Neutro" Command="{Binding SeleccionarEmocionCommand}"  BackgroundColor="{Binding ColorNeutro}"/>
+                <Button Text="😃Emocionado" Margin="0,0,0,0" FontSize="12" Grid.Row="0" Grid.Column="1" CommandParameter="Emocionado" Command="{Binding SeleccionarEmocionCommand}" BackgroundColor="{Binding ColorEmocionado}"/>
+                <Button Text="😖Frustrado"  Margin="0,0,0,0" FontSize="12" Grid.Row="1" Grid.Column="1" CommandParameter="Frustrado" Command="{Binding SeleccionarEmocionCommand}" BackgroundColor="{Binding ColorFrustrado}"/>
+                <Button Text="😰Angustiado" Margin="0,0,0,0" FontSize="12" Grid.Row="2" Grid.Column="1" CommandParameter="Angustiado" Command="{Binding SeleccionarEmocionCommand}" BackgroundColor="{Binding ColorAngustiado}"/>
+                <Button Text="😪Cansado"    Margin="0,0,0,0" FontSize="12" Grid.Row="0" Grid.Column="2" CommandParameter="Cansado" Command="{Binding SeleccionarEmocionCommand}" BackgroundColor="{Binding ColorCansado}"/>
+                <Button Text="😠Enojado"    Margin="0,0,0,0" FontSize="12" Grid.Row="1" Grid.Column="2" CommandParameter="Enojado" Command="{Binding SeleccionarEmocionCommand}" BackgroundColor="{Binding ColorEnojado}"/>
+                <Button Text="🫨Ansioso"    Margin="0,0,0,0" FontSize="12" Grid.Row="2" Grid.Column="2" CommandParameter="Ansioso" Command="{Binding SeleccionarEmocionCommand}" BackgroundColor="{Binding ColorAnsioso}"/>
             </Grid>
 
-            <CollectionView ItemsSource="{Binding EmocionDiaria}"
+            <!--CollectionView ItemsSource="{Binding EmocionDiaria}"
                 ItemsLayout="VerticalGrid, 3"
                 HorizontalOptions="Center">
                 <CollectionView.ItemTemplate>
@@ -39,7 +39,7 @@
                         </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
-            </CollectionView>
+            </CollectionView-->
 
             <Entry Placeholder="Describa su día" Text="{Binding DescDia}"/>
 

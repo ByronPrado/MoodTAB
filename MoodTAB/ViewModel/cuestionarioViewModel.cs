@@ -13,9 +13,13 @@ namespace MoodTAB.ViewModel
 
         [ObservableProperty]
         private string respuestaUsuario = string.Empty;
+
         public bool EsAbierta => Pregunta?.Tipo_Pregunta == "Abierta";
         public bool EsEscala => Pregunta?.Tipo_Pregunta == "Escala";
         public bool EsSeleccion => Pregunta?.Tipo_Pregunta == "Seleccion";
+        public int MinimoEscala { get; set; } = 0;
+        public int MaximoEscala { get; set; } = 10;
+        public List<string> OpcionesSeleccion = [];
     }
 
     public partial class Cuestionario : ObservableObject
@@ -28,6 +32,9 @@ namespace MoodTAB.ViewModel
 
         [ObservableProperty]
         ObservableCollection<Respuestas> respuestasLista = new();
+
+        [ObservableProperty]
+        int respuestaUsuarioEscala;
 
         public Cuestionario()
         {
@@ -42,15 +49,39 @@ namespace MoodTAB.ViewModel
 
         private async Task CargarPreguntas()
         {
-            var preguntas = await App.Database.GetQuestionsAsync();
-            var lista = preguntas.Select(p => new PreguntaConRespuesta
+            var preguntas = await App.Database.GetQuestionsByUserIdAsync(Globals.id_usuario);
+            var lista = preguntas.Select(p =>
             {
-                Pregunta = p,
-                RespuestaUsuario = string.Empty
+                var preguntaRespuesta = new PreguntaConRespuesta
+                {
+                    Pregunta = p,
+                    RespuestaUsuario = string.Empty
+                };
+
+                if (p.Tipo_Pregunta == "Escala" && !string.IsNullOrWhiteSpace(p.Opciones_Seleccion))
+                {
+                    var partes = p.Opciones_Seleccion.Split(',');
+
+                    if (partes.Length == 2 &&
+                        int.TryParse(partes[0], out int min) &&
+                        int.TryParse(partes[1], out int max))
+                    {
+                        preguntaRespuesta.MinimoEscala = min;
+                        preguntaRespuesta.MaximoEscala = max;
+                    }
+                }
+
+                if (p.Tipo_Pregunta == "Seleccion" && !string.IsNullOrWhiteSpace(p.Opciones_Seleccion))
+                {
+                    preguntaRespuesta.OpcionesSeleccion =  p.Opciones_Seleccion.Split(',').Select(o => o.Trim()).ToList();
+                }
+
+                return preguntaRespuesta;
             });
 
             PreguntasConRespuesta = new ObservableCollection<PreguntaConRespuesta>(lista);
         }
+
 
 
 
@@ -112,18 +143,19 @@ namespace MoodTAB.ViewModel
             await CargarRespuestas();
         }
         [RelayCommand]
-    private void SeleccionarSi(PreguntaConRespuesta pregunta)
-    {
-        if (pregunta != null)
-            pregunta.RespuestaUsuario = "SI";
-    }
+        private void SeleccionarSi(PreguntaConRespuesta pregunta)
+        {
+            if (pregunta != null)
+                pregunta.RespuestaUsuario = "SI";
+        }
 
-    [RelayCommand]
-    private void SeleccionarNo(PreguntaConRespuesta pregunta)
-    {
-        if (pregunta != null)
-            pregunta.RespuestaUsuario = "NO";
+        [RelayCommand]
+        private void SeleccionarNo(PreguntaConRespuesta pregunta)
+        {
+            if (pregunta != null)
+                pregunta.RespuestaUsuario = "NO";
+        }
+   
     }
-        
-    }
+    
 }

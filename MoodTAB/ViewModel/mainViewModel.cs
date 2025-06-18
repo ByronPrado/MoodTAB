@@ -11,7 +11,7 @@ namespace MoodTAB.ViewModel
 {
     public partial class MainViewModel : ObservableObject
     {
-       
+
 
         [ObservableProperty]
         private string _title = "Bienvenido a MoodTAB";
@@ -27,9 +27,9 @@ namespace MoodTAB.ViewModel
         public MainViewModel()
         {
             // Inicializar el nombre de usuario
-            _nameUser = "Usuario";
+            _nameUser = Globals.nombre_usuario;
             _title = $"Bienvenido a MoodTAB {_nameUser}";
-        }      
+        }
 
         [RelayCommand]
         private async Task MovetoPage(string pageName)
@@ -62,7 +62,7 @@ namespace MoodTAB.ViewModel
                             Title = e.Message;
                             break;
                         }
-                        
+
                     default:
                         // Main page en caso de error
                         await Application.Current.MainPage.Navigation.PushAsync(new MainPage());
@@ -76,6 +76,6 @@ namespace MoodTAB.ViewModel
                 // For example, show an alert or log an error
             }
         }
-        
+
     }
 }
