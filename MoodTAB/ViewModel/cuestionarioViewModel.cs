@@ -49,6 +49,8 @@ namespace MoodTAB.ViewModel
         [ObservableProperty]
         int respuestaUsuarioEscala;
 
+        private int idAsignacion;
+
         public Cuestionario()
         {
             //_mainViewModel = mainViewModel;
@@ -74,6 +76,11 @@ namespace MoodTAB.ViewModel
             // Usa System.Text.Json para navegar el JSON y extraer las preguntas
             using var doc = JsonDocument.Parse(json);
             var root = doc.RootElement;
+
+            if (root.TryGetProperty("iD_Asignacion", out var asignacionProp))
+            {
+                idAsignacion = asignacionProp.GetInt32();
+            }
 
             // Navega hasta formulario.preguntas
             if (root.TryGetProperty("formulario", out var formulario) &&
@@ -156,7 +163,7 @@ namespace MoodTAB.ViewModel
             }
             var payload = new
             {
-                ID_Asignacion = 9,
+                ID_Asignacion = idAsignacion,
                 Respuestas = PreguntasConRespuesta.Select(p => new {
                     ID_Pregunta = p.Pregunta.ID_Pregunta,
                     Contenido = p.RespuestaUsuario
@@ -176,7 +183,8 @@ namespace MoodTAB.ViewModel
             }
             else
             {
-                await Shell.Current.DisplayAlert("Error", "No se pudieron enviar las respuestas.", "OK");
+                var errorMsg = await response.Content.ReadAsStringAsync();
+                await Shell.Current.DisplayAlert("Error", $"No se pudieron enviar las respuestas.\n{errorMsg}", "OK");
             }
             
             

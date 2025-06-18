@@ -81,12 +81,22 @@
             }
             <h5>Formularios respondidos</h5>
             <ul>
-                @foreach(var fa in p.FormulariosAsignados)
-                {
-                    <li>
-                        <b>@fa.Formulario?.Titulo</b> (@fa.Estado) - Asignado: @fa.Fecha_Asignacion.ToShortDateString()
-                    </li>
-                }
+            @foreach (var fa in p.FormulariosAsignados)
+            {
+                <li>
+                    <b>@fa.Formulario?.Titulo</b> (@fa.Estado) - Asignado: @fa.Fecha_Asignacion.ToShortDateString()
+
+                    @if (fa.Estado == "Listo" && fa.Respuestas.Any())
+                    {
+                        <ul>
+                            @foreach (var r in fa.Respuestas)
+                            {
+                                <li><b>@r.Pregunta?.Contenido:</b> @r.Contenido</li>
+                            }
+                        </ul>
+                    }
+                </li>
+            }
             </ul>
         </div>
     </div>

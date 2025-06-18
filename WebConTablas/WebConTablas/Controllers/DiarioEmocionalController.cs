@@ -31,10 +31,10 @@ public class DiarioEmocionalController : ControllerBase
                     var key = emocion.Key.ToLower();
                     int intensidad = emocion.Value;
 
-                    if ((key.Contains("triste") || key.Contains("miedo") || key.Contains("ansiedad")) && intensidad >= 2)
+                    if ((key.Contains("Triste") || key.Contains("Cansado") || key.Contains("Angustiado")) && intensidad >= 2)
                         puntosInhibido++;
 
-                    if ((key.Contains("euforico") || key.Contains("enojado") || key.Contains("estres")) && intensidad >= 2)
+                    if ((key.Contains("Emocionado") || key.Contains("Enojado") || key.Contains("Frustrado") || key.Contains("Ansioso") )  && intensidad >= 2)
                         puntosExaltado++;
                 }
             }

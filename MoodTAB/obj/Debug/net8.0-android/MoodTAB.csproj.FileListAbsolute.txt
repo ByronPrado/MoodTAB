@@ -4263,3 +4263,8 @@ C:\Users\munoz\OneDrive\Escritorio\Universidad\Feria\MoodTAB\MoodTAB\obj\Debug\n
 C:\Users\munoz\OneDrive\Escritorio\Universidad\Feria\MoodTAB\MoodTAB\obj\Debug\net8.0-android\android\assets\Microsoft.VisualStudio.DesignTools.TapContract.dll
 C:\Users\munoz\OneDrive\Escritorio\Universidad\Feria\MoodTAB\MoodTAB\obj\Debug\net8.0-android\android\assets\Microsoft.VisualStudio.DesignTools.XamlTapContract.dll
 C:\Users\munoz\OneDrive\Escritorio\Universidad\Feria\MoodTAB\MoodTAB\obj\Debug\net8.0-android\res\xml\network_security_config.xml
+C:\Users\munoz\OneDrive\Escritorio\Universidad\Feria\MoodTAB\MoodTAB\bin\Debug\net8.0-android\Microsoft.Maui.Controls.HotReload.Forms.dll
+C:\Users\munoz\OneDrive\Escritorio\Universidad\Feria\MoodTAB\MoodTAB\bin\Debug\net8.0-android\Microsoft.VisualStudio.DesignTools.MobileTapContracts.dll
+C:\Users\munoz\OneDrive\Escritorio\Universidad\Feria\MoodTAB\MoodTAB\bin\Debug\net8.0-android\Microsoft.VisualStudio.DesignTools.TapContract.dll
+C:\Users\munoz\OneDrive\Escritorio\Universidad\Feria\MoodTAB\MoodTAB\bin\Debug\net8.0-android\Microsoft.VisualStudio.DesignTools.XamlTapContract.dll
+C:\Users\munoz\OneDrive\Escritorio\Universidad\Feria\MoodTAB\MoodTAB\obj\Debug\net8.0-android\MoodTAB.csproj.Up2Date
