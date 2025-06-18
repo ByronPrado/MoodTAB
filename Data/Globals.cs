@@ -2,9 +2,10 @@ namespace MoodTAB
 {
     public static class Globals
     {
-        public static long HorasRedesSociales { get; set; } = 0;
+        public static string nombre_usuario { get; set; } = "Ana Gómez";
 
         // Puedes agregar más variables si quieres
-        public static long HorasTotales { get; set; } = 0;
+        public static int id_usuario { get; set; } = 1;
+        
     }
 }

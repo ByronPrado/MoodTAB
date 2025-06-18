@@ -8,10 +8,12 @@
         <VerticalStackLayout Padding="20">
         <Label Text="Agregar Pregunta" FontAttributes="Bold" FontSize="20"/>
         <Entry Placeholder="Escribe tu pregunta" Text="{Binding NuevaPregunta}" />
+        <Entry Placeholder="Usuario destinado (1 para Ana Gómez)" Text="{Binding IdUser}" />
         <Picker Title="Tipo de Pregunta" 
                 ItemsSource="{Binding TiposPreguntas}"
                 SelectedItem="{Binding TipoPregunta,Mode=TwoWay}" 
          />
+        <Entry Placeholder="[min,max] o [opcion1,opcion2,...]" Text="{Binding Opciones}" />
         <Button Text="Guardar" Command="{Binding AgregarPreguntaCommand}" />
         <Button Text="Borrar Base de Datos" BackgroundColor="Red" Command="{Binding BorrarBaseDatosCommand}" />
 
@@ -33,6 +35,8 @@
                                 <VerticalStackLayout>
                                     <Label Text="{Binding Texto_Pregunta}" FontSize="16" />
                                     <Label Text="{Binding Tipo_Pregunta}" FontSize="14" TextColor="Gray" />
+                                    <Label Text="{Binding Opciones_Seleccion}" FontSize="14" TextColor="Gray" />
+                                    <Label Text="{Binding Usuario_dirigido}" FontSize="14" TextColor="Gray" />
                                 </VerticalStackLayout>
                             </Frame>
                         </SwipeView>

@@ -54,6 +54,12 @@ public class TodoItemDataBase
         return _database.Table<Pregunta>().Where(i => i.Id == id).FirstOrDefaultAsync();
     }
 
+    public Task<List<Pregunta>> GetQuestionsByUserIdAsync(int id)
+    {
+    return _database.Table<Pregunta>().Where(p => p.Usuario_dirigido == id).ToListAsync();
+    }
+
+
 
     public Task<int> SaveAnswerAsync(Respuestas a) => _database.InsertAsync(a);
     public Task<List<Respuestas>> GetAnswersAsync() => _database.Table<Respuestas>().ToListAsync();
