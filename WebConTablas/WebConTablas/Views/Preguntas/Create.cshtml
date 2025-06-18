@@ -1,0 +1,61 @@
+@model WebConTablas.Models.Pregunta
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<h2>Crear Nueva Pregunta</h2>
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label asp-for="Contenido" class="form-label">Contenido</label>
+        <input asp-for="Contenido" class="form-control" required />
+        <span asp-validation-for="Contenido" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Tipo" class="form-label">Tipo</label>
+        <select asp-for="Tipo" class="form-control" id="tipoPregunta" required>
+            <option value="">Seleccione tipo</option>
+            <option value="Abierta">Abierta</option>
+            <option value="Seleccion">Selección</option>
+            <option value="Escala">Escala</option>
+        </select>
+        <span asp-validation-for="Tipo" class="text-danger"></span>
+    </div>
+    <div class="mb-3" id="opcionesSeleccionDiv" style="display:none;">
+        <label asp-for="OpcionesSeleccion" class="form-label">Opciones (separadas por coma)</label>
+        <input asp-for="OpcionesSeleccion" class="form-control" />
+        <span asp-validation-for="OpcionesSeleccion" class="text-danger"></span>
+    </div>
+    <div class="mb-3" id="escalaDiv" style="display:none;">
+        <label class="form-label">Rango de escala</label>
+        <div class="input-group">
+            <span class="input-group-text">Mínimo</span>
+            <input asp-for="EscalaMin" class="form-control" type="number" />
+            <span class="input-group-text">Máximo</span>
+            <input asp-for="EscalaMax" class="form-control" type="number" />
+        </div>
+        <span asp-validation-for="EscalaMin" class="text-danger"></span>
+        <span asp-validation-for="EscalaMax" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Extra" class="form-label">Extra (opcional)</label>
+        <input asp-for="Extra" class="form-control" />
+        <span asp-validation-for="Extra" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function mostrarCamposTipo() {
+            var tipo = $('#tipoPregunta').val();
+            $('#opcionesSeleccionDiv').toggle(tipo === 'Seleccion');
+            $('#escalaDiv').toggle(tipo === 'Escala');
+        }
+        $(document).ready(function () {
+            $('#tipoPregunta').change(mostrarCamposTipo);
+            mostrarCamposTipo();
+        });
+    </script>
+}

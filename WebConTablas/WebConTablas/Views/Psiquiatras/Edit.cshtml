@@ -1,0 +1,32 @@
+@model WebConTablas.Models.Psiquiatra
+
+<h2>Editar Psiquiatra</h2>
+
+<form method="post">
+    <input type="hidden" asp-for="ID_Psiquiatra" />
+
+    <div class="mb-3">
+        <label asp-for="Nombre" class="form-label">Nombre</label>
+        <input asp-for="Nombre" class="form-control" required />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label">Correo</label>
+        <input asp-for="Email" type="email" class="form-control" required />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Contrasena" class="form-label">Contraseña</label>
+        <input asp-for="Contrasena" type="password" class="form-control" required />
+        <span asp-validation-for="Contrasena" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a asp-controller="Psiquiatras" asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
