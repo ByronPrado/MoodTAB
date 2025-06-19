@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using MoodTAB.Services;
+using System.Text.Json;
 
 namespace MoodTAB.ViewModel
 
@@ -270,6 +271,38 @@ namespace MoodTAB.ViewModel
                 await App.Database.SaveDiarioAsync(diario);
                 Anotado = true;
                 await LoadDiariosAsync();
+
+                var payload = new
+                {
+                    ID_Paciente = Globals.id_usuario, // Usa el id del paciente logueado
+                    Emociones = JsonSerializer.Serialize(
+                        EmocionDiaria.ToDictionary(e => e, e => 1) // Puedes ajustar el valor según intensidad si lo tienes
+                    ),
+                    Descripcion = DescDia,
+                    Pasos = CantidadPasos,
+                    Horas_celular = (int)HorasCelular,
+                    Horas_redes = (int)HorasRedes,
+                    Horas_Yt = (int)HorasYT,
+                    Hora_dormida = HorasSueno,
+                    Fecha = DateTime.Now.ToString("yyyy-MM-dd")
+                };
+
+                var url = "http://10.0.2.2:5051/api/DiarioEmocional";
+                var json = JsonSerializer.Serialize(payload);
+                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+                using var client = new HttpClient();
+                var response = await client.PostAsync(url, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    await Shell.Current.DisplayAlert("¡Listo!", "Diario enviado correctamente.", "OK");
+                }
+                else
+                {
+                    var errorMsg = await response.Content.ReadAsStringAsync();
+                    await Shell.Current.DisplayAlert("Error", $"No se pudo enviar el diario.\n{errorMsg}", "OK");
+                }
             }
             catch (Exception e)
             {

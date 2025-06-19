@@ -20,29 +20,36 @@ public class DiarioEmocionalController : ControllerBase
         int puntosExaltado = 0;
 
         // Analizar emociones
-        if (!string.IsNullOrEmpty(diario.Emociones))
+        List<string> emocionesList = new();
+    if (!string.IsNullOrEmpty(diario.Emociones))
+    {
+        try
         {
-            try
-            {
-                var emociones = JsonSerializer.Deserialize<Dictionary<string, int>>(diario.Emociones);
-
-                foreach (var emocion in emociones)
-                {
-                    var key = emocion.Key.ToLower();
-                    int intensidad = emocion.Value;
-
-                    if ((key.Contains("Triste") || key.Contains("Cansado") || key.Contains("Angustiado")) && intensidad >= 2)
-                        puntosInhibido++;
-
-                    if ((key.Contains("Emocionado") || key.Contains("Enojado") || key.Contains("Frustrado") || key.Contains("Ansioso") )  && intensidad >= 2)
-                        puntosExaltado++;
-                }
-            }
-            catch
-            {
-                return BadRequest("Formato de emociones inválido");
-            }
+            // Si es un string separado por comas, lo convertimos a lista
+            emocionesList = diario.Emociones
+                .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Select(e => e.Trim())
+                .ToList();
         }
+        catch
+        {
+            return BadRequest("Formato de emociones inválido");
+        }
+    }
+
+    foreach (var emocion in emocionesList)
+    {
+        var key = emocion.ToLower();
+
+        // Asumimos intensidad 1
+        int intensidad = 1;
+
+        if ((key.Contains("triste") || key.Contains("cansado") || key.Contains("angustiado")) && intensidad >= 1)
+            puntosInhibido++;
+
+        if ((key.Contains("emocionado") || key.Contains("enojado") || key.Contains("frustrado") || key.Contains("ansioso")) && intensidad >= 1)
+            puntosExaltado++;
+    }
 
         // Evaluar pasos
         if (diario.Pasos.HasValue)
@@ -70,16 +77,11 @@ public class DiarioEmocionalController : ControllerBase
         // Evaluar hora dormida (como duración de sueño)
         // Necesitamos saber cuánto durmió. Asumimos que 'Hora_dormida' es string "HH:mm", hora en que se durmió
         // y se despertó a las 08:00 am, entonces:
-        if (TimeSpan.TryParse(diario.Hora_dormida, out TimeSpan horaDormida))
+        if (int.TryParse(diario.Hora_dormida, out int horaDormida))
         {
-            TimeSpan horaDespertar = TimeSpan.FromHours(8); // 8:00 AM
-            TimeSpan duracionSueño = horaDespertar > horaDormida
-                ? horaDespertar - horaDormida
-                : (TimeSpan.FromHours(24) - horaDormida + horaDespertar);
-
-            if (duracionSueño.TotalHours < 3)
+            if (horaDormida < 3)
                 puntosExaltado++;
-            else if (duracionSueño.TotalHours > 10)
+            else if (horaDormida > 10)
                 puntosInhibido++;
         }
 
