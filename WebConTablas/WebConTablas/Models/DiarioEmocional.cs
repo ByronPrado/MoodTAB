@@ -6,7 +6,7 @@ namespace WebConTablas.Models
     {
         public int ID_Diario { get; set; }
         public int ID_Paciente { get; set; }
-        public Paciente Paciente { get; set; }
+        public Paciente? Paciente { get; set; }
         public DateTime Fecha { get; set; }
         public string? Emociones { get; set; }
         public string? Descripcion { get; set; }

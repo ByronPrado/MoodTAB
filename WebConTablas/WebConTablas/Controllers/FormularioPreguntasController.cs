@@ -10,9 +10,25 @@ public class FormularioPreguntasController : Controller
     // GET: FormularioPreguntas/Asignar/5
     public IActionResult Asignar(int id)
     {
-        var formulario = _context.Formularios.Find(id);
+        var formulario = _context.Formularios
+            .Include(f => f.Preguntas)
+            .FirstOrDefault(f => f.ID_Formulario == id);
+
+        if (formulario == null)
+        {
+            return NotFound(); // O puedes mostrar una vista de error personalizada
+        }
+
+        // Obtén los IDs de las preguntas ya asignadas
+        var preguntasAsignadasIds = formulario.Preguntas.Select(fp => fp.ID_Pregunta).ToList();
+
+        // Filtra las preguntas para mostrar solo las NO asignadas
+        var preguntasNoAsignadas = _context.Preguntas
+            .Where(p => !preguntasAsignadasIds.Contains(p.ID_Pregunta))
+            .ToList();
+
         ViewBag.Formulario = formulario;
-        ViewBag.Preguntas = _context.Preguntas.ToList();
+        ViewBag.Preguntas = preguntasNoAsignadas;
         return View();
     }
 
@@ -34,5 +50,20 @@ public class FormularioPreguntasController : Controller
         }
         await _context.SaveChangesAsync();
         return RedirectToAction("Index", "Formularios");
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Desasignar(int formularioId, int preguntaId)
+    {
+        var relacion = await _context.FormularioPreguntas
+            .FirstOrDefaultAsync(fp => fp.ID_Formulario == formularioId && fp.ID_Pregunta == preguntaId);
+
+        if (relacion != null)
+        {
+            _context.FormularioPreguntas.Remove(relacion);
+            await _context.SaveChangesAsync();
+        }
+        return RedirectToAction("Details", "Formularios", new { id = formularioId });
     }
 }

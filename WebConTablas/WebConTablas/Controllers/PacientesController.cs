@@ -25,11 +25,14 @@ public class PacientesController : Controller
         }
 
         var pacientes = await _context.Pacientes
-            .Where(p => p.ID_Psiquiatra == idPsiquiatra)
-            .Include(p => p.DiariosEmocionales)
-            .Include(p => p.FormulariosAsignados)
-                .ThenInclude(fa => fa.Formulario)
-            .ToListAsync();
+        .Where(p => p.ID_Psiquiatra == idPsiquiatra)
+        .Include(p => p.DiariosEmocionales)
+        .Include(p => p.FormulariosAsignados)
+            .ThenInclude(fa => fa.Formulario)
+        .Include(p => p.FormulariosAsignados)
+            .ThenInclude(fa => fa.Respuestas)
+                .ThenInclude(r => r.Pregunta)
+        .ToListAsync();
 
         return View(pacientes);
     }
@@ -47,34 +50,6 @@ public class PacientesController : Controller
             return NotFound();
         return View(paciente);
     }
-
-    public async Task<IActionResult> Details(int id)
-    {
-        var idPsiquiatra = HttpContext.Session.GetInt32("PsiquiatraId");
-
-        if (idPsiquiatra == null)
-        {
-            return RedirectToAction("Login", "Psiquiatras");
-        }
-
-        // Busca el paciente específico, asegurándote que pertenece al psiquiatra
-        // e incluye sus diarios emocionales.
-        var paciente = await _context.Pacientes
-            .Where(p => p.ID_Paciente == id && p.ID_Psiquiatra == idPsiquiatra)
-            .Include(p => p.DiariosEmocionales)
-            .FirstOrDefaultAsync();
-
-        if (paciente == null)
-        {
-            // Si no se encuentra el paciente (o no pertenece al psiquiatra),
-            // retorna un error 404.
-            return NotFound();
-        }
-
-        // Pasa el objeto paciente a la nueva vista "Details.cshtml"
-        return View(paciente);
-    }
-
 
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -147,4 +122,33 @@ public class PacientesController : Controller
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
+
+        public async Task<IActionResult> Details(int id)
+    {
+        var idPsiquiatra = HttpContext.Session.GetInt32("PsiquiatraId");
+
+        if (idPsiquiatra == null)
+        {
+            return RedirectToAction("Login", "Psiquiatras");
+        }
+
+        // Busca el paciente específico, asegurándote que pertenece al psiquiatra
+        // e incluye sus diarios emocionales.
+        var paciente = await _context.Pacientes
+            .Where(p => p.ID_Paciente == id && p.ID_Psiquiatra == idPsiquiatra)
+            .Include(p => p.DiariosEmocionales)
+            .FirstOrDefaultAsync();
+
+        if (paciente == null)
+        {
+            // Si no se encuentra el paciente (o no pertenece al psiquiatra),
+            // retorna un error 404.
+            return NotFound();
+        }
+
+        // Pasa el objeto paciente a la nueva vista "Details.cshtml"
+        return View(paciente);
+    }
+
+
 }
