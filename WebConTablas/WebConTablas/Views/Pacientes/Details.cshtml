@@ -1,0 +1,272 @@
+@model WebConTablas.Models.Paciente
+@using System.Text.Json;
+@{
+    ViewData["Title"] = "Detalles del Paciente";
+}
+
+<div id="reporte-contenido">
+    <h2>Detalles de: @Model.Nombre</h2>
+    <hr />
+
+    <div>
+        <h4>Información General</h4>
+        <dl class="row">
+            <dt class="col-sm-2">ID</dt>
+            <dd class="col-sm-10">@Model.ID_Paciente</dd>
+            <dt class="col-sm-2">Diagnóstico</dt>
+            <dd class="col-sm-10">@Model.Diagnostico</dd>
+            <dt class="col-sm-2">Edad</dt>
+            <dd class="col-sm-10">@Model.Edad</dd>
+            <dt class="col-sm-2">Sexo</dt>
+            <dd class="col-sm-10">@Model.Sexo</dd>
+            <dt class="col-sm-2">Email</dt>
+            <dd class="col-sm-10">@Model.Email</dd>
+            <dt class="col-sm-2">Teléfono</dt>
+            <dd class="col-sm-10">@Model.Telefono</dd>
+        </dl>
+    </div>
+
+    <div class="mt-4">
+        <h4>Diarios Emocionales</h4>
+
+        <!-- Contenedor para los gráficos -->
+        <div class="row">
+            <!-- Gráfico de Pasos -->
+            @if (Model.DiariosEmocionales != null && Model.DiariosEmocionales.Any(d => d.Pasos.HasValue))
+            {
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Gráfico de Pasos (Últimos 7 días)</h5>
+                            <canvas id="pasosChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <!-- Gráfico Horas de Celular -->
+            @if (Model.DiariosEmocionales != null && Model.DiariosEmocionales.Any(d => d.Horas_celular.HasValue))
+            {
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Gráfico de Horas de Celular (Últimos 7 días)</h5>
+                            <canvas id="celularChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <!-- Gráfico Horas Redes Sociales -->
+            @if (Model.DiariosEmocionales != null && Model.DiariosEmocionales.Any(d => d.Horas_redes.HasValue))
+            {
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Gráfico de Horas en Redes Sociales (Últimos 7 días)</h5>
+                            <canvas id="redesChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <!-- Gráfico Estados de Ánimo -->
+            @if (Model.DiariosEmocionales != null && Model.DiariosEmocionales.Any())
+            {
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Distribución de Estados (Últimos 7 días)</h5>
+                            <canvas id="estadosChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        @if (Model.DiariosEmocionales != null && Model.DiariosEmocionales.Any())
+        {
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Emociones</th>
+                        <th>Descripción</th>
+                        <th>Pasos</th>
+                        <th>Horas Celular</th>
+                        <th>Horas Redes</th>
+                        <th>Hora Dormida</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var d in Model.DiariosEmocionales.OrderByDescending(d => d.Fecha))
+                    {
+                        <tr>
+                            <td>@d.Fecha.ToShortDateString()</td>
+                            @{
+                                string emocionesStr = "N/A";
+                                try
+                                {
+                                    if (!string.IsNullOrEmpty(d.Emociones))
+                                    {
+                                        var emocionesDict = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, int>>(d.Emociones);
+                                        emocionesStr = string.Join(", ", emocionesDict.Keys);
+                                    }
+                                }
+                                catch { }
+                            }
+                            <td>@emocionesStr</td>
+                            <td>@d.Descripcion</td>
+                            <td>@d.Pasos</td>
+                            <td>@d.Horas_celular</td>
+                            <td>@d.Horas_redes</td>
+                            <td>@d.Hora_dormida</td>
+                            <td>
+                                <span class="badge 
+                                    @(d.Estado == "exitado" ? "bg-success" : d.Estado == "inhibido" ? "bg-danger" : "bg-secondary")">
+                                    @d.Estado
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p class="text-muted">No hay diarios emocionales registrados para este paciente.</p>
+        }
+    </div>
+</div>
+
+<div class="mt-3">
+    <!-- Botón para descargar el PDF -->
+    <button id="btnDescargarPdf" class="btn btn-success">Descargar Reporte (PDF)</button>
+    <a href="@Url.Action("Index", "Pacientes")" class="btn btn-secondary">Volver a la lista</a>
+</div>
+
+
+@section Scripts {
+    <!-- 1. Incluimos las librerías jsPDF y Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            
+            // Objeto para guardar las instancias de los gráficos y poder acceder a ellas después
+            let myCharts = {}; 
+            
+            // --- Bloque de C# para preparar TODOS los datos ---
+            @{
+                var diariosConPasos = Model.DiariosEmocionales.Where(d => d.Pasos.HasValue).OrderByDescending(d => d.Fecha).Take(7).OrderBy(d => d.Fecha).ToList();
+                var labelsPasosList = diariosConPasos.Select(d => d.Fecha.ToString("dd/MM"));
+                var dataPasosList = diariosConPasos.Select(d => d.Pasos.Value);
+
+                var diariosConCelular = Model.DiariosEmocionales.Where(d => d.Horas_celular.HasValue).OrderByDescending(d => d.Fecha).Take(7).OrderBy(d => d.Fecha).ToList();
+                var labelsCelularList = diariosConCelular.Select(d => d.Fecha.ToString("dd/MM"));
+                var dataCelularList = diariosConCelular.Select(d => d.Horas_celular.Value);
+
+                var diariosConRedes = Model.DiariosEmocionales.Where(d => d.Horas_redes.HasValue).OrderByDescending(d => d.Fecha).Take(7).OrderBy(d => d.Fecha).ToList();
+                var labelsRedesList = diariosConRedes.Select(d => d.Fecha.ToString("dd/MM"));
+                var dataRedesList = diariosConRedes.Select(d => d.Horas_redes.Value);
+
+                var ultimosSieteDiarios = Model.DiariosEmocionales.OrderByDescending(d => d.Fecha).Take(7).ToList();
+                decimal totalRegistros = ultimosSieteDiarios.Count;
+                decimal porcentajeInhibido = 0;
+                decimal porcentajeExitado = 0;
+                decimal porcentajeOtro = 0;
+
+                if (totalRegistros > 0)
+                {
+                    decimal countInhibido = ultimosSieteDiarios.Count(d => d.Estado == "inhibido");
+                    decimal countExitado = ultimosSieteDiarios.Count(d => d.Estado == "exitado");
+                    
+                    porcentajeInhibido = Math.Round((countInhibido / totalRegistros) * 100, 1);
+                    porcentajeExitado = Math.Round((countExitado / totalRegistros) * 100, 1);
+                    porcentajeOtro = 100 - porcentajeInhibido - porcentajeExitado;
+                }
+
+                var labelsEstadosList = new List<string> { "Inhibido", "Exitado", "Otro" };
+                var dataEstadosList = new List<decimal> { porcentajeInhibido, porcentajeExitado, porcentajeOtro };
+            }
+            
+            // Función auxiliar para crear un gráfico y guardarlo en nuestro objeto
+            function createAndStoreChart(canvasId, config) {
+                if (myCharts[canvasId]) {
+                    myCharts[canvasId].destroy();
+                }
+                const ctx = document.getElementById(canvasId).getContext('2d');
+                myCharts[canvasId] = new Chart(ctx, config);
+            }
+
+            // --- Creación de Gráficos ---
+            if (document.getElementById('pasosChart')) {
+                createAndStoreChart('pasosChart', { type: 'bar', data: { labels: @Html.Raw(Json.Serialize(labelsPasosList)), datasets: [{ label: 'Pasos realizados', data: @Html.Raw(Json.Serialize(dataPasosList)), backgroundColor: 'rgba(54, 162, 235, 0.6)' }] }, options: { animation: false, scales: { y: { beginAtZero: true, title: { display: true, text: 'Cantidad de Pasos' } } }, plugins: { legend: { display: false } } } });
+            }
+            if (document.getElementById('celularChart')) {
+                 createAndStoreChart('celularChart', { type: 'line', data: { labels: @Html.Raw(Json.Serialize(labelsCelularList)), datasets: [{ label: 'Horas de uso', data: @Html.Raw(Json.Serialize(dataCelularList)), fill: false, borderColor: 'rgb(255, 99, 132)', tension: 0.1 }] }, options: { animation: false, scales: { y: { beginAtZero: true, title: { display: true, text: 'Horas de Uso' } } }, plugins: { legend: { display: false } } } });
+            }
+            if (document.getElementById('redesChart')) {
+                 createAndStoreChart('redesChart', { type: 'line', data: { labels: @Html.Raw(Json.Serialize(labelsRedesList)), datasets: [{ label: 'Horas en redes', data: @Html.Raw(Json.Serialize(dataRedesList)), fill: false, borderColor: 'rgb(75, 192, 192)', tension: 0.1 }] }, options: { animation: false, scales: { y: { beginAtZero: true, title: { display: true, text: 'Horas de Uso' } } }, plugins: { legend: { display: false } } } });
+            }
+            if (document.getElementById('estadosChart')) {
+                 createAndStoreChart('estadosChart', { type: 'doughnut', data: { labels: @Html.Raw(Json.Serialize(labelsEstadosList)), datasets: [{ label: 'Distribución de Estados', data: @Html.Raw(Json.Serialize(dataEstadosList)), backgroundColor: ['rgba(255, 99, 132, 0.7)', 'rgba(75, 192, 192, 0.7)', 'rgba(201, 203, 207, 0.7)'] }] }, options: { animation: false, responsive: true, plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: function(c) { return `${c.label}: ${c.parsed}%`; } } } } } });
+            }
+
+
+            // --- Lógica para Generar el PDF ---
+            const btnDescargar = document.getElementById('btnDescargarPdf');
+            btnDescargar.addEventListener('click', async function() {
+                btnDescargar.disabled = true;
+                btnDescargar.innerText = 'Generando...';
+
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF({
+                    orientation: 'p',
+                    unit: 'mm',
+                    format: 'a4'
+                });
+
+                // 1. Título
+                doc.setFontSize(18);
+                doc.text('Reporte de Seguimiento del Paciente', 105, 20, { align: 'center' });
+
+                // 2. Información del paciente
+                doc.setFontSize(12);
+                doc.text(`Nombre: @Html.Raw(Model.Nombre.Replace("'", "\\'"))`, 15, 40);
+                doc.text(`Diagnóstico: @Html.Raw((Model.Diagnostico ?? "N/A").Replace("'", "\\'"))`, 15, 50);
+                doc.text(`Edad: @Model.Edad años`, 15, 60);
+
+                // 3. Gráficos
+                const chartIds = ['pasosChart', 'celularChart', 'redesChart', 'estadosChart'];
+                let yPosition = 80;
+
+                for (const id of chartIds) {
+                    if (myCharts[id]) {
+                        const chartImage = myCharts[id].toBase64Image();
+                        
+                        doc.setFontSize(14);
+                        doc.text(document.getElementById(id).previousElementSibling.innerText, 15, yPosition - 5);
+                        doc.addImage(chartImage, 'PNG', 15, yPosition, 180, 90);
+                        
+                        yPosition += 110;
+
+                        if (yPosition > 250 && chartIds.indexOf(id) < chartIds.length -1) {
+                            doc.addPage();
+                            yPosition = 20;
+                        }
+                    }
+                }
+                
+                // 4. Guardar
+                const fecha = new Date().toISOString().slice(0, 10);
+                doc.save(`Reporte-@Html.Raw(Model.Nombre.Replace(" ", "_").Replace("'", ""))-${fecha}.pdf`);
+                
+                btnDescargar.disabled = false;
+                btnDescargar.innerText = 'Descargar Reporte (PDF)';
+            });
+        });
+    </script>
+}

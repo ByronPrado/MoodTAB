@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using WebConTablas.Models;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
 
 public class PacientesController : Controller
 {
@@ -121,4 +122,33 @@ public class PacientesController : Controller
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
+
+        public async Task<IActionResult> Details(int id)
+    {
+        var idPsiquiatra = HttpContext.Session.GetInt32("PsiquiatraId");
+
+        if (idPsiquiatra == null)
+        {
+            return RedirectToAction("Login", "Psiquiatras");
+        }
+
+        // Busca el paciente específico, asegurándote que pertenece al psiquiatra
+        // e incluye sus diarios emocionales.
+        var paciente = await _context.Pacientes
+            .Where(p => p.ID_Paciente == id && p.ID_Psiquiatra == idPsiquiatra)
+            .Include(p => p.DiariosEmocionales)
+            .FirstOrDefaultAsync();
+
+        if (paciente == null)
+        {
+            // Si no se encuentra el paciente (o no pertenece al psiquiatra),
+            // retorna un error 404.
+            return NotFound();
+        }
+
+        // Pasa el objeto paciente a la nueva vista "Details.cshtml"
+        return View(paciente);
+    }
+
+
 }
