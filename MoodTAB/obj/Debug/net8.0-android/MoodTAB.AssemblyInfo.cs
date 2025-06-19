@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MoodTAB")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+0ee3ee9304eae8dac82fd2f3e2503d9949c7fda2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+72ab354390706155f695fe5651a7f40275978c04")]
 [assembly: System.Reflection.AssemblyProductAttribute("MoodTAB")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MoodTAB")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

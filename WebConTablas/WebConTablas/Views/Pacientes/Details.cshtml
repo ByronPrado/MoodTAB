@@ -124,7 +124,7 @@
                             <td>@d.Hora_dormida</td>
                             <td>
                                 <span class="badge 
-                                    @(d.Estado == "exitado" ? "bg-success" : d.Estado == "inhibido" ? "bg-danger" : "bg-secondary")">
+                                    @(d.Estado == "exaltado" ? "bg-success" : d.Estado == "inhibido" ? "bg-danger" : "bg-secondary")">
                                     @d.Estado
                                 </span>
                             </td>
@@ -175,21 +175,21 @@
                 var ultimosSieteDiarios = Model.DiariosEmocionales.OrderByDescending(d => d.Fecha).Take(7).ToList();
                 decimal totalRegistros = ultimosSieteDiarios.Count;
                 decimal porcentajeInhibido = 0;
-                decimal porcentajeExitado = 0;
+                decimal porcentajeExaltado = 0;
                 decimal porcentajeOtro = 0;
 
                 if (totalRegistros > 0)
                 {
                     decimal countInhibido = ultimosSieteDiarios.Count(d => d.Estado == "inhibido");
-                    decimal countExitado = ultimosSieteDiarios.Count(d => d.Estado == "exitado");
+                    decimal countExaltado = ultimosSieteDiarios.Count(d => d.Estado == "exaltado");
                     
                     porcentajeInhibido = Math.Round((countInhibido / totalRegistros) * 100, 1);
-                    porcentajeExitado = Math.Round((countExitado / totalRegistros) * 100, 1);
-                    porcentajeOtro = 100 - porcentajeInhibido - porcentajeExitado;
+                    porcentajeExaltado = Math.Round((countExaltado / totalRegistros) * 100, 1);
+                    porcentajeOtro = 100 - porcentajeInhibido - porcentajeExaltado;
                 }
 
-                var labelsEstadosList = new List<string> { "Inhibido", "Exitado", "Otro" };
-                var dataEstadosList = new List<decimal> { porcentajeInhibido, porcentajeExitado, porcentajeOtro };
+                var labelsEstadosList = new List<string> { "Inhibido", "Exaltado", "Otro" };
+                var dataEstadosList = new List<decimal> { porcentajeInhibido, porcentajeExaltado, porcentajeOtro };
             }
             
             // Función auxiliar para crear un gráfico y guardarlo en nuestro objeto

@@ -15,7 +15,7 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = MoodTAB
-build_property.ProjectDir = C:\Users\munoz\OneDrive\Escritorio\Universidad\Feria\MoodTAB\MoodTAB\
+build_property.ProjectDir = C:\Users\PC RST\Documents\GitHub\MoodTAB\MoodTAB\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.CsWinRTAotExportsEnabled = 
@@ -23,80 +23,83 @@ build_property.CsWinRTRcwFactoryFallbackGeneratorForceOptIn =
 build_property.CsWinRTRcwFactoryFallbackGeneratorForceOptOut = 
 build_property.CsWinRTCcwLookupTableGeneratorEnabled = true
 build_property.CsWinRTMergeReferencedActivationFactories = 
+build_property.CsWinRTUseWindowsUIXamlProjections = false
+build_property.EffectiveAnalysisLevelStyle = 8.0
+build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/munoz/OneDrive/Escritorio/Universidad/Feria/MoodTAB/MoodTAB/App.xaml]
+[C:/Users/PC RST/Documents/GitHub/MoodTAB/MoodTAB/App.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.App.xaml
 build_metadata.AdditionalFiles.TargetPath = App.xaml
 build_metadata.AdditionalFiles.RelativePath = App.xaml
 
-[C:/Users/munoz/OneDrive/Escritorio/Universidad/Feria/MoodTAB/MoodTAB/AppShell.xaml]
+[C:/Users/PC RST/Documents/GitHub/MoodTAB/MoodTAB/AppShell.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.AppShell.xaml
 build_metadata.AdditionalFiles.TargetPath = AppShell.xaml
 build_metadata.AdditionalFiles.RelativePath = AppShell.xaml
 
-[C:/Users/munoz/OneDrive/Escritorio/Universidad/Feria/MoodTAB/MoodTAB/Controls/FlyoutFooter.xaml]
+[C:/Users/PC RST/Documents/GitHub/MoodTAB/MoodTAB/Controls/FlyoutFooter.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.Controls.FlyoutFooter.xaml
 build_metadata.AdditionalFiles.TargetPath = Controls\FlyoutFooter.xaml
 build_metadata.AdditionalFiles.RelativePath = Controls\FlyoutFooter.xaml
 
-[C:/Users/munoz/OneDrive/Escritorio/Universidad/Feria/MoodTAB/MoodTAB/Controls/FlyoutHeader.xaml]
+[C:/Users/PC RST/Documents/GitHub/MoodTAB/MoodTAB/Controls/FlyoutHeader.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.Controls.FlyoutHeader.xaml
 build_metadata.AdditionalFiles.TargetPath = Controls\FlyoutHeader.xaml
 build_metadata.AdditionalFiles.RelativePath = Controls\FlyoutHeader.xaml
 
-[C:/Users/munoz/OneDrive/Escritorio/Universidad/Feria/MoodTAB/MoodTAB/Resources/Styles/Colors.xaml]
+[C:/Users/PC RST/Documents/GitHub/MoodTAB/MoodTAB/Resources/Styles/Colors.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.Resources.Styles.Colors.xaml
 build_metadata.AdditionalFiles.TargetPath = Resources\Styles\Colors.xaml
 build_metadata.AdditionalFiles.RelativePath = Resources\Styles\Colors.xaml
 
-[C:/Users/munoz/OneDrive/Escritorio/Universidad/Feria/MoodTAB/MoodTAB/Resources/Styles/Styles.xaml]
+[C:/Users/PC RST/Documents/GitHub/MoodTAB/MoodTAB/Resources/Styles/Styles.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.Resources.Styles.Styles.xaml
 build_metadata.AdditionalFiles.TargetPath = Resources\Styles\Styles.xaml
 build_metadata.AdditionalFiles.RelativePath = Resources\Styles\Styles.xaml
 
-[C:/Users/munoz/OneDrive/Escritorio/Universidad/Feria/MoodTAB/MoodTAB/Vistas/AddPreguntaPage.xaml]
+[C:/Users/PC RST/Documents/GitHub/MoodTAB/MoodTAB/Vistas/AddPreguntaPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.Vistas.AddPreguntaPage.xaml
 build_metadata.AdditionalFiles.TargetPath = Vistas\AddPreguntaPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Vistas\AddPreguntaPage.xaml
 
-[C:/Users/munoz/OneDrive/Escritorio/Universidad/Feria/MoodTAB/MoodTAB/Vistas/CuestionarioPage.xaml]
+[C:/Users/PC RST/Documents/GitHub/MoodTAB/MoodTAB/Vistas/CuestionarioPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.Vistas.CuestionarioPage.xaml
 build_metadata.AdditionalFiles.TargetPath = Vistas\CuestionarioPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Vistas\CuestionarioPage.xaml
 
-[C:/Users/munoz/OneDrive/Escritorio/Universidad/Feria/MoodTAB/MoodTAB/Vistas/DataBasePage.xaml]
+[C:/Users/PC RST/Documents/GitHub/MoodTAB/MoodTAB/Vistas/DataBasePage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.Vistas.DataBasePage.xaml
 build_metadata.AdditionalFiles.TargetPath = Vistas\DataBasePage.xaml
 build_metadata.AdditionalFiles.RelativePath = Vistas\DataBasePage.xaml
 
-[C:/Users/munoz/OneDrive/Escritorio/Universidad/Feria/MoodTAB/MoodTAB/Vistas/DiarioPage.xaml]
+[C:/Users/PC RST/Documents/GitHub/MoodTAB/MoodTAB/Vistas/DiarioPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.Vistas.DiarioPage.xaml
 build_metadata.AdditionalFiles.TargetPath = Vistas\DiarioPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Vistas\DiarioPage.xaml
 
-[C:/Users/munoz/OneDrive/Escritorio/Universidad/Feria/MoodTAB/MoodTAB/Vistas/HealthDataPage.xaml]
+[C:/Users/PC RST/Documents/GitHub/MoodTAB/MoodTAB/Vistas/HealthDataPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.Vistas.HealthDataPage.xaml
 build_metadata.AdditionalFiles.TargetPath = Vistas\HealthDataPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Vistas\HealthDataPage.xaml
 
-[C:/Users/munoz/OneDrive/Escritorio/Universidad/Feria/MoodTAB/MoodTAB/Vistas/MainPage.xaml]
+[C:/Users/PC RST/Documents/GitHub/MoodTAB/MoodTAB/Vistas/MainPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.Vistas.MainPage.xaml
 build_metadata.AdditionalFiles.TargetPath = Vistas\MainPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Vistas\MainPage.xaml
 
-[C:/Users/munoz/OneDrive/Escritorio/Universidad/Feria/MoodTAB/MoodTAB/Vistas/TestPage.xaml]
+[C:/Users/PC RST/Documents/GitHub/MoodTAB/MoodTAB/Vistas/TestPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.Vistas.TestPage.xaml
 build_metadata.AdditionalFiles.TargetPath = Vistas\TestPage.xaml

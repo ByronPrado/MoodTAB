@@ -1,21 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\munoz\\OneDrive\\Escritorio\\Universidad\\Feria\\MoodTAB\\MoodTAB\\MoodTAB.csproj": {}
+    "C:\\Users\\PC RST\\Documents\\GitHub\\MoodTAB\\MoodTAB\\MoodTAB.csproj": {}
   },
   "projects": {
-    "C:\\Users\\munoz\\OneDrive\\Escritorio\\Universidad\\Feria\\MoodTAB\\MoodTAB\\MoodTAB.csproj": {
+    "C:\\Users\\PC RST\\Documents\\GitHub\\MoodTAB\\MoodTAB\\MoodTAB.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\munoz\\OneDrive\\Escritorio\\Universidad\\Feria\\MoodTAB\\MoodTAB\\MoodTAB.csproj",
+        "projectUniqueName": "C:\\Users\\PC RST\\Documents\\GitHub\\MoodTAB\\MoodTAB\\MoodTAB.csproj",
         "projectName": "MoodTAB",
-        "projectPath": "C:\\Users\\munoz\\OneDrive\\Escritorio\\Universidad\\Feria\\MoodTAB\\MoodTAB\\MoodTAB.csproj",
-        "packagesPath": "C:\\Users\\munoz\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\munoz\\OneDrive\\Escritorio\\Universidad\\Feria\\MoodTAB\\MoodTAB\\obj\\",
+        "projectPath": "C:\\Users\\PC RST\\Documents\\GitHub\\MoodTAB\\MoodTAB\\MoodTAB.csproj",
+        "packagesPath": "C:\\Users\\PC RST\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\PC RST\\Documents\\GitHub\\MoodTAB\\MoodTAB\\obj\\",
         "projectStyle": "PackageReference",
         "crossTargeting": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\munoz\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\PC RST\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0-android",
@@ -24,6 +29,7 @@
           "net8.0-windows10.0.19041.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
@@ -54,7 +60,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0-android34.0": {
@@ -79,7 +86,7 @@
             "Microsoft.NET.ILLink.Tasks": {
               "suppressParent": "All",
               "target": "Package",
-              "version": "[8.0.15, )",
+              "version": "[8.0.17, )",
               "autoReferenced": true
             },
             "sqlite-net-pcl": {
@@ -106,7 +113,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.408/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
         },
         "net8.0-ios18.0": {
           "targetAlias": "net8.0-ios",
@@ -130,7 +137,7 @@
             "Microsoft.NET.ILLink.Tasks": {
               "suppressParent": "All",
               "target": "Package",
-              "version": "[8.0.15, )",
+              "version": "[8.0.17, )",
               "autoReferenced": true
             },
             "sqlite-net-pcl": {
@@ -149,6 +156,16 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.iOS.Ref.net8.0_18.0",
+              "version": "[18.0.8324, 18.0.8324]"
+            },
+            {
+              "name": "Microsoft.iOS.Runtime.iossimulator-x64.net8.0_18.0",
+              "version": "[18.0.8324, 18.0.8324]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.iOS": {
               "privateAssets": "all"
@@ -157,7 +174,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.408/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
         },
         "net8.0-maccatalyst18.0": {
           "targetAlias": "net8.0-maccatalyst",
@@ -181,7 +198,7 @@
             "Microsoft.NET.ILLink.Tasks": {
               "suppressParent": "All",
               "target": "Package",
-              "version": "[8.0.15, )",
+              "version": "[8.0.17, )",
               "autoReferenced": true
             },
             "sqlite-net-pcl": {
@@ -201,6 +218,16 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.MacCatalyst.Ref.net8.0_18.0",
+              "version": "[18.0.8324, 18.0.8324]"
+            },
+            {
+              "name": "Microsoft.MacCatalyst.Runtime.maccatalyst-x64.net8.0_18.0",
+              "version": "[18.0.8324, 18.0.8324]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.MacCatalyst": {
               "privateAssets": "all"
@@ -209,7 +236,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.408/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
         },
         "net8.0-windows10.0.19041": {
           "targetAlias": "net8.0-windows10.0.19041.0",
@@ -249,18 +276,18 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.Windows.SDK.NET.Ref",
-              "version": "[10.0.19041.56, 10.0.19041.56]"
+              "version": "[10.0.19041.57, 10.0.19041.57]"
             }
           ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             },
-            "Microsoft.Windows.SDK.NET.Ref": {
+            "Microsoft.Windows.SDK.NET.Ref.Windows": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.408\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301\\RuntimeIdentifierGraph.json"
         }
       },
       "runtimes": {
