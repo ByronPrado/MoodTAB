@@ -1,0 +1,33 @@
+@model IEnumerable<WebConTablas.Models.FormularioAsignado>
+
+<h2>Formularios Asignados</h2>
+<a href="/FormulariosAsignados/Asignar" class="btn btn-primary mb-3">Asignar nuevo formulario</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Paciente</th>
+            <th>Formulario</th>
+            <th>Fecha Asignación</th>
+            <th>Fecha Límite</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var fa in Model)
+        {
+            <tr>
+                <td>@fa.Paciente?.Nombre</td>
+                <td>@fa.Formulario?.Titulo</td>
+                <td>@fa.Fecha_Asignacion.ToShortDateString()</td>
+                <td>@fa.Fecha_Limite?.ToShortDateString()</td>
+                <td>@fa.Estado</td>
+                <td>
+                    <form asp-action="Delete" asp-route-id="@fa.ID_Asignacion" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar esta asignación?');">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

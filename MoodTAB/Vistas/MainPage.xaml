@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModel="clr-namespace:MoodTAB.ViewModel" 
+             x:Class="MoodTAB.Vistas.MainPage">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+            <Label
+                Text="{Binding Title}"
+                SemanticProperties.HeadingLevel="Level1" />
+            <Label
+                Text="{Binding TitleApi}"
+                SemanticProperties.HeadingLevel="Level1" />    
+            <Image
+                Source="mt.png"
+                SemanticProperties.HeadingLevel="Level1"
+                HorizontalOptions="Center" />
+
+
+            <Button
+                Text="test" 
+                Command="{Binding MovetoPageCommand}"
+                CommandParameter="Test"
+                HorizontalOptions="Fill" 
+                BackgroundColor="green"/>
+             <Button
+                Text="Cuestionario" 
+                Command="{Binding MovetoPageCommand}"
+                CommandParameter="Cuestionario"
+                HorizontalOptions="Fill" 
+                BackgroundColor="blue"/>
+
+                         <Button
+                Text="DIARIO" 
+                Command="{Binding MovetoPageCommand}"
+                CommandParameter="Diario"
+                HorizontalOptions="Fill" 
+                BackgroundColor="cyan"/>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

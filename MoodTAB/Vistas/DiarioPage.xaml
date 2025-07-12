@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MoodTAB.Vistas.DiarioPage"
+            >
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label Text="¿Cómo te sentiste hoy?" FontSize="16" FontAttributes="Bold" />
+            <Label Text="Seleccione las emociones que sintió hoy, seleccione de nuevo para quitarla del listado" FontSize="12"/>
+
+            <Grid ColumnSpacing="5" RowSpacing="5"
+                RowDefinitions="*,*,*"
+                ColumnDefinitions="Auto,Auto,Auto"
+                HorizontalOptions="Center"
+                >
+
+                <Button Text="😊Feliz"      Margin="0,0,0,0" FontSize="12" Grid.Row="0" Grid.Column="0" CommandParameter="Feliz" Command="{Binding SeleccionarEmocionCommand}"   BackgroundColor="{Binding ColorFeliz}"/>
+                <Button Text="😢Triste"     Margin="0,0,0,0" FontSize="12" Grid.Row="1" Grid.Column="0" CommandParameter="Triste" Command="{Binding SeleccionarEmocionCommand}"  BackgroundColor="{Binding ColorTriste}"/>
+                <Button Text="😑Neutro"     Margin="0,0,0,0" FontSize="12" Grid.Row="2" Grid.Column="0" CommandParameter="Neutro" Command="{Binding SeleccionarEmocionCommand}"  BackgroundColor="{Binding ColorNeutro}"/>
+                <Button Text="😃Emocionado" Margin="0,0,0,0" FontSize="12" Grid.Row="0" Grid.Column="1" CommandParameter="Emocionado" Command="{Binding SeleccionarEmocionCommand}" BackgroundColor="{Binding ColorEmocionado}"/>
+                <Button Text="😖Frustrado"  Margin="0,0,0,0" FontSize="12" Grid.Row="1" Grid.Column="1" CommandParameter="Frustrado" Command="{Binding SeleccionarEmocionCommand}" BackgroundColor="{Binding ColorFrustrado}"/>
+                <Button Text="😰Angustiado" Margin="0,0,0,0" FontSize="12" Grid.Row="2" Grid.Column="1" CommandParameter="Angustiado" Command="{Binding SeleccionarEmocionCommand}" BackgroundColor="{Binding ColorAngustiado}"/>
+                <Button Text="😪Cansado"    Margin="0,0,0,0" FontSize="12" Grid.Row="0" Grid.Column="2" CommandParameter="Cansado" Command="{Binding SeleccionarEmocionCommand}" BackgroundColor="{Binding ColorCansado}"/>
+                <Button Text="😠Enojado"    Margin="0,0,0,0" FontSize="12" Grid.Row="1" Grid.Column="2" CommandParameter="Enojado" Command="{Binding SeleccionarEmocionCommand}" BackgroundColor="{Binding ColorEnojado}"/>
+                <Button Text="🫨Ansioso"    Margin="0,0,0,0" FontSize="12" Grid.Row="2" Grid.Column="2" CommandParameter="Ansioso" Command="{Binding SeleccionarEmocionCommand}" BackgroundColor="{Binding ColorAnsioso}"/>
+            </Grid>
+
+            <!--CollectionView ItemsSource="{Binding EmocionDiaria}"
+                ItemsLayout="VerticalGrid, 3"
+                HorizontalOptions="Center">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BorderColor="LightGray" Padding="10" Margin="5">
+                            <HorizontalStackLayout>
+                                <Label Text="{Binding .}" FontSize="10"/>
+                            </HorizontalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView-->
+
+            <Entry Placeholder="Describa su día" Text="{Binding DescDia}"/>
+
+            <Grid ColumnSpacing="10" RowSpacing="10"
+                RowDefinitions="*,*,*,*,*"
+                ColumnDefinitions="*,*"
+                HorizontalOptions="Center"
+                >
+                <Label Text="Pasos dados hoy:"       Padding="-30,0,0,0" Grid.Row="0" Grid.Column="0" FontSize="14" FontAttributes="Bold" />
+                <Label Text="Uso de celular:"        Padding="-30,0,0,0" Grid.Row="1" Grid.Column="0" FontSize="14" FontAttributes="Bold" />
+                <Label Text="Uso de redes sociales:" Padding="-30,0,0,0" Grid.Row="2" Grid.Column="0" FontSize="14" FontAttributes="Bold" />
+                <Label Text="Horas de Youtube:"      Padding="-30,0,0,0" Grid.Row="3" Grid.Column="0" FontSize="14" FontAttributes="Bold" />
+                <Label Text="Horas de sueño:"        Padding="-30,10,0,0" Grid.Row="4" Grid.Column="0" FontSize="14" FontAttributes="Bold" />
+
+                <Label Text="{Binding CantidadPasos}"                            Grid.Row="0" Grid.Column="1" FontSize="14" FontAttributes="Bold" />
+                <Label Text="{Binding HorasCelular, StringFormat='{0:F1} hrs'}"  Grid.Row="1" Grid.Column="1" FontSize="14" FontAttributes="Bold" />
+                <Label Text="{Binding HorasRedes, StringFormat='{0:F1} hrs'}"    Grid.Row="2" Grid.Column="1" FontSize="14" FontAttributes="Bold" />
+                <Label Text="{Binding HorasYT, StringFormat='{0:F1} hrs'}"       Grid.Row="3" Grid.Column="1" FontSize="14" FontAttributes="Bold" />
+                <Grid ColumnSpacing="10" RowSpacing="10"
+                    RowDefinitions="*"
+                    ColumnDefinitions="30,*"
+                    HorizontalOptions="Center"
+                    Grid.Row="4" Grid.Column="1"
+                    Padding="-5,-10,0,0"
+                    >
+                <Entry Text="{Binding HorasSueno}" Grid.Column="0" FontSize="14" FontAttributes="Bold" Keyboard="Numeric"/>
+                <Label Text="hrs"                  Grid.Column="1" FontSize="14" FontAttributes="Bold" Padding="-10,15,0,0"/>
+                </Grid>
+
+            </Grid>
+
+            <Button Text="Guardar" FontSize="16" HorizontalOptions="Center" Command="{Binding GuardarDiarioCommand}"/>
+            <Button Text="Borrar BD" FontSize="16" HorizontalOptions="Center" Background="red" Command="{Binding BorrarDiarioCommand}"/>
+            <Button Text="{Binding Anotado, StringFormat='Diario Anotado: {0}'}" FontSize="16" HorizontalOptions="Center" Background="Blue" Command="{Binding CambiarAnotadoCommand}"/>
+            <Label Text="{Binding Error}"    TextColor="Red" FontSize="14" FontAttributes="Bold" />
+
+            <CollectionView ItemsSource="{Binding Diarios}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BorderColor="LightGray" Padding="10" Margin="5" >
+                            <VerticalStackLayout>
+                                <Label Text="{Binding Emocion_Diaria}" FontSize="16" FontAttributes="Bold"/>
+                                <Label Text="{Binding Descripcion,StringFormat='Descripción: {0}'}" FontSize="14" />
+                                <Label Text="{Binding Horas_Celular,StringFormat='Hrs Celular: {0}'}" FontSize="12" TextColor="grey"/>
+                                <Label Text="{Binding Horas_Redes,StringFormat='Hrs Redes: {0}'}" FontSize="12" TextColor="grey"/>
+                                <Label Text="{Binding Horas_Sueno,StringFormat='Hrs Sueño: {0}'}" FontSize="12" TextColor="grey"/>
+                                <Label Text="{Binding Horas_Yt,StringFormat='Hrs yt: {0}'}" FontSize="12" TextColor="grey"/>
+                                <Label Text="{Binding Cantidad_Pasos,StringFormat='Pasos: {0}'}" FontSize="12" TextColor="grey"/>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

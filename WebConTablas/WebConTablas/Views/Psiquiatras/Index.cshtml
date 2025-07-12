@@ -1,0 +1,26 @@
+@model IEnumerable<WebConTablas.Models.Psiquiatra>
+
+<h2>Psiquiatras</h2>
+<a href="/Psiquiatras/Create" class="btn btn-primary mb-3">Agregar Psiquiatra</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr><th>ID</th><th>Nombre</th><th>Email</th><th>Teléfono</th><th>Acciones</th></tr>
+    </thead>
+    <tbody>
+    @foreach(var p in Model)
+    {
+        <tr>
+            <td>@p.ID_Psiquiatra</td>
+            <td>@p.Nombre</td>
+            <td>@p.Email</td>
+            <td>@p.Telefono</td>
+            <td>
+                <a href="/Psiquiatras/Edit/@p.ID_Psiquiatra" class="btn btn-warning btn-sm">Editar</a>
+                <a href="/Psiquiatras/Delete/@p.ID_Psiquiatra" class="btn btn-danger btn-sm"
+                   onclick="return confirm('¿Seguro que quieres borrar este psiquiatra?');">Borrar</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

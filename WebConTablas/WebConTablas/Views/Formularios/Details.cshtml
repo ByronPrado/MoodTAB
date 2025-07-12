@@ -1,0 +1,31 @@
+@model WebConTablas.Models.Formulario
+
+<h2>Detalles del Formulario</h2>
+
+<div class="mb-3">
+    <strong>Título:</strong> @Model.Titulo
+</div>
+<div class="mb-3">
+    <strong>Psiquiatra:</strong> @Model.Psiquiatra?.Nombre
+</div>
+<div class="mb-3">
+    <strong>Descripción:</strong> @Model.Descripcion
+</div>
+<div class="mb-3">
+    <strong>Preguntas asignadas:</strong>
+    <ul>
+        @foreach (var fp in Model.Preguntas)
+        {
+            <li>@fp.Pregunta?.Contenido</li>
+            <form asp-action="Desasignar" asp-controller="FormularioPreguntas" method="post" style="display:inline;">
+                <input type="hidden" name="formularioId" value="@Model.ID_Formulario" />
+                <input type="hidden" name="preguntaId" value="@fp.ID_Pregunta" />
+                <button type="submit" class="btn btn-link btn-sm text-danger" onclick="return confirm('¿Desasignar esta pregunta?');">Desasignar</button>
+            </form>
+        }
+    </ul>
+</div>
+<a asp-action="Asignar" asp-controller="FormularioPreguntas" asp-route-id="@Model.ID_Formulario" class="btn btn-warning">
+    Asignar Preguntas
+</a>
+<a asp-action="Index" class="btn btn-secondary">Volver</a>
