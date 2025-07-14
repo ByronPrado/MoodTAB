@@ -1,0 +1,46 @@
+@model WebConTablas.Controllers.DiarioTestController.DiarioInput
+
+@{
+    ViewData["Title"] = "Ingresar Diario Emocional";
+}
+
+<h2>Ingresar Diario Emocional</h2>
+
+<form asp-action="Index" method="post">
+    <div>
+        <label>ID Paciente:</label>
+        <input asp-for="ID_Paciente" />
+    </div>
+    <div>
+        <label>Emociones (JSON):</label>
+        <input asp-for="Emociones" />
+    </div>
+    <div>
+        <label>Pasos:</label>
+        <input asp-for="Pasos" />
+    </div>
+    <div>
+        <label>Horas Celular:</label>
+        <input asp-for="Horas_celular" />
+    </div>
+    <div>
+        <label>Horas Redes:</label>
+        <input asp-for="Horas_redes" />
+    </div>
+    <div>
+        <label>Hora Dormida (HH:mm):</label>
+        <input asp-for="Hora_dormida" />
+    </div>
+    <div>
+        <label>Fecha (yyyy-MM-dd):</label>
+        <input asp-for="Fecha" type="date" />
+    </div>
+    <button type="submit">Enviar</button>
+</form>
+
+@if (ViewBag.Resultado != null)
+{
+    <div>
+        <strong>Resultado:</strong> @ViewBag.Resultado
+    </div>
+}

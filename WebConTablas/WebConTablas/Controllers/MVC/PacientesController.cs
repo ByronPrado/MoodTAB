@@ -97,4 +97,21 @@ public class PacientesController : Controller
         await _pacienteService.EliminarPacienteAsync(id, idPsiquiatra.Value);
         return RedirectToAction(nameof(Index));
     }
+    public async Task<IActionResult> Details(int id)
+    {
+        var idPsiquiatra = ObtenerIdPsiquiatraSesion();
+        if (idPsiquiatra == null)
+            return RedirectToAction("Login", "Psiquiatras");
+
+        // Aquí usa tu servicio para obtener el paciente por id y psiquiatra
+        var paciente = await _pacienteService.ObtenerPacientePorIdAsync(id, idPsiquiatra.Value);
+
+        if (paciente == null)
+            return NotFound();
+
+        // Asegúrate que el método ObtenerPacientePorIdAsync incluya las relaciones necesarias,
+        // como DiariosEmocionales, FormulariosAsignados, etc.
+        return View(paciente);
+    }
+
 }

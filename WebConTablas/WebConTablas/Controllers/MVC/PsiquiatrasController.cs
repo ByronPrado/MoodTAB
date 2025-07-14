@@ -18,9 +18,9 @@ public class PsiquiatrasController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Login(Psiquiatra model)
+    public async Task<IActionResult> Login(LoginViewModel model)
     {
-        if (!ControllerHelper.ValidarModeloYMostrarErrores(ModelState, this))
+        if (!ModelState.IsValid)
         {
             ViewBag.Error = "Datos inválidos.";
             return View(model);

@@ -27,8 +27,10 @@ namespace WebConTablas.Services
         public async Task<Paciente?> ObtenerPacientePorIdAsync(int id, int idPsiquiatra)
         {
             return await _context.Pacientes
+                .Include(p => p.DiariosEmocionales) // ⬅️ Esto es lo que faltaba
                 .FirstOrDefaultAsync(p => p.ID_Paciente == id && p.ID_Psiquiatra == idPsiquiatra);
         }
+
 
         public async Task CrearPacienteAsync(Paciente paciente)
         {

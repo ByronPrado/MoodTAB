@@ -20,6 +20,7 @@
                     <a href="/Pacientes/Edit/@c.ID_Paciente" class="btn btn-warning btn-sm">Editar</a>
                     <a href="/Pacientes/Delete/@c.ID_Paciente" class="btn btn-danger btn-sm"
                        onclick="return confirm('¿Seguro que quieres borrar este paciente?');">Borrar</a>
+                    <a href="/Pacientes/Details/@c.ID_Paciente" class="btn btn-info btn-sm">Ver Detalles</a>
                 </td>
             </tr>
         }
@@ -34,6 +35,7 @@
         </div>
         <div class="card-body">
             <p><b>Edad:</b> @p.Edad | <b>Sexo:</b> @p.Sexo | <b>Email:</b> @p.Email | <b>Teléfono:</b> @p.Telefono</p>
+
             <h5>Diarios emocionales</h5>
             @if (p.DiariosEmocionales != null && p.DiariosEmocionales.Any())
             {
@@ -56,7 +58,7 @@
                             <tr>
                                 <td>@d.Fecha.ToShortDateString()</td>
                                 @{
-                                    var emocionesDict = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, int>>(d.Emociones);
+                                    var emocionesDict = JsonSerializer.Deserialize<Dictionary<string, int>>(d.Emociones);
                                 }
                                 <td>@string.Join(", ", emocionesDict.Keys)</td>
                                 <td>@d.Descripcion</td>
@@ -66,7 +68,7 @@
                                 <td>@d.Hora_dormida</td>
                                 <td>
                                     <span class="badge 
-                                        @(d.Estado == "exitado" ? "bg-success" : d.Estado == "inhibido" ? "bg-danger" : "bg-secondary")">
+                                        @(d.Estado == "exaltado" ? "bg-success" : d.Estado == "inhibido" ? "bg-danger" : "bg-secondary")">
                                         @d.Estado
                                     </span>
                                 </td>
@@ -79,12 +81,23 @@
             {
                 <p class="text-muted">No hay diarios emocionales registrados.</p>
             }
+
             <h5>Formularios respondidos</h5>
             <ul>
-                @foreach(var fa in p.FormulariosAsignados)
+                @foreach (var fa in p.FormulariosAsignados)
                 {
                     <li>
                         <b>@fa.Formulario?.Titulo</b> (@fa.Estado) - Asignado: @fa.Fecha_Asignacion.ToShortDateString()
+
+                        @if (fa.Estado == "Listo" && fa.Respuestas.Any())
+                        {
+                            <ul>
+                                @foreach (var r in fa.Respuestas)
+                                {
+                                    <li><b>@r.Pregunta?.Contenido:</b> @r.Contenido</li>
+                                }
+                            </ul>
+                        }
                     </li>
                 }
             </ul>
