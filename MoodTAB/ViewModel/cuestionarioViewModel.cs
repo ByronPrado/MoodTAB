@@ -22,23 +22,46 @@ namespace MoodTAB.ViewModel
                 OnPropertyChanged(nameof(EsSeleccion));
             }
         }
-        
 
         [ObservableProperty]
         private string respuestaUsuario = string.Empty;
-
+        [ObservableProperty]
+        private string opcionSeleccionada = string.Empty;
+        private int _respuestaUsuarioEscala;
+        public int RespuestaUsuarioEscala
+        {
+            get => _respuestaUsuarioEscala;
+            set
+            {
+                if (_respuestaUsuarioEscala != value)
+                {
+                    _respuestaUsuarioEscala = value;
+                    OnPropertyChanged();
+                    // Aqui actualizamos las respuesta que guardamos en bd
+                    if (EsEscala)
+                        RespuestaUsuario = value.ToString();
+                }
+            }
+        }
         public bool EsAbierta => Pregunta?.Tipo == "Abierta";
         public bool EsEscala => Pregunta?.Tipo == "Escala";
         public bool EsSeleccion => Pregunta?.Tipo == "Seleccion";
         public int MinimoEscala { get; set; } = 0;
         public int MaximoEscala { get; set; } = 10;
-        public List<string> OpcionesSeleccion = [];
+        public List<string> OpcionesSeleccion { get; set; } = new();        
+        public string GetOpcionColor(string opcion)
+        => opcion == OpcionSeleccionada ? "#FF9100" : "#512BD4";
+
+        [RelayCommand]
+        public void SeleccionarOpcion(string opcion)
+        {
+            OpcionSeleccionada = opcion;
+            RespuestaUsuario = opcion;
+        }
     }
 
     public partial class Cuestionario : ObservableObject
     {
-
-        //private readonly MainViewModel _mainViewModel;
 
         [ObservableProperty]
         ObservableCollection<PreguntaConRespuesta> preguntasConRespuesta = new();
@@ -164,7 +187,8 @@ namespace MoodTAB.ViewModel
             var payload = new
             {
                 ID_Asignacion = idAsignacion,
-                Respuestas = PreguntasConRespuesta.Select(p => new {
+                Respuestas = PreguntasConRespuesta.Select(p => new
+                {
                     ID_Pregunta = p.Pregunta.ID_Pregunta,
                     Contenido = p.RespuestaUsuario
                 }).ToList()
@@ -186,8 +210,8 @@ namespace MoodTAB.ViewModel
                 var errorMsg = await response.Content.ReadAsStringAsync();
                 await Shell.Current.DisplayAlert("Error", $"No se pudieron enviar las respuestas.\n{errorMsg}", "OK");
             }
-            
-            
+
+
 
             await CargarRespuestas();
         }
@@ -213,19 +237,6 @@ namespace MoodTAB.ViewModel
                 await App.Database.DeleteAnswersAsync(res);
             }
             await CargarRespuestas();
-        }
-        [RelayCommand]
-        private void SeleccionarSi(PreguntaConRespuesta pregunta)
-        {
-            if (pregunta != null)
-                pregunta.RespuestaUsuario = "SI";
-        }
-
-        [RelayCommand]
-        private void SeleccionarNo(PreguntaConRespuesta pregunta)
-        {
-            if (pregunta != null)
-                pregunta.RespuestaUsuario = "NO";
         }
    
     }
