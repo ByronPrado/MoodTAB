@@ -16,6 +16,7 @@
                         <Frame BorderColor="LightGray" Padding="10" Margin="5">
                             <VerticalStackLayout>
                                 <Label Text="{Binding Pregunta.Contenido}" FontSize="14" />
+                                <Label Text="{Binding Pregunta.Extra}" FontSize="12" TextColor="Gray"/>
                                 
                                 <Frame IsVisible="{Binding EsAbierta}">                                    
                                         <Editor Placeholder="Escribe tu respuesta aquí..."
@@ -40,9 +41,11 @@
                                                 <CollectionView.ItemTemplate>
                                                     <DataTemplate>
                                                         <Button 
-                                                            Text="{Binding .}" 
+                                                            Margin="0,5"
+                                                            BackgroundColor="{Binding Color}"
+                                                            Text="{Binding Texto}" 
                                                             Command="{Binding BindingContext.SeleccionarOpcionCommand, Source={RelativeSource AncestorType={x:Type CollectionView}}}"
-                                                            CommandParameter="{Binding .}" />
+                                                            CommandParameter="{Binding Texto}" />
                                                     </DataTemplate>
                                                 </CollectionView.ItemTemplate>
                                             </CollectionView>

@@ -7,7 +7,12 @@ using System.Text.Json;
 
 namespace MoodTAB.ViewModel
 {
-
+    public class OpcionSeleccionItem : ObservableObject
+    {
+        public string? Texto { get; set; }
+        public bool IsSelected { get; set; }
+        public string Color => IsSelected ? "#FF9100" : "#512BD4";
+    }
     public partial class PreguntaConRespuesta : ObservableObject
     {
         private Pregunta _pregunta;
@@ -48,10 +53,8 @@ namespace MoodTAB.ViewModel
         public bool EsSeleccion => Pregunta?.Tipo == "Seleccion";
         public int MinimoEscala { get; set; } = 0;
         public int MaximoEscala { get; set; } = 10;
-        public List<string> OpcionesSeleccion { get; set; } = new();        
-        public string GetOpcionColor(string opcion)
-        => opcion == OpcionSeleccionada ? "#FF9100" : "#512BD4";
-
+        public ObservableCollection<OpcionSeleccionItem> OpcionesSeleccion { get; set; } = new();  
+ 
         [RelayCommand]
         public void SeleccionarOpcion(string opcion)
         {
@@ -140,7 +143,12 @@ namespace MoodTAB.ViewModel
                     if (pregunta.Tipo == "Seleccion")
                     {
                         if (preguntaJson.TryGetProperty("opcionesSeleccion", out var opcionesProp) && opcionesProp.ValueKind == JsonValueKind.String)
-                            preguntaRespuesta.OpcionesSeleccion = opcionesProp.GetString()?.Split(',').Select(o => o.Trim()).ToList() ?? new List<string>();
+                        {
+                            var opciones = opcionesProp.GetString()?.Split(',').Select(o => o.Trim()).ToList() ?? new List<string>();
+                            preguntaRespuesta.OpcionesSeleccion = new ObservableCollection<OpcionSeleccionItem>(
+                                opciones.Select(o => new OpcionSeleccionItem { Texto = o })
+                            );
+                        }
                     }
 
                     lista.Add(preguntaRespuesta);
