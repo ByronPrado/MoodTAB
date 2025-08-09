@@ -10,13 +10,23 @@ namespace MoodTAB.ViewModel
     public class OpcionSeleccionItem : ObservableObject
     {
         public string? Texto { get; set; }
-        public bool IsSelected { get; set; }
+        
+        private bool isSelected;
+        public bool IsSelected
+        {
+            get => isSelected;
+            set
+            {
+                if (SetProperty(ref isSelected, value))
+                    OnPropertyChanged(nameof(Color));
+            }
+        }
         public string Color => IsSelected ? "#FF9100" : "#512BD4";
     }
     public partial class PreguntaConRespuesta : ObservableObject
     {
-        private Pregunta _pregunta;
-        public Pregunta Pregunta
+        private Pregunta? _pregunta;
+        public Pregunta? Pregunta
         {
             get => _pregunta;
             set
@@ -53,13 +63,16 @@ namespace MoodTAB.ViewModel
         public bool EsSeleccion => Pregunta?.Tipo == "Seleccion";
         public int MinimoEscala { get; set; } = 0;
         public int MaximoEscala { get; set; } = 10;
-        public ObservableCollection<OpcionSeleccionItem> OpcionesSeleccion { get; set; } = new();  
- 
+        public ObservableCollection<OpcionSeleccionItem> OpcionesSeleccion { get; set; } = new();
+
         [RelayCommand]
         public void SeleccionarOpcion(string opcion)
         {
             OpcionSeleccionada = opcion;
             RespuestaUsuario = opcion;
+            // Actualiza el estado de cada opción
+            foreach (var item in OpcionesSeleccion)
+                item.IsSelected = item.Texto == opcion;
         }
     }
 
@@ -175,7 +188,7 @@ namespace MoodTAB.ViewModel
                 var pregunta = noRespondidas.First().Pregunta;
                 await Shell.Current.DisplayAlert(
                     "Respuesta vacía",
-                    $"Por favor, responde todas las preguntas antes de guardar.\nFalta: '{pregunta.Contenido}'",
+                    $"Por favor, responde todas las preguntas antes de guardar.\nFalta: '{pregunta?.Contenido ?? "Pregunta desconocida"}'",
                     "OK");
                 return;
             }
@@ -186,7 +199,7 @@ namespace MoodTAB.ViewModel
                 var respuesta = new Respuestas
                 {
                     Texto_Respuesta = item.RespuestaUsuario,
-                    PreguntaId = item.Pregunta.ID_Pregunta,
+                    PreguntaId = item.Pregunta != null ? item.Pregunta.ID_Pregunta : 0,
                     CreatedAt = DateTime.Now
                 };
 
@@ -197,7 +210,7 @@ namespace MoodTAB.ViewModel
                 ID_Asignacion = idAsignacion,
                 Respuestas = PreguntasConRespuesta.Select(p => new
                 {
-                    ID_Pregunta = p.Pregunta.ID_Pregunta,
+                    ID_Pregunta = p.Pregunta != null ? p.Pregunta.ID_Pregunta : 0,
                     Contenido = p.RespuestaUsuario
                 }).ToList()
             };

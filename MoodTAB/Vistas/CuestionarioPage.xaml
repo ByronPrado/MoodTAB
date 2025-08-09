@@ -16,8 +16,7 @@
                         <Frame BorderColor="LightGray" Padding="10" Margin="5">
                             <VerticalStackLayout>
                                 <Label Text="{Binding Pregunta.Contenido}" FontSize="14" />
-                                <Label Text="{Binding Pregunta.Extra}" FontSize="12" TextColor="Gray"/>
-                                
+                                <Label Text="{Binding Pregunta.Extra}" FontSize="12" TextColor="Gray"/>     
                                 <Frame IsVisible="{Binding EsAbierta}">                                    
                                         <Editor Placeholder="Escribe tu respuesta aquí..."
                                         AutoSize="TextChanges"
