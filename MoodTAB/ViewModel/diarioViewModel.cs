@@ -79,6 +79,25 @@ namespace MoodTAB.ViewModel
         string colorAnsioso;
 
 
+        [ObservableProperty]
+        string colorFeliz_borde;
+        [ObservableProperty]
+        string colorEmocionado_borde;
+        [ObservableProperty]
+        string colorCansado_borde;
+        [ObservableProperty]
+        string colorTriste_borde;
+        [ObservableProperty]
+        string colorFrustrado_borde;
+        [ObservableProperty]
+        string colorEnojado_borde;
+        [ObservableProperty]
+        string colorNeutro_borde;
+        [ObservableProperty]
+        string colorAngustiado_borde;
+        [ObservableProperty]
+        string colorAnsioso_borde;
+
         public DiarioViewModel(IStepCounterService stepService)
         {
             this.stepService = stepService;
@@ -93,15 +112,25 @@ namespace MoodTAB.ViewModel
             Error = "";
             anotado = false;
 
-            ColorFeliz ="#512BD4";
-            ColorEmocionado ="#512BD4";
-            ColorCansado ="#512BD4";
-            ColorTriste ="#512BD4";
-            ColorFrustrado ="#512BD4";
-            ColorEnojado ="#512BD4";
-            ColorNeutro ="#512BD4";
-            ColorAngustiado ="#512BD4";
-            ColorAnsioso ="#512BD4";
+            ColorFeliz = "#FEF9C3";
+            ColorEmocionado = "#FFEDD5";
+            ColorCansado = "#F3E8FF";
+            ColorTriste = "#DBEAFE";
+            ColorFrustrado = "#FEE2E2";
+            ColorEnojado = "#FEE2E2";
+            ColorNeutro = "#F3F4F6";
+            ColorAngustiado = "#E0E7FF";
+            ColorAnsioso = "#CCFBF1";
+
+            ColorFeliz_borde = "#FEF4A3";
+            ColorEmocionado_borde = "#FEDAB0";
+            ColorCansado_borde = "#EDDDFF";
+            ColorTriste_borde = "#BFDBFE";
+            ColorFrustrado_borde = "#FECACA";
+            ColorEnojado_borde = "#FED5D5";
+            ColorNeutro_borde = "#EBEDF0";
+            ColorAngustiado_borde = "#CCD6FE";
+            ColorAnsioso_borde = "#99F6E4";
 
 
             _ = LoadDiariosAsync();
@@ -120,39 +149,49 @@ namespace MoodTAB.ViewModel
                 EmocionDiaria.Remove(emocion);
                 if (emocion == "Feliz")
                 {
-                    ColorFeliz = "#512BD4";
+                    ColorFeliz = "#FEF9C3";
+                    ColorFeliz_borde = "#FEF4A3";
+
                 }
                 if (emocion == "Emocionado")
                 {
-                    ColorEmocionado = "#512BD4";
+                    ColorEmocionado = "#FFEDD5";
+                    ColorEmocionado_borde = "#FEDAB0";
                 }
                 if (emocion == "Cansado")
                 {
-                    ColorCansado = "#512BD4";
+                    ColorCansado = "#F3E8FF";
+                    ColorCansado_borde = "#EDDDFF";
                 }
                 if (emocion == "Triste")
                 {
-                    ColorTriste = "#512BD4";
+                    ColorTriste = "#DBEAFE";
+                    ColorTriste_borde = "#BFDBFE";
                 }
                 if (emocion == "Frustrado")
                 {
-                    ColorFrustrado = "#512BD4";
+                    ColorFrustrado = "#FEE2E2";
+                    ColorFrustrado_borde = "#FECACA";
                 }
                 if (emocion == "Enojado")
                 {
-                    ColorEnojado = "#512BD4";
+                    ColorEnojado = "#FEE2E2";
+                    ColorEnojado_borde = "#FED5D5";
                 }
                 if (emocion == "Neutro")
                 {
-                    ColorNeutro = "#512BD4";
+                    ColorNeutro = "#F3F4F6";
+                    ColorNeutro_borde = "#EBEDF0";
                 }
                 if (emocion == "Angustiado")
                 {
-                    ColorAngustiado = "#512BD4";
+                    ColorAngustiado = "#E0E7FF";
+                    ColorAngustiado_borde = "#CCD6FE";
                 }
                 if (emocion == "Ansioso")
                 {
-                    ColorAnsioso = "#512BD4";
+                    ColorAnsioso = "#CCFBF1";
+                    ColorAnsioso_borde = "#99F6E4";
                 }
             }
             else

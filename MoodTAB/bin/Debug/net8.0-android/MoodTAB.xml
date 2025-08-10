@@ -45,13 +45,21 @@
         </member>
         <member name="T:MoodTAB.ViewModel.PreguntaConRespuesta">
             <inheritdoc/>
+            <inheritdoc/>
         </member>
         <member name="P:MoodTAB.ViewModel.PreguntaConRespuesta.RespuestaUsuario">
             <inheritdoc cref="F:MoodTAB.ViewModel.PreguntaConRespuesta.respuestaUsuario"/>
         </member>
+        <member name="P:MoodTAB.ViewModel.PreguntaConRespuesta.OpcionSeleccionada">
+            <inheritdoc cref="F:MoodTAB.ViewModel.PreguntaConRespuesta.opcionSeleccionada"/>
+        </member>
+        <member name="F:MoodTAB.ViewModel.PreguntaConRespuesta.seleccionarOpcionCommand">
+            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.PreguntaConRespuesta.SeleccionarOpcionCommand"/>.</summary>
+        </member>
+        <member name="P:MoodTAB.ViewModel.PreguntaConRespuesta.SeleccionarOpcionCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand`1"/> instance wrapping <see cref="M:MoodTAB.ViewModel.PreguntaConRespuesta.SeleccionarOpcion(System.String)"/>.</summary>
+        </member>
         <member name="T:MoodTAB.ViewModel.Cuestionario">
-            <inheritdoc/>
-            <inheritdoc/>
             <inheritdoc/>
             <inheritdoc/>
             <inheritdoc/>
@@ -76,18 +84,6 @@
         </member>
         <member name="P:MoodTAB.ViewModel.Cuestionario.BorrarBaseDatosCommand">
             <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.Cuestionario.BorrarBaseDatos"/>.</summary>
-        </member>
-        <member name="F:MoodTAB.ViewModel.Cuestionario.seleccionarSiCommand">
-            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.Cuestionario.SeleccionarSiCommand"/>.</summary>
-        </member>
-        <member name="P:MoodTAB.ViewModel.Cuestionario.SeleccionarSiCommand">
-            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand`1"/> instance wrapping <see cref="M:MoodTAB.ViewModel.Cuestionario.SeleccionarSi(MoodTAB.ViewModel.PreguntaConRespuesta)"/>.</summary>
-        </member>
-        <member name="F:MoodTAB.ViewModel.Cuestionario.seleccionarNoCommand">
-            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.Cuestionario.SeleccionarNoCommand"/>.</summary>
-        </member>
-        <member name="P:MoodTAB.ViewModel.Cuestionario.SeleccionarNoCommand">
-            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand`1"/> instance wrapping <see cref="M:MoodTAB.ViewModel.Cuestionario.SeleccionarNo(MoodTAB.ViewModel.PreguntaConRespuesta)"/>.</summary>
         </member>
         <member name="T:MoodTAB.ViewModel.DataBaseViewModel">
             <inheritdoc/>
@@ -199,6 +195,33 @@
         <member name="P:MoodTAB.ViewModel.DiarioViewModel.ColorAnsioso">
             <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.colorAnsioso"/>
         </member>
+        <member name="P:MoodTAB.ViewModel.DiarioViewModel.ColorFeliz_borde">
+            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.colorFeliz_borde"/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.DiarioViewModel.ColorEmocionado_borde">
+            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.colorEmocionado_borde"/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.DiarioViewModel.ColorCansado_borde">
+            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.colorCansado_borde"/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.DiarioViewModel.ColorTriste_borde">
+            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.colorTriste_borde"/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.DiarioViewModel.ColorFrustrado_borde">
+            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.colorFrustrado_borde"/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.DiarioViewModel.ColorEnojado_borde">
+            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.colorEnojado_borde"/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.DiarioViewModel.ColorNeutro_borde">
+            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.colorNeutro_borde"/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.DiarioViewModel.ColorAngustiado_borde">
+            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.colorAngustiado_borde"/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.DiarioViewModel.ColorAnsioso_borde">
+            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.colorAnsioso_borde"/>
+        </member>
         <member name="M:MoodTAB.ViewModel.DiarioViewModel.OnHorasSuenoChanged(System.String)">
             <summary>Executes the logic for when <see cref="P:MoodTAB.ViewModel.DiarioViewModel.HorasSueno"/> just changed.</summary>
             <param name="value">The new property value that was set.</param>
@@ -308,6 +331,9 @@
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.RespuestaUsuario">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "RespuestaUsuario" generated properties.</summary>
         </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.OpcionSeleccionada">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "OpcionSeleccionada" generated properties.</summary>
+        </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.PreguntasConRespuesta">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "PreguntasConRespuesta" generated properties.</summary>
         </member>
@@ -389,6 +415,33 @@
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ColorAnsioso">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ColorAnsioso" generated properties.</summary>
         </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ColorFeliz_borde">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ColorFeliz_borde" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ColorEmocionado_borde">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ColorEmocionado_borde" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ColorCansado_borde">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ColorCansado_borde" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ColorTriste_borde">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ColorTriste_borde" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ColorFrustrado_borde">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ColorFrustrado_borde" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ColorEnojado_borde">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ColorEnojado_borde" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ColorNeutro_borde">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ColorNeutro_borde" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ColorAngustiado_borde">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ColorAngustiado_borde" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ColorAnsioso_borde">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ColorAnsioso_borde" generated properties.</summary>
+        </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Title">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Title" generated properties.</summary>
         </member>
@@ -424,6 +477,9 @@
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.RespuestaUsuario">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "RespuestaUsuario" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.OpcionSeleccionada">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "OpcionSeleccionada" generated properties.</summary>
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.PreguntasConRespuesta">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "PreguntasConRespuesta" generated properties.</summary>
@@ -505,6 +561,33 @@
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ColorAnsioso">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ColorAnsioso" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ColorFeliz_borde">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ColorFeliz_borde" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ColorEmocionado_borde">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ColorEmocionado_borde" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ColorCansado_borde">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ColorCansado_borde" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ColorTriste_borde">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ColorTriste_borde" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ColorFrustrado_borde">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ColorFrustrado_borde" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ColorEnojado_borde">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ColorEnojado_borde" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ColorNeutro_borde">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ColorNeutro_borde" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ColorAngustiado_borde">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ColorAngustiado_borde" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ColorAnsioso_borde">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ColorAnsioso_borde" generated properties.</summary>
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Title">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Title" generated properties.</summary>
