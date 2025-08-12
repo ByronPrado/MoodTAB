@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using MoodTAB.Services;
+using System.Text.Json;
 
 namespace MoodTAB.ViewModel
 
@@ -78,6 +79,25 @@ namespace MoodTAB.ViewModel
         string colorAnsioso;
 
 
+        [ObservableProperty]
+        string colorFeliz_borde;
+        [ObservableProperty]
+        string colorEmocionado_borde;
+        [ObservableProperty]
+        string colorCansado_borde;
+        [ObservableProperty]
+        string colorTriste_borde;
+        [ObservableProperty]
+        string colorFrustrado_borde;
+        [ObservableProperty]
+        string colorEnojado_borde;
+        [ObservableProperty]
+        string colorNeutro_borde;
+        [ObservableProperty]
+        string colorAngustiado_borde;
+        [ObservableProperty]
+        string colorAnsioso_borde;
+
         public DiarioViewModel(IStepCounterService stepService)
         {
             this.stepService = stepService;
@@ -92,15 +112,25 @@ namespace MoodTAB.ViewModel
             Error = "";
             anotado = false;
 
-            ColorFeliz ="#512BD4";
-            ColorEmocionado ="#512BD4";
-            ColorCansado ="#512BD4";
-            ColorTriste ="#512BD4";
-            ColorFrustrado ="#512BD4";
-            ColorEnojado ="#512BD4";
-            ColorNeutro ="#512BD4";
-            ColorAngustiado ="#512BD4";
-            ColorAnsioso ="#512BD4";
+            ColorFeliz = "#FEF9C3";
+            ColorEmocionado = "#FFEDD5";
+            ColorCansado = "#F3E8FF";
+            ColorTriste = "#DBEAFE";
+            ColorFrustrado = "#FEE2E2";
+            ColorEnojado = "#FEE2E2";
+            ColorNeutro = "#F3F4F6";
+            ColorAngustiado = "#E0E7FF";
+            ColorAnsioso = "#CCFBF1";
+
+            ColorFeliz_borde = "#FEF4A3";
+            ColorEmocionado_borde = "#FEDAB0";
+            ColorCansado_borde = "#EDDDFF";
+            ColorTriste_borde = "#BFDBFE";
+            ColorFrustrado_borde = "#FECACA";
+            ColorEnojado_borde = "#FED5D5";
+            ColorNeutro_borde = "#EBEDF0";
+            ColorAngustiado_borde = "#CCD6FE";
+            ColorAnsioso_borde = "#99F6E4";
 
 
             _ = LoadDiariosAsync();
@@ -119,39 +149,49 @@ namespace MoodTAB.ViewModel
                 EmocionDiaria.Remove(emocion);
                 if (emocion == "Feliz")
                 {
-                    ColorFeliz = "#512BD4";
+                    ColorFeliz = "#FEF9C3";
+                    ColorFeliz_borde = "#FEF4A3";
+
                 }
                 if (emocion == "Emocionado")
                 {
-                    ColorEmocionado = "#512BD4";
+                    ColorEmocionado = "#FFEDD5";
+                    ColorEmocionado_borde = "#FEDAB0";
                 }
                 if (emocion == "Cansado")
                 {
-                    ColorCansado = "#512BD4";
+                    ColorCansado = "#F3E8FF";
+                    ColorCansado_borde = "#EDDDFF";
                 }
                 if (emocion == "Triste")
                 {
-                    ColorTriste = "#512BD4";
+                    ColorTriste = "#DBEAFE";
+                    ColorTriste_borde = "#BFDBFE";
                 }
                 if (emocion == "Frustrado")
                 {
-                    ColorFrustrado = "#512BD4";
+                    ColorFrustrado = "#FEE2E2";
+                    ColorFrustrado_borde = "#FECACA";
                 }
                 if (emocion == "Enojado")
                 {
-                    ColorEnojado = "#512BD4";
+                    ColorEnojado = "#FEE2E2";
+                    ColorEnojado_borde = "#FED5D5";
                 }
                 if (emocion == "Neutro")
                 {
-                    ColorNeutro = "#512BD4";
+                    ColorNeutro = "#F3F4F6";
+                    ColorNeutro_borde = "#EBEDF0";
                 }
                 if (emocion == "Angustiado")
                 {
-                    ColorAngustiado = "#512BD4";
+                    ColorAngustiado = "#E0E7FF";
+                    ColorAngustiado_borde = "#CCD6FE";
                 }
                 if (emocion == "Ansioso")
                 {
-                    ColorAnsioso = "#512BD4";
+                    ColorAnsioso = "#CCFBF1";
+                    ColorAnsioso_borde = "#99F6E4";
                 }
             }
             else
@@ -270,6 +310,38 @@ namespace MoodTAB.ViewModel
                 await App.Database.SaveDiarioAsync(diario);
                 Anotado = true;
                 await LoadDiariosAsync();
+
+                var payload = new
+                {
+                    ID_Paciente = Globals.id_usuario, // Usa el id del paciente logueado
+                    Emociones = JsonSerializer.Serialize(
+                        EmocionDiaria.ToDictionary(e => e, e => 1) // Puedes ajustar el valor según intensidad si lo tienes
+                    ),
+                    Descripcion = DescDia,
+                    Pasos = CantidadPasos,
+                    Horas_celular = (int)HorasCelular,
+                    Horas_redes = (int)HorasRedes,
+                    Horas_Yt = (int)HorasYT,
+                    Hora_dormida = HorasSueno,
+                    Fecha = DateTime.Now.ToString("yyyy-MM-dd")
+                };
+
+                var url = "http://10.0.2.2:5051/api/DiarioEmocional";
+                var json = JsonSerializer.Serialize(payload);
+                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+                using var client = new HttpClient();
+                var response = await client.PostAsync(url, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    await Shell.Current.DisplayAlert("¡Listo!", "Diario enviado correctamente.", "OK");
+                }
+                else
+                {
+                    var errorMsg = await response.Content.ReadAsStringAsync();
+                    await Shell.Current.DisplayAlert("Error", $"No se pudo enviar el diario.\n{errorMsg}", "OK");
+                }
             }
             catch (Exception e)
             {

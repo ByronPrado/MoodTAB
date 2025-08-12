@@ -16,7 +16,7 @@
                         <Frame BorderColor="LightGray" Padding="10" Margin="5">
                             <VerticalStackLayout>
                                 <Label Text="{Binding Pregunta.Contenido}" FontSize="14" />
-                                
+                                <Label Text="{Binding Pregunta.Extra}" FontSize="12" TextColor="Gray"/>     
                                 <Frame IsVisible="{Binding EsAbierta}">                                    
                                         <Editor Placeholder="Escribe tu respuesta aquí..."
                                         AutoSize="TextChanges"
@@ -28,17 +28,26 @@
                                         RowDefinitions="*,*"
                                         ColumnDefinitions="200"
                                         >
-                                        <Label Text="{Binding RespuestaUsuario, StringFormat='{0:F1}'}" FontSize="12" TextColor="Gray" Grid.Column="0" Grid.Row="0"/>
-                                        <Slider Minimum="{Binding MinimoEscala}" Maximum="{Binding MaximoEscala}"
-                                            Value="{Binding RespuestaUsuario, Mode=TwoWay}" Grid.Column="0" Grid.Row="1"/>
+                                        <Label Text="{Binding RespuestaUsuarioEscala}" FontSize="12" TextColor="Gray" Grid.Column="0" Grid.Row="0"/>
+                                        <Slider Minimum="{Binding MinimoEscala}" Maximum="{Binding MaximoEscala}"                                            
+                                            Value="{Binding RespuestaUsuarioEscala, Mode=TwoWay}" Grid.Column="0" Grid.Row="1"/>
                                     </Grid>                           
+
                                 </Frame>
                                 <Frame IsVisible="{Binding EsSeleccion}">
                                     <VerticalStackLayout>
-                                        <Grid ColumnDefinitions="Auto,Auto" ColumnSpacing="10">
-                                        <Button Text ="Si" Command ="{Binding BindingContext.SeleccionarCommand, Source={x:Reference PreguntasColl}}"  CommandParameter="SI" Grid.Column ="0"></Button>
-                                        <Button Text ="No" Command ="{Binding BindingContext.SeleccionarNoCommand, Source={x:Reference PreguntasColl}}"  CommandParameter="{Binding .}" Grid.Column ="1"></Button>
-                                        </Grid>
+                                            <CollectionView ItemsSource="{Binding OpcionesSeleccion}" SelectionMode="None">
+                                                <CollectionView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Button 
+                                                            Margin="0,5"
+                                                            BackgroundColor="{Binding Color}"
+                                                            Text="{Binding Texto}" 
+                                                            Command="{Binding BindingContext.SeleccionarOpcionCommand, Source={RelativeSource AncestorType={x:Type CollectionView}}}"
+                                                            CommandParameter="{Binding Texto}" />
+                                                    </DataTemplate>
+                                                </CollectionView.ItemTemplate>
+                                            </CollectionView>
                                     </VerticalStackLayout>
                                 </Frame>
 
@@ -63,13 +72,13 @@
                         <Frame BorderColor="LightGray" Padding="10" Margin="5">
                             <VerticalStackLayout>
                                 <Label Text="Pregunta:" FontAttributes="Bold" />
-                                <Label Text="{Binding Pregunta.Contenido}" FontSize="14" />
+                                <Label Text="{Binding PreguntaId}" FontSize="14" />
                                 
                                 <Label Text="Respuesta:" FontAttributes="Bold" />
                                 <Label Text="{Binding Texto_Respuesta}" FontSize="16" />
 
                                 <Label Text="ID:" FontAttributes="Italic" FontSize="12" />
-                                <Label Text="{Binding Id}" FontSize="12" TextColor="Gray" />
+                                <Label Text="{Binding ID_Respuesta}" FontSize="12" TextColor="Gray" />
                             </VerticalStackLayout>
                         </Frame>
                     </DataTemplate>
