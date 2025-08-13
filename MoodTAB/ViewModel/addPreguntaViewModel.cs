@@ -49,7 +49,7 @@ namespace MoodTAB.ViewModel
             {
                 Contenido = NuevaPregunta,
                 Tipo = TipoPregunta,
-                Created_at = DateTime.Now,
+                Created_at = DateTime.UtcNow,
                 Usuario_dirigido = IdUser,
                 Extra = Opciones
             };

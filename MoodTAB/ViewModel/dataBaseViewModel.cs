@@ -50,8 +50,8 @@ namespace MoodTAB.ViewModel
             {
                 Nombre = NuevaPersona,
                 Rut = NuevoRut,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
                 IsDone = false
             };
 
@@ -85,7 +85,7 @@ namespace MoodTAB.ViewModel
         {
             if (SelectedItem != null)
             {
-                SelectedItem.UpdatedAt = DateTime.Now;
+                SelectedItem.UpdatedAt = DateTime.UtcNow;
                 await App.Database.SaveItemAsync(SelectedItem);
                 await LoadItems(); // Actualizar la vista
                 MostrarEdicion = false; // Ocultar la edición 

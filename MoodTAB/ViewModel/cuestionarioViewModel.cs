@@ -200,7 +200,7 @@ namespace MoodTAB.ViewModel
                 {
                     Texto_Respuesta = item.RespuestaUsuario,
                     PreguntaId = item.Pregunta != null ? item.Pregunta.ID_Pregunta : 0,
-                    CreatedAt = DateTime.Now
+                    CreatedAt = DateTime.UtcNow
                 };
 
                 await App.Database.SaveAnswerAsync(respuesta);
