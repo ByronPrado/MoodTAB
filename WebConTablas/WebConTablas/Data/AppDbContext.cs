@@ -123,7 +123,7 @@ public class AppDbContext : DbContext
                 ID_Pregunta = 1,
                 Contenido = "¿Cómo te has sentido hoy?",
                 Tipo = "texto",
-                Created_at = new DateTime(2024, 6, 16)
+                Created_at = new DateTime(2024, 6, 16, 0, 0, 0, DateTimeKind.Utc)
             }
         );
 
@@ -135,7 +135,7 @@ public class AppDbContext : DbContext
                 ID_Psiquiatra = 1,
                 Titulo = "Evaluación inicial",
                 Descripcion = "Formulario para evaluar estado inicial del paciente",
-                Created_at = new DateTime(2024, 6, 16)
+                Created_at = new DateTime(2024, 6, 16, 0, 0, 0, DateTimeKind.Utc)
             }
         );
 
@@ -156,8 +156,8 @@ public class AppDbContext : DbContext
                 ID_Asignacion = 1,
                 ID_Formulario = 1,
                 ID_Paciente = 1,
-                Fecha_Asignacion = new DateTime(2024, 6, 16),
-                Fecha_Limite = new DateTime(2024, 6, 23),
+                Fecha_Asignacion = new DateTime(2024, 6, 16, 0, 0, 0, DateTimeKind.Utc),
+                Fecha_Limite = new DateTime(2024, 6, 23, 0, 0, 0, DateTimeKind.Utc),
                 Estado = "pendiente"
             }
         );
@@ -168,7 +168,7 @@ public class AppDbContext : DbContext
             {
                 ID_Diario = 1,
                 ID_Paciente = 1,
-                Fecha = new DateTime(2024, 6, 16),
+                Fecha = new DateTime(2024, 6, 16, 0, 0, 0, DateTimeKind.Utc),
                 Emociones = "{\"feliz\":0,\"triste\":1}",
                 Descripcion = "Tuve un día difícil",
                 Pasos = 3000,

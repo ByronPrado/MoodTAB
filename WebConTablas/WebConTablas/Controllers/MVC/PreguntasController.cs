@@ -24,7 +24,7 @@ public class PreguntasController : Controller
             return View(pregunta);
         }
 
-        pregunta.Created_at = DateTime.Now;
+        pregunta.Created_at = DateTime.UtcNow;
         await _preguntaService.CrearAsync(pregunta);
         return RedirectToAction(nameof(Index));
     }

@@ -4,9 +4,8 @@ using WebConTablas.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Agregar contexto con conexión SQLite
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite("Data Source=app.db"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Agregar Identity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
