@@ -20,11 +20,19 @@ public class FormularioAsignadoService : IFormularioAsignadoService
 
     public async Task AsignarFormularioAsync(int ID_Formulario, int ID_Paciente, DateTime? Fecha_Limite)
     {
+        if (Fecha_Limite != null)
+        {
+            DateTime Fecha_ven = Fecha_Limite.Value.Date;
+            Fecha_ven = DateTime.SpecifyKind(Fecha_ven, DateTimeKind.Local).ToUniversalTime(); // Forzar Local y convertir a UTC
+            Fecha_Limite = Fecha_ven;
+
+        }
+        else Fecha_Limite = DateTime.UtcNow.Date + TimeSpan.FromDays(7);
         var asignacion = new FormularioAsignado
         {
             ID_Formulario = ID_Formulario,
             ID_Paciente = ID_Paciente,
-            Fecha_Asignacion = DateTime.Now,
+            Fecha_Asignacion = DateTime.UtcNow,
             Fecha_Limite = Fecha_Limite,
             Estado = "pendiente"
         };
