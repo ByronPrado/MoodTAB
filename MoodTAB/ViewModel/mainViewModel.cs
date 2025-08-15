@@ -57,45 +57,14 @@ namespace MoodTAB.ViewModel
         [RelayCommand]
         private async Task MovetoPage(string pageName)
         {
-            if (Application.Current?.MainPage?.Navigation != null)
+            try
             {
-                switch (pageName)
-                {
-                    case "DataBase":
-                        await Application.Current.MainPage.Navigation.PushAsync(new DataBasePage());
-                        break;
-                    case "Test":
-                        await Application.Current.MainPage.Navigation.PushAsync(new TestPage());
-                        break;
-                    case "AddPregunta":
-                        await Application.Current.MainPage.Navigation.PushAsync(new AddPreguntaPage());
-                        break;
-                    case "Cuestionario":
-                        await Application.Current.MainPage.Navigation.PushAsync(new CuestionarioPage());
-                        break;
-                    case "Diario":
-                        try
-                        {
-                            var diarioPage = App.ServiceProvider.GetRequiredService<DiarioPage>();
-                            await Application.Current.MainPage.Navigation.PushAsync(diarioPage);
-                            break;
-                        }
-                        catch (Exception e)
-                        {
-                            Title = e.Message;
-                            break;
-                        }
-
-                    default:
-                        // Main page en caso de error
-                        await Application.Current.MainPage.Navigation.PushAsync(new MainPage());
-                        break;
-                }
+                // Usamos nameof(ClaseDeLaPagina) como identificador
+                await Shell.Current.GoToAsync(pageName);
             }
-            else
+            catch (Exception ex)
             {
-                // Handle the case where navigation is not available
-                // For example, show an alert or log an error
+                Title = $"Error al navegar: {ex.Message}";
             }
         }
     }

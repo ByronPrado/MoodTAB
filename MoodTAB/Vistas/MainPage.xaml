@@ -13,30 +13,24 @@
                 SemanticProperties.HeadingLevel="Level1" />
             <Label
                 Text="{Binding TitleApi}"
-                SemanticProperties.HeadingLevel="Level1" />    
-            <Image
-                Source="mt.png"
-                SemanticProperties.HeadingLevel="Level1"
-                HorizontalOptions="Center" />
-
-
+                SemanticProperties.HeadingLevel="Level1" />
             <Button
                 Text="test" 
                 Command="{Binding MovetoPageCommand}"
-                CommandParameter="Test"
+                CommandParameter="TestPage"
                 HorizontalOptions="Fill" 
                 BackgroundColor="green"/>
              <Button
                 Text="Cuestionario" 
                 Command="{Binding MovetoPageCommand}"
-                CommandParameter="Cuestionario"
+                CommandParameter="CuestionarioPage"
                 HorizontalOptions="Fill" 
                 BackgroundColor="blue"/>
 
                          <Button
                 Text="DIARIO" 
                 Command="{Binding MovetoPageCommand}"
-                CommandParameter="Diario"
+                CommandParameter="DiarioPage"
                 HorizontalOptions="Fill" 
                 BackgroundColor="cyan"/>
         </VerticalStackLayout>
