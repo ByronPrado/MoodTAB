@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MoodTAB.Vistas.ListaDiarioPage"
+             Title="ListaDiarioPage">
+    <VerticalStackLayout>
+        <Button Text="Ingresar nuevo diario"
+                Clicked="OnNewSeleccionado"
+            >
+            
+        </Button>
+        <Label x:Name="ErrorLabel"
+       TextColor="Red"
+       FontSize="14"
+       IsVisible="False" />
+        <CollectionView ItemsSource="{Binding ListaDiarios}"
+                        SelectionMode="Single"
+                        SelectionChanged="OnDiarioSeleccionado"
+                        HeightRequest="400">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BorderColor="LightGray" Padding="10" Margin="5">
+                            <VerticalStackLayout>
+                                <Label Text="Pregunta:" FontAttributes="Bold" />
+                                <Label Text="{Binding Descripcion}" FontSize="14" />
+                                
+                                <Label Text="Respuesta:" FontAttributes="Bold" />
+                                <Label Text="{Binding CreatedAt}" FontSize="16" />
+
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>

@@ -291,6 +291,12 @@
         <member name="P:MoodTAB.ViewModel.HealthDataViewModel.ReadStepsClickedCommand">
             <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.HealthDataViewModel.ReadStepsClicked"/>.</summary>
         </member>
+        <member name="T:MoodTAB.ViewModel.ListaDiarioViewModel">
+            <inheritdoc/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.ListaDiarioViewModel.ListaDiarios">
+            <inheritdoc cref="F:MoodTAB.ViewModel.ListaDiarioViewModel.listaDiarios"/>
+        </member>
         <member name="T:MoodTAB.ViewModel.MainViewModel">
             <inheritdoc/>
             <inheritdoc/>
@@ -451,6 +457,9 @@
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.StepsText">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "StepsText" generated properties.</summary>
         </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ListaDiarios">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ListaDiarios" generated properties.</summary>
+        </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.TitleApi">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "TitleApi" generated properties.</summary>
         </member>
@@ -597,6 +606,9 @@
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.StepsText">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "StepsText" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ListaDiarios">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ListaDiarios" generated properties.</summary>
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.TitleApi">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "TitleApi" generated properties.</summary>

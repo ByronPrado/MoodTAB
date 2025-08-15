@@ -35,6 +35,7 @@ public static class MauiProgram
 #if ANDROID
 		builder.Services.AddSingleton<IStepCounterService, StepCounterService>();
 		builder.Services.AddTransient<DiarioPage>();
+		builder.Services.AddTransient<ListaDiarioPage>();
 #endif
 
 		return builder.Build();

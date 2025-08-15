@@ -140,25 +140,6 @@
             <Button Text="{Binding Anotado, StringFormat='Diario Anotado: {0}'}" FontSize="16" HorizontalOptions="Center" Background="Blue" Command="{Binding CambiarAnotadoCommand}"/>
             <Label Text="{Binding Error}"    TextColor="Red" FontSize="14" FontAttributes="Bold" />
 
-            <CollectionView ItemsSource="{Binding Diarios}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Frame BorderColor="LightGray" Padding="10" Margin="5" >
-                            <VerticalStackLayout>
-                                <Label Text="{Binding Emocion_Diaria}" FontSize="16" FontAttributes="Bold"/>
-                                <Label Text="{Binding Descripcion,StringFormat='Descripción: {0}'}" FontSize="14" />
-                                <Label Text="{Binding Horas_Celular,StringFormat='Hrs Celular: {0}'}" FontSize="12" TextColor="grey"/>
-                                <Label Text="{Binding Horas_Redes,StringFormat='Hrs Redes: {0}'}" FontSize="12" TextColor="grey"/>
-                                <Label Text="{Binding Horas_Sueno,StringFormat='Hrs Sueño: {0}'}" FontSize="12" TextColor="grey"/>
-                                <Label Text="{Binding Horas_Yt,StringFormat='Hrs yt: {0}'}" FontSize="12" TextColor="grey"/>
-                                <Label Text="{Binding Cantidad_Pasos,StringFormat='Pasos: {0}'}" FontSize="12" TextColor="grey"/>
-                            </VerticalStackLayout>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-
-
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

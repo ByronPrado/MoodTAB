@@ -21,7 +21,8 @@
 
     <FlyoutItem FlyoutDisplayOptions="AsMultipleItems" >
         <ShellContent Title="MoodTAB" Icon="house_blank.png" ContentTemplate="{DataTemplate views:MainPage}" />
-        <ShellContent Title="Cuestionario" Icon="survey.png" ContentTemplate="{DataTemplate views:CuestionarioPage}" />
+        <ShellContent Title="Cuestionario" Icon="survey.png" ContentTemplate="{DataTemplate views:CuestionarioPage}"/>
+        <ShellContent Title="Mis Diarios" Icon="house_blank.png" ContentTemplate="{DataTemplate views:ListaDiarioPage}"/>
 
         <Tab Title="Debug" Icon="debug.png">
             <ShellContent Title="DataBase" Icon="sql_server.png" ContentTemplate="{DataTemplate views:DataBasePage}" />
