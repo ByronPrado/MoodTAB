@@ -45,7 +45,7 @@
                                     BorderColor="#00F0F8FF">
                                     <Grid
                                         RowDefinitions="*,*"
-                                        ColumnDefinitions="300"
+                                        ColumnDefinitions="230"
                                         >
                                         <Label Text="{Binding RespuestaUsuarioEscala}" FontSize="12" TextColor="Gray" Grid.Column="0" Grid.Row="0"/>
                                         <Slider Minimum="{Binding MinimoEscala}" Maximum="{Binding MaximoEscala}"                                            
