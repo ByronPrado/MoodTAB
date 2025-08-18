@@ -27,7 +27,7 @@
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame BackgroundColor="#FFD6E8FF" BorderColor="#FFC7DFFF" Padding="10" Margin="5">
+                    <Frame BackgroundColor="#FFD6E8FF" BorderColor="#FFC7DFFF" Padding="10" Margin="5" IsClippedToBounds="False" InputTransparent="True">
                         <VerticalStackLayout>
                             <Label Text="Titulo" FontAttributes="Bold" FontSize="20" />
                             <Label Text="{Binding Emocion_Diaria}" FontSize="14" />

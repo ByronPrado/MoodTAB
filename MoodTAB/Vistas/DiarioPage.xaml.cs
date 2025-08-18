@@ -40,6 +40,8 @@ public partial class DiarioPage : ContentPage
 				UsageStatsHelper.OpenUsageAccessSettings();
 			}
 		}
+#else
+		await Task.CompletedTask;
 #endif
 	}
 
