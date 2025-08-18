@@ -10,15 +10,15 @@ using System.Net.Http;
 
 namespace MoodTAB.ViewModel
 {
-    public partial class DetalleDiaroViewModel : ObservableObject
+    public partial class DetalleDiarioViewModel : ObservableObject
     {
         [ObservableProperty]
-        public Diario diaroDetallado;
+        public Diario diarioDetallado;
         [ObservableProperty]
         public ObservableCollection<EmocionItem> listaEmociones;
-        public DetalleDiaroViewModel(Diario diario)
+        public DetalleDiarioViewModel(Diario diario)
         {
-            diaroDetallado = diario;
+            diarioDetallado = diario;
             listaEmociones = new ObservableCollection<EmocionItem>();
             var colores = new Dictionary<string, string>
             {

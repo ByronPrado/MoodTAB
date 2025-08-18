@@ -32,7 +32,7 @@ public partial class MainPage : ContentPage
 #if ANDROID
     private void RequestActivityRecognitionPermission()
     {
-        if ((int)Build.VERSION.SdkInt >= 29)
+        if (OperatingSystem.IsAndroidVersionAtLeast(29))
         {
             var permission = Manifest.Permission.ActivityRecognition;
 

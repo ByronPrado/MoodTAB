@@ -53,8 +53,7 @@ public partial class HealthDataViewModel : ObservableObject
         AppUsageStats.Clear();
 
         var stats = UsageStatsHelper.GetAppUsageStats();
-        foreach (var stat in stats.OrderByDescending(x => x.Value).Take(10)) // Top 10 apps
-        {
+        foreach (var stat in (stats ?? Enumerable.Empty<KeyValuePair<string, long>>()).OrderByDescending(x => x.Value).Take(10))        {
             var appName = stat.Key;
             var timeMinutes = stat.Value / 60000;
             AppUsageStats.Add($"{appName}: {timeMinutes} min");

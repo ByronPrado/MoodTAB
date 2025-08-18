@@ -336,6 +336,8 @@ namespace MoodTAB.ViewModel
             catch (Exception e)
             {
                 Error = e.Message;
+                await Shell.Current.DisplayAlert("Error", $"Catch:\n{Error}", "OK");
+
             }
 
         }

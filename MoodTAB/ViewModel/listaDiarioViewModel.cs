@@ -16,12 +16,18 @@ namespace MoodTAB.ViewModel
         public ObservableCollection<Diario> listaDiarios = [];
         public ListaDiarioViewModel()
         {
-            
         }
         public async Task CargarListaDiarios()
         {
-            var todas = await App.Database.GetDiarioAsync();
-            ListaDiarios = new ObservableCollection<Diario>(todas);
+            try
+            {
+                var todas = await App.Database.GetDiarioAsync();
+                ListaDiarios = new ObservableCollection<Diario>(todas);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al cargar la lista de diarios: {ex.Message}");
+            }
         }
     }
     
