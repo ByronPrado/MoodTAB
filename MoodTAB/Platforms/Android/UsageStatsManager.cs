@@ -9,29 +9,33 @@ using System.Collections.Generic;
 
 public class UsageStatsHelper
 {
-    public static Dictionary<string, long> GetAppUsageStats()
+    public static Dictionary<string, long>? GetAppUsageStats()
     {
         var context = Android.App.Application.Context;
-        var usageStatsManager = (UsageStatsManager)context.GetSystemService(Context.UsageStatsService);
-
+        var usageStatsManager = context.GetSystemService(Context.UsageStatsService) as UsageStatsManager;
         var endTime = Java.Lang.JavaSystem.CurrentTimeMillis();
         var startTime = endTime - 1000 * 60 * 60 * 24; // Últimas 24 horas
-
-        var usageStatsList = usageStatsManager.QueryUsageStats(
+        var appUsage = new Dictionary<string, long>(); //si devolvemos este vacio significa error.
+        if (usageStatsManager != null)
+        {
+            var usageStatsList = usageStatsManager.QueryUsageStats(
             UsageStatsInterval.Daily,
             startTime,
             endTime);
-
-        var appUsage = new Dictionary<string, long>();
-        foreach (var stat in usageStatsList)
-        {
-            if (stat.TotalTimeInForeground > 0)
+            if (usageStatsList != null)
             {
-                appUsage[stat.PackageName] = stat.TotalTimeInForeground;
+                foreach (var stat in usageStatsList)
+                {
+                    if (stat.TotalTimeInForeground > 0 && !string.IsNullOrEmpty(stat.PackageName))
+                    {
+                        appUsage[stat.PackageName] = stat.TotalTimeInForeground;
+                    }
+                }
+                return appUsage;
             }
+            else return null;
         }
-
-        return appUsage;
+        else return null;
     }
 
     public static void OpenUsageAccessSettings()
@@ -43,17 +47,21 @@ public class UsageStatsHelper
     public static bool TienePermisoDeUso()
     {
         var context = Android.App.Application.Context;
-        AppOpsManager appOps = (AppOpsManager)context.GetSystemService(Context.AppOpsService);
+        AppOpsManager? appOps = context.GetSystemService(Context.AppOpsService) as AppOpsManager;
         int mode;
-        if (Build.VERSION.SdkInt >= BuildVersionCodes.Q) // Android 10 (API 29) and above
+        if (appOps != null && context.PackageName != null)
         {
-            mode = (int)appOps.UnsafeCheckOpNoThrow("android:get_usage_stats", Process.MyUid(), context.PackageName);
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.Q && OperatingSystem.IsAndroidVersionAtLeast(29)) // Android 10 (API 29) and above
+            {
+                mode = (int)appOps.UnsafeCheckOpNoThrow("android:get_usage_stats", Process.MyUid(), context.PackageName);
+            }
+            else
+            {
+                mode = (int)appOps.CheckOpNoThrow("android:get_usage_stats", Process.MyUid(), context.PackageName);
+            }
+            return mode == (int)AppOpsManagerMode.Allowed;
         }
-        else
-        {
-            mode = (int)appOps.CheckOpNoThrow("android:get_usage_stats", Process.MyUid(), context.PackageName);
-        }
-        return mode == (int)AppOpsManagerMode.Allowed;
+        else return false;        
     }
 }
 #endif

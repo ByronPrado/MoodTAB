@@ -131,8 +131,16 @@
         <member name="P:MoodTAB.ViewModel.DataBaseViewModel.SeleccionarItemCommand">
             <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand`1"/> instance wrapping <see cref="M:MoodTAB.ViewModel.DataBaseViewModel.SeleccionarItem(MoodTAB.Models.TodoItem)"/>.</summary>
         </member>
-        <member name="T:MoodTAB.ViewModel.DiarioViewModel">
+        <member name="T:MoodTAB.ViewModel.DetalleDiaroViewModel">
             <inheritdoc/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.DetalleDiaroViewModel.DiaroDetallado">
+            <inheritdoc cref="F:MoodTAB.ViewModel.DetalleDiaroViewModel.diaroDetallado"/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.DetalleDiaroViewModel.ListaEmociones">
+            <inheritdoc cref="F:MoodTAB.ViewModel.DetalleDiaroViewModel.listaEmociones"/>
+        </member>
+        <member name="T:MoodTAB.ViewModel.DiarioViewModel">
             <inheritdoc/>
             <inheritdoc/>
             <inheritdoc/>
@@ -161,9 +169,6 @@
         </member>
         <member name="P:MoodTAB.ViewModel.DiarioViewModel.HorasSueno">
             <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.horasSueno"/>
-        </member>
-        <member name="P:MoodTAB.ViewModel.DiarioViewModel.Anotado">
-            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.anotado"/>
         </member>
         <member name="P:MoodTAB.ViewModel.DiarioViewModel.Error">
             <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.error"/>
@@ -244,12 +249,6 @@
         </member>
         <member name="P:MoodTAB.ViewModel.DiarioViewModel.BorrarDiarioCommand">
             <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.DiarioViewModel.BorrarDiario"/>.</summary>
-        </member>
-        <member name="F:MoodTAB.ViewModel.DiarioViewModel.cambiarAnotadoCommand">
-            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.DiarioViewModel.CambiarAnotadoCommand"/>.</summary>
-        </member>
-        <member name="P:MoodTAB.ViewModel.DiarioViewModel.CambiarAnotadoCommand">
-            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.DiarioViewModel.CambiarAnotado"/>.</summary>
         </member>
         <member name="T:MoodTAB.ViewModel.HealthDataViewModel">
             <inheritdoc/>
@@ -364,6 +363,12 @@
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.MostrarEdicion">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "MostrarEdicion" generated properties.</summary>
         </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.DiaroDetallado">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "DiaroDetallado" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ListaEmociones">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ListaEmociones" generated properties.</summary>
+        </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Diarios">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Diarios" generated properties.</summary>
         </member>
@@ -387,9 +392,6 @@
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.HorasSueno">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "HorasSueno" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Anotado">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Anotado" generated properties.</summary>
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Error">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Error" generated properties.</summary>
@@ -514,6 +516,12 @@
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.MostrarEdicion">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "MostrarEdicion" generated properties.</summary>
         </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.DiaroDetallado">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "DiaroDetallado" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ListaEmociones">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ListaEmociones" generated properties.</summary>
+        </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Diarios">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Diarios" generated properties.</summary>
         </member>
@@ -537,9 +545,6 @@
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.HorasSueno">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "HorasSueno" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Anotado">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Anotado" generated properties.</summary>
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Error">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Error" generated properties.</summary>

@@ -40,9 +40,6 @@ namespace MoodTAB.ViewModel
         string horasSueno;
 
         [ObservableProperty]
-        bool anotado;
-
-        [ObservableProperty]
         string error;
         public List<string> redes =
     [
@@ -110,7 +107,6 @@ namespace MoodTAB.ViewModel
             CantidadPasos = (int)stepService.TotalSteps;
             HorasSueno = "0";
             Error = "";
-            anotado = false;
 
             ColorFeliz = "#FEF9C3";
             ColorEmocionado = "#FFEDD5";
@@ -253,7 +249,7 @@ namespace MoodTAB.ViewModel
             var items = await App.Database.GetDiarioAsync();
             Diarios = new ObservableCollection<Diario>(items);
 #if ANDROID
-            var stats = UsageStatsHelper.GetAppUsageStats();
+            var stats = UsageStatsHelper.GetAppUsageStats() ?? new Dictionary<string, long>();
             redesociales = 0;
             horast = 0;
             horasyutu = 0;
@@ -284,11 +280,6 @@ namespace MoodTAB.ViewModel
         {
             try
             {
-                if (Anotado)
-                {
-                    await Shell.Current.DisplayAlert("Diaro ya subido", "Usted ya subió su diario emocional hoy", "OK");
-                    return;
-                }
                 if (EmocionDiaria.Count == 0 || string.IsNullOrWhiteSpace(DescDia))
                 {
                     await Shell.Current.DisplayAlert("Campos en blanco", "No se puede dejar los campos en blanco", "OK");
@@ -308,7 +299,6 @@ namespace MoodTAB.ViewModel
                 };
 
                 await App.Database.SaveDiarioAsync(diario);
-                Anotado = true;
                 await LoadDiariosAsync();
 
                 var payload = new
@@ -365,19 +355,6 @@ namespace MoodTAB.ViewModel
             catch (Exception e)
             {
                 Error = e.Message;
-            }
-        }
-
-        [RelayCommand]
-        private void CambiarAnotado()
-        {
-            if (Anotado)
-            {
-                Anotado = false;
-            }
-            else
-            {
-                Anotado = true;
             }
         }
     }

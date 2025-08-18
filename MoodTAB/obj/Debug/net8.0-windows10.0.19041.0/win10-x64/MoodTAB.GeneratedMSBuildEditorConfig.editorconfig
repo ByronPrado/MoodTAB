@@ -113,3 +113,9 @@ build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.Vistas.TestPage.xaml
 build_metadata.AdditionalFiles.TargetPath = Vistas\TestPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Vistas\TestPage.xaml
+
+[C:/Users/munoz/OneDrive/Escritorio/Universidad/Feria/MoodTAB/MoodTAB/Vistas/UserPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.Vistas.UserPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Vistas\UserPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Vistas\UserPage.xaml

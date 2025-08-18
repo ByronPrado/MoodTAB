@@ -2,13 +2,98 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MoodTAB.Vistas.DetalleDiarioPage"
-             Title="Detalle Diario">
+            >
 
-    <VerticalStackLayout Padding="20">
-        <Label Text="Pregunta:" FontAttributes="Bold" />
-        <Label Text="{Binding Descripcion}" FontSize="14" />
+    <ScrollView BackgroundColor="#FFF3F3FF">
+        <VerticalStackLayout  Spacing="15" Margin="5">
+            
+            <!-- Titulo -->
+            <Frame Padding="15" CornerRadius="20" BackgroundColor="#E8F0FE" BorderColor="#00F0F8FF">
+                <Frame.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#DBEAFE" Offset="0.0" />
+                        <GradientStop Color="#DCFCE8" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Frame.Background>
+                <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+                    <Label Text="💙 Titulo" FontAttributes="Bold" FontSize="20" TextColor="#0F172A"/>
+                    <Label Text="{Binding DiaroDetallado.CreatedAt, StringFormat='¿Cómo me sentí el {0:dd/MM} a las {0:hh:mm}?'}" FontSize="18" FontAttributes="Bold" TextColor="#0F172A"/>
+                </VerticalStackLayout>
+            </Frame>
 
-        <Label Text="Respuesta:" FontAttributes="Bold" />
-        <Label Text="{Binding CreatedAt}" FontSize="16" />
-    </VerticalStackLayout>
+            <CollectionView ItemsSource="{Binding ListaEmociones}">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="3" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <HorizontalStackLayout>
+                            <Frame  BackgroundColor="{Binding Color}" BorderColor="{Binding ColorBorde}" CornerRadius="15"
+                                HeightRequest="97"
+                                WidthRequest="97">
+                                <Label Text="{Binding Texto}" FontSize="9" TextColor="black" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                            </Frame>
+                        </HorizontalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Descripción del día -->
+            <VerticalStackLayout Spacing="5">
+            <Frame
+                BackgroundColor="#FFD6E8FF"
+                CornerRadius="15"
+                Padding="10"
+                BorderColor="#FFC7DFFF"
+                HasShadow="False">
+                <VerticalStackLayout Spacing="5">
+                    <Label 
+                        HeightRequest="100"
+                        BackgroundColor="Transparent"
+                        TextColor="Black"
+                        Text="{Binding DiaroDetallado.Descripcion}" />
+                </VerticalStackLayout>
+            </Frame>
+            </VerticalStackLayout>
+            
+            <!-- Actividad diaria -->
+            <VerticalStackLayout Spacing="10">
+                <Label Text="📈 Actividad del día" FontAttributes="Bold" FontSize="16" TextColor="#0F172A"/>
+
+                <!-- Pasos -->
+                <Frame CornerRadius="15" Padding="10" BackgroundColor="#DCFCE7" BorderColor="#FFA2FFC2">
+                    <VerticalStackLayout>
+                        <Label Text="🚶 Pasos" FontAttributes="Bold" TextColor="#166534"/>
+                        <Label Text="{Binding DiaroDetallado.Cantidad_Pasos}" FontSize="22" FontAttributes="Bold" TextColor="#166534"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Uso del celular -->
+                <Frame CornerRadius="15" Padding="10" BackgroundColor="#DBEAFE" BorderColor="#FFA2CAFF">
+                    <VerticalStackLayout>
+                        <Label Text="📱 Uso del celular" FontAttributes="Bold" TextColor="#1E3A8A"/>
+                        <Label Text="{Binding DiaroDetallado.Horas_Celular, StringFormat='{0:F1} hrs'}" FontSize="22" FontAttributes="Bold" TextColor="#1E3A8A"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Redes sociales -->
+                <Frame CornerRadius="15" Padding="10" BackgroundColor="#F5D0FE" BorderColor="#FFEEACFF">
+                    <VerticalStackLayout>
+                        <Label Text="📣 Redes sociales" FontAttributes="Bold" TextColor="#701A75"/>
+                        <Label Text="{Binding DiaroDetallado.Horas_Redes, StringFormat='{0:F1} hrs'}" FontSize="22" FontAttributes="Bold" TextColor="#701A75"/>
+                        <!--Label Text="Instagram, TikTok, Youtube, etc." FontSize="12" TextColor="#701A75"/-->
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Sueño -->
+                <Frame CornerRadius="15" Padding="10" BackgroundColor="#FFC1E4FF" BorderColor="#FF86C8FA">
+                    <VerticalStackLayout>
+                        <Label Text="💤 Sueño" FontAttributes="Bold" TextColor="#FF1A4E75"/>
+                        <Label Text="{Binding DiaroDetallado.Horas_Sueno, StringFormat='{0:F1} hrs'}" FontSize="22" FontAttributes="Bold" TextColor="#FF1A4E75"/>                    
+                    </VerticalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

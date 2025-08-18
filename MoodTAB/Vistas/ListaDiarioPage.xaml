@@ -2,30 +2,47 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MoodTAB.Vistas.ListaDiarioPage"
+             BackgroundColor="#FFF3F3FF"
              Title="ListaDiarioPage">
-    <VerticalStackLayout>
-        <Button Text="Ingresar nuevo diario"
-                Clicked="OnNewSeleccionado"
-            >
-            
+             
+    <VerticalStackLayout  Spacing="15" Margin="5">
+        <Button Text="➕ Ingresar nuevo diario"
+                Clicked="OnNewSeleccionado">
+                <Button.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#3B82F6" Offset="0.0" />
+                        <GradientStop Color="#10B981" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Button.Background>
         </Button>
         <Label x:Name="ErrorLabel"
-       TextColor="Red"
-       FontSize="14"
-       IsVisible="False" />
+        TextColor="Red"
+        FontSize="14"
+        IsVisible="False" />
+
         <CollectionView ItemsSource="{Binding ListaDiarios}"
                         SelectionMode="Single"
                         SelectionChanged="OnDiarioSeleccionado"
                         HeightRequest="400">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame BorderColor="LightGray" Padding="10" Margin="5">
+                        <Frame BackgroundColor="#FFD6E8FF" BorderColor="#FFC7DFFF" Padding="10" Margin="5">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnDiarioSeleccionado" CommandParameter="{Binding .}" />
+                            </Frame.GestureRecognizers>
                             <VerticalStackLayout>
-                                <Label Text="Pregunta:" FontAttributes="Bold" />
-                                <Label Text="{Binding Descripcion}" FontSize="14" />
+                                <Label Text="Titulo" FontAttributes="Bold" FontSize="20" />
+                                <Label Text="{Binding Emocion_Diaria}" FontSize="14" />
                                 
-                                <Label Text="Respuesta:" FontAttributes="Bold" />
-                                <Label Text="{Binding CreatedAt}" FontSize="16" />
+                                <Grid RowDefinitions="10,*,*"
+                                      ColumnDefinitions="*,*" >
+                                    <Label Text="Fecha:"          Grid.Row="1" Grid.Column="0" FontAttributes="Bold" />
+                                    <Label Text="{Binding CreatedAt, StringFormat='{0:dd/MM}'}" Grid.Row="2" Grid.Column="0" FontSize="16" />
+                                    <Label Text="Hora:"          Grid.Row="1" Grid.Column="1" FontAttributes="Bold" />
+                                    <Label Text="{Binding CreatedAt, StringFormat='{0:HH:mm}'}" Grid.Row="2" Grid.Column="1" FontSize="16" />
+                                </Grid>
+
+                                
 
                             </VerticalStackLayout>
                         </Frame>

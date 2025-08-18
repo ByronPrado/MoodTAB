@@ -4,29 +4,48 @@
              x:Class="MoodTAB.Vistas.CuestionarioPage"
             >
 
-    <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="15">
+    <ScrollView BackgroundColor="#FFF3F3FF">
+        <VerticalStackLayout Padding="5" Spacing="15">
             <Label Text="Cuestionario Diario" FontAttributes="Bold" FontSize="24" HorizontalOptions="Center" />
 
-            <Label Text="Preguntas:" FontSize="16" FontAttributes="Bold" />
-
             <CollectionView x:Name="PreguntasColl" ItemsSource="{Binding PreguntasConRespuesta}" Margin="0,0,0,20">
+                <CollectionView.Triggers>
+                    <DataTrigger TargetType="CollectionView"
+                                Binding="{Binding PreguntasConRespuesta.Count}"
+                                Value="0">
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                </CollectionView.Triggers>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame BorderColor="LightGray" Padding="10" Margin="5">
+                        <Frame Margin="5"
+                            BackgroundColor="#FFD6E8FF"
+                            CornerRadius="15"
+                            Padding="10"
+                            BorderColor="#FFC7DFFF"
+                            HasShadow="False">
+                
                             <VerticalStackLayout>
-                                <Label Text="{Binding Pregunta.Contenido}" FontSize="14" />
-                                <Label Text="{Binding Pregunta.Extra}" FontSize="12" TextColor="Gray"/>     
-                                <Frame IsVisible="{Binding EsAbierta}">                                    
-                                        <Editor Placeholder="Escribe tu respuesta aquí..."
-                                        AutoSize="TextChanges"
-                                        Text="{Binding RespuestaUsuario, Mode=TwoWay}" />
+                                <Label Text="{Binding Pregunta.Contenido}" FontAttributes="Bold" FontSize="16" />    
+                                <Frame IsVisible="{Binding EsAbierta}"
+                                    BackgroundColor="Transparent"
+                                    BorderColor="#00F0F8FF">
+                                    <Editor
+                                        Placeholder="Escribe tu respuesta aquí..."
+                                        HeightRequest="100"
+                                        WidthRequest="270"
+                                        BackgroundColor="White"
+                                        TextColor="Black"
+                                        Text="{Binding RespuestaUsuario, Mode=TwoWay}"
+                                        AutoSize="TextChanges" />                                
                                 </Frame>
 
-                                <Frame IsVisible="{Binding EsEscala}">
+                                <Frame IsVisible="{Binding EsEscala}"
+                                    BackgroundColor="Transparent"
+                                    BorderColor="#00F0F8FF">
                                     <Grid
                                         RowDefinitions="*,*"
-                                        ColumnDefinitions="200"
+                                        ColumnDefinitions="300"
                                         >
                                         <Label Text="{Binding RespuestaUsuarioEscala}" FontSize="12" TextColor="Gray" Grid.Column="0" Grid.Row="0"/>
                                         <Slider Minimum="{Binding MinimoEscala}" Maximum="{Binding MaximoEscala}"                                            
@@ -34,17 +53,27 @@
                                     </Grid>                           
 
                                 </Frame>
-                                <Frame IsVisible="{Binding EsSeleccion}">
+                                <Frame IsVisible="{Binding EsSeleccion}"
+                                    BackgroundColor="Transparent"
+                                    BorderColor="#00F0F8FF">
                                     <VerticalStackLayout>
                                             <CollectionView ItemsSource="{Binding OpcionesSeleccion}" SelectionMode="None">
+                                                <CollectionView.ItemsLayout>
+                                                    <GridItemsLayout Orientation="Vertical" Span="1"/>
+                                                </CollectionView.ItemsLayout>
                                                 <CollectionView.ItemTemplate>
                                                     <DataTemplate>
-                                                        <Button 
-                                                            Margin="0,5"
-                                                            BackgroundColor="{Binding Color}"
-                                                            Text="{Binding Texto}" 
-                                                            Command="{Binding BindingContext.SeleccionarOpcionCommand, Source={RelativeSource AncestorType={x:Type CollectionView}}}"
-                                                            CommandParameter="{Binding Texto}" />
+                                                            <HorizontalStackLayout>
+                                                                <Button
+                                                                    Margin="0,5"
+                                                                    CornerRadius="10"
+                                                                    WidthRequest="20"
+                                                                    HeightRequest="20"
+                                                                    BackgroundColor="{Binding Color}"
+                                                                    Command="{Binding BindingContext.SeleccionarOpcionCommand, Source={RelativeSource AncestorType={x:Type CollectionView}}}"
+                                                                    CommandParameter="{Binding Texto}" />
+                                                                <Label Text="{Binding Texto, StringFormat='     {0}'}" VerticalOptions="Center"/>
+                                                            </HorizontalStackLayout>
                                                     </DataTemplate>
                                                 </CollectionView.ItemTemplate>
                                             </CollectionView>
@@ -57,33 +86,48 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <Button Text="Guardar Respuestas"
-                    Command="{Binding GuardarRespuestasCommand}" />
+            <Label Text="No hay cuestionario disponibles."
+                FontSize="16"
+                TextColor="Gray"
+                HorizontalOptions="Center"
+                IsVisible="False">
+                <Label.Triggers>
+                    <DataTrigger TargetType="Label"
+                                Binding="{Binding PreguntasConRespuesta.Count}"
+                                Value="0">
+                        <Setter Property="IsVisible" Value="True" />
+                    </DataTrigger>
+                </Label.Triggers>
+            </Label>
+
+            <Button Text="💾 Enviar respuestas"
+                    Command="{Binding GuardarRespuestasCommand}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button"
+                                Binding="{Binding PreguntasConRespuesta.Count}"
+                                Value="0">
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                </Button.Triggers>
+                <Button.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#3B82F6" Offset="0.0" />
+                        <GradientStop Color="#10B981" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
             
             <Button Text="DUMP DB"
                     BackgroundColor="Red"
-                    Command="{Binding BorrarBaseDatosCommand}" />
-
-            <Label Text="Respuestas guardadas:" FontAttributes="Bold" FontSize="16" />
-
-            <CollectionView ItemsSource="{Binding RespuestasLista}" HeightRequest="400">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Frame BorderColor="LightGray" Padding="10" Margin="5">
-                            <VerticalStackLayout>
-                                <Label Text="Pregunta:" FontAttributes="Bold" />
-                                <Label Text="{Binding PreguntaId}" FontSize="14" />
-                                
-                                <Label Text="Respuesta:" FontAttributes="Bold" />
-                                <Label Text="{Binding Texto_Respuesta}" FontSize="16" />
-
-                                <Label Text="ID:" FontAttributes="Italic" FontSize="12" />
-                                <Label Text="{Binding ID_Respuesta}" FontSize="12" TextColor="Gray" />
-                            </VerticalStackLayout>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                    Command="{Binding BorrarBaseDatosCommand}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button"
+                                Binding="{Binding PreguntasConRespuesta.Count}"
+                                Value="0">
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

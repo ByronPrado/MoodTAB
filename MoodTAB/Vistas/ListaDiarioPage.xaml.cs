@@ -2,7 +2,7 @@ namespace MoodTAB.Vistas;
 using MoodTAB.ViewModel;
 using MoodTAB.Models;
 using MoodTAB.Services;
-using Android.Telephony.Euicc;
+
 
 public partial class ListaDiarioPage : ContentPage
 {
@@ -21,13 +21,11 @@ public partial class ListaDiarioPage : ContentPage
 		base.OnAppearing();
 		await viewModel.CargarListaDiarios(); // Carga la lista cada vez que se muestra la página
 	}
-	private async void OnDiarioSeleccionado(object sender, SelectionChangedEventArgs e)
+	private async void OnDiarioSeleccionado(object sender, TappedEventArgs e)
 	{
-		if (e.CurrentSelection.FirstOrDefault() is Diario diarioSeleccionado)
+		if (e.Parameter is Diario diarioSeleccionado)
 		{
 			await Navigation.PushAsync(new DetalleDiarioPage(diarioSeleccionado));
-
-			((CollectionView)sender).SelectedItem = null;
 		}
 	}
 	private async void OnNewSeleccionado(object sender, EventArgs e)

@@ -4,35 +4,65 @@
              xmlns:viewModel="clr-namespace:MoodTAB.ViewModel" 
              x:Class="MoodTAB.Vistas.MainPage">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25">
-            <Label
-                Text="{Binding Title}"
-                SemanticProperties.HeadingLevel="Level1" />
-            <Label
-                Text="{Binding TitleApi}"
-                SemanticProperties.HeadingLevel="Level1" />
-            <Button
-                Text="test" 
-                Command="{Binding MovetoPageCommand}"
-                CommandParameter="TestPage"
-                HorizontalOptions="Fill" 
-                BackgroundColor="green"/>
-             <Button
-                Text="Cuestionario" 
-                Command="{Binding MovetoPageCommand}"
-                CommandParameter="CuestionarioPage"
-                HorizontalOptions="Fill" 
-                BackgroundColor="blue"/>
+        <ScrollView
+            BackgroundColor="#FFF3F3FF">
+        <VerticalStackLayout Padding="20" Spacing="25">
 
-                         <Button
-                Text="DIARIO" 
-                Command="{Binding MovetoPageCommand}"
-                CommandParameter="DiarioPage"
-                HorizontalOptions="Fill" 
-                BackgroundColor="cyan"/>
+            <!-- Frame con título de la API -->
+            <Frame CornerRadius="12"
+                   Padding="15"
+                   BackgroundColor="White"
+                   BorderColor="#90CAF9">
+                   <Grid
+                        ColumnSpacing="0"
+                        RowSpacing="10"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center"
+                        RowDefinitions="Auto,Auto">
+                        <Label Text="{Binding Title}"
+                            Grid.Row="0"
+                            FontSize="14"
+                            FontAttributes="Bold"
+                            TextColor="Black"
+                            />
+                       <Label Text="{Binding TitleApi}"
+                            Grid.Row="1"/>
+                       </Grid>
+                
+            </Frame>
+
+            <!-- Sección Actividades -->
+            <Label Text="Actividades Pendientes"
+                   FontSize="22"
+                   TextColor="Black"
+                   Margin="0,10,0,0"/>
+
+            <VerticalStackLayout Spacing="15">
+                <Button Text="Cuestionario"
+                        Command="{Binding MovetoPageCommand}"
+                        CommandParameter="CuestionarioPage"
+                        BackgroundColor="#5C91D8"
+                        />
+
+                <Button Text="Diario Emocional"
+                        Command="{Binding MovetoPageCommand}"
+                        CommandParameter="DiarioPage"
+                        BackgroundColor="#68ACD5"
+                        />
+            </VerticalStackLayout>
+
+            <!-- Sección Debug -->
+            <Label Text="Debug"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   TextColor="Gray"
+                   Margin="0,20,0,0"/>
+
+            <Button Text="Test"
+                    Command="{Binding MovetoPageCommand}"
+                    CommandParameter="TestPage"
+                    BackgroundColor="Red"
+                    />
         </VerticalStackLayout>
     </ScrollView>
 

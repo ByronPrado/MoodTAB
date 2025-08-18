@@ -18,7 +18,7 @@ namespace MoodTAB.Platforms.Android
             sensorManager = (SensorManager?)global::Android.App.Application.Context.GetSystemService(Context.SensorService);
             stepSensor = sensorManager?.GetDefaultSensor(SensorType.StepCounter);
 
-            if (stepSensor != null)
+            if (sensorManager !=null && stepSensor != null)
             {
                 sensorManager.RegisterListener(this, stepSensor, SensorDelay.Ui);
             }
@@ -34,7 +34,7 @@ namespace MoodTAB.Platforms.Android
 
         public void OnSensorChanged(SensorEvent? e)
         {
-            if (e != null && e.Sensor?.Type == SensorType.StepCounter)
+            if (e?.Values != null && e.Sensor?.Type == SensorType.StepCounter)
             {
                 TotalSteps = (long)e.Values[0]; // Total desde el último reinicio del dispositivo
             }

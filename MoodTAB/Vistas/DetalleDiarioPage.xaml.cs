@@ -4,9 +4,11 @@ using MoodTAB.Models;
 
 public partial class DetalleDiarioPage : ContentPage
 {
+    private ViewModel.DetalleDiaroViewModel viewModel;
     public DetalleDiarioPage(Diario diario)
     {
         InitializeComponent();
-        BindingContext = diario;
+        viewModel = new ViewModel.DetalleDiaroViewModel(diario);
+		BindingContext = viewModel;
     }
 }
