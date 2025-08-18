@@ -10,6 +10,7 @@ using System.Net.Http;
 
 namespace MoodTAB.ViewModel
 {
+    public partial class DetalleDiaroViewModel : ObservableObject
     {
         [ObservableProperty]
         public Diario diaroDetallado;
