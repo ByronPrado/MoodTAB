@@ -4,9 +4,20 @@
              x:Class="MoodTAB.Vistas.UserPage"
              Title="UserPage">
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+    <Grid 
+        ColumnDefinitions="auto"
+        RowDefinitions="auto,auto,auto,auto"
+        Padding="10"
+        RowSpacing="10"
+        >
+        <Image  Grid.Row="0" Source="dotnet_bot.png"/>
+        <Label  Grid.Row="1" Text="Nombre de Usuario"/>
+        <Label Grid.Row="2" Text="Correo Electrónico"/>
+        <Label Grid.Row ="3" Text="Telefono"/> 
+
+
+        </Grid>
+    <Button Text="editar sin func" Clicked ="onEditClicked"/>
+
     </VerticalStackLayout>
 </ContentPage>

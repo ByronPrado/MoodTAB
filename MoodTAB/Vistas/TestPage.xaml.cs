@@ -24,7 +24,12 @@ public partial class TestPage : ContentPage
 			return Path.Combine(path, "MoodTAB.db3");
 		}
 	}
-	public  void OnButtonClicked(object sender, EventArgs e){
+	public void OnEditarUsuarioClicked(object sender, EventArgs e)
+	{ //NAVEGACION A DATOS DEL USUARIO
+		Shell.Current.GoToAsync("UserPage");
+	}
+	public void OnButtonClicked(object sender, EventArgs e)
+	{
 		if (connectivity.NetworkAccess != NetworkAccess.Internet)
 		{
 			DisplayAlert("Error", "No hay conexión a Internet.", "OK");
