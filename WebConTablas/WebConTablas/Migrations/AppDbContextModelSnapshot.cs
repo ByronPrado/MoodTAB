@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -14,41 +15,47 @@ namespace WebConTablas.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.5");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "9.0.5")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("WebConTablas.Models.DiarioEmocional", b =>
                 {
                     b.Property<int>("ID_Diario")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID_Diario"));
 
                     b.Property<string>("Descripcion")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("Emociones")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("Estado")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("Fecha")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Hora_dormida")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<int?>("Horas_celular")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<int?>("Horas_redes")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<int>("ID_Paciente")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<int?>("Pasos")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.HasKey("ID_Diario");
 
@@ -64,7 +71,7 @@ namespace WebConTablas.Migrations
                             Descripcion = "Tuve un día difícil",
                             Emociones = "{\"feliz\":0,\"triste\":1}",
                             Estado = "inhibido",
-                            Fecha = new DateTime(2024, 6, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Fecha = new DateTime(2024, 6, 16, 0, 0, 0, 0, DateTimeKind.Utc),
                             Hora_dormida = "23:00",
                             Horas_celular = 4,
                             Horas_redes = 2,
@@ -77,19 +84,21 @@ namespace WebConTablas.Migrations
                 {
                     b.Property<int>("ID_Formulario")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID_Formulario"));
 
                     b.Property<DateTime?>("Created_at")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Descripcion")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<int>("ID_Psiquiatra")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Titulo")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.HasKey("ID_Formulario");
 
@@ -101,7 +110,7 @@ namespace WebConTablas.Migrations
                         new
                         {
                             ID_Formulario = 1,
-                            Created_at = new DateTime(2024, 6, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Created_at = new DateTime(2024, 6, 16, 0, 0, 0, 0, DateTimeKind.Utc),
                             Descripcion = "Formulario para evaluar estado inicial del paciente",
                             ID_Psiquiatra = 1,
                             Titulo = "Evaluación inicial"
@@ -112,23 +121,25 @@ namespace WebConTablas.Migrations
                 {
                     b.Property<int>("ID_Asignacion")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID_Asignacion"));
 
                     b.Property<string>("Estado")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("Fecha_Asignacion")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime?>("Fecha_Limite")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("ID_Formulario")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<int>("ID_Paciente")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.HasKey("ID_Asignacion");
 
@@ -143,8 +154,8 @@ namespace WebConTablas.Migrations
                         {
                             ID_Asignacion = 1,
                             Estado = "pendiente",
-                            Fecha_Asignacion = new DateTime(2024, 6, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Fecha_Limite = new DateTime(2024, 6, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Fecha_Asignacion = new DateTime(2024, 6, 16, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Fecha_Limite = new DateTime(2024, 6, 23, 0, 0, 0, 0, DateTimeKind.Utc),
                             ID_Formulario = 1,
                             ID_Paciente = 1
                         });
@@ -153,13 +164,13 @@ namespace WebConTablas.Migrations
             modelBuilder.Entity("WebConTablas.Models.FormularioPregunta", b =>
                 {
                     b.Property<int>("ID_Formulario")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<int>("ID_Pregunta")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<int?>("Orden")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.HasKey("ID_Formulario", "ID_Pregunta");
 
@@ -180,29 +191,31 @@ namespace WebConTablas.Migrations
                 {
                     b.Property<int>("ID_Paciente")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID_Paciente"));
 
                     b.Property<string>("Diagnostico")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<int>("Edad")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Email")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<int?>("ID_Psiquiatra")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("Sexo")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("Telefono")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.HasKey("ID_Paciente");
 
@@ -228,32 +241,34 @@ namespace WebConTablas.Migrations
                 {
                     b.Property<int>("ID_Pregunta")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID_Pregunta"));
 
                     b.Property<string>("Contenido")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("Created_at")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime?>("Edited_at")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int?>("EscalaMax")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<int?>("EscalaMin")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Extra")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("OpcionesSeleccion")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("Tipo")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.HasKey("ID_Pregunta");
 
@@ -264,7 +279,7 @@ namespace WebConTablas.Migrations
                         {
                             ID_Pregunta = 1,
                             Contenido = "¿Cómo te has sentido hoy?",
-                            Created_at = new DateTime(2024, 6, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Created_at = new DateTime(2024, 6, 16, 0, 0, 0, 0, DateTimeKind.Utc),
                             Tipo = "texto"
                         });
                 });
@@ -273,21 +288,23 @@ namespace WebConTablas.Migrations
                 {
                     b.Property<int>("ID_Psiquiatra")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID_Psiquiatra"));
 
                     b.Property<string>("Contrasena")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("Telefono")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.HasKey("ID_Psiquiatra");
 
@@ -308,20 +325,22 @@ namespace WebConTablas.Migrations
                 {
                     b.Property<int>("ID_Respuesta")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID_Respuesta"));
 
                     b.Property<string>("Contenido")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("Fecha_Respuesta")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("ID_Asignacion")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<int>("ID_Pregunta")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.HasKey("ID_Respuesta");
 

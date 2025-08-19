@@ -48,7 +48,7 @@ public class FormulariosAsignadosController : Controller
         {
             ID_Formulario = ID_Formulario,
             ID_Paciente = ID_Paciente,
-            Fecha_Asignacion = DateTime.Now,
+            Fecha_Asignacion = DateTime.UtcNow,
             Fecha_Limite = Fecha_Limite,
             Estado = "pendiente"
         };

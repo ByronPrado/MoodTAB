@@ -63,7 +63,7 @@ public class ApiFormularioController : ControllerBase
                 ID_Asignacion = dto.ID_Asignacion,
                 ID_Pregunta = r.ID_Pregunta,
                 Contenido = r.Contenido,
-                Fecha_Respuesta = DateTime.Now
+                Fecha_Respuesta = DateTime.UtcNow
             };
             _context.Respuestas.Add(respuesta);
         }

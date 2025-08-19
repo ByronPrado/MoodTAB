@@ -17,7 +17,7 @@ public async Task<IActionResult> Create(Pregunta pregunta)
 {
     if (ModelState.IsValid)
     {   
-        pregunta.Created_at = DateTime.Now;
+        pregunta.Created_at = DateTime.UtcNow;
         _context.Add(pregunta);
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));

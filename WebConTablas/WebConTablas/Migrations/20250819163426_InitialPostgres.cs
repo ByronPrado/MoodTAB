@@ -1,12 +1,13 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace WebConTablas.Migrations
 {
     /// <inheritdoc />
-    public partial class InicialMoodTab : Migration
+    public partial class InitialPostgres : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,13 +16,16 @@ namespace WebConTablas.Migrations
                 name: "Preguntas",
                 columns: table => new
                 {
-                    ID_Pregunta = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Contenido = table.Column<string>(type: "TEXT", nullable: false),
-                    Extra = table.Column<string>(type: "TEXT", nullable: true),
-                    Tipo = table.Column<string>(type: "TEXT", nullable: true),
-                    Created_at = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    Edited_at = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    ID_Pregunta = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Contenido = table.Column<string>(type: "text", nullable: false),
+                    Extra = table.Column<string>(type: "text", nullable: true),
+                    Tipo = table.Column<string>(type: "text", nullable: true),
+                    Created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    Edited_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    OpcionesSeleccion = table.Column<string>(type: "text", nullable: true),
+                    EscalaMin = table.Column<int>(type: "integer", nullable: true),
+                    EscalaMax = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -32,12 +36,12 @@ namespace WebConTablas.Migrations
                 name: "Psiquiatras",
                 columns: table => new
                 {
-                    ID_Psiquiatra = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Nombre = table.Column<string>(type: "TEXT", nullable: false),
-                    Contrasena = table.Column<string>(type: "TEXT", nullable: false),
-                    Email = table.Column<string>(type: "TEXT", nullable: true),
-                    Telefono = table.Column<string>(type: "TEXT", nullable: true)
+                    ID_Psiquiatra = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Nombre = table.Column<string>(type: "text", nullable: false),
+                    Contrasena = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: true),
+                    Telefono = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -48,12 +52,12 @@ namespace WebConTablas.Migrations
                 name: "Formularios",
                 columns: table => new
                 {
-                    ID_Formulario = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    ID_Psiquiatra = table.Column<int>(type: "INTEGER", nullable: false),
-                    Titulo = table.Column<string>(type: "TEXT", nullable: true),
-                    Descripcion = table.Column<string>(type: "TEXT", nullable: true),
-                    Created_at = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    ID_Formulario = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ID_Psiquiatra = table.Column<int>(type: "integer", nullable: false),
+                    Titulo = table.Column<string>(type: "text", nullable: true),
+                    Descripcion = table.Column<string>(type: "text", nullable: true),
+                    Created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -70,15 +74,15 @@ namespace WebConTablas.Migrations
                 name: "Pacientes",
                 columns: table => new
                 {
-                    ID_Paciente = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Nombre = table.Column<string>(type: "TEXT", nullable: false),
-                    Diagnostico = table.Column<string>(type: "TEXT", nullable: true),
-                    Edad = table.Column<int>(type: "INTEGER", nullable: false),
-                    Sexo = table.Column<string>(type: "TEXT", nullable: true),
-                    Email = table.Column<string>(type: "TEXT", nullable: true),
-                    Telefono = table.Column<string>(type: "TEXT", nullable: true),
-                    ID_Psiquiatra = table.Column<int>(type: "INTEGER", nullable: true)
+                    ID_Paciente = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Nombre = table.Column<string>(type: "text", nullable: false),
+                    Diagnostico = table.Column<string>(type: "text", nullable: true),
+                    Edad = table.Column<int>(type: "integer", nullable: false),
+                    Sexo = table.Column<string>(type: "text", nullable: true),
+                    Email = table.Column<string>(type: "text", nullable: true),
+                    Telefono = table.Column<string>(type: "text", nullable: true),
+                    ID_Psiquiatra = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -95,9 +99,9 @@ namespace WebConTablas.Migrations
                 name: "FormularioPreguntas",
                 columns: table => new
                 {
-                    ID_Formulario = table.Column<int>(type: "INTEGER", nullable: false),
-                    ID_Pregunta = table.Column<int>(type: "INTEGER", nullable: false),
-                    Orden = table.Column<int>(type: "INTEGER", nullable: true)
+                    ID_Formulario = table.Column<int>(type: "integer", nullable: false),
+                    ID_Pregunta = table.Column<int>(type: "integer", nullable: false),
+                    Orden = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -120,16 +124,17 @@ namespace WebConTablas.Migrations
                 name: "DiariosEmocionales",
                 columns: table => new
                 {
-                    ID_Diario = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    ID_Paciente = table.Column<int>(type: "INTEGER", nullable: false),
-                    Fecha = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Emociones = table.Column<string>(type: "TEXT", nullable: true),
-                    Descripcion = table.Column<string>(type: "TEXT", nullable: true),
-                    Pasos = table.Column<int>(type: "INTEGER", nullable: true),
-                    Horas_celular = table.Column<int>(type: "INTEGER", nullable: true),
-                    Horas_redes = table.Column<int>(type: "INTEGER", nullable: true),
-                    Hora_dormida = table.Column<string>(type: "TEXT", nullable: true)
+                    ID_Diario = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ID_Paciente = table.Column<int>(type: "integer", nullable: false),
+                    Fecha = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Emociones = table.Column<string>(type: "text", nullable: true),
+                    Descripcion = table.Column<string>(type: "text", nullable: true),
+                    Pasos = table.Column<int>(type: "integer", nullable: true),
+                    Horas_celular = table.Column<int>(type: "integer", nullable: true),
+                    Horas_redes = table.Column<int>(type: "integer", nullable: true),
+                    Hora_dormida = table.Column<string>(type: "text", nullable: true),
+                    Estado = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -146,13 +151,13 @@ namespace WebConTablas.Migrations
                 name: "FormulariosAsignados",
                 columns: table => new
                 {
-                    ID_Asignacion = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    ID_Formulario = table.Column<int>(type: "INTEGER", nullable: false),
-                    ID_Paciente = table.Column<int>(type: "INTEGER", nullable: false),
-                    Fecha_Asignacion = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Fecha_Limite = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    Estado = table.Column<string>(type: "TEXT", nullable: false)
+                    ID_Asignacion = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ID_Formulario = table.Column<int>(type: "integer", nullable: false),
+                    ID_Paciente = table.Column<int>(type: "integer", nullable: false),
+                    Fecha_Asignacion = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Fecha_Limite = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    Estado = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -175,12 +180,12 @@ namespace WebConTablas.Migrations
                 name: "Respuestas",
                 columns: table => new
                 {
-                    ID_Respuesta = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    ID_Asignacion = table.Column<int>(type: "INTEGER", nullable: false),
-                    ID_Pregunta = table.Column<int>(type: "INTEGER", nullable: false),
-                    Contenido = table.Column<string>(type: "TEXT", nullable: false),
-                    Fecha_Respuesta = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    ID_Respuesta = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ID_Asignacion = table.Column<int>(type: "integer", nullable: false),
+                    ID_Pregunta = table.Column<int>(type: "integer", nullable: false),
+                    Contenido = table.Column<string>(type: "text", nullable: false),
+                    Fecha_Respuesta = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -201,8 +206,8 @@ namespace WebConTablas.Migrations
 
             migrationBuilder.InsertData(
                 table: "Preguntas",
-                columns: new[] { "ID_Pregunta", "Contenido", "Created_at", "Edited_at", "Extra", "Tipo" },
-                values: new object[] { 1, "¿Cómo te has sentido hoy?", new DateTime(2024, 6, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "texto" });
+                columns: new[] { "ID_Pregunta", "Contenido", "Created_at", "Edited_at", "EscalaMax", "EscalaMin", "Extra", "OpcionesSeleccion", "Tipo" },
+                values: new object[] { 1, "¿Cómo te has sentido hoy?", new DateTime(2024, 6, 16, 0, 0, 0, 0, DateTimeKind.Utc), null, null, null, null, null, "texto" });
 
             migrationBuilder.InsertData(
                 table: "Psiquiatras",
@@ -212,7 +217,7 @@ namespace WebConTablas.Migrations
             migrationBuilder.InsertData(
                 table: "Formularios",
                 columns: new[] { "ID_Formulario", "Created_at", "Descripcion", "ID_Psiquiatra", "Titulo" },
-                values: new object[] { 1, new DateTime(2024, 6, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), "Formulario para evaluar estado inicial del paciente", 1, "Evaluación inicial" });
+                values: new object[] { 1, new DateTime(2024, 6, 16, 0, 0, 0, 0, DateTimeKind.Utc), "Formulario para evaluar estado inicial del paciente", 1, "Evaluación inicial" });
 
             migrationBuilder.InsertData(
                 table: "Pacientes",
@@ -221,8 +226,8 @@ namespace WebConTablas.Migrations
 
             migrationBuilder.InsertData(
                 table: "DiariosEmocionales",
-                columns: new[] { "ID_Diario", "Descripcion", "Emociones", "Fecha", "Hora_dormida", "Horas_celular", "Horas_redes", "ID_Paciente", "Pasos" },
-                values: new object[] { 1, "Tuve un día difícil", "{\"feliz\":0,\"triste\":1}", new DateTime(2024, 6, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), "23:00", 4, 2, 1, 3000 });
+                columns: new[] { "ID_Diario", "Descripcion", "Emociones", "Estado", "Fecha", "Hora_dormida", "Horas_celular", "Horas_redes", "ID_Paciente", "Pasos" },
+                values: new object[] { 1, "Tuve un día difícil", "{\"feliz\":0,\"triste\":1}", "inhibido", new DateTime(2024, 6, 16, 0, 0, 0, 0, DateTimeKind.Utc), "23:00", 4, 2, 1, 3000 });
 
             migrationBuilder.InsertData(
                 table: "FormularioPreguntas",
@@ -232,7 +237,7 @@ namespace WebConTablas.Migrations
             migrationBuilder.InsertData(
                 table: "FormulariosAsignados",
                 columns: new[] { "ID_Asignacion", "Estado", "Fecha_Asignacion", "Fecha_Limite", "ID_Formulario", "ID_Paciente" },
-                values: new object[] { 1, "pendiente", new DateTime(2024, 6, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2024, 6, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1 });
+                values: new object[] { 1, "pendiente", new DateTime(2024, 6, 16, 0, 0, 0, 0, DateTimeKind.Utc), new DateTime(2024, 6, 23, 0, 0, 0, 0, DateTimeKind.Utc), 1, 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_DiariosEmocionales_ID_Paciente_Fecha",

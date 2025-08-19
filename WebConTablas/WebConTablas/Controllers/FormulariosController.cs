@@ -45,7 +45,7 @@ public class FormulariosController : Controller
         }
         if (ModelState.IsValid)
         {
-            formulario.Created_at = DateTime.Now;
+            formulario.Created_at = DateTime.UtcNow;
             _context.Add(formulario);
             await _context.SaveChangesAsync();
             // Redirige a la asignación de preguntas
