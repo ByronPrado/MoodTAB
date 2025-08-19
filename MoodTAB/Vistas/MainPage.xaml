@@ -49,6 +49,7 @@
                         CommandParameter="DiarioPage"
                         BackgroundColor="#68ACD5"
                         />
+                        
             </VerticalStackLayout>
 
             <!-- Sección Debug -->
@@ -63,6 +64,11 @@
                     CommandParameter="TestPage"
                     BackgroundColor="Red"
                     />
+
+            <Button Text="Probar Notificación"
+                    Clicked="NotificationClick"
+                    BackgroundColor="#68ACD5"
+                        />
         </VerticalStackLayout>
     </ScrollView>
 

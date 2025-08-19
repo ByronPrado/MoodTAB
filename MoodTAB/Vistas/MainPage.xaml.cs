@@ -1,5 +1,8 @@
 ﻿namespace MoodTAB.Vistas;
+
 using MoodTAB.ViewModel;
+using MoodTAB.Services;
+using MoodTAB.Platforms.Android;
 
 #if ANDROID
 using Android;
@@ -13,16 +16,20 @@ using AndroidX.Core.Content;
 public partial class MainPage : ContentPage
 {
 
-	private ViewModel.MainViewModel viewModel;
-	public MainPage()
-	{
-		InitializeComponent();
-		viewModel = new ViewModel.MainViewModel();
-		BindingContext = viewModel;
-	}
-	    protected override void OnAppearing()
+    INotificationManagerService notificationManager;
+    private ViewModel.MainViewModel viewModel;
+    public MainPage(INotificationManagerService manager)
+    {
+        InitializeComponent();
+        viewModel = new ViewModel.MainViewModel();
+        BindingContext = viewModel;
+
+        notificationManager = manager;
+    }
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
+        PermissionStatus status = await Permissions.RequestAsync<MoodTAB.Platforms.Android.NotificationPermission>();
 
 #if ANDROID
         RequestActivityRecognitionPermission();
@@ -46,4 +53,13 @@ public partial class MainPage : ContentPage
         }
     }
 #endif
+
+    void NotificationClick(object sender, EventArgs e)
+    {
+        string title = $"Notificación de prueba";
+        string message = $"Han pasado 10 min";
+        notificationManager.SendNotification(title, message, DateTime.Now.AddSeconds(10));
+    }
+
+    
 }

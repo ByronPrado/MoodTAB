@@ -36,6 +36,7 @@ public static class MauiProgram
 		builder.Services.AddSingleton<IStepCounterService, StepCounterService>();
 		builder.Services.AddTransient<DiarioPage>();
 		builder.Services.AddTransient<ListaDiarioPage>();
+		builder.Services.AddSingleton<INotificationManagerService, NotificationManagerService>();
 #endif
 
 		return builder.Build();

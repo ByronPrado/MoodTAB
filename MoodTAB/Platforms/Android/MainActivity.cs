@@ -1,17 +1,39 @@
 ﻿using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.OS;
+using MoodTAB.Services;
 
 namespace MoodTAB;
 
 [Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true, LaunchMode = LaunchMode.SingleTop, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density)]
 public class MainActivity : MauiAppCompatActivity
 {
-public static MainActivity? Instance { get; private set; }
+    public static MainActivity? Instance { get; private set; }
 
     protected override void OnCreate(Bundle? savedInstanceState)
     {
         base.OnCreate(savedInstanceState);
-        Instance = this; // Para acceder desde otras clases como permisos
+        Instance = this;
+        CreateNotificationFromIntent(Intent);
+    }
+
+    protected override void OnNewIntent(Intent? intent)
+    {
+        base.OnNewIntent(intent);
+
+        CreateNotificationFromIntent(intent);
+    }
+
+    static void CreateNotificationFromIntent(Intent intent)
+    {
+        if (intent?.Extras != null)
+        {
+            string title = intent.GetStringExtra(MoodTAB.Platforms.Android.NotificationManagerService.TitleKey);
+            string message = intent.GetStringExtra(MoodTAB.Platforms.Android.NotificationManagerService.MessageKey);
+
+            var service = IPlatformApplication.Current.Services.GetService<INotificationManagerService>();
+            service.ReceiveNotification(title, message);
+        }
     }
 }
