@@ -24,7 +24,8 @@
         <ShellContent Title="Cuestionario" Icon="survey.png" ContentTemplate="{DataTemplate views:CuestionarioPage}"/>
         <ShellContent Title="Mis Diarios" Icon="house_blank.png" ContentTemplate="{DataTemplate views:ListaDiarioPage}"/>
 
-        <Tab Title="Debug" Icon="debug.png">
+        <Tab Title="Extra" Icon="plus.png">
+            <ShellContent Title ="Datos usuario" ContentTemplate="{DataTemplate views:UserPage}"/>
             <ShellContent Title="DataBase" Icon="sql_server.png" ContentTemplate="{DataTemplate views:DataBasePage}" />
             <ShellContent Title="Agregar Preguntas" Icon="plus.png" ContentTemplate="{DataTemplate views:AddPreguntaPage}" />
             <ShellContent Title="HealthDataPage" ContentTemplate="{DataTemplate views:HealthDataPage}" />

@@ -2,7 +2,7 @@
 
 using MoodTAB.ViewModel;
 using MoodTAB.Services;
-using MoodTAB.Platforms.Android;
+
 
 #if ANDROID
 using Android;
@@ -11,6 +11,7 @@ using Android.OS;
 using Android.Runtime;
 using AndroidX.Core.App;
 using AndroidX.Core.Content;
+using MoodTAB.Platforms.Android;
 #endif
 
 public partial class MainPage : ContentPage
@@ -29,9 +30,8 @@ public partial class MainPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        PermissionStatus status = await Permissions.RequestAsync<MoodTAB.Platforms.Android.NotificationPermission>();
-
 #if ANDROID
+        PermissionStatus status = await Permissions.RequestAsync<MoodTAB.Platforms.Android.NotificationPermission>();
         RequestActivityRecognitionPermission();
 #endif
     }
@@ -55,7 +55,9 @@ public partial class MainPage : ContentPage
 #endif
 
     void NotificationClick(object sender, EventArgs e)
-    {
+    {   
+        viewModel.ActualizarDatosUsuario();
+        
         string title = $"Notificación de prueba";
         string message = $"Han pasado 10 min";
         notificationManager.SendNotification(title, message, DateTime.Now.AddSeconds(10));

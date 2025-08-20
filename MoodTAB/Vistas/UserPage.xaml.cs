@@ -1,4 +1,5 @@
 namespace MoodTAB.Vistas;
+using MoodTAB.ViewModels;
 
 public partial class UserPage : ContentPage
 {
@@ -15,4 +16,9 @@ public partial class UserPage : ContentPage
 		//onda si es edit= false se muestra los datos en label si es true mostramos los entry a modo de edicion.
 		Shell.Current.GoToAsync("EditarUsuarioPage");
 	}
+	    private async void OnLogoutClicked(object sender, EventArgs e)
+    {
+        var loginVM = new LoginViewModel();
+        await loginVM.Logout();
+    }
 }

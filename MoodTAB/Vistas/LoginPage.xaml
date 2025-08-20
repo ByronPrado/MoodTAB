@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MoodTAB.Vistas.LoginPage"
+             Title="LoginPage">
+    <VerticalStackLayout Padding="30" Spacing="15">
+        <Label Text="MoodTAB - Iniciar Sesión" FontSize="24" HorizontalOptions="Center"/>
+
+        <Label Text="{Binding LogsMessage}" TextColor="Blue" FontSize="14" HorizontalOptions="Center"/>
+
+        <Entry Placeholder="Nombre" Text="{Binding Nombre}" />
+        <Entry Placeholder="Email" Text="{Binding Email}" />
+
+        <Button Text="Ingresar" Command="{Binding LoginCommand}" />
+
+        <Label Text="{Binding ErrorMessage}" TextColor="Red" />
+    </VerticalStackLayout>
+</ContentPage>
+

@@ -4,6 +4,7 @@
              x:Class="MoodTAB.Vistas.UserPage"
              Title="UserPage">
     <VerticalStackLayout>
+    <Button Text="Cerrar sesión" Clicked="OnLogoutClicked" />
     <Grid 
         ColumnDefinitions="auto"
         RowDefinitions="auto,auto,auto,auto"

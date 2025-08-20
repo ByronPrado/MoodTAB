@@ -1,4 +1,5 @@
 ﻿namespace MoodTAB;
+
 using MoodTAB.Vistas;
 public partial class AppShell : Shell
 {
@@ -14,5 +15,6 @@ public partial class AppShell : Shell
 		Routing.RegisterRoute(nameof(ListaDiarioPage), typeof(ListaDiarioPage));
 		Routing.RegisterRoute(nameof(TestPage), typeof(TestPage));
 		Routing.RegisterRoute(nameof(UserPage), typeof(UserPage));
-		Routing.RegisterRoute(nameof(EditarUsuarioPage), typeof(EditarUsuarioPage));}
+		Routing.RegisterRoute(nameof(EditarUsuarioPage), typeof(EditarUsuarioPage));
+		Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));}
 }

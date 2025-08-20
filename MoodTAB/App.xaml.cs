@@ -18,12 +18,23 @@ public partial class App : Application
             return database;
         }
     }
-    public App()
+public App()
     {
         InitializeComponent();
 
-        //MainPage = new NavigationPage(new MainPage());
-        MainPage = new AppShell();
+        // Verificar si el usuario ya tiene sesión guardada
+        var userId = SecureStorage.GetAsync("user_id").Result;
+
+        if (!string.IsNullOrEmpty(userId))
+        {
+            // Usuario autenticado previamente → ir directo a AppShell
+            MainPage = new AppShell();
+        }
+        else
+        {
+            // Usuario nuevo → pedir login primero
+            MainPage = new NavigationPage(new LoginPage());
+        }
     }
     
     public static IServiceProvider ServiceProvider => Current?.Handler?.MauiContext?.Services

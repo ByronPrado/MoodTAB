@@ -103,7 +103,7 @@ namespace MoodTAB.ViewModel
 
         private async Task CargarPreguntas()
         {
-            var url = $"http://10.0.2.2:5051/api/formulario/{Globals.id_usuario}";
+            var url = $"http://10.0.2.2:5051/api/formulario/{Globals.id_paciente_DB}";
             using var client = new HttpClient();
             var response = await client.GetAsync(url);
 

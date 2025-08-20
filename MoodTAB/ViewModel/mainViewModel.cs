@@ -28,13 +28,16 @@ namespace MoodTAB.ViewModel
 
         public MainViewModel()
         {
-            // Inicializar el nombre de usuario
-            _nameUser = Globals.nombre_usuario;
-            _title = $"Bienvenido a MoodTAB {_nameUser}";
-            // No puedes usar await aquí, así que llama a un método async void
+            ActualizarDatosUsuario();
             CargarSaludoAsync();
         }
 
+        public void ActualizarDatosUsuario()
+        {
+            // Inicializar el nombre de usuario
+            NameUser = Globals.nombre_Usuario;
+            Title = $"Bienvenido a MoodTAB {NameUser}";
+        }
         private async void CargarSaludoAsync()
         {
             try
@@ -60,12 +63,19 @@ namespace MoodTAB.ViewModel
             try
             {
                 // Usamos nameof(ClaseDeLaPagina) como identificador
+                actualizarNombreUsuario();
                 await Shell.Current.GoToAsync(pageName);
             }
             catch (Exception ex)
             {
                 Title = $"Error al navegar: {ex.Message}";
             }
+        }
+        private void actualizarNombreUsuario()
+        {
+            // Actualizar el nombre de usuario en la vista
+            NameUser = Globals.nombre_Usuario;
+            Title = $"Bienvenido a MoodTAB {NameUser}";
         }
     }
 }

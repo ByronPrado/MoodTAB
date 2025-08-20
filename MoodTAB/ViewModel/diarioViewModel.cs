@@ -303,7 +303,7 @@ namespace MoodTAB.ViewModel
 
                 var payload = new
                 {
-                    ID_Paciente = Globals.id_usuario, // Usa el id del paciente logueado
+                    ID_Paciente = Globals.id_paciente_DB, // Usa el id del paciente logueado
                     Emociones = JsonSerializer.Serialize(
                         EmocionDiaria.ToDictionary(e => e, e => 1) // Puedes ajustar el valor según intensidad si lo tienes
                     ),
