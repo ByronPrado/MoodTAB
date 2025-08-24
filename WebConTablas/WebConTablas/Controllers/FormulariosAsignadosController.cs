@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebConTablas.Models;
+using System;
 
 public class FormulariosAsignadosController : Controller
 {
@@ -39,20 +40,53 @@ public class FormulariosAsignadosController : Controller
         return View();
     }
 
-    // POST: FormulariosAsignados/Asignar
+        // POST: FormulariosAsignados/Asignar
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Asignar(int ID_Formulario, int ID_Paciente, DateTime? Fecha_Limite)
+    public async Task<IActionResult> Asignar(List<int> ID_Formulario, int ID_Paciente, DateTime? Fecha_Limite)
     {
-        var asignacion = new FormularioAsignado
+        var errores = new List<string>();
+
+        foreach (var formularioId in ID_Formulario)
         {
-            ID_Formulario = ID_Formulario,
-            ID_Paciente = ID_Paciente,
-            Fecha_Asignacion = DateTime.UtcNow,
-            Fecha_Limite = Fecha_Limite,
-            Estado = "pendiente"
-        };
-        _context.FormulariosAsignados.Add(asignacion);
+            // Verificar si ya existe asignacion previa
+            bool yaExiste = await _context.FormulariosAsignados
+                .AnyAsync(fa => fa.ID_Formulario == formularioId && fa.ID_Paciente == ID_Paciente);
+
+            if (yaExiste)
+            {
+                var titulo = await _context.Formularios
+                    .Where(f => f.ID_Formulario == formularioId)
+                    .Select(f => f.Titulo)
+                    .FirstOrDefaultAsync();
+
+                errores.Add($"El formulario \"{titulo}\" ya fue asignado a este paciente.");
+                continue; // se omite el duplicado
+            }
+
+            // Crear la nueva asignación
+            var asignacion = new FormularioAsignado
+            {
+                ID_Formulario = formularioId,
+                ID_Paciente = ID_Paciente,
+                Fecha_Asignacion = DateTime.UtcNow,
+                Fecha_Limite = Fecha_Limite?.ToUniversalTime(),
+                Estado = "pendiente"
+            };
+
+            _context.FormulariosAsignados.Add(asignacion);
+        }
+
+        // En caso de errores, avisar.
+        if (errores.Any())
+        {
+            ViewBag.Formularios = _context.Formularios.ToList();
+            ViewBag.Pacientes = _context.Pacientes.ToList();
+            ViewBag.Errores = errores;
+            return View();
+        }
+
+        // Guardar cambios en caso contrario.
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
