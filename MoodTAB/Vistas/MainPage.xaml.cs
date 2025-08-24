@@ -33,6 +33,7 @@ public partial class MainPage : ContentPage
 #if ANDROID
         PermissionStatus status = await Permissions.RequestAsync<MoodTAB.Platforms.Android.NotificationPermission>();
         RequestActivityRecognitionPermission();
+        viewModel.ActualizarDatosUsuario();
 #endif
     }
 
@@ -57,7 +58,7 @@ public partial class MainPage : ContentPage
     void NotificationClick(object sender, EventArgs e)
     {   
         viewModel.ActualizarDatosUsuario();
-        
+
         string title = $"Notificación de prueba";
         string message = $"Han pasado 10 min";
         notificationManager.SendNotification(title, message, DateTime.Now.AddSeconds(10));

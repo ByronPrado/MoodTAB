@@ -15,7 +15,8 @@ namespace MoodTAB.ViewModel
     {
         [ObservableProperty]
         private string _title = "Bienvenido a MoodTAB";
-        private string _nameUser;
+        private string _nameUser = "usuario";
+        private string _emailUsuario = "mail";
 
         [ObservableProperty]
         private string _titleApi = "Bienvenido a MoodTAB";
@@ -25,7 +26,11 @@ namespace MoodTAB.ViewModel
             get => _nameUser;
             set => SetProperty(ref _nameUser, value);
         }
-
+        public string EmailUsuario
+        {
+            get => _emailUsuario;
+            set => SetProperty(ref _emailUsuario, value);
+        }
         public MainViewModel()
         {
             ActualizarDatosUsuario();
@@ -35,7 +40,8 @@ namespace MoodTAB.ViewModel
         public void ActualizarDatosUsuario()
         {
             // Inicializar el nombre de usuario
-            NameUser = Globals.nombre_Usuario;
+            NameUser = Globals.nombre_Usuario ?? "TestActDatosusuario";
+            EmailUsuario = Globals.email_Usuario ?? "test";
             Title = $"Bienvenido a MoodTAB {NameUser}";
         }
         private async void CargarSaludoAsync()
@@ -63,19 +69,13 @@ namespace MoodTAB.ViewModel
             try
             {
                 // Usamos nameof(ClaseDeLaPagina) como identificador
-                actualizarNombreUsuario();
+                ActualizarDatosUsuario();
                 await Shell.Current.GoToAsync(pageName);
             }
             catch (Exception ex)
             {
                 Title = $"Error al navegar: {ex.Message}";
             }
-        }
-        private void actualizarNombreUsuario()
-        {
-            // Actualizar el nombre de usuario en la vista
-            NameUser = Globals.nombre_Usuario;
-            Title = $"Bienvenido a MoodTAB {NameUser}";
         }
     }
 }

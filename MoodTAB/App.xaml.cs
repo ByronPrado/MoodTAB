@@ -24,7 +24,12 @@ public App()
 
         // Verificar si el usuario ya tiene sesión guardada
         var userId = SecureStorage.GetAsync("user_id").Result;
+        var userNombre = SecureStorage.GetAsync("user_nombre").Result;
+        var userEmail = SecureStorage.GetAsync("user_email").Result;
 
+        Globals.nombre_Usuario = userNombre;
+        Globals.email_Usuario = userEmail;
+        Globals.id_paciente_DB = userId;
         if (!string.IsNullOrEmpty(userId))
         {
             // Usuario autenticado previamente → ir directo a AppShell
@@ -33,10 +38,8 @@ public App()
         else
         {
             // Usuario nuevo → pedir login primero
-            MainPage = new NavigationPage(new LoginPage());
+            MainPage = new LoginPage();
         }
     }
-    
-    public static IServiceProvider ServiceProvider => Current?.Handler?.MauiContext?.Services
-        ?? throw new InvalidOperationException("No se encontró el servicio. Asegúrate de que MauiContext esté configurado correctamente.");
+
 }

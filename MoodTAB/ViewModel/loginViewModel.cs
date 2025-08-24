@@ -34,6 +34,10 @@ namespace MoodTAB.ViewModels
                 Globals.nombre_Usuario =success.user.Nombre;
                 Globals.email_Usuario = success.user.Email;
                 Globals.id_paciente_DB= success.user.ID_Paciente.ToString(); // Guarda el ID del usuario
+                   // Guarda en SecureStorage
+                await SecureStorage.SetAsync("user_id", success.user.ID_Paciente.ToString());
+                await SecureStorage.SetAsync("user_nombre", success.user.Nombre);
+                await SecureStorage.SetAsync("user_email", success.user.Email);
 
                 Application.Current.MainPage = new AppShell()
                 { 
@@ -46,7 +50,7 @@ namespace MoodTAB.ViewModels
                 Console.WriteLine($"Error: {ErrorMessage}");
             }
         }
-        
+
         [RelayCommand]
         public async Task Logout()
         {
