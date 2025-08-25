@@ -29,16 +29,35 @@ namespace MoodTAB.ViewModel
         [RelayCommand]
         public async Task GuardarCambios()
         {
-            // Actualiza los datos globales y SecureStorage si es necesario
-            Globals.nombre_Usuario = Nombre;
-            Globals.email_Usuario = Email;
-            //ahora vamos a guardar en la base de datos
-            //conectamos a la api lueog esto
+            var httpClient = new HttpClient();
+            var url = "http://10.0.2.2:5051/api/apipacientesedit/" + SecureStorage.GetAsync("user_id").Result;
+            var payload = new
+            {
+                nombre = Nombre,
+                email = Email,
+                telefono = Telefono
+            };
 
-            await SecureStorage.SetAsync("user_nombre", Nombre);
-            await SecureStorage.SetAsync("user_email", Email);
+            var json = System.Text.Json.JsonSerializer.Serialize(payload);
+            var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-            await Shell.Current.DisplayAlert("Cambios Guardados", "Los cambios se han guardado correctamente.", "OK");
+            var response = await httpClient.PatchAsync(url, content);
+
+            if (response.IsSuccessStatusCode)
+            {   
+                //Globals.nombre_Usuario = Nombre;
+                //Globals.email_Usuario = Email;
+
+                await SecureStorage.SetAsync("user_nombre", Nombre);
+                await SecureStorage.SetAsync("user_email", Email);
+
+                await Shell.Current.DisplayAlert("Cambios Guardados", "Los cambios se han guardado correctamente.", "OK");
+            }
+            else
+            {
+                await Shell.Current.DisplayAlert("Error", "No se pudo guardar los cambios.", "OK");
+            }
+
             IsEditing = false;
         }
     }

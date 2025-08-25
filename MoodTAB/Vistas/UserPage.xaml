@@ -69,4 +69,4 @@
             <Button Text="Guardar Cambios" Command="{Binding GuardarCambiosCommand}" IsVisible="{Binding IsEditing}" />
         </VerticalStackLayout>        
     </ScrollView> 
-   </ContentPage>
+</ContentPage>
