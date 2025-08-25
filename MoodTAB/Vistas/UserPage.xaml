@@ -12,20 +12,21 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-
-                <Image Grid.Row="0" Source="dotnet_bot.png"/>
-
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="160"/>
+                </Grid.ColumnDefinitions>
                 <!-- Nombre -->
-                <Label Grid.Row="1" Text="{Binding Nombre}">
+                <Label Text="Nombre:" Grid.Column="0" Grid.Row="0"/>
+                <Label Grid.Column="1" Grid.Row="0" Text="{Binding Nombre}">
                     <Label.Triggers>
                         <DataTrigger TargetType="Label" Binding="{Binding IsEditing}" Value="True">
                             <Setter Property="IsVisible" Value="False"/>
                         </DataTrigger>
                     </Label.Triggers>
                 </Label>
-                <Entry Grid.Row="1" Text="{Binding Nombre}">
+                <Entry Grid.Column="1" Grid.Row="0" Text="{Binding Nombre}">
                     <Entry.Triggers>
                         <DataTrigger TargetType="Entry" Binding="{Binding IsEditing}" Value="False">
                             <Setter Property="IsVisible" Value="False"/>
@@ -34,14 +35,15 @@
                 </Entry>
 
                 <!-- Email -->
-                <Label Grid.Row="2" Text="{Binding Email}">
+                <Label Text="Email:" Grid.Column="0" Grid.Row="1"/>
+                <Label Grid.Column="1" Grid.Row="1" Text="{Binding Email}">
                     <Label.Triggers>
                         <DataTrigger TargetType="Label" Binding="{Binding IsEditing}" Value="True">
                             <Setter Property="IsVisible" Value="False"/>
                         </DataTrigger>
                     </Label.Triggers>
                 </Label>
-                <Entry Grid.Row="2" Text="{Binding Email}">
+                <Entry Grid.Column="1" Grid.Row="1" Text="{Binding Email}">
                     <Entry.Triggers>
                         <DataTrigger TargetType="Entry" Binding="{Binding IsEditing}" Value="False">
                             <Setter Property="IsVisible" Value="False"/>
@@ -50,14 +52,15 @@
                 </Entry>
 
                 <!-- Teléfono -->
-                <Label Grid.Row="3" Text="{Binding Telefono}">
+                <Label Text="Telefono:" Grid.Column="0" Grid.Row="2"/>
+                <Label Grid.Column="1" Grid.Row="2" Text="{Binding Telefono}">
                     <Label.Triggers>
                         <DataTrigger TargetType="Label" Binding="{Binding IsEditing}" Value="True">
                             <Setter Property="IsVisible" Value="False"/>
                         </DataTrigger>
                     </Label.Triggers>
                 </Label>
-                <Entry Grid.Row="3" Text="{Binding Telefono}">
+                <Entry Grid.Column="1" Grid.Row="2" Text="{Binding Telefono}">
                     <Entry.Triggers>
                         <DataTrigger TargetType="Entry" Binding="{Binding IsEditing}" Value="False">
                             <Setter Property="IsVisible" Value="False"/>
@@ -65,8 +68,9 @@
                     </Entry.Triggers>
                 </Entry>
             </Grid>
-            <Button Text="Editar" Command="{Binding EditarCommand}"/>
+            <Button Text="{Binding BotonEditar}" Command="{Binding EditarCommand}"/>
             <Button Text="Guardar Cambios" Command="{Binding GuardarCambiosCommand}" IsVisible="{Binding IsEditing}" />
+            <Button Text="Borrar Datos" Clicked="onBorrarDatosClicked" />
         </VerticalStackLayout>        
     </ScrollView> 
 </ContentPage>

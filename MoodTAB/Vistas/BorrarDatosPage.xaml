@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MoodTAB.Vistas.BorrarDatosPage"
+             Title="Solicitar eliminación de datos">
+    <VerticalStackLayout>
+        <Label Text="texto ley xxxxx derecho a borrar datos."
+               FontSize="24"
+               HorizontalOptions="Center" />
+       <CheckBox x:Name="check_aceptar"
+              HorizontalOptions="Center"
+              VerticalOptions="Center"
+              Color="Black"
+              CheckedChanged="OnCheckBoxCheckedChanged"
+              Margin="10"/>
+
+        <Button Text="Enviar solicitud"
+                Clicked="OnEnviarSolicitudClicked"
+                Margin="10">
+        </Button>
+    </VerticalStackLayout>
+</ContentPage>

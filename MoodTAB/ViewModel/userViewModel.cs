@@ -9,21 +9,35 @@ namespace MoodTAB.ViewModel
         [ObservableProperty] string email;
         [ObservableProperty] string telefono;
         [ObservableProperty] bool isEditing;
-
+        [ObservableProperty] string botonEditar;
 
         public UserViewModel()
         {
             // Inicializa con los datos actuales del usuario
-            Nombre = SecureStorage.GetAsync("user_nombre").Result?? "nombre test";
+            Nombre = SecureStorage.GetAsync("user_nombre").Result ?? "nombre test";
             Email = SecureStorage.GetAsync("user_email").Result ?? "email test";
             Telefono = "8888888";
             IsEditing = false;
+            BotonEditar = "Editar";
         }
 
         [RelayCommand]
         public void Editar()
-        {
-            IsEditing = true;
+        {   
+            if (!IsEditing)
+            {
+                IsEditing = true;
+                BotonEditar = "Cancelar";
+            }
+            else
+            {
+                Nombre = SecureStorage.GetAsync("user_nombre").Result ?? "nombre test";
+                Email = SecureStorage.GetAsync("user_email").Result ?? "email test";
+                Telefono = "8888888";
+                IsEditing = false;
+                BotonEditar = "Editar";
+            }
+            
         }
 
         [RelayCommand]
@@ -44,7 +58,7 @@ namespace MoodTAB.ViewModel
             var response = await httpClient.PatchAsync(url, content);
 
             if (response.IsSuccessStatusCode)
-            {   
+            {
                 //Globals.nombre_Usuario = Nombre;
                 //Globals.email_Usuario = Email;
 
@@ -59,6 +73,7 @@ namespace MoodTAB.ViewModel
             }
 
             IsEditing = false;
+            BotonEditar = "Editar"; 
         }
     }
 }
