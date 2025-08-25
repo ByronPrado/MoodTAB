@@ -3,22 +3,70 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MoodTAB.Vistas.UserPage"
              Title="UserPage">
-    <VerticalStackLayout>
-    <Button Text="Cerrar sesión" Clicked="OnLogoutClicked" />
-    <Grid 
-        ColumnDefinitions="auto"
-        RowDefinitions="auto,auto,auto,auto"
-        Padding="10"
-        RowSpacing="10"
-        >
-        <Image  Grid.Row="0" Source="dotnet_bot.png"/>
-        <Label  Grid.Row="1" Text="{Binding NameUser}"/>
-        <Label Grid.Row="2" Text="{Binding EmailUsuario}"/>
-        <Label Grid.Row ="3" Text="Telefono"/> 
+    <ScrollView>
+         <VerticalStackLayout>
+            <Button Text="Cerrar sesión" Clicked="OnLogoutClicked" />
 
+            <Grid Padding="10" RowSpacing="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-        </Grid>
-    <Button Text="editar sin func" Clicked ="onEditClicked"/>
+                <Image Grid.Row="0" Source="dotnet_bot.png"/>
 
-    </VerticalStackLayout>
-</ContentPage>
+                <!-- Nombre -->
+                <Label Grid.Row="1" Text="{Binding Nombre}">
+                    <Label.Triggers>
+                        <DataTrigger TargetType="Label" Binding="{Binding IsEditing}" Value="True">
+                            <Setter Property="IsVisible" Value="False"/>
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+                <Entry Grid.Row="1" Text="{Binding Nombre}">
+                    <Entry.Triggers>
+                        <DataTrigger TargetType="Entry" Binding="{Binding IsEditing}" Value="False">
+                            <Setter Property="IsVisible" Value="False"/>
+                        </DataTrigger>
+                    </Entry.Triggers>
+                </Entry>
+
+                <!-- Email -->
+                <Label Grid.Row="2" Text="{Binding Email}">
+                    <Label.Triggers>
+                        <DataTrigger TargetType="Label" Binding="{Binding IsEditing}" Value="True">
+                            <Setter Property="IsVisible" Value="False"/>
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+                <Entry Grid.Row="2" Text="{Binding Email}">
+                    <Entry.Triggers>
+                        <DataTrigger TargetType="Entry" Binding="{Binding IsEditing}" Value="False">
+                            <Setter Property="IsVisible" Value="False"/>
+                        </DataTrigger>
+                    </Entry.Triggers>
+                </Entry>
+
+                <!-- Teléfono -->
+                <Label Grid.Row="3" Text="{Binding Telefono}">
+                    <Label.Triggers>
+                        <DataTrigger TargetType="Label" Binding="{Binding IsEditing}" Value="True">
+                            <Setter Property="IsVisible" Value="False"/>
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+                <Entry Grid.Row="3" Text="{Binding Telefono}">
+                    <Entry.Triggers>
+                        <DataTrigger TargetType="Entry" Binding="{Binding IsEditing}" Value="False">
+                            <Setter Property="IsVisible" Value="False"/>
+                        </DataTrigger>
+                    </Entry.Triggers>
+                </Entry>
+            </Grid>
+            <Button Text="Editar" Command="{Binding EditarCommand}"/>
+            <Button Text="Guardar Cambios" Command="{Binding GuardarCambiosCommand}" IsVisible="{Binding IsEditing}" />
+        </VerticalStackLayout>        
+    </ScrollView> 
+   </ContentPage>

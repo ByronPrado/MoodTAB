@@ -34,7 +34,7 @@ namespace WebConTablas.Controllers
             public int? Horas_celular { get; set; }
             public int? Horas_redes { get; set; }
             public string Hora_dormida { get; set; }
-            public string Fecha { get; set; }
+            public DateTime Fecha { get; set; }
         }
     }
 }
