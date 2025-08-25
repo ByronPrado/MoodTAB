@@ -90,6 +90,12 @@ build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.Vistas.DiarioPage.
 build_metadata.AdditionalFiles.TargetPath = Vistas\DiarioPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Vistas\DiarioPage.xaml
 
+[C:/Users/munoz/OneDrive/Escritorio/Universidad/Feria/MoodTAB/MoodTAB/Vistas/EditarUsuarioPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.Vistas.EditarUsuarioPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Vistas\EditarUsuarioPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Vistas\EditarUsuarioPage.xaml
+
 [C:/Users/munoz/OneDrive/Escritorio/Universidad/Feria/MoodTAB/MoodTAB/Vistas/HealthDataPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.Vistas.HealthDataPage.xaml
@@ -101,6 +107,12 @@ build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.Vistas.ListaDiarioPage.xaml
 build_metadata.AdditionalFiles.TargetPath = Vistas\ListaDiarioPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Vistas\ListaDiarioPage.xaml
+
+[C:/Users/munoz/OneDrive/Escritorio/Universidad/Feria/MoodTAB/MoodTAB/Vistas/LoginPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = MoodTAB.Vistas.LoginPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Vistas\LoginPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Vistas\LoginPage.xaml
 
 [C:/Users/munoz/OneDrive/Escritorio/Universidad/Feria/MoodTAB/MoodTAB/Vistas/MainPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml

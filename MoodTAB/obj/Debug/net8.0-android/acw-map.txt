@@ -4,6 +4,12 @@ moodtab.MainActivity;crc6443c50ce0ce4e3101.MainActivity
 MoodTAB.MainApplication, MoodTAB;crc6443c50ce0ce4e3101.MainApplication
 MoodTAB.MainApplication;crc6443c50ce0ce4e3101.MainApplication
 moodtab.MainApplication;crc6443c50ce0ce4e3101.MainApplication
+MoodTAB.Platforms.Android.AlarmHandler, MoodTAB;crc647b64ec306fa02c71.AlarmHandler
+MoodTAB.Platforms.Android.AlarmHandler;crc647b64ec306fa02c71.AlarmHandler
+moodtab.platforms.android.AlarmHandler;crc647b64ec306fa02c71.AlarmHandler
+MoodTAB.Platforms.Android.BootReceiver, MoodTAB;crc647b64ec306fa02c71.BootReceiver
+MoodTAB.Platforms.Android.BootReceiver;crc647b64ec306fa02c71.BootReceiver
+moodtab.platforms.android.BootReceiver;crc647b64ec306fa02c71.BootReceiver
 MoodTAB.Platforms.Android.StepCounterService, MoodTAB;crc647b64ec306fa02c71.StepCounterService
 MoodTAB.Platforms.Android.StepCounterService;crc647b64ec306fa02c71.StepCounterService
 moodtab.platforms.android.StepCounterService;crc647b64ec306fa02c71.StepCounterService

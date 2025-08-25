@@ -12,6 +12,7 @@ using Android.Runtime;
 using AndroidX.Core.App;
 using AndroidX.Core.Content;
 using MoodTAB.Platforms.Android;
+using Java.Sql;
 #endif
 
 public partial class MainPage : ContentPage
@@ -22,7 +23,7 @@ public partial class MainPage : ContentPage
     public MainPage(INotificationManagerService manager)
     {
         InitializeComponent();
-        viewModel = new ViewModel.MainViewModel();
+        viewModel = new ViewModel.MainViewModel(manager);
         BindingContext = viewModel;
 
         notificationManager = manager;
@@ -30,6 +31,11 @@ public partial class MainPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+        if (Globals.respondido)
+        {
+            notificationManager.DeleteNotification(1001);
+        }
+
 #if ANDROID
         PermissionStatus status = await Permissions.RequestAsync<MoodTAB.Platforms.Android.NotificationPermission>();
         RequestActivityRecognitionPermission();
@@ -60,8 +66,8 @@ public partial class MainPage : ContentPage
         viewModel.ActualizarDatosUsuario();
 
         string title = $"Notificación de prueba";
-        string message = $"Han pasado 10 min";
-        notificationManager.SendNotification(title, message, DateTime.Now.AddSeconds(10));
+        string message = Globals.cuestionario_pendiente.ToString() ;
+        notificationManager.SendNotification(title, message, DateTime.Now.AddSeconds(1),1);
     }
 
     

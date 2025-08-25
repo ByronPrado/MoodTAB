@@ -39,9 +39,11 @@ namespace MoodTAB.ViewModels
                 await SecureStorage.SetAsync("user_nombre", success.user.Nombre);
                 await SecureStorage.SetAsync("user_email", success.user.Email);
 
+                var notificationManager = App.ServiceProvider.GetService<INotificationManagerService>();
+
                 Application.Current.MainPage = new AppShell()
                 { 
-                    BindingContext = new MainViewModel()
+                    BindingContext = new MainViewModel(notificationManager)
                 };
             }
             else

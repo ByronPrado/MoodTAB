@@ -4,6 +4,7 @@ using MoodTAB.Models;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Text.Json;
+using MoodTAB.Services;
 
 namespace MoodTAB.ViewModel
 {
@@ -78,7 +79,6 @@ namespace MoodTAB.ViewModel
 
     public partial class Cuestionario : ObservableObject
     {
-
         [ObservableProperty]
         ObservableCollection<PreguntaConRespuesta> preguntasConRespuesta = new();
 
@@ -89,10 +89,16 @@ namespace MoodTAB.ViewModel
         int respuestaUsuarioEscala;
 
         private int idAsignacion;
+        [ObservableProperty]
+        bool pendiente;
+        [ObservableProperty]
+        bool nopendiente;
 
         public Cuestionario()
         {
             //_mainViewModel = mainViewModel;
+            pendiente = Globals.cuestionario_pendiente;
+            nopendiente = !pendiente;
 
             Task.Run(async () =>
             {
@@ -103,17 +109,7 @@ namespace MoodTAB.ViewModel
 
         private async Task CargarPreguntas()
         {
-            var url = $"http://10.0.2.2:5051/api/formulario/{Globals.id_paciente_DB}";
-            using var client = new HttpClient();
-            var response = await client.GetAsync(url);
-
-            if (!response.IsSuccessStatusCode)
-                return;
-
-            var json = await response.Content.ReadAsStringAsync();
-
-            // Usa System.Text.Json para navegar el JSON y extraer las preguntas
-            using var doc = JsonDocument.Parse(json);
+            using var doc = JsonDocument.Parse(Globals.cuestionario);
             var root = doc.RootElement;
 
             if (root.TryGetProperty("iD_Asignacion", out var asignacionProp))
@@ -225,6 +221,9 @@ namespace MoodTAB.ViewModel
             if (response.IsSuccessStatusCode)
             {
                 await Shell.Current.DisplayAlert("¡Listo!", "Respuestas enviadas correctamente.", "OK");
+                SecureStorage.Remove("notif_c");
+                Globals.cuestionario_pendiente = false;
+                await SecureStorage.SetAsync("resp", "true");
             }
             else
             {
