@@ -24,7 +24,7 @@
 		<ApplicationTitle>MoodTAB</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.moodtab</ApplicationId>
+		<ApplicationId>com.mindraco.moodtab</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>

@@ -7,16 +7,28 @@
         <Label Text="texto ley xxxxx derecho a borrar datos."
                FontSize="24"
                HorizontalOptions="Center" />
-       <CheckBox x:Name="check_aceptar"
-              HorizontalOptions="Center"
-              VerticalOptions="Center"
-              Color="Black"
-              CheckedChanged="OnCheckBoxCheckedChanged"
-              Margin="10"/>
 
-        <Button Text="Enviar solicitud"
-                Clicked="OnEnviarSolicitudClicked"
-                Margin="10">
-        </Button>
+        <Frame 
+            Margin="20"
+            Padding="10"
+            BorderColor="Gray"
+            CornerRadius="10"
+            HasShadow="True">
+            <Grid ColumnDefinitions ="auto,auto">
+
+                <CheckBox Grid.Column="0"
+                    x:Name="check_aceptar"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    Color="Black"
+                    CheckedChanged="OnCheckBoxCheckedChanged"
+                    Margin="10"/>
+                <Button Grid.Column="1"
+                    Text="Enviar solicitud"
+                    Clicked="OnEnviarSolicitudClicked"
+                    Margin="10">
+                </Button>
+            </Grid>
+        </Frame>
     </VerticalStackLayout>
 </ContentPage>
