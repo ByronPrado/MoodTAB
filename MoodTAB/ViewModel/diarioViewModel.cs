@@ -313,7 +313,7 @@ namespace MoodTAB.ViewModel
                     Horas_redes = (int)HorasRedes,
                     Horas_Yt = (int)HorasYT,
                     Hora_dormida = HorasSueno,
-                    Fecha = DateTime.UtcNow.ToString("yyyy-MM-dd")
+                    Fecha = DateTime.UtcNow
                 };
 
                 var url = "http://10.0.2.2:5051/api/DiarioEmocional";
