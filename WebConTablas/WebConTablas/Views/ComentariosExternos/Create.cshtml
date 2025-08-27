@@ -1,0 +1,26 @@
+@model WebConTablas.Models.ComentariosExternos
+
+<h2>Agregar Comentario de Usuario Externo</h2>
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label asp-for="IdUsuarioExterno" class="form-label">ID Usuario Externo</label>
+        <input asp-for="IdUsuarioExterno" class="form-control" type="number" min="1" step="1" required oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
+        <span asp-validation-for="IdUsuarioExterno" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Comentario" class="form-label">Comentario</label>
+        <textarea asp-for="Comentario" class="form-control" required></textarea>
+        <span asp-validation-for="Comentario" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a asp-controller="Parientes" asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
+@if (ViewBag.Recibido != null)
+{
+    <div class="alert alert-info">ID recibido: @ViewBag.Recibido</div>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

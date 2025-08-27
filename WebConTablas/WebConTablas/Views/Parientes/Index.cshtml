@@ -1,0 +1,35 @@
+@model IEnumerable<WebConTablas.Models.UsuarioExterno>
+@using System.Text.Json
+@using System.Collections.Generic
+
+<h1>Agregar Pariente</h1>
+<a href="/Parientes/Create/" class="btn btn-warning btn-sm">Nuevo Pariente</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr><th>Id</th><th>Nombre Completo</th><th>Preguntas</th><th>Acciones</th></tr>
+    </thead>
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td> @c.ID_Paciente </td>
+                <td> @c.IdUsuarioExterno </td>
+                <td> @c.Nombre </td>
+                <td> @c.Parentezco </td>
+                <td> @c.Email </td>
+                <td> @c.Telefono </td>
+                <td> @c.ID_Psiquiatra </td>
+                <td> @c.Psiquiatra </td>
+                <td></td>
+                <td>
+                    <a href="/Parientes/Create" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="/Parientes/Create" class="btn btn-danger btn-sm"
+                       onclick="return confirm('¿Seguro que quieres borrar este pariente?');">Borrar</a>
+                    <a href="/Parientes/Create" class="btn btn-info btn-sm">Ver Detalles</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

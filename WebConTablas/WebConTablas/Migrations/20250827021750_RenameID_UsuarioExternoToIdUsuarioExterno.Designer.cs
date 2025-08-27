@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace WebConTablas.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250819163426_InitialPostgres")]
-    partial class InitialPostgres
+    [Migration("20250827021750_RenameID_UsuarioExternoToIdUsuarioExterno")]
+    partial class RenameID_UsuarioExternoToIdUsuarioExterno
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,31 @@ namespace WebConTablas.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("WebConTablas.Models.ComentariosExternos", b =>
+                {
+                    b.Property<int>("ID_ComentarioExterno")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID_ComentarioExterno"));
+
+                    b.Property<string>("Comentario")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("IdUsuarioExterno")
+                        .HasColumnType("integer");
+
+                    b.HasKey("ID_ComentarioExterno");
+
+                    b.HasIndex("IdUsuarioExterno");
+
+                    b.ToTable("ComentariosExternos");
+                });
 
             modelBuilder.Entity("WebConTablas.Models.DiarioEmocional", b =>
                 {
@@ -355,6 +380,58 @@ namespace WebConTablas.Migrations
                     b.ToTable("Respuestas");
                 });
 
+            modelBuilder.Entity("WebConTablas.Models.UsuarioExterno", b =>
+                {
+                    b.Property<int>("IdUsuarioExterno")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IdUsuarioExterno"));
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<int>("ID_Paciente")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ID_Psiquiatra")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("PacienteID_Paciente")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Parentezco")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Telefono")
+                        .HasColumnType("text");
+
+                    b.HasKey("IdUsuarioExterno");
+
+                    b.HasIndex("ID_Paciente");
+
+                    b.HasIndex("ID_Psiquiatra");
+
+                    b.HasIndex("PacienteID_Paciente");
+
+                    b.ToTable("UsuariosExternos");
+                });
+
+            modelBuilder.Entity("WebConTablas.Models.ComentariosExternos", b =>
+                {
+                    b.HasOne("WebConTablas.Models.UsuarioExterno", "UsuarioExterno")
+                        .WithMany("Comentarios")
+                        .HasForeignKey("IdUsuarioExterno")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UsuarioExterno");
+                });
+
             modelBuilder.Entity("WebConTablas.Models.DiarioEmocional", b =>
                 {
                     b.HasOne("WebConTablas.Models.Paciente", "Paciente")
@@ -444,6 +521,28 @@ namespace WebConTablas.Migrations
                     b.Navigation("Pregunta");
                 });
 
+            modelBuilder.Entity("WebConTablas.Models.UsuarioExterno", b =>
+                {
+                    b.HasOne("WebConTablas.Models.Paciente", null)
+                        .WithMany("UsuariosExternos")
+                        .HasForeignKey("ID_Paciente")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebConTablas.Models.Psiquiatra", "Psiquiatra")
+                        .WithMany()
+                        .HasForeignKey("ID_Psiquiatra")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("WebConTablas.Models.Paciente", "Paciente")
+                        .WithMany()
+                        .HasForeignKey("PacienteID_Paciente");
+
+                    b.Navigation("Paciente");
+
+                    b.Navigation("Psiquiatra");
+                });
+
             modelBuilder.Entity("WebConTablas.Models.Formulario", b =>
                 {
                     b.Navigation("FormulariosAsignados");
@@ -461,6 +560,8 @@ namespace WebConTablas.Migrations
                     b.Navigation("DiariosEmocionales");
 
                     b.Navigation("FormulariosAsignados");
+
+                    b.Navigation("UsuariosExternos");
                 });
 
             modelBuilder.Entity("WebConTablas.Models.Pregunta", b =>
@@ -475,6 +576,11 @@ namespace WebConTablas.Migrations
                     b.Navigation("Formularios");
 
                     b.Navigation("Pacientes");
+                });
+
+            modelBuilder.Entity("WebConTablas.Models.UsuarioExterno", b =>
+                {
+                    b.Navigation("Comentarios");
                 });
 #pragma warning restore 612, 618
         }

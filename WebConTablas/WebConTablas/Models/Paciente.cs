@@ -19,6 +19,7 @@ namespace WebConTablas.Models
 
         public ICollection<FormularioAsignado> FormulariosAsignados { get; set; } = new List<FormularioAsignado>();
         public ICollection<DiarioEmocional> DiariosEmocionales { get; set; } = new List<DiarioEmocional>();
+        public ICollection<UsuarioExterno> UsuariosExternos { get; set; } = new List<UsuarioExterno>();
 
         public static implicit operator Paciente(PacienteDto v)
         {

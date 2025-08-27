@@ -1,0 +1,44 @@
+@model WebConTablas.Models.UsuarioExterno
+
+<h2>Agregar Pariente</h2>
+
+<form asp-action="Create" method="post">
+
+    <div class="mb-3">
+        <label asp-for="ID_Paciente" class="form-label">ID Paciente</label>
+        <input asp-for="ID_Paciente" class="form-control" required />
+        <span asp-validation-for="ID_Paciente" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Nombre" class="form-label">Nombre</label>
+        <input asp-for="Nombre" class="form-control" required />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Parentezco" class="form-label">Parentezco</label>
+        <input asp-for="Parentezco" class="form-control" />
+        <span asp-validation-for="Parentezco" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label">Email</label>
+        <input asp-for="Email" type="email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Telefono" class="form-label">Teléfono</label>
+        <input asp-for="Telefono" class="form-control" />
+        <span asp-validation-for="Telefono" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="ID_Psiquiatra" class="form-label">ID Psiquiatra</label>
+        <input asp-for="ID_Psiquiatra" class="form-control" />
+        <span asp-validation-for="ID_Psiquiatra" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a asp-controller="Psiquiatras" asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

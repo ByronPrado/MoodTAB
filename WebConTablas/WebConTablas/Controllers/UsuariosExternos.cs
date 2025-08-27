@@ -6,11 +6,11 @@ using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
 
-public class PacientesController : Controller
+public class UsuarioExternoController : Controller
 {
     private readonly AppDbContext _context;
 
-    public PacientesController(AppDbContext context)
+    public UsuarioExternoController(AppDbContext context)
     {
         _context = context;
     }
@@ -32,8 +32,6 @@ public class PacientesController : Controller
         .Include(p => p.FormulariosAsignados)
             .ThenInclude(fa => fa.Respuestas)
                 .ThenInclude(r => r.Pregunta)
-        .Include(p => p.UsuariosExternos)
-            .ThenInclude(ue => ue.Comentarios)
         .ToListAsync();
 
         return View(pacientes);

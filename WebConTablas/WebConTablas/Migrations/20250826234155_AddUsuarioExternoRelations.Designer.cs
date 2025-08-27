@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace WebConTablas.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250826234155_AddUsuarioExternoRelations")]
+    partial class AddUsuarioExternoRelations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -20,31 +23,6 @@ namespace WebConTablas.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("WebConTablas.Models.ComentariosExternos", b =>
-                {
-                    b.Property<int>("ID_ComentarioExterno")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID_ComentarioExterno"));
-
-                    b.Property<string>("Comentario")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("Fecha")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("IdUsuarioExterno")
-                        .HasColumnType("integer");
-
-                    b.HasKey("ID_ComentarioExterno");
-
-                    b.HasIndex("IdUsuarioExterno");
-
-                    b.ToTable("ComentariosExternos");
-                });
 
             modelBuilder.Entity("WebConTablas.Models.DiarioEmocional", b =>
                 {
@@ -379,11 +357,11 @@ namespace WebConTablas.Migrations
 
             modelBuilder.Entity("WebConTablas.Models.UsuarioExterno", b =>
                 {
-                    b.Property<int>("IdUsuarioExterno")
+                    b.Property<int>("ID_UsuarioExterno")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IdUsuarioExterno"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID_UsuarioExterno"));
 
                     b.Property<string>("Email")
                         .HasColumnType("text");
@@ -407,7 +385,7 @@ namespace WebConTablas.Migrations
                     b.Property<string>("Telefono")
                         .HasColumnType("text");
 
-                    b.HasKey("IdUsuarioExterno");
+                    b.HasKey("ID_UsuarioExterno");
 
                     b.HasIndex("ID_Paciente");
 
@@ -416,17 +394,6 @@ namespace WebConTablas.Migrations
                     b.HasIndex("PacienteID_Paciente");
 
                     b.ToTable("UsuariosExternos");
-                });
-
-            modelBuilder.Entity("WebConTablas.Models.ComentariosExternos", b =>
-                {
-                    b.HasOne("WebConTablas.Models.UsuarioExterno", "UsuarioExterno")
-                        .WithMany("Comentarios")
-                        .HasForeignKey("IdUsuarioExterno")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("UsuarioExterno");
                 });
 
             modelBuilder.Entity("WebConTablas.Models.DiarioEmocional", b =>
@@ -573,11 +540,6 @@ namespace WebConTablas.Migrations
                     b.Navigation("Formularios");
 
                     b.Navigation("Pacientes");
-                });
-
-            modelBuilder.Entity("WebConTablas.Models.UsuarioExterno", b =>
-                {
-                    b.Navigation("Comentarios");
                 });
 #pragma warning restore 612, 618
         }

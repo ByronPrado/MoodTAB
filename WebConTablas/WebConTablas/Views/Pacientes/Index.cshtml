@@ -99,6 +99,43 @@
                 </li>
             }
             </ul>
+            <h5>Usuarios Externos</h5>
+            @if (p.UsuariosExternos != null && p.UsuariosExternos.Any())
+            {
+                <ul class="list-group mb-3">
+                @foreach (var ue in p.UsuariosExternos)
+                {
+                    var collapseId = $"collapseComentarios_{ue.IdUsuarioExterno}";
+                    <li class="list-group-item">
+                        <b>@ue.Nombre</b> (@ue.Parentezco) - <span class="text-muted">@ue.Email</span>
+                        <button class="btn btn-link btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
+                            Ver comentarios
+                        </button>
+                        <div class="collapse mt-2" id="@collapseId">
+                            @if (ue.Comentarios != null && ue.Comentarios.Any())
+                            {
+                                <ul class="list-group">
+                                @foreach (var cmt in ue.Comentarios.OrderByDescending(c => c.Fecha))
+                                {
+                                    <li class="list-group-item">
+                                        <b>@cmt.Fecha.ToString("g"):</b> @cmt.Comentario
+                                    </li>
+                                }
+                                </ul>
+                            }
+                            else
+                            {
+                                <span class="text-muted">No hay comentarios registrados.</span>
+                            }
+                        </div>
+                    </li>
+                }
+                </ul>
+            }
+            else
+            {
+                <p class="text-muted">No hay usuarios externos asociados.</p>
+            }
         </div>
     </div>
 }

@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace WebConTablas.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialPostgres : Migration
+    public partial class AddUsuarioExternoRelations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -177,6 +177,42 @@ namespace WebConTablas.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UsuariosExternos",
+                columns: table => new
+                {
+                    ID_UsuarioExterno = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ID_Paciente = table.Column<int>(type: "integer", nullable: false),
+                    Nombre = table.Column<string>(type: "text", nullable: false),
+                    Parentezco = table.Column<string>(type: "text", nullable: true),
+                    Email = table.Column<string>(type: "text", nullable: true),
+                    Telefono = table.Column<string>(type: "text", nullable: true),
+                    ID_Psiquiatra = table.Column<int>(type: "integer", nullable: true),
+                    PacienteID_Paciente = table.Column<int>(type: "integer", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UsuariosExternos", x => x.ID_UsuarioExterno);
+                    table.ForeignKey(
+                        name: "FK_UsuariosExternos_Pacientes_ID_Paciente",
+                        column: x => x.ID_Paciente,
+                        principalTable: "Pacientes",
+                        principalColumn: "ID_Paciente",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UsuariosExternos_Pacientes_PacienteID_Paciente",
+                        column: x => x.PacienteID_Paciente,
+                        principalTable: "Pacientes",
+                        principalColumn: "ID_Paciente");
+                    table.ForeignKey(
+                        name: "FK_UsuariosExternos_Psiquiatras_ID_Psiquiatra",
+                        column: x => x.ID_Psiquiatra,
+                        principalTable: "Psiquiatras",
+                        principalColumn: "ID_Psiquiatra",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Respuestas",
                 columns: table => new
                 {
@@ -280,6 +316,21 @@ namespace WebConTablas.Migrations
                 name: "IX_Respuestas_ID_Pregunta",
                 table: "Respuestas",
                 column: "ID_Pregunta");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UsuariosExternos_ID_Paciente",
+                table: "UsuariosExternos",
+                column: "ID_Paciente");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UsuariosExternos_ID_Psiquiatra",
+                table: "UsuariosExternos",
+                column: "ID_Psiquiatra");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UsuariosExternos_PacienteID_Paciente",
+                table: "UsuariosExternos",
+                column: "PacienteID_Paciente");
         }
 
         /// <inheritdoc />
@@ -293,6 +344,9 @@ namespace WebConTablas.Migrations
 
             migrationBuilder.DropTable(
                 name: "Respuestas");
+
+            migrationBuilder.DropTable(
+                name: "UsuariosExternos");
 
             migrationBuilder.DropTable(
                 name: "FormulariosAsignados");

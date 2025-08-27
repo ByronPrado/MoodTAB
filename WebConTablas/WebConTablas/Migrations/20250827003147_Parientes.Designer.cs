@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace WebConTablas.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250827003147_Parientes")]
+    partial class Parientes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,12 +39,12 @@ namespace WebConTablas.Migrations
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("IdUsuarioExterno")
+                    b.Property<int>("ID_UsuarioExterno")
                         .HasColumnType("integer");
 
                     b.HasKey("ID_ComentarioExterno");
 
-                    b.HasIndex("IdUsuarioExterno");
+                    b.HasIndex("ID_UsuarioExterno");
 
                     b.ToTable("ComentariosExternos");
                 });
@@ -379,11 +382,11 @@ namespace WebConTablas.Migrations
 
             modelBuilder.Entity("WebConTablas.Models.UsuarioExterno", b =>
                 {
-                    b.Property<int>("IdUsuarioExterno")
+                    b.Property<int>("ID_UsuarioExterno")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IdUsuarioExterno"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID_UsuarioExterno"));
 
                     b.Property<string>("Email")
                         .HasColumnType("text");
@@ -407,7 +410,7 @@ namespace WebConTablas.Migrations
                     b.Property<string>("Telefono")
                         .HasColumnType("text");
 
-                    b.HasKey("IdUsuarioExterno");
+                    b.HasKey("ID_UsuarioExterno");
 
                     b.HasIndex("ID_Paciente");
 
@@ -422,7 +425,7 @@ namespace WebConTablas.Migrations
                 {
                     b.HasOne("WebConTablas.Models.UsuarioExterno", "UsuarioExterno")
                         .WithMany("Comentarios")
-                        .HasForeignKey("IdUsuarioExterno")
+                        .HasForeignKey("ID_UsuarioExterno")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -12,6 +12,8 @@ public class AppDbContext : DbContext
     public DbSet<FormularioAsignado> FormulariosAsignados { get; set; }
     public DbSet<Respuesta> Respuestas { get; set; }
     public DbSet<DiarioEmocional> DiariosEmocionales { get; set; }
+    public DbSet<UsuarioExterno> UsuariosExternos { get; set; } 
+    public DbSet<ComentariosExternos> ComentariosExternos { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
@@ -19,6 +21,12 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        // Relación: UsuarioExterno 1 - N ComentariosExternos
+        modelBuilder.Entity<ComentariosExternos>()
+            .HasOne(c => c.UsuarioExterno)
+            .WithMany(ue => ue.Comentarios)
+            .HasForeignKey(c => c.IdUsuarioExterno)
+            .OnDelete(DeleteBehavior.Cascade);
         // Claves primarias explícitas
         modelBuilder.Entity<Psiquiatra>().HasKey(p => p.ID_Psiquiatra);
         modelBuilder.Entity<Paciente>().HasKey(p => p.ID_Paciente);
@@ -28,6 +36,21 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<FormularioAsignado>().HasKey(fa => fa.ID_Asignacion);
         modelBuilder.Entity<Respuesta>().HasKey(r => r.ID_Respuesta);
         modelBuilder.Entity<DiarioEmocional>().HasKey(d => d.ID_Diario);
+    modelBuilder.Entity<UsuarioExterno>().HasKey(ue => ue.IdUsuarioExterno);
+
+        // Relación: Paciente 1 - N UsuarioExterno
+        modelBuilder.Entity<UsuarioExterno>()
+            .HasOne<Paciente>()
+            .WithMany(p => p.UsuariosExternos)
+            .HasForeignKey(ue => ue.ID_Paciente)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Relación: Psiquiatra 1 - N UsuarioExterno
+        modelBuilder.Entity<UsuarioExterno>()
+            .HasOne(ue => ue.Psiquiatra)
+            .WithMany()
+            .HasForeignKey(ue => ue.ID_Psiquiatra)
+            .OnDelete(DeleteBehavior.Restrict);
 
         // Relaciones (igual que antes)
         modelBuilder.Entity<Paciente>()
@@ -123,7 +146,7 @@ public class AppDbContext : DbContext
                 ID_Pregunta = 1,
                 Contenido = "¿Cómo te has sentido hoy?",
                 Tipo = "texto",
-                Created_at = new DateTime(2024, 6, 16)
+                Created_at = new DateTime(2024, 6, 16, 0, 0, 0, DateTimeKind.Utc)
             }
         );
 
@@ -135,7 +158,7 @@ public class AppDbContext : DbContext
                 ID_Psiquiatra = 1,
                 Titulo = "Evaluación inicial",
                 Descripcion = "Formulario para evaluar estado inicial del paciente",
-                Created_at = new DateTime(2024, 6, 16)
+                Created_at = new DateTime(2024, 6, 16, 0, 0, 0, DateTimeKind.Utc)
             }
         );
 
@@ -156,8 +179,8 @@ public class AppDbContext : DbContext
                 ID_Asignacion = 1,
                 ID_Formulario = 1,
                 ID_Paciente = 1,
-                Fecha_Asignacion = new DateTime(2024, 6, 16),
-                Fecha_Limite = new DateTime(2024, 6, 23),
+                Fecha_Asignacion = new DateTime(2024, 6, 16, 0, 0, 0, DateTimeKind.Utc),
+                Fecha_Limite = new DateTime(2024, 6, 23, 0, 0, 0, DateTimeKind.Utc),
                 Estado = "pendiente"
             }
         );
@@ -168,7 +191,7 @@ public class AppDbContext : DbContext
             {
                 ID_Diario = 1,
                 ID_Paciente = 1,
-                Fecha = new DateTime(2024, 6, 16),
+                Fecha = new DateTime(2024, 6, 16, 0, 0, 0, DateTimeKind.Utc),
                 Emociones = "{\"feliz\":0,\"triste\":1}",
                 Descripcion = "Tuve un día difícil",
                 Pasos = 3000,
