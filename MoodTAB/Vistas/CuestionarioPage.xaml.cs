@@ -12,4 +12,9 @@ public partial class CuestionarioPage : ContentPage
 		viewModel = new ViewModel.Cuestionario();
 		BindingContext = viewModel;
 	}
+	protected override async void OnAppearing()
+	{
+		base.OnAppearing();
+		await viewModel.InitializeAsync();
+	}
 }

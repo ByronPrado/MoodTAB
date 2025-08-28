@@ -13,7 +13,7 @@ public class ApiFormularioController : ControllerBase
     public IActionResult GetFormularioPorPaciente(int pacienteId)
     {
         var asignacion = _context.FormulariosAsignados
-            .Where(fa => fa.ID_Paciente == pacienteId)
+            .Where(fa => fa.ID_Paciente == pacienteId && fa.Estado == "pendiente")
             .OrderByDescending(fa => fa.Fecha_Asignacion)
             .Select(fa => new
             {
@@ -38,7 +38,8 @@ public class ApiFormularioController : ControllerBase
                     })
                 }
             })
-            .FirstOrDefault();
+            //.FirstOrDefault();            
+            .ToList();
 
         if (asignacion == null)
             return NotFound();

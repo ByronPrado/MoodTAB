@@ -7,6 +7,13 @@
     <ScrollView BackgroundColor="#FFF3F3FF">
         <VerticalStackLayout Padding="5" Spacing="15">
             <Label Text="Cuestionario Diario" FontAttributes="Bold" FontSize="24" HorizontalOptions="Center" />
+            <Entry Text="{Binding Log_test}"/>
+
+            <Label Text="Selecciona un Cuestionario:" FontAttributes="Bold" FontSize="18" />
+            <Picker ItemsSource="{Binding ListaCuestionarios}" 
+                ItemDisplayBinding="{Binding Titulo}" 
+                SelectedItem="{Binding CuestionarioSeleccionado,Mode=TwoWay}" />
+            
 
             <CollectionView x:Name="PreguntasColl" ItemsSource="{Binding PreguntasConRespuesta}" Margin="0,0,0,20" IsVisible="{Binding Pendiente}">
                 <CollectionView.ItemTemplate>

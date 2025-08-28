@@ -77,10 +77,18 @@ namespace MoodTAB.ViewModel
         }
     }
 
+    public class CuestionarioData
+    {
+        public int IdAsignacion { get; set; }
+        public string Titulo { get; set; } = string.Empty;
+        public ObservableCollection<PreguntaConRespuesta> PreguntasConRespuesta { get; set; } = new();
+    }
     public partial class Cuestionario : ObservableObject
     {
         [ObservableProperty]
         ObservableCollection<PreguntaConRespuesta> preguntasConRespuesta = new();
+
+
 
         [ObservableProperty]
         ObservableCollection<Respuestas> respuestasLista = new();
@@ -93,82 +101,141 @@ namespace MoodTAB.ViewModel
         bool pendiente;
         [ObservableProperty]
         bool nopendiente;
+        //DE AQUI EN ADELANTE CAMBIE
+        [ObservableProperty]
+        string log_test = string.Empty;
+
+        [ObservableProperty]
+        ObservableCollection<CuestionarioData> listaCuestionarios = new();
+
+        [ObservableProperty]
+        private CuestionarioData cuestionarioSeleccionado;
+        private int id_cuestionario;
+
+        public async Task InitializeAsync()
+        {
+            try
+            {
+                await SepararCuestionarios();
+            }
+            catch (Exception ex)
+            {
+                Log_test = ex.Message;
+                // opcional: también puedes Debug.WriteLine(ex.ToString());
+            }
+        }
 
         public Cuestionario()
         {
-            //_mainViewModel = mainViewModel;
             pendiente = Globals.cuestionario_pendiente;
             nopendiente = !pendiente;
-
-            Task.Run(async () =>
-            {
-                await CargarPreguntas();
-                await CargarRespuestas();
-            });
+            //Task.Run(async () => await SepararCuestionarios());
         }
 
-        private async Task CargarPreguntas()
+        public void SetIdAsignacion(int id)
+        {
+            idAsignacion = id;
+        }
+        public async Task SepararCuestionarios()
         {
             using var doc = JsonDocument.Parse(Globals.cuestionario);
             var root = doc.RootElement;
 
-            if (root.TryGetProperty("iD_Asignacion", out var asignacionProp))
+            if (root.ValueKind != JsonValueKind.Array)
             {
-                idAsignacion = asignacionProp.GetInt32();
+                Log_test = "El JSON recibido no es una lista de cuestionarios.";
+                return;
             }
 
-            // Navega hasta formulario.preguntas
-            if (root.TryGetProperty("formulario", out var formulario) &&
-                formulario.TryGetProperty("preguntas", out var preguntasJson) &&
-                preguntasJson.ValueKind == JsonValueKind.Array)
+            foreach (var cuestionarioJson in root.EnumerateArray())
             {
-                var lista = new List<PreguntaConRespuesta>();
+                // Leer ID asignación
+                int idAsignacion = cuestionarioJson.GetProperty("iD_Asignacion").GetInt32();
 
-                foreach (var preguntaJson in preguntasJson.EnumerateArray())
+                // Extraer formulario
+                if (cuestionarioJson.TryGetProperty("formulario", out var formulario) &&
+                    formulario.TryGetProperty("preguntas", out var preguntasJson) &&
+                    preguntasJson.ValueKind == JsonValueKind.Array)
                 {
-                    var pregunta = new Pregunta
-                    {
-                        ID_Pregunta = preguntaJson.GetProperty("iD_Pregunta").GetInt32(),
-                        Contenido = preguntaJson.GetProperty("contenido").GetString(),
-                        Tipo = preguntaJson.GetProperty("tipo").GetString(),
-                        Extra = preguntaJson.TryGetProperty("extra", out var extraProp) ? extraProp.GetString() : null
-                        // Agrega más campos si los necesitas
-                    };
+                    var lista = new List<PreguntaConRespuesta>();
 
-                    var preguntaRespuesta = new PreguntaConRespuesta
+                    foreach (var preguntaJson in preguntasJson.EnumerateArray())
                     {
-                        Pregunta = pregunta,
-                        RespuestaUsuario = string.Empty
-                    };
-
-
-                    if (pregunta.Tipo == "Escala")
-                    {
-                        if (preguntaJson.TryGetProperty("escalaMin", out var minProp) && minProp.ValueKind == JsonValueKind.Number)
-                            preguntaRespuesta.MinimoEscala = minProp.GetInt32();
-                        if (preguntaJson.TryGetProperty("escalaMax", out var maxProp) && maxProp.ValueKind == JsonValueKind.Number)
-                            preguntaRespuesta.MaximoEscala = maxProp.GetInt32();
-                    }
-                    if (pregunta.Tipo == "Seleccion")
-                    {
-                        if (preguntaJson.TryGetProperty("opcionesSeleccion", out var opcionesProp) && opcionesProp.ValueKind == JsonValueKind.String)
+                        var pregunta = new Pregunta
                         {
-                            var opciones = opcionesProp.GetString()?.Split(',').Select(o => o.Trim()).ToList() ?? new List<string>();
-                            preguntaRespuesta.OpcionesSeleccion = new ObservableCollection<OpcionSeleccionItem>(
-                                opciones.Select(o => new OpcionSeleccionItem { Texto = o })
-                            );
+                            ID_Pregunta = preguntaJson.GetProperty("iD_Pregunta").GetInt32(),
+                            Contenido = preguntaJson.GetProperty("contenido").GetString(),
+                            Tipo = preguntaJson.GetProperty("tipo").GetString(),
+                            Extra = preguntaJson.TryGetProperty("extra", out var extraProp) ? extraProp.GetString() : null
+                        };
+
+                        var preguntaRespuesta = new PreguntaConRespuesta
+                        {
+                            Pregunta = pregunta,
+                            RespuestaUsuario = string.Empty
+                        };
+
+                        if (pregunta.Tipo == "Escala")
+                        {
+                            if (preguntaJson.TryGetProperty("escalaMin", out var minProp) && minProp.ValueKind == JsonValueKind.Number)
+                                preguntaRespuesta.MinimoEscala = minProp.GetInt32();
+                            if (preguntaJson.TryGetProperty("escalaMax", out var maxProp) && maxProp.ValueKind == JsonValueKind.Number)
+                                preguntaRespuesta.MaximoEscala = maxProp.GetInt32();
                         }
+
+                        if (pregunta.Tipo == "Seleccion")
+                        {
+                            if (preguntaJson.TryGetProperty("opcionesSeleccion", out var opcionesProp) && opcionesProp.ValueKind == JsonValueKind.String)
+                            {
+                                var opciones = opcionesProp.GetString()?.Split(',').Select(o => o.Trim()).ToList() ?? new List<string>();
+                                preguntaRespuesta.OpcionesSeleccion = new ObservableCollection<OpcionSeleccionItem>(
+                                    opciones.Select(o => new OpcionSeleccionItem { Texto = o })
+                                );
+                            }
+                        }
+
+                        lista.Add(preguntaRespuesta);
                     }
 
-                    lista.Add(preguntaRespuesta);
-                }
+                    // Aquí ya tienes un cuestionario completo 
+                    var cuestionario = new CuestionarioData();
+                    cuestionario.IdAsignacion = idAsignacion;
+                    cuestionario.Titulo = $"Cuestionario {idAsignacion}";
+                    cuestionario.PreguntasConRespuesta = new ObservableCollection<PreguntaConRespuesta>(lista);
 
-                PreguntasConRespuesta = new ObservableCollection<PreguntaConRespuesta>(lista);
+                    //una colección en memoria de los cuestionarios
+                    ListaCuestionarios.Add(cuestionario);
+                }
             }
+
+            Log_test = $"Se procesaron {root.GetArrayLength()} cuestionarios.";
         }
 
+        private async Task CargarPreguntas(CuestionarioData CuestionarioSeleccionado)
+        {
+            if (CuestionarioSeleccionado == null)
+            {
+                Log_test = "No se ha seleccionado ningún cuestionario.";
+                return;
+            }
+
+            PreguntasConRespuesta = new ObservableCollection<PreguntaConRespuesta>(CuestionarioSeleccionado.PreguntasConRespuesta);
+            SetIdAsignacion(CuestionarioSeleccionado.IdAsignacion);
 
 
+        }
+        partial void OnCuestionarioSeleccionadoChanged(CuestionarioData value)
+        {
+            if (value != null)
+            {
+                // Ejecuta en el hilo principal para actualizar UI
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await CargarPreguntas(value);
+                    await CargarRespuestas();
+                });
+            }
+        }
 
         [RelayCommand]
         private async Task GuardarRespuestas()
@@ -258,7 +325,7 @@ namespace MoodTAB.ViewModel
             }
             await CargarRespuestas();
         }
-   
+
     }
     
 }
