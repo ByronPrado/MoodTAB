@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using MoodTAB.Models;
 using MoodTAB.Vistas;
 using MoodTAB.Services;
+using MoodTAB.Platforms.Android;
 using System;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
@@ -69,14 +70,27 @@ namespace MoodTAB.ViewModel
             return await client.GetStringAsync(url);
         }
 
+        public INavigation Navigation { get; set; }
+
         [RelayCommand]
         private async Task MovetoPage(string pageName)
         {
             try
             {
-                // Usamos nameof(ClaseDeLaPagina) como identificador
                 ActualizarDatosUsuario();
-                await Shell.Current.GoToAsync(pageName);
+                Page page = pageName switch
+                {
+                    "CuestionarioPage" => new CuestionarioPage(),
+                    "TestPage" => new TestPage(),
+                    "ListaDiaroPage" => new ListaDiarioPage(new StepCounterService()),
+                    "UserPage" => new UserPage(),
+                    _ => null
+                };
+
+                if (page != null && Navigation != null)
+                    await Navigation.PushAsync(page);
+                else
+                    Title = $"Error: Página no encontrada o Navigation es null {pageName}";
             }
             catch (Exception ex)
             {

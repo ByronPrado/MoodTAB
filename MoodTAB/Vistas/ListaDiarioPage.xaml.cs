@@ -34,7 +34,7 @@ public partial class ListaDiarioPage : ContentPage
         if (e.CurrentSelection.FirstOrDefault() is Diario diarioSeleccionado)
         {
             await Navigation.PushAsync(new DetalleDiarioPage(diarioSeleccionado));
-            ((CollectionView)sender).SelectedItem = null; // limpia selección
+            ((CollectionView)sender).SelectedItem = null;
         }
     }
 

@@ -2,6 +2,7 @@
 
 using MoodTAB.Data;
 using MoodTAB.Vistas;
+using MoodTAB.Platforms.Android;
 
 public partial class App : Application
 {
@@ -41,15 +42,17 @@ public App()
         {
             Globals.respondido = Globals.toBool(resp);
         }
+
+        var notificationManager = new NotificationManagerService();
         if (!string.IsNullOrEmpty(userId))
         {
-            // Usuario autenticado previamente → ir directo a AppShell
-            MainPage = new AppShell();
+            // Usuario autenticado previamente → ir directo a MainPage
+            MainPage = new NavigationPage(new MainPage(notificationManager));
         }
         else
         {
             // Usuario nuevo → pedir login primero
-            MainPage = new LoginPage();
+            MainPage = new NavigationPage(new LoginPage());
         }
     }
 

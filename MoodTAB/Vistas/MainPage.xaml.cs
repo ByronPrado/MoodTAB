@@ -24,6 +24,7 @@ public partial class MainPage : ContentPage
     {
         InitializeComponent();
         viewModel = new ViewModel.MainViewModel(manager);
+        viewModel.Navigation = this.Navigation;
         BindingContext = viewModel;
 
         notificationManager = manager;

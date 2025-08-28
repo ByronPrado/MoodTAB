@@ -4,73 +4,74 @@
              x:Class="MoodTAB.Vistas.UserPage"
              Title="UserPage">
     <ScrollView>
-         <VerticalStackLayout>
-            <Button Text="Cerrar sesión" Clicked="OnLogoutClicked" />
+         <VerticalStackLayout  Padding="20,25,20,20">
+            <Ellipse Fill="#FFEBEAEA"
+                         StrokeThickness="4"
+                         WidthRequest="150"
+                         HeightRequest="150"
+                         HorizontalOptions="Center"
+                         VerticalOptions="Center"
+                         Margin="0,-25,0,0"/>
+            <Frame Padding="10" BorderColor="#D4000000" Margin="0,10">
+                <Grid Padding="10" RowSpacing="10" RowDefinitions="40,40,40,auto" ColumnDefinitions="auto,160">
+                    <!-- Nombre -->
+                    <Label Text="Nombre:" Grid.Column="0" Grid.Row="0"/>
+                    <Label Grid.Column="1" Grid.Row="0" Text="{Binding Nombre}" HorizontalTextAlignment="End">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding IsEditing}" Value="True">
+                                <Setter Property="IsVisible" Value="False"/>
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                    <Entry Grid.Column="1" Grid.Row="0" Text="{Binding Nombre}" HorizontalTextAlignment="End">
+                        <Entry.Triggers>
+                            <DataTrigger TargetType="Entry" Binding="{Binding IsEditing}" Value="False">
+                                <Setter Property="IsVisible" Value="False"/>
+                            </DataTrigger>
+                        </Entry.Triggers>
+                    </Entry>
 
-            <Grid Padding="10" RowSpacing="10">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="160"/>
-                </Grid.ColumnDefinitions>
-                <!-- Nombre -->
-                <Label Text="Nombre:" Grid.Column="0" Grid.Row="0"/>
-                <Label Grid.Column="1" Grid.Row="0" Text="{Binding Nombre}">
-                    <Label.Triggers>
-                        <DataTrigger TargetType="Label" Binding="{Binding IsEditing}" Value="True">
-                            <Setter Property="IsVisible" Value="False"/>
-                        </DataTrigger>
-                    </Label.Triggers>
-                </Label>
-                <Entry Grid.Column="1" Grid.Row="0" Text="{Binding Nombre}">
-                    <Entry.Triggers>
-                        <DataTrigger TargetType="Entry" Binding="{Binding IsEditing}" Value="False">
-                            <Setter Property="IsVisible" Value="False"/>
-                        </DataTrigger>
-                    </Entry.Triggers>
-                </Entry>
+                    <!-- Email -->
+                    <Label Text="Email:" Grid.Column="0" Grid.Row="1"/>
+                    <Label Grid.Column="1" Grid.Row="1" Text="{Binding Email}" HorizontalTextAlignment="End">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding IsEditing}" Value="True">
+                                <Setter Property="IsVisible" Value="False"/>
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                    <Entry Grid.Column="1" Grid.Row="1" Text="{Binding Email}" HorizontalTextAlignment="End">
+                        <Entry.Triggers>
+                            <DataTrigger TargetType="Entry" Binding="{Binding IsEditing}" Value="False">
+                                <Setter Property="IsVisible" Value="False"/>
+                            </DataTrigger>
+                        </Entry.Triggers>
+                    </Entry>
 
-                <!-- Email -->
-                <Label Text="Email:" Grid.Column="0" Grid.Row="1"/>
-                <Label Grid.Column="1" Grid.Row="1" Text="{Binding Email}">
-                    <Label.Triggers>
-                        <DataTrigger TargetType="Label" Binding="{Binding IsEditing}" Value="True">
-                            <Setter Property="IsVisible" Value="False"/>
-                        </DataTrigger>
-                    </Label.Triggers>
-                </Label>
-                <Entry Grid.Column="1" Grid.Row="1" Text="{Binding Email}">
-                    <Entry.Triggers>
-                        <DataTrigger TargetType="Entry" Binding="{Binding IsEditing}" Value="False">
-                            <Setter Property="IsVisible" Value="False"/>
-                        </DataTrigger>
-                    </Entry.Triggers>
-                </Entry>
-
-                <!-- Teléfono -->
-                <Label Text="Telefono:" Grid.Column="0" Grid.Row="2"/>
-                <Label Grid.Column="1" Grid.Row="2" Text="{Binding Telefono}">
-                    <Label.Triggers>
-                        <DataTrigger TargetType="Label" Binding="{Binding IsEditing}" Value="True">
-                            <Setter Property="IsVisible" Value="False"/>
-                        </DataTrigger>
-                    </Label.Triggers>
-                </Label>
-                <Entry Grid.Column="1" Grid.Row="2" Text="{Binding Telefono}">
-                    <Entry.Triggers>
-                        <DataTrigger TargetType="Entry" Binding="{Binding IsEditing}" Value="False">
-                            <Setter Property="IsVisible" Value="False"/>
-                        </DataTrigger>
-                    </Entry.Triggers>
-                </Entry>
-            </Grid>
-            <Button Text="{Binding BotonEditar}" Command="{Binding EditarCommand}"/>
-            <Button Text="Guardar Cambios" Command="{Binding GuardarCambiosCommand}" IsVisible="{Binding IsEditing}" />
+                    <!-- Teléfono -->
+                    <Label Text="Telefono:" Grid.Column="0" Grid.Row="2"/>
+                    <Label Grid.Column="1" Grid.Row="2" Text="{Binding Telefono}" HorizontalTextAlignment="End">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding IsEditing}" Value="True">
+                                <Setter Property="IsVisible" Value="False"/>
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                    <Entry Grid.Column="1" Grid.Row="2" Text="{Binding Telefono}" HorizontalTextAlignment="End">
+                        <Entry.Triggers>
+                            <DataTrigger TargetType="Entry" Binding="{Binding IsEditing}" Value="False">
+                                <Setter Property="IsVisible" Value="False"/>
+                            </DataTrigger>
+                        </Entry.Triggers>
+                    </Entry>
+                    <Grid ColumnDefinitions="auto,auto" HorizontalOptions="End" ColumnSpacing="10" Grid.Column="1" Grid.Row="3">
+                        <Button Text="{Binding BotonEditar}" Command="{Binding EditarCommand}" Grid.Column="1" WidthRequest="90" FontSize="12"/>
+                        <Button Text="Guardar Cambios" Command="{Binding GuardarCambiosCommand}" IsVisible="{Binding IsEditing}" Grid.Column="0" FontSize="12"/>
+                    </Grid>
+                </Grid>
+            </Frame>
             <Button Text="Borrar Datos" Clicked="onBorrarDatosClicked" />
+            <Button Text="Cerrar sesión" Clicked="OnLogoutClicked" />
         </VerticalStackLayout>        
     </ScrollView> 
 </ContentPage>

@@ -2,75 +2,163 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModel="clr-namespace:MoodTAB.ViewModel" 
-             x:Class="MoodTAB.Vistas.MainPage">
+             x:Class="MoodTAB.Vistas.MainPage"
+             NavigationPage.HasNavigationBar="False">
 
-        <ScrollView
-            BackgroundColor="#FFF3F3FF">
-        <VerticalStackLayout Padding="20" Spacing="25">
+    <Grid>
+        <!-- Contenido principal -->
+        <ScrollView BackgroundColor="#FFF3F3FF">
+            <VerticalStackLayout Padding="20,20,20,90" Spacing="25">
 
-            <!-- Frame con título de la API -->
-            <Frame CornerRadius="12"
-                   Padding="15"
-                   BackgroundColor="White"
-                   BorderColor="#90CAF9">
-                   <Grid
+                <!-- Frame con título de la API -->
+                <Frame CornerRadius="12"
+                       Padding="15"
+                       BackgroundColor="White"
+                       BorderColor="#90CAF9">
+                    <Grid
                         ColumnSpacing="0"
                         RowSpacing="10"
                         HorizontalOptions="Fill"
                         VerticalOptions="Center"
                         RowDefinitions="Auto,Auto">
                         <Label Text="{Binding Title}"
-                            Grid.Row="0"
-                            FontSize="14"
-                            FontAttributes="Bold"
-                            TextColor="Black"
-                            />
-                       <Label Text="{Binding TitleApi}"
-                            Grid.Row="1"/>
-                       </Grid>
-                
-            </Frame>
+                               Grid.Row="0"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="Black"/>
+                        <Label Text="{Binding TitleApi}"
+                               Grid.Row="1"/>
+                    </Grid>
+                </Frame>
 
-            <!-- Sección Actividades -->
-            <Label Text="Actividades Pendientes"
-                   FontSize="22"
-                   TextColor="Black"
-                   Margin="0,10,0,0"/>
+                <!-- Sección Actividades -->
+                <Label Text="Actividades Pendientes"
+                       FontSize="22"
+                       TextColor="Black"
+                       Margin="0,10,0,0"/>
 
-            <VerticalStackLayout Spacing="15">
-                <Button Text="Cuestionario Disponible"
+                <VerticalStackLayout Spacing="15">
+                    <Button Text="Cuestionario Disponible"
+                            Command="{Binding MovetoPageCommand}"
+                            CommandParameter="CuestionarioPage"
+                            BackgroundColor="#5C91D8"
+                            IsVisible="{Binding Cuestionario}"/>
+                    <Button Text="Diario Emocional"
+                            Command="{Binding MovetoPageCommand}"
+                            CommandParameter="DiarioPage"
+                            BackgroundColor="#68ACD5"/>
+                </VerticalStackLayout>
+
+                <!-- Sección Debug -->
+                <Label Text="Debug"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="Gray"
+                       Margin="0,20,0,0"/>
+                <Button Text="Test"
+                        Command="{Binding MovetoPageCommand}"
+                        CommandParameter="TestPage"
+                        BackgroundColor="Red"/>
+                <Button Text="Probar Notificación"
+                        Clicked="NotificationClick"
+                        BackgroundColor="#68ACD5"/>
+                <Button Text="Probar Notificación"
+                        Clicked="NotificationClick"
+                        BackgroundColor="#68ACD5"/>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Bottom Bar -->
+        <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="End" HeightRequest="70" BackgroundColor="#FFF3F3FF">
+            <HorizontalStackLayout.Shadow>
+                <Shadow Brush="Black"
+                        Opacity="0.8"
+                        Offset="5,5"
+                        Radius="10"/>
+            </HorizontalStackLayout.Shadow>
+            <Grid RowDefinitions="*" ColumnDefinitions="80" HorizontalOptions="Center">
+                <Button Text=" "
+                        HeightRequest="70"
+                        WidthRequest="80"
+                        CornerRadius="0"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        BackgroundColor="Transparent"
                         Command="{Binding MovetoPageCommand}"
                         CommandParameter="CuestionarioPage"
-                        BackgroundColor="#5C91D8"
-                        IsVisible="{Binding Cuestionario}"
-                        />
-
-                <Button Text="Diario Emocional"
+                        Grid.Row="0"/>
+                <Image Grid.Row="0" Source="survey.png" HeightRequest="40" WidthRequest="40" Margin="0,0,0,15"/>
+                <Label Text="Cuestionarios" HorizontalTextAlignment="Center" FontSize="12" Padding="0,50,0,0"></Label>
+            </Grid>
+            <Grid RowDefinitions="*" ColumnDefinitions="79" HorizontalOptions="Center" Margin="0,0,0,0">
+                <Button Text=" "
+                        HeightRequest="70"
+                        WidthRequest="79"
+                        CornerRadius="0"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        BackgroundColor="Transparent"
                         Command="{Binding MovetoPageCommand}"
-                        CommandParameter="DiarioPage"
-                        BackgroundColor="#68ACD5"
-                        />
-                        
-            </VerticalStackLayout>
-
-            <!-- Sección Debug -->
-            <Label Text="Debug"
-                   FontSize="20"
-                   FontAttributes="Bold"
-                   TextColor="Gray"
-                   Margin="0,20,0,0"/>
-
-            <Button Text="Test"
-                    Command="{Binding MovetoPageCommand}"
-                    CommandParameter="TestPage"
-                    BackgroundColor="Red"
-                    />
-
-            <Button Text="Probar Notificación"
-                    Clicked="NotificationClick"
-                    BackgroundColor="#68ACD5"
-                        />
-        </VerticalStackLayout>
-    </ScrollView>
-
+                        CommandParameter="ListaDiaroPage"
+                        Grid.Row="0"/>
+                <Image Grid.Row="0" Source="house_blank.png" HeightRequest="40" WidthRequest="40" Margin="0,0,0,15"/>
+                <Label Text="Mis Diarios" HorizontalTextAlignment="Center" FontSize="12" Padding="0,50,0,0"></Label>
+            </Grid>
+            <!-- Botón central -->
+            <!--Grid ColumnDefinitions="66">
+                <Ellipse Fill="#FFEBEAEA"
+                         StrokeThickness="4"
+                         WidthRequest="66"
+                         HeightRequest="66"
+                         HorizontalOptions="Center"
+                         VerticalOptions="Center"
+                         Margin="0,-25,0,0"/>
+                <Ellipse Fill="#AFAFAF"
+                         StrokeThickness="4"
+                         WidthRequest="58"
+                         HeightRequest="58"
+                         HorizontalOptions="Center"
+                         VerticalOptions="Center"
+                         Margin="0,-25,0,0"/>
+                <ImageButton Source="centericon.svg"
+                             WidthRequest="58"
+                             HeightRequest="58"
+                             CornerRadius="28"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center"
+                             Margin="0,-25,0,0"
+                             Command="{Binding MovetoPageCommand}"
+                             CommandParameter="UserPage"
+                             />
+            </Grid-->
+            <Grid RowDefinitions="*" ColumnDefinitions="79" HorizontalOptions="Center" Margin="0,0,0,0">
+                <Button Text=" "
+                        HeightRequest="70"
+                        WidthRequest="79"
+                        CornerRadius="0"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        BackgroundColor="Transparent"
+                        Command="{Binding MovetoPageCommand}"
+                        CommandParameter="UserPage"
+                        Grid.Row="0"/>
+                <Image Grid.Row="0" Source="usuario.png" HeightRequest="40" WidthRequest="40" Margin="0,0,0,15"/>
+                <Label Text="Usuario" HorizontalTextAlignment="Center" FontSize="12" Padding="0,50,0,0"></Label>
+            </Grid>
+            <Grid RowDefinitions="*" ColumnDefinitions="80" HorizontalOptions="Center" Margin="0,0,0,0">
+                <Button Text=" "
+                        HeightRequest="70"
+                        WidthRequest="80"
+                        CornerRadius="0"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        BackgroundColor="Transparent"
+                        Command="{Binding MovetoPageCommand}"
+                        CommandParameter="TestPage"
+                        Grid.Row="0"/>
+                <Image Grid.Row="0" Source="configuracion.png" HeightRequest="40" WidthRequest="40" Margin="0,0,0,15"/>
+                <Label Text="Ajustes" HorizontalTextAlignment="Center" FontSize="12" Padding="0,50,0,0"></Label>
+            </Grid>
+        </HorizontalStackLayout>
+    </Grid>
 </ContentPage>
