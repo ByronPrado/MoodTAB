@@ -40,19 +40,47 @@
                 <Button Text="🫨    Ansioso"       LineBreakMode="WordWrap"   Margin="0,0,0,0" FontSize="12" Grid.Row="2" Grid.Column="2" CommandParameter="Ansioso" Command="{Binding SeleccionarEmocionCommand}" BackgroundColor="{Binding ColorAnsioso}" BorderColor="{Binding ColorAnsioso_borde}" CornerRadius="15" BorderWidth="2" TextColor="black"/>
             </Grid>
 
-            <!--CollectionView ItemsSource="{Binding EmocionDiaria}"32
-                ItemsLayout="VerticalGrid, 3"
-                HorizontalOptions="Center">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Frame BorderColor="LightGray" Padding="10" Margin="5">
-                            <HorizontalStackLayout>
-                                <Label Text="{Binding .}" FontSize="10"/>
-                            </HorizontalStackLayout>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView-->
+            <Frame CornerRadius="15" Padding="10" BackgroundColor="#F0FDF4" BorderColor="#22C55E" 
+                IsVisible="{Binding TieneEmocionesSeleccionadas}">
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="✅ Emociones seleccionadas:" FontSize="12" TextColor="#15803D"/>
+                    <CollectionView ItemsSource="{Binding EmocionesSeleccionadas}" 
+                                    ItemsLayout="HorizontalList"
+                                    HeightRequest="40">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame BackgroundColor="#DCFCE7" 
+                                    CornerRadius="15" 
+                                    Padding="8,4" 
+                                    Margin="2"
+                                    BorderColor="#22C55E">
+                                    <Label Text="{Binding}" 
+                                        FontSize="10" 
+                                        TextColor="#15803D"/>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Frame>
+
+
+            <Frame CornerRadius="15" Padding="15" BackgroundColor="#FEF3C7" BorderColor="#F59E0B" Margin="0,10">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="📊 Intensidad de la emoción" FontAttributes="Bold" FontSize="14" TextColor="#92400E"/>
+                    <Slider x:Name="IntensitySlider" 
+                            Minimum="1" 
+                            Maximum="10" 
+                            Value="{Binding IntensidadEmocion}"
+                            ThumbColor="#F59E0B"
+                            MinimumTrackColor="#FDE68A"
+                            MaximumTrackColor="#E5E7EB"/>
+                    <Label Text="{Binding IntensidadEmocion, StringFormat='Nivel: {0:F0}/10'}" 
+                        HorizontalOptions="Center" 
+                        FontAttributes="Bold" 
+                        TextColor="#92400E"/>
+                </VerticalStackLayout>
+            </Frame>
 
             <!-- Descripción del día -->
             <VerticalStackLayout Spacing="5">

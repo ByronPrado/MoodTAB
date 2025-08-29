@@ -41,6 +41,11 @@ namespace MoodTAB.ViewModel
 
         [ObservableProperty]
         string error;
+
+        [ObservableProperty]
+        double intensidadEmocion = 0.0;
+        [ObservableProperty]
+        ObservableCollection<string> emocionesSeleccionadas = []; 
         public List<string> redes =
     [
         "com.whatsapp",                 //whatsapp
