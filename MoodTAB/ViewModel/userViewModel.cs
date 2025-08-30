@@ -65,11 +65,11 @@ namespace MoodTAB.ViewModel
                 await SecureStorage.SetAsync("user_nombre", Nombre);
                 await SecureStorage.SetAsync("user_email", Email);
 
-                await Shell.Current.DisplayAlert("Cambios Guardados", "Los cambios se han guardado correctamente.", "OK");
+                await Application.Current.MainPage.DisplayAlert("Cambios Guardados", "Los cambios se han guardado correctamente.", "OK");
             }
             else
             {
-                await Shell.Current.DisplayAlert("Error", "No se pudo guardar los cambios.", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error", "No se pudo guardar los cambios.", "OK");
             }
 
             IsEditing = false;

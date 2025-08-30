@@ -41,10 +41,7 @@ namespace MoodTAB.ViewModels
 
                 var notificationManager = App.ServiceProvider.GetService<INotificationManagerService>();
 
-                Application.Current.MainPage = new AppShell()
-                { 
-                    BindingContext = new MainViewModel(notificationManager)
-                };
+                Application.Current.MainPage = new NavigationPage(new MainPage(notificationManager));
             }
             else
             {
@@ -69,7 +66,9 @@ namespace MoodTAB.ViewModels
             SecureStorage.Remove("user_email");
 
             // Navega a la página de login
-            Application.Current.MainPage = new LoginPage();
+            //Application.Current.MainPage = new LoginPage();
+            Application.Current.MainPage = new NavigationPage(new LoginPage());
+
         }
     }
 }

@@ -33,8 +33,10 @@ namespace MoodTAB.ViewModel
         [RelayCommand]
         private async Task GuardarRespuestas()
         {
+            
             try
             {
+                if (Application.Current.MainPage == null || Application.Current == null) return;
                 if (PreguntasConRespuesta == null || !PreguntasConRespuesta.Any())
                 {
                     Application.Current.MainPage.DisplayAlert("Error", "No hay preguntas cargadas.", "OK");
@@ -49,7 +51,7 @@ namespace MoodTAB.ViewModel
                 if (preguntasInvalidas.Any())
                 {
                     var primeraPregunta = preguntasInvalidas.FirstOrDefault()?.Pregunta?.Contenido ?? "Pregunta desconocida";
-                    
+
                     await Application.Current.MainPage.DisplayAlert("Respuesta vacía",
                         $"Por favor, responde todas las preguntas antes de guardar.\nFalta: '{primeraPregunta}'",
                         "OK");
@@ -95,7 +97,7 @@ namespace MoodTAB.ViewModel
             }
             catch (Exception ex)
             {
-                Application.Current.MainPage.DisplayAlert("Excepción", ex.ToString(), "OK");
+                await Application.Current.MainPage.DisplayAlert("Excepción", ex.ToString(), "OK");
             }
         }
 

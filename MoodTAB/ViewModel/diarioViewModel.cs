@@ -287,7 +287,7 @@ namespace MoodTAB.ViewModel
             {
                 if (EmocionDiaria.Count == 0 || string.IsNullOrWhiteSpace(DescDia))
                 {
-                    await Shell.Current.DisplayAlert("Campos en blanco", "No se puede dejar los campos en blanco", "OK");
+                    await Application.Current.MainPage.DisplayAlert("Campos en blanco", "No se puede dejar los campos en blanco", "OK");
                     return;
                 }
                 var diario = new Diario
@@ -330,18 +330,18 @@ namespace MoodTAB.ViewModel
 
                 if (response.IsSuccessStatusCode)
                 {
-                    await Shell.Current.DisplayAlert("¡Listo!", "Diario enviado correctamente.", "OK");
+                    await Application.Current.MainPage.DisplayAlert("¡Listo!", "Diario enviado correctamente.", "OK");
                 }
                 else
                 {
                     var errorMsg = await response.Content.ReadAsStringAsync();
-                    await Shell.Current.DisplayAlert("Error", $"No se pudo enviar el diario.\n{errorMsg}", "OK");
+                    await Application.Current.MainPage.DisplayAlert("Error", $"No se pudo enviar el diario.\n{errorMsg}", "OK");
                 }
             }
             catch (Exception e)
             {
                 Error = e.Message;
-                await Shell.Current.DisplayAlert("Error", $"Catch:\n{Error}", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error", $"Catch:\n{Error}", "OK");
 
             }
 
