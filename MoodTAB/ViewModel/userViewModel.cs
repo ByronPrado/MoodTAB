@@ -18,7 +18,7 @@ namespace MoodTAB.ViewModel
             Email = SecureStorage.GetAsync("user_email").Result ?? "email test";
             Telefono = "8888888";
             IsEditing = false;
-            BotonEditar = "Editar";
+            BotonEditar = "✏️ Editar";
         }
 
         [RelayCommand]

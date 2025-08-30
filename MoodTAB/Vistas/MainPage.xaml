@@ -62,9 +62,6 @@
                 <Button Text="Probar Notificación"
                         Clicked="NotificationClick"
                         BackgroundColor="#68ACD5"/>
-                <Button Text="Probar Notificación"
-                        Clicked="NotificationClick"
-                        BackgroundColor="#68ACD5"/>
             </VerticalStackLayout>
         </ScrollView>
 
@@ -87,8 +84,8 @@
                         Command="{Binding MovetoPageCommand}"
                         CommandParameter="CuestionarioPage"
                         Grid.Row="0"/>
-                <Image Grid.Row="0" Source="survey.png" HeightRequest="40" WidthRequest="40" Margin="0,0,0,15"/>
-                <Label Text="Cuestionarios" HorizontalTextAlignment="Center" FontSize="12" Padding="0,50,0,0"></Label>
+                <Image Grid.Row="0" Source="neosurvey.png" HeightRequest="30" WidthRequest="30" Margin="0,0,0,15"/>
+                <Label Text="Cuestionarios" HorizontalTextAlignment="Center" FontSize="12" TextColor="#FF61666D" Padding="0,50,0,0"></Label>
             </Grid>
             <Grid RowDefinitions="*" ColumnDefinitions="79" HorizontalOptions="Center" Margin="0,0,0,0">
                 <Button Text=" "
@@ -101,8 +98,8 @@
                         Command="{Binding MovetoPageCommand}"
                         CommandParameter="ListaDiaroPage"
                         Grid.Row="0"/>
-                <Image Grid.Row="0" Source="house_blank.png" HeightRequest="40" WidthRequest="40" Margin="0,0,0,15"/>
-                <Label Text="Mis Diarios" HorizontalTextAlignment="Center" FontSize="12" Padding="0,50,0,0"></Label>
+                <Image Grid.Row="0" Source="neodiary.png" HeightRequest="30" WidthRequest="30" Margin="0,0,0,15"/>
+                <Label Text="Mis Diarios" HorizontalTextAlignment="Center" FontSize="12" TextColor="#FF61666D" Padding="0,50,0,0"></Label>
             </Grid>
             <Grid RowDefinitions="*" ColumnDefinitions="79" HorizontalOptions="Center" Margin="0,0,0,0">
                 <Button Text=" "
@@ -115,8 +112,8 @@
                         Command="{Binding MovetoPageCommand}"
                         CommandParameter="UserPage"
                         Grid.Row="0"/>
-                <Image Grid.Row="0" Source="usuario.png" HeightRequest="40" WidthRequest="40" Margin="0,0,0,15"/>
-                <Label Text="Usuario" HorizontalTextAlignment="Center" FontSize="12" Padding="0,50,0,0"></Label>
+                <Image Grid.Row="0" Source="neouser.png" HeightRequest="30" WidthRequest="30" Margin="0,0,0,15"/>
+                <Label Text="Usuario" HorizontalTextAlignment="Center" FontSize="12" TextColor="#FF61666D" Padding="0,50,0,0"></Label>
             </Grid>
             <Grid RowDefinitions="*" ColumnDefinitions="80" HorizontalOptions="Center" Margin="0,0,0,0">
                 <Button Text=" "
@@ -129,8 +126,8 @@
                         Command="{Binding MovetoPageCommand}"
                         CommandParameter="TestPage"
                         Grid.Row="0"/>
-                <Image Grid.Row="0" Source="configuracion.png" HeightRequest="40" WidthRequest="40" Margin="0,0,0,15"/>
-                <Label Text="Ajustes" HorizontalTextAlignment="Center" FontSize="12" Padding="0,50,0,0"></Label>
+                <Image Grid.Row="0" Source="neoconfig.png" HeightRequest="30" WidthRequest="30" Margin="0,0,0,15"/>
+                <Label Text="Ajustes" HorizontalTextAlignment="Center" FontSize="12" TextColor="#FF61666D" Padding="0,50,0,0"></Label>
             </Grid>
         </HorizontalStackLayout>
     </Grid>
