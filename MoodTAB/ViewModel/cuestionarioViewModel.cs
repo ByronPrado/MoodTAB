@@ -5,13 +5,13 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Text.Json;
 using MoodTAB.Services;
+using MoodTAB.Vistas;
 
 namespace MoodTAB.ViewModel
 {
     public class OpcionSeleccionItem : ObservableObject
     {
         public string? Texto { get; set; }
-        
         private bool isSelected;
         public bool IsSelected
         {
@@ -86,18 +86,6 @@ namespace MoodTAB.ViewModel
     public partial class Cuestionario : ObservableObject
     {
         [ObservableProperty]
-        ObservableCollection<PreguntaConRespuesta> preguntasConRespuesta = new();
-
-
-
-        [ObservableProperty]
-        ObservableCollection<Respuestas> respuestasLista = new();
-
-        [ObservableProperty]
-        int respuestaUsuarioEscala;
-
-        private int idAsignacion;
-        [ObservableProperty]
         bool pendiente;
         [ObservableProperty]
         bool nopendiente;
@@ -110,7 +98,8 @@ namespace MoodTAB.ViewModel
 
         [ObservableProperty]
         private CuestionarioData cuestionarioSeleccionado;
-        private int id_cuestionario;
+        //private int id_cuestionario;
+        private int idAsignacion;
 
         public async Task InitializeAsync()
         {
@@ -140,13 +129,18 @@ namespace MoodTAB.ViewModel
         {
             using var doc = JsonDocument.Parse(Globals.cuestionario);
             var root = doc.RootElement;
-
+            var len = doc.RootElement.GetArrayLength();
+            //Log_test = len.ToString();
             if (root.ValueKind != JsonValueKind.Array)
             {
                 Log_test = "El JSON recibido no es una lista de cuestionarios.";
                 return;
             }
+            if (len == 0)
+            { 
+                Log_test = $" largo = {len}\t";
 
+            }
             foreach (var cuestionarioJson in root.EnumerateArray())
             {
                 // Leer ID asignación
@@ -208,124 +202,74 @@ namespace MoodTAB.ViewModel
                 }
             }
 
-            Log_test = $"Se procesaron {root.GetArrayLength()} cuestionarios.";
+            //Log_test += $"Se procesaron {root.GetArrayLength()} cuestionarios.";
         }
 
-        private async Task CargarPreguntas(CuestionarioData CuestionarioSeleccionado)
+        [RelayCommand]
+        public async Task SeleccionarCuestionario(CuestionarioData value)
         {
-            if (CuestionarioSeleccionado == null)
-            {
-                Log_test = "No se ha seleccionado ningún cuestionario.";
-                return;
-            }
+            if (value == null) return;
 
-            PreguntasConRespuesta = new ObservableCollection<PreguntaConRespuesta>(CuestionarioSeleccionado.PreguntasConRespuesta);
-            SetIdAsignacion(CuestionarioSeleccionado.IdAsignacion);
+            var detalleVm = new CuestionarioDetalleViewmodel();
+            detalleVm.SetPreguntas(value.PreguntasConRespuesta ?? new(), value.IdAsignacion);
 
+            // Guarda el ViewModel en el contenedor estático
+            NavigationState.DetalleVm = detalleVm;
 
+            // Ahora la ruta funciona
+            await Shell.Current.GoToAsync(nameof(CuestionarioDetallePage));
+        }
+
+        public static class NavigationState
+        {
+            public static CuestionarioDetalleViewmodel DetalleVm { get; set; }
         }
         partial void OnCuestionarioSeleccionadoChanged(CuestionarioData value)
         {
-            if (value != null)
+            if (value == null)
             {
-                // Ejecuta en el hilo principal para actualizar UI
-                MainThread.BeginInvokeOnMainThread(async () =>
-                {
-                    await CargarPreguntas(value);
-                    await CargarRespuestas();
-                });
-            }
-        }
-
-        [RelayCommand]
-        private async Task GuardarRespuestas()
-        {
-            // Verifica si alguna respuesta está vacía
-            var noRespondidas = PreguntasConRespuesta
-                .Where(item => string.IsNullOrWhiteSpace(item.RespuestaUsuario))
-                .ToList();
-
-            if (noRespondidas.Any())
-            {
-                // Puedes mostrar el texto de la primera pregunta no respondida, por ejemplo
-                var pregunta = noRespondidas.First().Pregunta;
-                await Shell.Current.DisplayAlert(
-                    "Respuesta vacía",
-                    $"Por favor, responde todas las preguntas antes de guardar.\nFalta: '{pregunta?.Contenido ?? "Pregunta desconocida"}'",
-                    "OK");
+                Log_test = "value = null";
                 return;
             }
 
-            // Si todas están respondidas, guarda normalmente
-            foreach (var item in PreguntasConRespuesta)
+            MainThread.BeginInvokeOnMainThread(async () =>
             {
-                var respuesta = new Respuestas
+                if (Shell.Current == null)
                 {
-                    Texto_Respuesta = item.RespuestaUsuario,
-                    PreguntaId = item.Pregunta != null ? item.Pregunta.ID_Pregunta : 0,
-                    CreatedAt = DateTime.UtcNow
-                };
+                    Log_test = "Shell.Current = null";
+                    return;
+                }
 
-                await App.Database.SaveAnswerAsync(respuesta);
-            }
-            var payload = new
-            {
-                ID_Asignacion = idAsignacion,
-                Respuestas = PreguntasConRespuesta.Select(p => new
+                if (Shell.Current.Navigation == null)
                 {
-                    ID_Pregunta = p.Pregunta != null ? p.Pregunta.ID_Pregunta : 0,
-                    Contenido = p.RespuestaUsuario
-                }).ToList()
-            };
+                    Log_test = "Shell.Current.Navigation = null";
+                    return;
+                }
 
-            var url = "http://10.0.2.2:5051/api/formulario/responder";
-            var json = JsonSerializer.Serialize(payload);
-            var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+                if (value.PreguntasConRespuesta == null)
+                {
+                    Log_test = "PreguntasConRespuesta = null";
+                    return;
+                }
 
-            using var client = new HttpClient();
-            var response = await client.PostAsync(url, content);
+                try
+                {
+                    var detalleVm = new CuestionarioDetalleViewmodel();
+                    detalleVm.SetPreguntas(value.PreguntasConRespuesta, value.IdAsignacion);
 
-            if (response.IsSuccessStatusCode)
-            {
-                await Shell.Current.DisplayAlert("¡Listo!", "Respuestas enviadas correctamente.", "OK");
-                SecureStorage.Remove("notif_c");
-                Globals.cuestionario_pendiente = false;
-                await SecureStorage.SetAsync("resp", "true");
-            }
-            else
-            {
-                var errorMsg = await response.Content.ReadAsStringAsync();
-                await Shell.Current.DisplayAlert("Error", $"No se pudieron enviar las respuestas.\n{errorMsg}", "OK");
-            }
+                    var detallePage = new CuestionarioDetallePage
+                    {
+                        BindingContext = detalleVm
+                    };
 
-
-
-            await CargarRespuestas();
+                    await Shell.Current.Navigation.PushAsync(detallePage);
+                }
+                catch (Exception ex)
+                {
+                    Log_test = ex.ToString();
+                }
+            });
         }
 
-        private async Task CargarRespuestas()
-        {
-            var todas = await App.Database.GetAnswersAsync();
-
-            foreach (var respuesta in todas)
-            {
-                respuesta.Pregunta = await App.Database.GetQuestionByIdAsync(respuesta.PreguntaId);
-            }
-
-            RespuestasLista = new ObservableCollection<Respuestas>(todas);
-        }
-
-        [RelayCommand]
-        private async Task BorrarBaseDatos()
-        {
-            var doneItems = RespuestasLista.ToList();
-            foreach (Respuestas res in doneItems)
-            {
-                await App.Database.DeleteAnswersAsync(res);
-            }
-            await CargarRespuestas();
-        }
-
-    }
-    
+    }    
 }

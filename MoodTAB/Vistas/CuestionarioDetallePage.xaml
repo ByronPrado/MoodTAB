@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="MoodTAB.Vistas.CuestionarioDetallePage"
+    Title="CuestionarioDetallePage">
+    <ScrollView>                
+        <VerticalStackLayout>
+
+            <CollectionView x:Name="PreguntasColl"
+                ItemsSource="{Binding PreguntasConRespuesta}"
+                Margin="0,0,0,20"
+                IsVisible="{Binding Pendiente}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        
+                        <Frame Margin="5"
+                            BackgroundColor="#FFD6E8FF"
+                            CornerRadius="15"
+                            Padding="10"
+                            BorderColor="#FFC7DFFF"
+                            HasShadow="False">
+                
+                            <VerticalStackLayout>
+                                <Label Text="{Binding Pregunta.Contenido}" FontAttributes="Bold" FontSize="16" />  
+
+                                <Frame IsVisible="{Binding EsAbierta}"
+                                    BackgroundColor="Transparent"
+                                    BorderColor="#00F0F8FF">
+                                    <Editor
+                                        Placeholder="Escribe tu respuesta aquí..."
+                                        HeightRequest="100"
+                                        WidthRequest="270"
+                                        BackgroundColor="White"
+                                        TextColor="Black"
+                                        Text="{Binding RespuestaUsuario, Mode=TwoWay}"
+                                        AutoSize="TextChanges" />                                
+                                </Frame>
+
+                                <Frame IsVisible="{Binding EsEscala}"
+                                    BackgroundColor="Transparent"
+                                    BorderColor="#00F0F8FF">
+                                    <Grid
+                                        RowDefinitions="*,*"
+                                        ColumnDefinitions="230"
+                                        >
+                                        <Label Text="{Binding RespuestaUsuarioEscala}" FontSize="12" TextColor="Gray" Grid.Column="0" Grid.Row="0"/>
+                                        <Slider Minimum="{Binding MinimoEscala}" Maximum="{Binding MaximoEscala}"                                            
+                                            Value="{Binding RespuestaUsuarioEscala, Mode=TwoWay}" Grid.Column="0" Grid.Row="1"/>
+                                    </Grid>
+                                </Frame>
+
+                                <Frame IsVisible="{Binding EsSeleccion}"
+                                    BackgroundColor="Transparent"
+                                    BorderColor="#00F0F8FF">
+                                    <VerticalStackLayout>
+                                        <CollectionView ItemsSource="{Binding OpcionesSeleccion}" SelectionMode="None">
+                                            <CollectionView.ItemsLayout>
+                                                <GridItemsLayout Orientation="Vertical" Span="1"/>
+                                            </CollectionView.ItemsLayout>
+                                            <CollectionView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <HorizontalStackLayout>
+                                                        <Button
+                                                            Margin="0,5"
+                                                            CornerRadius="10"
+                                                            WidthRequest="20"
+                                                            HeightRequest="20"
+                                                            BackgroundColor="{Binding Color}"
+                                                            Command="{Binding BindingContext.SeleccionarOpcionCommand, Source={RelativeSource AncestorType={x:Type CollectionView}}}"
+                                                            CommandParameter="{Binding Texto}" />
+                                                        <Label Text="{Binding Texto, StringFormat='     {0}'}" VerticalOptions="Center"/>
+                                                    </HorizontalStackLayout>
+                                                </DataTemplate>
+                                            </CollectionView.ItemTemplate>
+                                        </CollectionView>
+                                    </VerticalStackLayout>
+                                </Frame>
+
+                            </VerticalStackLayout>
+                        </Frame>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Button Text="💾 Enviar respuestas"
+                Command="{Binding GuardarRespuestasCommand}"> 
+                <Button.Triggers> 
+                    <DataTrigger TargetType="Button"
+                        Binding="{Binding PreguntasConRespuesta.Count}" 
+                        Value="0">
+                        <Setter Property="IsVisible"
+                            Value="False"/>
+                    </DataTrigger>
+                </Button.Triggers>
+                <Button.Background>
+                    <LinearGradientBrush StartPoint="0,0"
+                        EndPoint="1,0">
+                    <GradientStop Color="#3B82F6"
+                        Offset="0.0"/> 
+                    <GradientStop Color="#10B981"
+                        Offset="1.0"/> 
+                    </LinearGradientBrush> 
+                </Button.Background> 
+            </Button> 
+            <Button Text="DUMP DB"
+                BackgroundColor="Red"
+                Command="{Binding BorrarBaseDatosCommand}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button"
+                        Binding="{Binding PreguntasConRespuesta.Count}"
+                        Value="0">
+                        <Setter Property="IsVisible"
+                            Value="False"/>
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+        </VerticalStackLayout>
+    </ScrollView>     
+</ContentPage>
