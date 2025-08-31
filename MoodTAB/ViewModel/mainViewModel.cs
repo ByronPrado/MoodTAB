@@ -9,8 +9,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Net.Http; // <-- Este using debe ir aquí
-// using System.Net.Http.Json; // No lo necesitas para GetStringAsync
+using System.Net.Http;
 
 namespace MoodTAB.ViewModel
 {
@@ -41,8 +40,16 @@ namespace MoodTAB.ViewModel
         {
             this.notificationManager = notificationManager;
             ActualizarDatosUsuario();
-            CargarSaludoAsync();
-            getCuestionario();
+            try
+            {
+                CargarSaludoAsync();
+                getCuestionario();
+            }
+            catch (Exception e)
+            {
+                TitleApi = "No se pudo conectar a la web " + e.Message;
+            }
+            
         }
 
         public void ActualizarDatosUsuario()
@@ -50,7 +57,7 @@ namespace MoodTAB.ViewModel
             // Inicializar el nombre de usuario
             NameUser = SecureStorage.GetAsync("user_nombre").Result ?? "TestActDatosusuario";
             EmailUsuario = SecureStorage.GetAsync("user_email").Result ?? "test";
-            Title = $"Bienvenido a MoodTAB {NameUser}";
+            Title = $"Hola {NameUser}";
         }
         private async void CargarSaludoAsync()
         {
@@ -66,12 +73,39 @@ namespace MoodTAB.ViewModel
 
         public async Task<string> ObtenerSaludoAsync()
         {
-            using var client = new HttpClient();
-            var url = "http://10.0.2.2:5051/api/pacientes";
-            return await client.GetStringAsync(url);
+            try
+            {
+                using var client = new HttpClient
+                {
+                    Timeout = TimeSpan.FromSeconds(10)
+                };
+                var url = "http://10.0.2.2:5051/api/pacientes";
+                return await client.GetStringAsync(url);
+            }
+            catch (TaskCanceledException ex)
+            {
+                // Esto ocurre si se supera el Timeout
+                TitleApi = "Error: La petición al servidor tardó demasiado (timeout).";
+                Console.WriteLine($"Timeout: {ex.Message}");
+                return "Error: Timeout";
+            }
+            catch (HttpRequestException ex)
+            {
+                TitleApi = "Error de conexión con el servidor.";
+                Console.WriteLine($"Http error: {ex.Message}");
+                return "Error: Conexión fallida";
+
+            }
+            catch (Exception ex)
+            {
+                TitleApi = $"Error inesperado: {ex.Message}";
+                Console.WriteLine($"Excepción inesperada: {ex}");
+                return $"Error inesperado: {ex.Message}";
+            }
+                    
         }
 
-        public INavigation Navigation { get; set; }
+        public INavigation? Navigation { get; set; }
 
         [RelayCommand]
         private async Task MovetoPage(string pageName)
@@ -79,7 +113,7 @@ namespace MoodTAB.ViewModel
             try
             {
                 ActualizarDatosUsuario();
-                Page page = pageName switch
+                Page? page = pageName switch
                 {
                     "CuestionarioPage" => new CuestionarioPage(),
                     "TestPage" => new TestPage(),
@@ -100,25 +134,27 @@ namespace MoodTAB.ViewModel
         }
         private async void getCuestionario()
         {
-            var notif = SecureStorage.GetAsync("notif_c").Result;
-            var url = $"http://10.0.2.2:5051/api/formulario/{Globals.id_paciente_DB}";
-            using var client = new HttpClient();
-            var response = await client.GetAsync(url);
+            try
+            {
+                var notif = SecureStorage.GetAsync("notif_c").Result;
+                var url = $"http://10.0.2.2:5051/api/formulario/{Globals.id_paciente_DB}";
+                using var client = new HttpClient()
+                {
+                    Timeout = TimeSpan.FromSeconds(10)
+                };
+                var response = await client.GetAsync(url);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                Globals.cuestionario_pendiente = false;
-                Globals.cuestionario = "{\"type\":\"https://tools.ietf.org/html/rfc9110#section-15.5.5\",\"title\":\"Not Found\",\"status\":404,\"traceId\":\"00-f96b9cb571508dc30bc3bd3a5f71d6e3-11f9152401b32740-00\"}";
-                Cuestionario = false;
-            }
-            else
-            {
+                if (!response.IsSuccessStatusCode)
+                {
+                    Globals.cuestionario_pendiente = false;
+                    Globals.cuestionario = "{\"status\":404,\"title\":\"Not Found\"}";
+                    Cuestionario = false;
+                    return;
+                }
+
                 var content = await response.Content.ReadAsStringAsync();
-
-                // Guardamos siempre lo que venga de la API
                 Globals.cuestionario = content;
 
-                // Intentamos parsear la lista
                 try
                 {
                     var cuestionarios = JsonSerializer.Deserialize<List<CuestionarioData>>(content);
@@ -154,7 +190,22 @@ namespace MoodTAB.ViewModel
                     Console.WriteLine($"Error parseando cuestionarios: {ex.Message}");
                 }
             }
-
+            catch (TaskCanceledException ex)
+            {
+                // Esto ocurre si se supera el Timeout
+                TitleApi = "Error: La petición al servidor tardó demasiado (timeout).";
+                Console.WriteLine($"Timeout: {ex.Message}");
+            }
+            catch (HttpRequestException ex)
+            {
+                TitleApi = "Error de conexión con el servidor.";
+                Console.WriteLine($"Http error: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                TitleApi = $"Error inesperado: {ex.Message}";
+                Console.WriteLine($"Excepción inesperada: {ex}");
+            }
         }
     }
 }

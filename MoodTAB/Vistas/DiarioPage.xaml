@@ -157,7 +157,6 @@
             <Button Text="💾 Guardar registro del día"
                     FontSize="16" 
                     HorizontalOptions="Center"
-                    CornerRadius="25"
                     HeightRequest="50"
                     Command="{Binding GuardarDiarioCommand}">
                 <Button.Background>
@@ -167,7 +166,7 @@
                     </LinearGradientBrush>
                 </Button.Background>
             </Button>
-            <Button Text="Borrar BD" CornerRadius="25"
+            <Button Text="Borrar BD"
                             HeightRequest="50" FontSize="16" HorizontalOptions="Center" Background="red" Command="{Binding BorrarDiarioCommand}"/>
             <Label Text="{Binding Error}"    TextColor="Red" FontSize="14" FontAttributes="Bold" />
 

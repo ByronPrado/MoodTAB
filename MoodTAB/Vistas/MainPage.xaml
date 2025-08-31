@@ -6,47 +6,109 @@
              NavigationPage.HasNavigationBar="False">
 
     <Grid>
+        
         <!-- Contenido principal -->
         <ScrollView BackgroundColor="#FFF3F3FF">
-            <VerticalStackLayout Padding="20,20,20,90" Spacing="25">
+            <VerticalStackLayout Padding="20,20,20,90" Spacing="15">
 
                 <!-- Frame con título de la API -->
+                <Image Source="moodtablogo.png"/>
                 <Frame CornerRadius="12"
                        Padding="15"
-                       BackgroundColor="White"
-                       BorderColor="#90CAF9">
+                       BackgroundColor="#FFFCFCFC"
+                       BorderColor="#0C000000">
                     <Grid
                         ColumnSpacing="0"
                         RowSpacing="10"
                         HorizontalOptions="Fill"
                         VerticalOptions="Center"
-                        RowDefinitions="Auto,Auto">
+                        RowDefinitions="Auto,Auto,Auto">
                         <Label Text="{Binding Title}"
                                Grid.Row="0"
-                               FontSize="14"
+                               FontSize="20"
+                               FontFamily="BreeSerif-Regular.ttf"
                                FontAttributes="Bold"
-                               TextColor="Black"/>
-                        <Label Text="{Binding TitleApi}"
+                               TextColor="#FF141414"/>
+                        <Label Text="¿Cómo te sientes hoy?"
+                               FontSize="14"
+                               FontFamily="BreeSerif-Regular.ttf"
+                               TextColor="#FF9B9B9B"
                                Grid.Row="1"/>
+                        <Label Text="{Binding TitleApi}"
+                               Grid.Row="2"/>
                     </Grid>
                 </Frame>
 
                 <!-- Sección Actividades -->
-                <Label Text="Actividades Pendientes"
-                       FontSize="22"
-                       TextColor="Black"
+                <Label Text="Actividades de hoy"
+                       FontSize="20"
+                       FontFamily="BreeSerif-Regular.ttf"
+                       TextColor="#FF141414"
                        Margin="0,10,0,0"/>
 
-                <VerticalStackLayout Spacing="15">
-                    <Button Text="Cuestionario Disponible"
-                            Command="{Binding MovetoPageCommand}"
-                            CommandParameter="CuestionarioPage"
-                            BackgroundColor="#5C91D8"
-                            IsVisible="{Binding Cuestionario}"/>
-                    <Button Text="Diario Emocional"
-                            Command="{Binding MovetoPageCommand}"
-                            CommandParameter="DiarioPage"
-                            BackgroundColor="#68ACD5"/>
+                <VerticalStackLayout Spacing="0">
+                    <Frame  BackgroundColor="#6B8DD6"
+                            BorderColor="Transparent"
+                            CornerRadius="15"
+                            Padding="10"
+                            Margin="5"
+                            HasShadow="False"
+                            IsVisible="{Binding Cuestionario}"
+                            IsClippedToBounds="False">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding MovetoPageCommand}"
+                                CommandParameter="CuestionarioPage" />
+                        </Frame.GestureRecognizers>
+                        <Grid ColumnDefinitions="40,*"
+                                RowDefinitions="40">
+                            <Frame Grid.Column="0"
+                                    BackgroundColor="#89A4DE"
+                                    BorderColor="Transparent">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding MovetoPageCommand}"
+                                        CommandParameter="ListaDiaroPage" />
+                                </Frame.GestureRecognizers>
+                                    <Image Source="neosurveywhite.png" WidthRequest="20" HeightRequest="20"/>
+                            </Frame>
+                            <VerticalStackLayout Grid.Column="1" Padding="10,0,0,0" HorizontalOptions="Start">
+                                <Label Text="Cuestionario Disponible" FontSize="16" TextColor="White" FontAttributes="Bold" HorizontalOptions="Start"/>
+                                <Label Text="Responder a la brevedad" FontSize="12" TextColor="White" HorizontalOptions="Start"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Frame>
+
+                    <Frame  BackgroundColor="#FF1EBB81"
+                            BorderColor="Transparent"
+                            CornerRadius="15"
+                            Padding="10"
+                            Margin="5"
+                            HasShadow="False"
+                            IsClippedToBounds="False">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding MovetoPageCommand}"
+                                CommandParameter="ListaDiaroPage" />
+                        </Frame.GestureRecognizers>
+                        <Grid ColumnDefinitions="40,*"
+                                RowDefinitions="40">
+                            <Frame Grid.Column="0"
+                                    BackgroundColor="#FF69CAA6"
+                                    BorderColor="Transparent">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding MovetoPageCommand}"
+                                        CommandParameter="ListaDiaroPage" />
+                                </Frame.GestureRecognizers>
+                                    <Image Source="neodiarywhite.png" WidthRequest="20" HeightRequest="20"/>
+                            </Frame>
+                            <VerticalStackLayout Grid.Column="1" Padding="10,0,0,0" HorizontalOptions="Start">
+                                <Label Text="Diario Emocional" FontSize="16" TextColor="White" FontAttributes="Bold" HorizontalOptions="Start"/>
+                                <Label Text="Registra tu estado de ánimo" FontSize="12" TextColor="White" HorizontalOptions="Start"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Frame>
                 </VerticalStackLayout>
 
                 <!-- Sección Debug -->

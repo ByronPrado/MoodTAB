@@ -8,7 +8,7 @@
     <VerticalStackLayout Spacing="15" Margin="5">
         <Button Text="➕ Ingresar nuevo diario"
                 Clicked="OnNewSeleccionado"
-                CornerRadius="25"
+                
                 HeightRequest="50">
                 <Button.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
