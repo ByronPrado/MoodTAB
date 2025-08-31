@@ -1,5 +1,7 @@
 namespace MoodTAB.Vistas;
 
+using MoodTAB.Models;
+using MoodTAB.Services;
 using MoodTAB.ViewModel;
 using MoodTAB.ViewModels;
 
@@ -11,8 +13,13 @@ public partial class UserPage : ContentPage
 		BindingContext = new UserViewModel();
 	}
 
+	private async void onPlanSeguroClicked(object sender, EventArgs e)
+	{
+		await Navigation.PushAsync(new PlanSeguroPage());
+	}
+
 	private async void onBorrarDatosClicked(object sender, EventArgs e)
-	{ 
+	{
 		await Navigation.PushAsync(new BorrarDatosPage());
 	}
 	private async void OnLogoutClicked(object sender, EventArgs e)

@@ -2,8 +2,18 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MoodTAB.Vistas.DiarioPage"
-             Title="Nuevo Diario"
             >
+
+    <NavigationPage.TitleView>
+        <Grid>
+            <Label Text="    💙 Nuevo Diario"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Center"
+                   FontSize="20"
+                   FontFamily="BreeSerif-Regular.ttf"
+                   TextColor="#FF191919"/>
+        </Grid>
+    </NavigationPage.TitleView>
 
     <ScrollView BackgroundColor="#FFF3F3FF">
         <VerticalStackLayout  Spacing="15" Margin="5">
@@ -17,9 +27,17 @@
                     </LinearGradientBrush>
                 </Frame.Background>
                 <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
-                    <Label Text="💙 Nuevo diario" FontAttributes="Bold" FontSize="20" TextColor="#0F172A"/>
-                    <Label Text="¿Cómo te sentiste hoy?" FontSize="18" FontAttributes="Bold" TextColor="#0F172A"/>
-                    <Label Text="Puedes seleccionar varias emociones" FontSize="12" TextColor="#64748B"/>
+                    <Label Text="¿Cómo te sentiste hoy?" 
+                           FontSize="18" 
+                           FontFamily="BreeSerif-Regular.ttf" 
+                           HorizontalTextAlignment="Center" 
+                           FontAttributes="Bold" 
+                           TextColor="#0F172A"/>
+
+                    <Label Text="Puedes seleccionar varias emociones" 
+                           FontFamily="BreeSerif-Regular.ttf" 
+                           FontSize="12" 
+                           TextColor="#64748B"/>
                 </VerticalStackLayout>
             </Frame>
 
@@ -41,31 +59,20 @@
                                     CommandParameter="{Binding Texto}" />
                             </Frame.GestureRecognizers>
                             <VerticalStackLayout HorizontalOptions="Center">
-                                <Label Text="{Binding Emoticon}" FontSize="18" HorizontalOptions="Center"/>
-                                <Label Text="{Binding Texto}" FontSize="12" TextColor="Black" HorizontalOptions="Center"/>
+                                <Label Text="{Binding Emoticon}" 
+                                       FontSize="18" 
+                                       HorizontalOptions="Center"/>
+
+                                <Label Text="{Binding Texto}" 
+                                       FontFamily="BreeSerif-Regular.ttf" 
+                                       FontSize="12" 
+                                       TextColor="Black" 
+                                       HorizontalOptions="Center"/>
                             </VerticalStackLayout>
                         </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-
-            <!-- Botones de emociones>
-            <Grid ColumnSpacing="10" RowSpacing="10"
-                RowDefinitions="97,97,97"
-                ColumnDefinitions="97,97,97"
-                HorizontalOptions="Center"
-                >
-
-                <Button Text="😊           Feliz"  LineBreakMode="WordWrap"   Margin="0,0,0,0" FontSize="12" Grid.Row="0" Grid.Column="0" CommandParameter="Feliz" Command="{Binding SeleccionarEmocionCommand}"   BackgroundColor="{Binding ColorFeliz}" BorderColor="{Binding ColorFeliz_borde}" CornerRadius="15" BorderWidth="2" TextColor="black"/>
-                <Button Text="😢           Triste" LineBreakMode="WordWrap"   Margin="0,0,0,0" FontSize="12" Grid.Row="1" Grid.Column="0" CommandParameter="Triste" Command="{Binding SeleccionarEmocionCommand}"  BackgroundColor="{Binding ColorTriste}" BorderColor="{Binding ColorTriste_borde}" CornerRadius="15" BorderWidth="2" TextColor="black"/>
-                <Button Text="😑           Neutro" LineBreakMode="WordWrap"   Margin="0,0,0,0" FontSize="12" Grid.Row="2" Grid.Column="0" CommandParameter="Neutro" Command="{Binding SeleccionarEmocionCommand}"  BackgroundColor="{Binding ColorNeutro}" BorderColor="{Binding ColorNeutro_borde}" CornerRadius="15" BorderWidth="2" TextColor="black"/>
-                <Button Text="😃 Emocionado"       LineBreakMode="WordWrap"   Margin="0,0,0,0" FontSize="12" Grid.Row="0" Grid.Column="1" CommandParameter="Emocionado" Command="{Binding SeleccionarEmocionCommand}" BackgroundColor="{Binding ColorEmocionado}" BorderColor="{Binding ColorEmocionado_borde}" CornerRadius="15" BorderWidth="2" TextColor="black"/>
-                <Button Text="😖 Frustrado"        LineBreakMode="WordWrap"   Margin="0,0,0,0" FontSize="12" Grid.Row="1" Grid.Column="1" CommandParameter="Frustrado" Command="{Binding SeleccionarEmocionCommand}" BackgroundColor="{Binding ColorFrustrado}" BorderColor="{Binding ColorFrustrado_borde}" CornerRadius="15" BorderWidth="2" TextColor="black"/>
-                <Button Text="😰 Angustiado"       LineBreakMode="WordWrap"   Margin="0,0,0,0" FontSize="12" Grid.Row="2" Grid.Column="1" CommandParameter="Angustiado" Command="{Binding SeleccionarEmocionCommand}" BackgroundColor="{Binding ColorAngustiado}" BorderColor="{Binding ColorAngustiado_borde}" CornerRadius="15" BorderWidth="2" TextColor="black"/>
-                <Button Text="😪  Cansado"         LineBreakMode="WordWrap"   Margin="0,0,0,0" FontSize="12" Grid.Row="0" Grid.Column="2" CommandParameter="Cansado" Command="{Binding SeleccionarEmocionCommand}" BackgroundColor="{Binding ColorCansado}" BorderColor="{Binding ColorCansado_borde}" CornerRadius="15" BorderWidth="2" TextColor="black"/>
-                <Button Text="😠    Enojado"       LineBreakMode="WordWrap"   Margin="0,0,0,0" FontSize="12" Grid.Row="1" Grid.Column="2" CommandParameter="Enojado" Command="{Binding SeleccionarEmocionCommand}" BackgroundColor="{Binding ColorEnojado}" BorderColor="{Binding ColorEnojado_borde}" CornerRadius="15" BorderWidth="2" TextColor="black"/>
-                <Button Text="🫨    Ansioso"       LineBreakMode="WordWrap"   Margin="0,0,0,0" FontSize="12" Grid.Row="2" Grid.Column="2" CommandParameter="Ansioso" Command="{Binding SeleccionarEmocionCommand}" BackgroundColor="{Binding ColorAnsioso}" BorderColor="{Binding ColorAnsioso_borde}" CornerRadius="15" BorderWidth="2" TextColor="black"/>
-            </Grid-->
 
             <!--Frame CornerRadius="15" Padding="15" BackgroundColor="#FEF3C7" BorderColor="#F59E0B" Margin="0,10">
                 <VerticalStackLayout Spacing="10">
@@ -95,7 +102,8 @@
                 <VerticalStackLayout Spacing="5">
                     <Label 
                         Text="✏️ Describe tu día" 
-                        FontSize="14" 
+                        FontSize="14"
+                        FontFamily="BreeSerif-Regular.ttf"
                         TextColor="#0F172A"/>
                     <Editor 
                         HeightRequest="100"
@@ -108,46 +116,103 @@
             
             <!-- Actividad diaria -->
             <VerticalStackLayout Spacing="10">
-                <Label Text="📈 Actividad del día" FontAttributes="Bold" FontSize="16" TextColor="#0F172A"/>
+                <Label Text="📈 Actividad del día" 
+                       FontFamily="BreeSerif-Regular.ttf" 
+                       FontAttributes="Bold" 
+                       FontSize="16" 
+                       TextColor="#0F172A"/>
 
                 <!-- Pasos -->
-                <Frame CornerRadius="15" Padding="10" BackgroundColor="#DCFCE7" BorderColor="#FFA2FFC2">
+                <Frame CornerRadius="15" 
+                       Padding="10" 
+                       BackgroundColor="#DCFCE7" 
+                       BorderColor="#FFA2FFC2">
                     <VerticalStackLayout>
-                        <Label Text="🚶 Pasos" FontAttributes="Bold" TextColor="#166534"/>
-                        <Label Text="{Binding CantidadPasos}" FontSize="22" FontAttributes="Bold" TextColor="#166534"/>
+                        <Label Text="🚶 Pasos" 
+                               FontAttributes="Bold" 
+                               FontFamily="BreeSerif-Regular.ttf" 
+                               FontSize="16" 
+                               TextColor="#166534"/>
+
+                        <Label Text="{Binding CantidadPasos}" 
+                               FontSize="22" 
+                               FontAttributes="Bold" 
+                               TextColor="#166534"/>
                     </VerticalStackLayout>
                 </Frame>
 
                 <!-- Uso del celular -->
-                <Frame CornerRadius="15" Padding="10" BackgroundColor="#DBEAFE" BorderColor="#FFA2CAFF">
+                <Frame CornerRadius="15" 
+                       Padding="10" 
+                       BackgroundColor="#DBEAFE" 
+                       BorderColor="#FFA2CAFF">
                     <VerticalStackLayout>
-                        <Label Text="📱 Uso del celular" FontAttributes="Bold" TextColor="#1E3A8A"/>
-                        <Label Text="{Binding HorasCelular, StringFormat='{0:F1} hrs'}" FontSize="22" FontAttributes="Bold" TextColor="#1E3A8A"/>
+                        <Label Text="📱 Uso del celular" 
+                               FontAttributes="Bold" 
+                               FontFamily="BreeSerif-Regular.ttf" 
+                               FontSize="16"  
+                               TextColor="#1E3A8A"/>
+
+                        <Label Text="{Binding HorasCelular, StringFormat='{0:F1} hrs'}" 
+                               FontSize="22" 
+                               FontAttributes="Bold" 
+                               TextColor="#1E3A8A"/>
                     </VerticalStackLayout>
                 </Frame>
 
                 <!-- Redes sociales -->
-                <Frame CornerRadius="15" Padding="10" BackgroundColor="#F5D0FE" BorderColor="#FFEEACFF">
+                <Frame CornerRadius="15" 
+                       Padding="10" 
+                       BackgroundColor="#F5D0FE" 
+                       BorderColor="#FFEEACFF">
                     <VerticalStackLayout>
-                        <Label Text="📣 Redes sociales" FontAttributes="Bold" TextColor="#701A75"/>
-                        <Label Text="{Binding HorasRedes, StringFormat='{0:F1} hrs'}" FontSize="22" FontAttributes="Bold" TextColor="#701A75"/>
+                        <Label Text="📣 Redes sociales" 
+                               FontAttributes="Bold" 
+                               FontFamily="BreeSerif-Regular.ttf" 
+                               FontSize="16"
+                               TextColor="#701A75"/>
+
+                        <Label Text="{Binding HorasRedes, StringFormat='{0:F1} hrs'}" 
+                               FontSize="22" 
+                               FontAttributes="Bold" 
+                               TextColor="#701A75"/>
                         <!--Label Text="Instagram, TikTok, Youtube, etc." FontSize="12" TextColor="#701A75"/-->
                     </VerticalStackLayout>
                 </Frame>
 
                 <!-- Sueño -->
-                <Frame CornerRadius="15" Padding="10" BackgroundColor="#FFC1E4FF" BorderColor="#FF86C8FA">
+                <Frame CornerRadius="15"
+                       Padding="10" 
+                       BackgroundColor="#FFC1E4FF" 
+                       BorderColor="#FF86C8FA">
                     <VerticalStackLayout>
-                        <Label Text="💤 Sueño" FontAttributes="Bold" TextColor="#FF1A4E75"/>
-                        <Grid ColumnSpacing="10" RowSpacing="10"
-                        RowDefinitions="*"
-                        ColumnDefinitions="35,60"
-                        HorizontalOptions="Center"
-                        Grid.Row="4" Grid.Column="1"
-                        Padding="0,-10,150,0"
-                        >
-                            <Entry Text="{Binding HorasSueno, StringFormat='{0:F1}'}" Grid.Column="0" FontSize="22" Keyboard="Numeric" FontAttributes="Bold" TextColor="#FF1A4E75"/>
-                            <Label Text="hrs"                  Grid.Column="1" FontSize="22" FontAttributes="Bold" Padding="-10,10,0,0" TextColor="#FF1A4E75"/>
+                        <Label Text="💤 Sueño" 
+                               FontAttributes="Bold" 
+                               FontFamily="BreeSerif-Regular.ttf" 
+                               FontSize="16"
+                               TextColor="#FF1A4E75"/>
+
+                        <Grid 
+                               ColumnSpacing="10" RowSpacing="10"
+                               RowDefinitions="*"
+                               ColumnDefinitions="35,60"
+                               HorizontalOptions="Center"
+                               Grid.Row="4" Grid.Column="1"
+                               Padding="0,-10,150,0">
+
+                            <Entry Text="{Binding HorasSueno, StringFormat='{0:F1}'}" 
+                                   Grid.Column="0" 
+                                   FontSize="22" 
+                                   Keyboard="Numeric" 
+                                   FontAttributes="Bold" 
+                                   TextColor="#FF1A4E75"/>
+
+                            <Label Text="hrs" 
+                                   Grid.Column="1" 
+                                   FontSize="22" 
+                                   FontAttributes="Bold" 
+                                   Padding="-10,10,0,0" 
+                                   TextColor="#FF1A4E75"/>
                         </Grid>
                         <!--Label Text="Introducir horas dormidas" FontSize="12" TextColor="#FF1A4E75"/-->
                     </VerticalStackLayout>
@@ -155,7 +220,8 @@
             </VerticalStackLayout>
 
             <Button Text="💾 Guardar registro del día"
-                    FontSize="16" 
+                    FontSize="16"
+                    FontFamily="BreeSerif-Regular.ttf"
                     HorizontalOptions="Center"
                     HeightRequest="50"
                     Command="{Binding GuardarDiarioCommand}">
@@ -167,8 +233,12 @@
                 </Button.Background>
             </Button>
             <Button Text="Borrar BD"
-                            HeightRequest="50" FontSize="16" HorizontalOptions="Center" Background="red" Command="{Binding BorrarDiarioCommand}"/>
-            <Label Text="{Binding Error}"    TextColor="Red" FontSize="14" FontAttributes="Bold" />
+                    HeightRequest="50" 
+                    FontSize="16" 
+                    HorizontalOptions="Center" 
+                    Background="red" 
+                    Command="{Binding BorrarDiarioCommand}"/>
+            <Label Text="{Binding Error}" TextColor="Red" FontSize="14" FontAttributes="Bold" />
 
         </VerticalStackLayout>
     </ScrollView>

@@ -73,8 +73,8 @@
                                     <Image Source="neosurveywhite.png" WidthRequest="20" HeightRequest="20"/>
                             </Frame>
                             <VerticalStackLayout Grid.Column="1" Padding="10,0,0,0" HorizontalOptions="Start">
-                                <Label Text="Cuestionario Disponible" FontSize="16" TextColor="White" FontAttributes="Bold" HorizontalOptions="Start"/>
-                                <Label Text="Responder a la brevedad" FontSize="12" TextColor="White" HorizontalOptions="Start"/>
+                                <Label Text="Cuestionario Disponible" FontFamily="BreeSerif-Regular.ttf" FontSize="16" TextColor="White" FontAttributes="Bold" HorizontalOptions="Start"/>
+                                <Label Text="Responder a la brevedad" FontFamily="BreeSerif-Regular.ttf" FontSize="12" TextColor="White" HorizontalOptions="Start"/>
                             </VerticalStackLayout>
                         </Grid>
                     </Frame>
@@ -104,8 +104,8 @@
                                     <Image Source="neodiarywhite.png" WidthRequest="20" HeightRequest="20"/>
                             </Frame>
                             <VerticalStackLayout Grid.Column="1" Padding="10,0,0,0" HorizontalOptions="Start">
-                                <Label Text="Diario Emocional" FontSize="16" TextColor="White" FontAttributes="Bold" HorizontalOptions="Start"/>
-                                <Label Text="Registra tu estado de ánimo" FontSize="12" TextColor="White" HorizontalOptions="Start"/>
+                                <Label Text="Diario Emocional" FontFamily="BreeSerif-Regular.ttf" FontSize="16" TextColor="White" FontAttributes="Bold" HorizontalOptions="Start"/>
+                                <Label Text="Registra tu estado de ánimo" FontFamily="BreeSerif-Regular.ttf" FontSize="12" TextColor="White" HorizontalOptions="Start"/>
                             </VerticalStackLayout>
                         </Grid>
                     </Frame>
@@ -147,7 +147,7 @@
                         CommandParameter="CuestionarioPage"
                         Grid.Row="0"/>
                 <Image Grid.Row="0" Source="neosurvey.png" HeightRequest="30" WidthRequest="30" Margin="0,0,0,15"/>
-                <Label Text="Cuestionarios" HorizontalTextAlignment="Center" FontSize="12" TextColor="#FF61666D" Padding="0,50,0,0"></Label>
+                <Label Text="Cuestionarios" FontFamily="BreeSerif-Regular.ttf" HorizontalTextAlignment="Center" FontSize="12" TextColor="#FF61666D" Padding="0,50,0,0"></Label>
             </Grid>
             <Grid RowDefinitions="*" ColumnDefinitions="79" HorizontalOptions="Center" Margin="0,0,0,0">
                 <Button Text=" "
@@ -161,7 +161,7 @@
                         CommandParameter="ListaDiaroPage"
                         Grid.Row="0"/>
                 <Image Grid.Row="0" Source="neodiary.png" HeightRequest="30" WidthRequest="30" Margin="0,0,0,15"/>
-                <Label Text="Mis Diarios" HorizontalTextAlignment="Center" FontSize="12" TextColor="#FF61666D" Padding="0,50,0,0"></Label>
+                <Label Text="Mis Diarios" FontFamily="BreeSerif-Regular.ttf" HorizontalTextAlignment="Center" FontSize="12" TextColor="#FF61666D" Padding="0,50,0,0"></Label>
             </Grid>
             <Grid RowDefinitions="*" ColumnDefinitions="79" HorizontalOptions="Center" Margin="0,0,0,0">
                 <Button Text=" "
@@ -175,7 +175,7 @@
                         CommandParameter="UserPage"
                         Grid.Row="0"/>
                 <Image Grid.Row="0" Source="neouser.png" HeightRequest="30" WidthRequest="30" Margin="0,0,0,15"/>
-                <Label Text="Usuario" HorizontalTextAlignment="Center" FontSize="12" TextColor="#FF61666D" Padding="0,50,0,0"></Label>
+                <Label Text="Usuario" FontFamily="BreeSerif-Regular.ttf" HorizontalTextAlignment="Center" FontSize="12" TextColor="#FF61666D" Padding="0,50,0,0"></Label>
             </Grid>
             <Grid RowDefinitions="*" ColumnDefinitions="80" HorizontalOptions="Center" Margin="0,0,0,0">
                 <Button Text=" "
@@ -189,7 +189,7 @@
                         CommandParameter="TestPage"
                         Grid.Row="0"/>
                 <Image Grid.Row="0" Source="neoconfig.png" HeightRequest="30" WidthRequest="30" Margin="0,0,0,15"/>
-                <Label Text="Ajustes" HorizontalTextAlignment="Center" FontSize="12" TextColor="#FF61666D" Padding="0,50,0,0"></Label>
+                <Label Text="Ajustes" FontFamily="BreeSerif-Regular.ttf" HorizontalTextAlignment="Center" FontSize="12" TextColor="#FF61666D" Padding="0,50,0,0"></Label>
             </Grid>
         </HorizontalStackLayout>
     </Grid>

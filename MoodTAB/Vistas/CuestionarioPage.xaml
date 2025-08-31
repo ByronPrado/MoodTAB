@@ -2,8 +2,18 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MoodTAB.Vistas.CuestionarioPage"
-             Title="📝 Formularios"
             >
+
+    <NavigationPage.TitleView>
+        <Grid>
+            <Label Text="   📝 Cuestionarios"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Center"
+                   FontSize="20"
+                   FontFamily="BreeSerif-Regular.ttf"
+                   TextColor="#FF191919"/>
+        </Grid>
+    </NavigationPage.TitleView>
 
     <ScrollView BackgroundColor="#FFF3F3FF">
         <VerticalStackLayout Padding="5" Spacing="15">

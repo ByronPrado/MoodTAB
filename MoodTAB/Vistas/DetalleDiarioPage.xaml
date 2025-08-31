@@ -4,8 +4,15 @@
              x:Class="MoodTAB.Vistas.DetalleDiarioPage"
             >
 
+    <NavigationPage.TitleView>
+        <Grid>
+            <Label Text=" "
+                   FontFamily="BreeSerif-Regular.ttf"/>
+        </Grid>
+    </NavigationPage.TitleView>
+
     <ScrollView BackgroundColor="#FFF3F3FF">
-        <VerticalStackLayout  Spacing="15" Margin="5">
+        <VerticalStackLayout Spacing="15" Margin="5">
             
             <!-- Titulo -->
             <Frame Padding="15" CornerRadius="20" BackgroundColor="#E8F0FE" BorderColor="#00F0F8FF">
@@ -16,8 +23,15 @@
                     </LinearGradientBrush>
                 </Frame.Background>
                 <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
-                    <Label Text="💙 Mi diario" FontAttributes="Bold" FontSize="20" TextColor="#0F172A"/>
-                    <Label Text="{Binding DiarioDetallado.CreatedAt, StringFormat='¿Cómo me sentí el {0:dd/MM} a las {0:hh:mm}?'}" FontSize="18" FontAttributes="Bold" TextColor="#0F172A"/>
+                    <Label Text="💙 Mi diario"
+                           FontAttributes="Bold" 
+                           FontFamily="BreeSerif-Regular.ttf" 
+                           FontSize="20" 
+                           TextColor="#0F172A"/>
+                    <Label Text="{Binding DiarioDetallado.CreatedAt, StringFormat='¿Cómo me sentí el {0:dd/MM} a las {0:hh:mm}?'}" 
+                           FontSize="18" 
+                           FontFamily="BreeSerif-Regular.ttf" 
+                           TextColor="#0F172A"/>
                 </VerticalStackLayout>
             </Frame>
 
@@ -35,7 +49,7 @@
                             IsClippedToBounds="False">
                             <VerticalStackLayout HorizontalOptions="Center">
                                 <Label Text="{Binding Emoticon}" FontSize="18" HorizontalOptions="Center"/>
-                                <Label Text="{Binding Texto}" FontSize="12" TextColor="Black" HorizontalOptions="Center"/>
+                                <Label Text="{Binding Texto}" FontFamily="BreeSerif-Regular.ttf" FontSize="12" TextColor="Black" HorizontalOptions="Center"/>
                             </VerticalStackLayout>
                         </Frame>
                     </DataTemplate>
@@ -62,38 +76,82 @@
             
             <!-- Actividad diaria -->
             <VerticalStackLayout Spacing="10">
-                <Label Text="📈 Actividad del día" FontAttributes="Bold" FontSize="16" TextColor="#0F172A"/>
+                <Label Text="📈 Actividad del día" 
+                       FontAttributes="Bold"
+                       FontSize="16" 
+                       FontFamily="BreeSerif-Regular.ttf" 
+                       TextColor="#0F172A"/>
 
                 <!-- Pasos -->
-                <Frame CornerRadius="15" Padding="10" BackgroundColor="#DCFCE7" BorderColor="#FFA2FFC2">
+                <Frame CornerRadius="15" 
+                       Padding="10" 
+                       BackgroundColor="#DCFCE7" 
+                       BorderColor="#FFA2FFC2">
                     <VerticalStackLayout>
-                        <Label Text="🚶 Pasos" FontAttributes="Bold" TextColor="#166534"/>
-                        <Label Text="{Binding DiarioDetallado.Cantidad_Pasos}" FontSize="22" FontAttributes="Bold" TextColor="#166534"/>
+                        <Label Text="🚶 Pasos"
+                               FontAttributes="Bold"
+                               FontFamily="BreeSerif-Regular.ttf" 
+                               FontSize="16"
+                               TextColor="#166534"/>
+                        <Label Text="{Binding DiarioDetallado.Cantidad_Pasos}" 
+                               FontSize="22"
+                               FontAttributes="Bold"
+                               TextColor="#166534"/>
                     </VerticalStackLayout>
                 </Frame>
 
                 <!-- Uso del celular -->
-                <Frame CornerRadius="15" Padding="10" BackgroundColor="#DBEAFE" BorderColor="#FFA2CAFF">
+                <Frame CornerRadius="15"
+                       Padding="10"
+                       BackgroundColor="#DBEAFE" 
+                       BorderColor="#FFA2CAFF">
                     <VerticalStackLayout>
-                        <Label Text="📱 Uso del celular" FontAttributes="Bold" TextColor="#1E3A8A"/>
-                        <Label Text="{Binding DiarioDetallado.Horas_Celular, StringFormat='{0:F1} hrs'}" FontSize="22" FontAttributes="Bold" TextColor="#1E3A8A"/>
+                        <Label Text="📱 Uso del celular"
+                               FontAttributes="Bold"
+                               FontFamily="BreeSerif-Regular.ttf"
+                               FontSize="16"
+                               TextColor="#1E3A8A"/>
+                        <Label Text="{Binding DiarioDetallado.Horas_Celular, StringFormat='{0:F1} hrs'}"
+                               FontSize="22"
+                               FontAttributes="Bold"
+                               TextColor="#1E3A8A"/>
                     </VerticalStackLayout>
                 </Frame>
 
                 <!-- Redes sociales -->
-                <Frame CornerRadius="15" Padding="10" BackgroundColor="#F5D0FE" BorderColor="#FFEEACFF">
+                <Frame CornerRadius="15" 
+                       Padding="10" 
+                       BackgroundColor="#F5D0FE" 
+                       BorderColor="#FFEEACFF">
                     <VerticalStackLayout>
-                        <Label Text="📣 Redes sociales" FontAttributes="Bold" TextColor="#701A75"/>
-                        <Label Text="{Binding DiarioDetallado.Horas_Redes, StringFormat='{0:F1} hrs'}" FontSize="22" FontAttributes="Bold" TextColor="#701A75"/>
+                        <Label Text="📣 Redes sociales" 
+                               FontAttributes="Bold" 
+                               FontFamily="BreeSerif-Regular.ttf" 
+                               FontSize="16" 
+                               TextColor="#701A75"/>
+                        <Label Text="{Binding DiarioDetallado.Horas_Redes, StringFormat='{0:F1} hrs'}" 
+                               FontSize="22" 
+                               FontAttributes="Bold" 
+                               TextColor="#701A75"/>
                         <!--Label Text="Instagram, TikTok, Youtube, etc." FontSize="12" TextColor="#701A75"/-->
                     </VerticalStackLayout>
                 </Frame>
 
                 <!-- Sueño -->
-                <Frame CornerRadius="15" Padding="10" BackgroundColor="#FFC1E4FF" BorderColor="#FF86C8FA">
+                <Frame CornerRadius="15" 
+                       Padding="10" 
+                       BackgroundColor="#FFC1E4FF" 
+                       BorderColor="#FF86C8FA">
                     <VerticalStackLayout>
-                        <Label Text="💤 Sueño" FontAttributes="Bold" TextColor="#FF1A4E75"/>
-                        <Label Text="{Binding DiarioDetallado.Horas_Sueno, StringFormat='{0:F1} hrs'}" FontSize="22" FontAttributes="Bold" TextColor="#FF1A4E75"/>                    
+                        <Label Text="💤 Sueño" 
+                               FontAttributes="Bold" 
+                               FontFamily="BreeSerif-Regular.ttf" 
+                               FontSize="16" 
+                               TextColor="#FF1A4E75"/>
+                        <Label Text="{Binding DiarioDetallado.Horas_Sueno, StringFormat='{0:F1} hrs'}" 
+                               FontSize="22" 
+                               FontAttributes="Bold" 
+                               TextColor="#FF1A4E75"/>                    
                     </VerticalStackLayout>
                 </Frame>
             </VerticalStackLayout>

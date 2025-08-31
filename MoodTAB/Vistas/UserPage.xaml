@@ -2,8 +2,19 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MoodTAB.Vistas.UserPage"
-             Title="Mi Perfil"
              BackgroundColor="#F8F9FA">
+
+    <NavigationPage.TitleView>
+        <Grid>
+            <Label Text="           Mi Perfil"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Center"
+                   FontSize="20"
+                   FontFamily="BreeSerif-Regular.ttf"
+                   TextColor="#FF191919"/>
+        </Grid>
+    </NavigationPage.TitleView>
+
     <Grid Grid.Row="1" Padding="20,20,20,20">
         <ScrollView
             VerticalScrollBarVisibility="Never"
@@ -12,8 +23,8 @@
                 <StackLayout HorizontalOptions="Center" Spacing="15">
                     <Grid>
                         <Ellipse Fill="LightGray" 
-                                WidthRequest="120" 
-                                HeightRequest="120"/>
+                                 WidthRequest="120" 
+                                 HeightRequest="120"/>
                         <Image Source="dotnet_bot.jpg"
                                WidthRequest="120"
                                HeightRequest="120"
@@ -43,7 +54,16 @@
                            FontSize="24"
                            FontAttributes="Bold"
                            TextColor="#1F2937"
+                           FontFamily="BreeSerif-Regular.ttf"
                            HorizontalOptions="Center"/>
+                    
+                    <Button Text="Plan Seguro"
+                            Clicked="onPlanSeguroClicked" 
+                            FontSize="14"
+                            TextColor="#FFE1E1E1"
+                            BackgroundColor="#FF5E92E1"
+                            FontFamily="BreeSerif-Regular.ttf"
+                            HeightRequest="50"/>
                 </StackLayout>
                 
                 <Frame Padding="10" BorderColor="#7B000000">
@@ -53,6 +73,7 @@
                            FontSize="18"
                            FontAttributes="Bold"
                            TextColor="#1F2937"
+                           FontFamily="BreeSerif-Regular.ttf"
                            Margin="0,0,0,10"/>
                     
                     <!-- Nombre -->
@@ -68,6 +89,7 @@
                         <Label Grid.Column="1"
                                Text="Nombre"
                                FontSize="16"
+                               FontFamily="BreeSerif-Regular.ttf"
                                TextColor="#6B7280"
                                VerticalOptions="Center"/>
                         
@@ -75,6 +97,7 @@
                                Text="{Binding Nombre}"
                                FontSize="16"
                                TextColor="#1F2937"
+                               FontFamily="BreeSerif-Regular.ttf"
                                VerticalOptions="Center"
                                HorizontalOptions="End">
                             <Label.Triggers>
@@ -110,6 +133,7 @@
                         <Label Grid.Column="1"
                                Text="Email"
                                FontSize="16"
+                               FontFamily="BreeSerif-Regular.ttf"
                                TextColor="#6B7280"
                                VerticalOptions="Center"/>
                         
@@ -117,6 +141,7 @@
                                Text="{Binding Email}"
                                FontSize="16"
                                TextColor="#1F2937"
+                               FontFamily="BreeSerif-Regular.ttf"
                                VerticalOptions="Center"
                                HorizontalOptions="End">
                             <Label.Triggers>
@@ -152,12 +177,14 @@
                         <Label Grid.Column="1"
                                Text="Teléfono"
                                FontSize="16"
+                               FontFamily="BreeSerif-Regular.ttf"
                                TextColor="#6B7280"
                                VerticalOptions="Center"/>
                         
                         <Label Grid.Column="2"
                                Text="{Binding Telefono}"
                                FontSize="16"
+                               FontFamily="BreeSerif-Regular.ttf"
                                TextColor="#1F2937"
                                VerticalOptions="Center"
                                HorizontalOptions="End">
@@ -187,40 +214,36 @@
                             Command="{Binding EditarCommand}" 
                             Grid.Column="1" 
                             WidthRequest="90" 
-                            FontSize="12"
-                            FontAttributes="Bold"
-                            TextColor="White"
-                            BackgroundColor="#FF8E62F4"
-                            CornerRadius="25"
+                            FontSize="14"
+                            TextColor="#FFE1E1E1"
+                            BackgroundColor="#FF5E92E1"
+                            FontFamily="BreeSerif-Regular.ttf"
                             HeightRequest="50"/>
 
                     <Button Text="Guardar Cambios"
                             Command="{Binding GuardarCambiosCommand}"
                             Grid.Column="0" 
-                            FontSize="12"
-                            FontAttributes="Bold"
-                            TextColor="White"
-                            BackgroundColor="#FF8E62F4"
-                            CornerRadius="25"
+                            FontSize="14"
+                            TextColor="#FFE1E1E1"
+                            BackgroundColor="#FF5E92E1"
+                            FontFamily="BreeSerif-Regular.ttf"
                             IsVisible="{Binding IsEditing}"/>
                 </Grid>
                 <StackLayout Spacing="15" Margin="0,30,0,0">
                     
                     <Button Text="🗑️ Borrar Datos"
                             FontSize="16"
-                            FontAttributes="Bold"
-                            TextColor="White"
-                            BackgroundColor="#EF4444"
-                            CornerRadius="25"
+                            TextColor="#FFE1E1E1"
+                            BackgroundColor="#FFD33737"
+                            FontFamily="BreeSerif-Regular.ttf"
                             HeightRequest="50"
                             Clicked="onBorrarDatosClicked"/>
                     
                     <Button Text="🚪 Cerrar Sesión"
                             FontSize="16"
-                            FontAttributes="Bold"
-                            TextColor="White"
+                            TextColor="#FFE1E1E1"
                             BackgroundColor="#6B7280"
-                            CornerRadius="25"
+                            FontFamily="BreeSerif-Regular.ttf"
                             HeightRequest="50"
                             Clicked="OnLogoutClicked"/>
                 </StackLayout>

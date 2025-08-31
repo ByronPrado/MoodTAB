@@ -2,12 +2,13 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MoodTAB.Vistas.PlanSeguroPage"
-             Title="PlanSeguroPage">
+             Title="Plan Seguro">
     <VerticalStackLayout>
         <Label 
             Text="Este es tu plan seguro."
             VerticalOptions="Center" 
             HorizontalOptions="Center"
+            FontFamily="BreeSerif-Regular.ttf"
             FontSize="24"
         />
         <Frame 
@@ -19,6 +20,7 @@
             <Label 
                 Text="Ingresa detalles del plan seguro"
                 Margin="20"
+                FontFamily="BreeSerif-Regular.ttf"
             />            
         </Frame>
     </VerticalStackLayout>

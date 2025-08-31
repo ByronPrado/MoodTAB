@@ -2,8 +2,18 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MoodTAB.Vistas.ListaDiarioPage"
-             BackgroundColor="#FFF3F3FF"
-             Title="📚 Mis Diarios">
+             BackgroundColor="#FFF3F3FF">
+
+    <NavigationPage.TitleView>
+        <Grid>
+            <Label Text="     📚 Mis Diarios"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Center"
+                   FontSize="20"
+                   FontFamily="BreeSerif-Regular.ttf"
+                   TextColor="#FF191919"/>
+        </Grid>
+    </NavigationPage.TitleView>
 
     <VerticalStackLayout Spacing="15" Margin="5">
         <Button Text="➕ Ingresar nuevo diario"
@@ -31,15 +41,39 @@
                 <DataTemplate>
                     <Frame BackgroundColor="#FFD6E8FF" BorderColor="#FFC7DFFF" Padding="10" Margin="5" IsClippedToBounds="False" InputTransparent="True">
                         <VerticalStackLayout>
-                            <Label Text="Titulo" FontAttributes="Bold" FontSize="20" />
-                            <Label Text="{Binding Emocion_Diaria}" FontSize="14" />
+                            <Label Text="Titulo"
+                                   FontAttributes="Bold"
+                                   FontFamily="BreeSerif-Regular.ttf" 
+                                   FontSize="20"
+                                   TextColor="#DD000000" />
+
+                            <Label Text="{Binding Emocion_Diaria}"
+                                   FontSize="14" 
+                                   FontFamily="BreeSerif-Regular.ttf"
+                                   TextColor="#DD000000" />
 
                             <Grid RowDefinitions="10,*,*"
                                   ColumnDefinitions="*,*">
-                                <Label Text="Fecha:" Grid.Row="1" Grid.Column="0" FontAttributes="Bold" />
-                                <Label Text="{Binding CreatedAt, StringFormat='{0:dd/MM}'}" Grid.Row="2" Grid.Column="0" FontSize="16" />
-                                <Label Text="Hora:" Grid.Row="1" Grid.Column="1" FontAttributes="Bold" />
-                                <Label Text="{Binding CreatedAt, StringFormat='{0:HH:mm}'}" Grid.Row="2" Grid.Column="1" FontSize="16" />
+
+                                <Label Text="Fecha:" Grid.Row="1" Grid.Column="0" 
+                                       FontAttributes="Bold"
+                                       FontFamily="BreeSerif-Regular.ttf"
+                                       TextColor="#DD000000"/>
+
+                                <Label Text="{Binding CreatedAt, StringFormat='{0:dd/MM}'}" Grid.Row="2" Grid.Column="0"
+                                       FontSize="16"
+                                       FontFamily="BreeSerif-Regular.ttf"
+                                       TextColor="#DD000000"/>
+
+                                <Label Text="Hora:" Grid.Row="1" Grid.Column="1"
+                                       FontAttributes="Bold"
+                                       FontFamily="BreeSerif-Regular.ttf"
+                                       TextColor="#DD000000"/>
+
+                                <Label Text="{Binding CreatedAt, StringFormat='{0:HH:mm}'}" Grid.Row="2" Grid.Column="1"
+                                       FontSize="16"
+                                       FontFamily="BreeSerif-Regular.ttf"
+                                       TextColor="#DD000000"/>
                             </Grid>
                         </VerticalStackLayout>
                     </Frame>

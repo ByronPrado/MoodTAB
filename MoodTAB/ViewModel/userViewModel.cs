@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MoodTAB.Vistas;
 
 namespace MoodTAB.ViewModel
 {
@@ -40,6 +41,7 @@ namespace MoodTAB.ViewModel
             
         }
 
+
         [RelayCommand]
         public async Task GuardarCambios()
         {
@@ -56,20 +58,21 @@ namespace MoodTAB.ViewModel
             var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
             var response = await httpClient.PatchAsync(url, content);
-
+            var main = Application.Current?.MainPage;
+                if (main == null) return; 
+                
             if (response.IsSuccessStatusCode)
             {
                 //Globals.nombre_Usuario = Nombre;
                 //Globals.email_Usuario = Email;
-
                 await SecureStorage.SetAsync("user_nombre", Nombre);
                 await SecureStorage.SetAsync("user_email", Email);
 
-                await Application.Current.MainPage.DisplayAlert("Cambios Guardados", "Los cambios se han guardado correctamente.", "OK");
+                await main.DisplayAlert("Cambios Guardados", "Los cambios se han guardado correctamente.", "OK");
             }
             else
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "No se pudo guardar los cambios.", "OK");
+                await main.DisplayAlert("Error", "No se pudo guardar los cambios.", "OK");
             }
 
             IsEditing = false;
