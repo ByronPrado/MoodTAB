@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MoodTAB.Vistas.DiarioPage"
+             Title="Nuevo Diario"
             >
 
     <ScrollView BackgroundColor="#FFF3F3FF">
@@ -16,13 +17,39 @@
                     </LinearGradientBrush>
                 </Frame.Background>
                 <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
-                    <Label Text="💙 MoodTab" FontAttributes="Bold" FontSize="20" TextColor="#0F172A"/>
+                    <Label Text="💙 Nuevo diario" FontAttributes="Bold" FontSize="20" TextColor="#0F172A"/>
                     <Label Text="¿Cómo te sentiste hoy?" FontSize="18" FontAttributes="Bold" TextColor="#0F172A"/>
                     <Label Text="Puedes seleccionar varias emociones" FontSize="12" TextColor="#64748B"/>
                 </VerticalStackLayout>
             </Frame>
 
-            <!-- Botones de emociones -->
+            <CollectionView ItemsSource="{Binding ListaEmociones}"
+                            ItemsLayout="VerticalGrid, 3"
+                            x:Name="EmocionesView">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BackgroundColor="{Binding Color}"
+                            BorderColor="{Binding ColorBorde}"
+                            CornerRadius="15"
+                            Padding="10"
+                            Margin="5"
+                            HasShadow="False"
+                            IsClippedToBounds="False">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={x:Reference EmocionesView}, Path=BindingContext.SeleccionarEmocionCommand}"
+                                    CommandParameter="{Binding Texto}" />
+                            </Frame.GestureRecognizers>
+                            <VerticalStackLayout HorizontalOptions="Center">
+                                <Label Text="{Binding Emoticon}" FontSize="18" HorizontalOptions="Center"/>
+                                <Label Text="{Binding Texto}" FontSize="12" TextColor="Black" HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Botones de emociones>
             <Grid ColumnSpacing="10" RowSpacing="10"
                 RowDefinitions="97,97,97"
                 ColumnDefinitions="97,97,97"
@@ -38,34 +65,9 @@
                 <Button Text="😪  Cansado"         LineBreakMode="WordWrap"   Margin="0,0,0,0" FontSize="12" Grid.Row="0" Grid.Column="2" CommandParameter="Cansado" Command="{Binding SeleccionarEmocionCommand}" BackgroundColor="{Binding ColorCansado}" BorderColor="{Binding ColorCansado_borde}" CornerRadius="15" BorderWidth="2" TextColor="black"/>
                 <Button Text="😠    Enojado"       LineBreakMode="WordWrap"   Margin="0,0,0,0" FontSize="12" Grid.Row="1" Grid.Column="2" CommandParameter="Enojado" Command="{Binding SeleccionarEmocionCommand}" BackgroundColor="{Binding ColorEnojado}" BorderColor="{Binding ColorEnojado_borde}" CornerRadius="15" BorderWidth="2" TextColor="black"/>
                 <Button Text="🫨    Ansioso"       LineBreakMode="WordWrap"   Margin="0,0,0,0" FontSize="12" Grid.Row="2" Grid.Column="2" CommandParameter="Ansioso" Command="{Binding SeleccionarEmocionCommand}" BackgroundColor="{Binding ColorAnsioso}" BorderColor="{Binding ColorAnsioso_borde}" CornerRadius="15" BorderWidth="2" TextColor="black"/>
-            </Grid>
+            </Grid-->
 
-            <Frame CornerRadius="15" Padding="10" BackgroundColor="#F0FDF4" BorderColor="#22C55E" 
-                IsVisible="{Binding TieneEmocionesSeleccionadas}">
-                <VerticalStackLayout Spacing="5">
-                    <Label Text="✅ Emociones seleccionadas:" FontSize="12" TextColor="#15803D"/>
-                    <CollectionView ItemsSource="{Binding EmocionesSeleccionadas}" 
-                                    ItemsLayout="HorizontalList"
-                                    HeightRequest="40">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Frame BackgroundColor="#DCFCE7" 
-                                    CornerRadius="15" 
-                                    Padding="8,4" 
-                                    Margin="2"
-                                    BorderColor="#22C55E">
-                                    <Label Text="{Binding}" 
-                                        FontSize="10" 
-                                        TextColor="#15803D"/>
-                                </Frame>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </VerticalStackLayout>
-            </Frame>
-
-
-            <Frame CornerRadius="15" Padding="15" BackgroundColor="#FEF3C7" BorderColor="#F59E0B" Margin="0,10">
+            <!--Frame CornerRadius="15" Padding="15" BackgroundColor="#FEF3C7" BorderColor="#F59E0B" Margin="0,10">
                 <VerticalStackLayout Spacing="10">
                     <Label Text="📊 Intensidad de la emoción" FontAttributes="Bold" FontSize="14" TextColor="#92400E"/>
                     <Slider x:Name="IntensitySlider" 
@@ -80,7 +82,7 @@
                         FontAttributes="Bold" 
                         TextColor="#92400E"/>
                 </VerticalStackLayout>
-            </Frame>
+            </Frame-->
 
             <!-- Descripción del día -->
             <VerticalStackLayout Spacing="5">
@@ -155,6 +157,7 @@
             <Button Text="💾 Guardar registro del día"
                     FontSize="16" 
                     HorizontalOptions="Center"
+                    CornerRadius="25"
                     HeightRequest="50"
                     Command="{Binding GuardarDiarioCommand}">
                 <Button.Background>
@@ -164,7 +167,8 @@
                     </LinearGradientBrush>
                 </Button.Background>
             </Button>
-            <Button Text="Borrar BD" FontSize="16" HorizontalOptions="Center" Background="red" Command="{Binding BorrarDiarioCommand}"/>
+            <Button Text="Borrar BD" CornerRadius="25"
+                            HeightRequest="50" FontSize="16" HorizontalOptions="Center" Background="red" Command="{Binding BorrarDiarioCommand}"/>
             <Label Text="{Binding Error}"    TextColor="Red" FontSize="14" FontAttributes="Bold" />
 
         </VerticalStackLayout>

@@ -16,24 +16,28 @@
                     </LinearGradientBrush>
                 </Frame.Background>
                 <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
-                    <Label Text="💙 Titulo" FontAttributes="Bold" FontSize="20" TextColor="#0F172A"/>
+                    <Label Text="💙 Mi diario" FontAttributes="Bold" FontSize="20" TextColor="#0F172A"/>
                     <Label Text="{Binding DiarioDetallado.CreatedAt, StringFormat='¿Cómo me sentí el {0:dd/MM} a las {0:hh:mm}?'}" FontSize="18" FontAttributes="Bold" TextColor="#0F172A"/>
                 </VerticalStackLayout>
             </Frame>
 
-            <CollectionView ItemsSource="{Binding ListaEmociones}">
-                <CollectionView.ItemsLayout>
-                    <GridItemsLayout Orientation="Vertical" Span="3" />
-                </CollectionView.ItemsLayout>
+            <CollectionView ItemsSource="{Binding ListaEmociones}"
+                            ItemsLayout="VerticalGrid, 3"
+                            x:Name="EmocionesView">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <HorizontalStackLayout>
-                            <Frame  BackgroundColor="{Binding Color}" BorderColor="{Binding ColorBorde}" CornerRadius="15"
-                                HeightRequest="97"
-                                WidthRequest="97">
-                                <Label Text="{Binding Texto}" FontSize="9" TextColor="black" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
-                            </Frame>
-                        </HorizontalStackLayout>
+                        <Frame BackgroundColor="{Binding Color}"
+                            BorderColor="{Binding ColorBorde}"
+                            CornerRadius="15"
+                            Padding="10"
+                            Margin="5"
+                            HasShadow="False"
+                            IsClippedToBounds="False">
+                            <VerticalStackLayout HorizontalOptions="Center">
+                                <Label Text="{Binding Emoticon}" FontSize="18" HorizontalOptions="Center"/>
+                                <Label Text="{Binding Texto}" FontSize="12" TextColor="Black" HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
+                        </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

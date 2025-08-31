@@ -17,5 +17,42 @@ namespace MoodTAB
             return !string.IsNullOrEmpty(boole) && bool.TryParse(boole, out var result) && result;
 
         }
+
+        public static Dictionary<string, string> colores = new Dictionary<string, string>
+        {
+            { "Feliz", "#fff692"},
+            { "Emocionado", "#ffd195" },
+            { "Cansado", "#cb9bff" },
+            { "Triste", "#99c5fe" },
+            { "Frustrado", "#e5fb96" },
+            { "Enojado", "#ff8787" },
+            { "Neutro", "#bababa" },
+            { "Angustia", "#9baffd" },
+            { "Ansioso", "#9bffe9" },
+        };
+        public static Dictionary<string, string> bordes = new Dictionary<string, string>
+        {
+            { "Feliz", "#e0d269"},
+            { "Emocionado", "#d8a366" },
+            { "Cansado", "#9866d1" },
+            { "Triste", "#6a99d2" },
+            { "Frustrado", "#a0cf62" },
+            { "Enojado", "#cb6464" },
+            { "Neutro", "#888888" },
+            { "Angustia", "#6991cd" },
+            { "Ansioso", "#5bbfab" },
+        };
+        public static Dictionary<string, string> emoticonos = new Dictionary<string, string>
+        {
+            { "Feliz", "😊"},
+            { "Emocionado", "😃" },
+            { "Cansado", "😪" },
+            { "Triste", "😢" },
+            { "Frustrado", "😖" },
+            { "Enojado", "😠" },
+            { "Neutro", "😑" },
+            { "Angustia", "😰" },
+            { "Ansioso", "🫨" },
+        };
     }
 }

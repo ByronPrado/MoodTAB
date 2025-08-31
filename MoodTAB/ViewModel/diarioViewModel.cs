@@ -7,19 +7,23 @@ using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using MoodTAB.Services;
+using System.Linq;
 using System.Text.Json;
 
 namespace MoodTAB.ViewModel
 
 {
-    
+
     public partial class DiarioViewModel : ObservableObject
     {
         [ObservableProperty]
         ObservableCollection<Diario> diarios = new();
 
         [ObservableProperty]
-        ObservableCollection<string> emocionDiaria = new();
+        ObservableCollection<string> emocionDiaria = new(); 
+
+        [ObservableProperty]
+        ObservableCollection<EmocionItem> listaEmociones = new ObservableCollection<EmocionItem>();
 
         [ObservableProperty]
         string descDia;
@@ -62,43 +66,7 @@ namespace MoodTAB.ViewModel
         private readonly IStepCounterService stepService;
 
         [ObservableProperty]
-        string colorFeliz;
-        [ObservableProperty]
-        string colorEmocionado;
-        [ObservableProperty]
-        string colorCansado;
-        [ObservableProperty]
-        string colorTriste;
-        [ObservableProperty]
-        string colorFrustrado;
-        [ObservableProperty]
-        string colorEnojado;
-        [ObservableProperty]
-        string colorNeutro;
-        [ObservableProperty]
-        string colorAngustiado;
-        [ObservableProperty]
-        string colorAnsioso;
-
-
-        [ObservableProperty]
-        string colorFeliz_borde;
-        [ObservableProperty]
-        string colorEmocionado_borde;
-        [ObservableProperty]
-        string colorCansado_borde;
-        [ObservableProperty]
-        string colorTriste_borde;
-        [ObservableProperty]
-        string colorFrustrado_borde;
-        [ObservableProperty]
-        string colorEnojado_borde;
-        [ObservableProperty]
-        string colorNeutro_borde;
-        [ObservableProperty]
-        string colorAngustiado_borde;
-        [ObservableProperty]
-        string colorAnsioso_borde;
+        string test;
 
         public DiarioViewModel(IStepCounterService stepService)
         {
@@ -112,26 +80,19 @@ namespace MoodTAB.ViewModel
             CantidadPasos = (int)stepService.TotalSteps;
             HorasSueno = "0";
             Error = "";
+            test = "veamos";
 
-            ColorFeliz = "#FEF9C3";
-            ColorEmocionado = "#FFEDD5";
-            ColorCansado = "#F3E8FF";
-            ColorTriste = "#DBEAFE";
-            ColorFrustrado = "#FEE2E2";
-            ColorEnojado = "#FEE2E2";
-            ColorNeutro = "#F3F4F6";
-            ColorAngustiado = "#E0E7FF";
-            ColorAnsioso = "#CCFBF1";
+            foreach (var key in Globals.colores.Keys)
+            {
+                var item = new EmocionItem(
+                    texto: key,
+                    emoticon: Globals.emoticonos[key],
+                    color: "White",
+                    colorBorde: "gray"
+                );
+                listaEmociones.Add(item);
 
-            ColorFeliz_borde = "#FEF4A3";
-            ColorEmocionado_borde = "#FEDAB0";
-            ColorCansado_borde = "#EDDDFF";
-            ColorTriste_borde = "#BFDBFE";
-            ColorFrustrado_borde = "#FECACA";
-            ColorEnojado_borde = "#FED5D5";
-            ColorNeutro_borde = "#EBEDF0";
-            ColorAngustiado_borde = "#CCD6FE";
-            ColorAnsioso_borde = "#99F6E4";
+            }
 
 
             _ = LoadDiariosAsync();
@@ -145,95 +106,24 @@ namespace MoodTAB.ViewModel
         [RelayCommand]
         private void SeleccionarEmocion(string emocion)
         {
+            var item = ListaEmociones.FirstOrDefault(e => e.Texto == emocion);
+            if (item == null) return;
+            var index = ListaEmociones.IndexOf(item);
             if (EmocionDiaria.Contains(emocion))
             {
                 EmocionDiaria.Remove(emocion);
-                if (emocion == "Feliz")
-                {
-                    ColorFeliz = "#FEF9C3";
-                    ColorFeliz_borde = "#FEF4A3";
-
-                }
-                if (emocion == "Emocionado")
-                {
-                    ColorEmocionado = "#FFEDD5";
-                    ColorEmocionado_borde = "#FEDAB0";
-                }
-                if (emocion == "Cansado")
-                {
-                    ColorCansado = "#F3E8FF";
-                    ColorCansado_borde = "#EDDDFF";
-                }
-                if (emocion == "Triste")
-                {
-                    ColorTriste = "#DBEAFE";
-                    ColorTriste_borde = "#BFDBFE";
-                }
-                if (emocion == "Frustrado")
-                {
-                    ColorFrustrado = "#FEE2E2";
-                    ColorFrustrado_borde = "#FECACA";
-                }
-                if (emocion == "Enojado")
-                {
-                    ColorEnojado = "#FEE2E2";
-                    ColorEnojado_borde = "#FED5D5";
-                }
-                if (emocion == "Neutro")
-                {
-                    ColorNeutro = "#F3F4F6";
-                    ColorNeutro_borde = "#EBEDF0";
-                }
-                if (emocion == "Angustiado")
-                {
-                    ColorAngustiado = "#E0E7FF";
-                    ColorAngustiado_borde = "#CCD6FE";
-                }
-                if (emocion == "Ansioso")
-                {
-                    ColorAnsioso = "#CCFBF1";
-                    ColorAnsioso_borde = "#99F6E4";
-                }
+                item.Color = "White";
+                item.ColorBorde = "Gray";
             }
             else
             {
                 EmocionDiaria.Add(emocion);
-                if (emocion == "Feliz")
-                {
-                    ColorFeliz = "#FF9100";
-                }
-                if (emocion == "Emocionado")
-                {
-                    ColorEmocionado = "#FF9100";
-                }
-                if (emocion == "Cansado")
-                {
-                    ColorCansado = "#FF9100";
-                }
-                if (emocion == "Triste")
-                {
-                    ColorTriste = "#FF9100";
-                }
-                if (emocion == "Frustrado")
-                {
-                    ColorFrustrado = "#FF9100";
-                }
-                if (emocion == "Enojado")
-                {
-                    ColorEnojado = "#FF9100";
-                }
-                if (emocion == "Neutro")
-                {
-                    ColorNeutro = "#FF9100";
-                }
-                if (emocion == "Angustiado")
-                {
-                    ColorAngustiado = "#FF9100";
-                }
-                if (emocion == "Ansioso")
-                {
-                    ColorAnsioso = "#FF9100";
-                }
+                item.Color = Globals.colores[emocion];
+                item.ColorBorde = Globals.bordes[emocion];
+            }
+            if (index >= 0)
+            {
+                ListaEmociones[index] = item;
             }
         }
 
@@ -285,9 +175,11 @@ namespace MoodTAB.ViewModel
         {
             try
             {
+                var main = Application.Current?.MainPage;
+                if (main == null) return; 
                 if (EmocionDiaria.Count == 0 || string.IsNullOrWhiteSpace(DescDia))
                 {
-                    await Application.Current.MainPage.DisplayAlert("Campos en blanco", "No se puede dejar los campos en blanco", "OK");
+                    await main.DisplayAlert("Campos en blanco", "No se puede dejar los campos en blanco", "OK");
                     return;
                 }
                 var diario = new Diario
@@ -330,19 +222,18 @@ namespace MoodTAB.ViewModel
 
                 if (response.IsSuccessStatusCode)
                 {
-                    await Application.Current.MainPage.DisplayAlert("¡Listo!", "Diario enviado correctamente.", "OK");
+                    await main.DisplayAlert("¡Listo!", "Diario enviado correctamente.", "OK");
                 }
                 else
                 {
                     var errorMsg = await response.Content.ReadAsStringAsync();
-                    await Application.Current.MainPage.DisplayAlert("Error", $"No se pudo enviar el diario.\n{errorMsg}", "OK");
+                    await main.DisplayAlert("Error", $"No se pudo enviar el diario.\n{errorMsg}", "OK");
                 }
             }
             catch (Exception e)
             {
                 Error = e.Message;
-                await Application.Current.MainPage.DisplayAlert("Error", $"Catch:\n{Error}", "OK");
-
+                DescDia = Error;
             }
 
         }
