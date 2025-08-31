@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using MoodTAB.Models;
 using MoodTAB.Vistas;
 using MoodTAB.Services;
+using System.Text.Json;
 using MoodTAB.Platforms.Android;
 using System;
 using System.Collections.ObjectModel;
@@ -112,18 +113,45 @@ namespace MoodTAB.ViewModel
             }
             else
             {
-                Globals.cuestionario_pendiente = true;
-                Globals.cuestionario = await response.Content.ReadAsStringAsync();
-                Cuestionario = true;
-                
-                if (notif == null) {
-                    notificationManager.SendNotification(
-                        "Cuestionario MoodTAB",
-                        "Tienes un cuestionario pendiente por responder.",
-                        DateTime.Today.AddHours(23),
-                        1001
-                    );
-                    await SecureStorage.SetAsync("notif_c", "active");
+                var content = await response.Content.ReadAsStringAsync();
+
+                // Guardamos siempre lo que venga de la API
+                Globals.cuestionario = content;
+
+                // Intentamos parsear la lista
+                try
+                {
+                    var cuestionarios = JsonSerializer.Deserialize<List<CuestionarioData>>(content);
+
+                    if (cuestionarios != null && cuestionarios.Any())
+                    {
+                        Globals.cuestionario_pendiente = true;
+                        Cuestionario = true;
+
+                        if (notif == null)
+                        {
+                            notificationManager.SendNotification(
+                                "Cuestionario MoodTAB",
+                                "Tienes un cuestionario pendiente por responder.",
+                                DateTime.Today.AddHours(23),
+                                1001
+                            );
+                            await SecureStorage.SetAsync("notif_c", "active");
+                        }
+                    }
+                    else
+                    {
+                        // Lista vacía -> no hay cuestionarios
+                        Globals.cuestionario_pendiente = false;
+                        Cuestionario = false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Si no se puede parsear, tratamos como "sin cuestionarios"
+                    Globals.cuestionario_pendiente = false;
+                    Cuestionario = false;
+                    Console.WriteLine($"Error parseando cuestionarios: {ex.Message}");
                 }
             }
 

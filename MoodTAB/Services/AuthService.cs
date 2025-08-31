@@ -16,7 +16,7 @@ namespace MoodTAB.Services
             };
         }
 
-        public async Task<(bool success, string log, PacienteDto user)> LoginAsync(string nombre, string email)
+        public async Task<(bool success, string log, PacienteDto user)> LoginAsync(string nombre, string email,bool esFamiliar)
         {
             string log = "";
 
@@ -24,7 +24,7 @@ namespace MoodTAB.Services
             {
                 log += $"Intentando login con Nombre={nombre}, Email={email}\n";
 
-                var payload = new { Nombre = nombre, Email = email };
+                var payload = new { Nombre = nombre, Email = email ,EsFamiliar = esFamiliar};
                 var jsonPayload = JsonSerializer.Serialize(payload);
                 log += $"JSON enviado: {jsonPayload}\n";
 
@@ -49,6 +49,7 @@ namespace MoodTAB.Services
                     await SecureStorage.SetAsync("user_id", result.User.ID_Paciente.ToString());
                     await SecureStorage.SetAsync("user_nombre", result.User.Nombre);
                     await SecureStorage.SetAsync("user_email", result.User.Email);
+                    await SecureStorage.SetAsync("es_familiar", esFamiliar.ToString());
 
                     return (true, log, result.User);
                 }
@@ -67,6 +68,7 @@ namespace MoodTAB.Services
             SecureStorage.Remove("user_id");
             SecureStorage.Remove("user_nombre");
             SecureStorage.Remove("user_email");
+            SecureStorage.Remove("es_familiar");
 
             Application.Current.MainPage = new NavigationPage(new Vistas.LoginPage());
         }

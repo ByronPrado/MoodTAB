@@ -1,3 +1,5 @@
+//using Foundation;
+
 namespace MoodTAB
 {
     public static class Globals
@@ -8,11 +10,12 @@ namespace MoodTAB
         public static string? cuestionario { get; set; }
         public static bool cuestionario_pendiente { get; set; } = false;
         public static bool respondido { get; set; } = false;
+        public static bool esFamiliar { get; set; } = false;
 
-        public static bool toBool(string boole)
-        {   
-            if (boole == "true") return true;
-            return false;
+        public static bool toBool(string? boole)
+        {
+            return !string.IsNullOrEmpty(boole) && bool.TryParse(boole, out var result) && result;
+
         }
     }
 }

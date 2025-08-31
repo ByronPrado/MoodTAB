@@ -11,6 +11,7 @@ namespace MoodTAB.ViewModels
         [ObservableProperty] string email;
         [ObservableProperty] string errorMessage;
         [ObservableProperty] string logsMessage;
+        [ObservableProperty] bool esFamiliar;
 
         private readonly AuthService _authService;
 
@@ -26,22 +27,30 @@ namespace MoodTAB.ViewModels
 
             ErrorMessage = string.Empty;
             Console.WriteLine($"Intentando login con Nombre={Nombre}, Email={Email}");
-            var success = await _authService.LoginAsync(Nombre, Email);
+            var success = await _authService.LoginAsync(Nombre, Email,EsFamiliar);
             LogsMessage += $"\nResultado login: {success.log}";
             if (success.success)
             {
                 // Guarda los datos globales
-                Globals.nombre_Usuario =success.user.Nombre;
+                Globals.nombre_Usuario = success.user.Nombre;
                 Globals.email_Usuario = success.user.Email;
-                Globals.id_paciente_DB= success.user.ID_Paciente.ToString(); // Guarda el ID del usuario
-                   // Guarda en SecureStorage
+                Globals.esFamiliar = EsFamiliar;
+                Globals.id_paciente_DB = success.user.ID_Paciente.ToString(); // Guarda el ID del usuario
+                                                                              // Guarda en SecureStorage
                 await SecureStorage.SetAsync("user_id", success.user.ID_Paciente.ToString());
                 await SecureStorage.SetAsync("user_nombre", success.user.Nombre);
                 await SecureStorage.SetAsync("user_email", success.user.Email);
+                await SecureStorage.SetAsync("es_familiar", EsFamiliar.ToString());
 
                 var notificationManager = App.ServiceProvider.GetService<INotificationManagerService>();
-
-                Application.Current.MainPage = new NavigationPage(new MainPage(notificationManager));
+                if (EsFamiliar)
+                {
+                    Application.Current.MainPage = new NavigationPage(new UsuarioExternoPage(notificationManager));
+                }
+                else
+                {
+                    Application.Current.MainPage = new NavigationPage(new MainPage(notificationManager));
+                }
             }
             else
             {

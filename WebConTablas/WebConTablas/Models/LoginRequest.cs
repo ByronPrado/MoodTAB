@@ -5,7 +5,8 @@ namespace WebConTablas.Models
 {
     public class LoginRequest
     {
-    public required string Nombre { get; set; }
-    public required string Email { get; set; }
+        public required string Nombre { get; set; }
+        public required string Email { get; set; }
+        public required bool EsFamiliar{get; set;}
     }
 }

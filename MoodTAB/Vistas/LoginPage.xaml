@@ -10,7 +10,10 @@
 
         <Entry Placeholder="Nombre" Text="{Binding Nombre}" />
         <Entry Placeholder="Email" Text="{Binding Email}" />
-
+        <HorizontalStackLayout>
+            <CheckBox IsChecked="{Binding EsFamiliar}" />
+            <Label Text="Soy familiar/tutor/externo" VerticalOptions="Center"/>
+        </HorizontalStackLayout>
         <Button Text="Ingresar" Command="{Binding LoginCommand}" />
 
         <Label Text="{Binding ErrorMessage}" TextColor="Red" />
