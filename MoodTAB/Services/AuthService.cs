@@ -85,5 +85,7 @@ namespace MoodTAB.Services
         public int ID_Paciente { get; set; }
         public string Nombre { get; set; }
         public string Email { get; set; }
+        public int? IdUsuarioExterno { get; set; } // si aplica
+
     }
 }

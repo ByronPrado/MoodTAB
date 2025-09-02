@@ -14,7 +14,7 @@ namespace WebConTablas.Models
 		[ForeignKey(nameof(UsuarioExterno))]
 		public int IdUsuarioExterno { get; set; }
 
-		public UsuarioExterno UsuarioExterno { get; set; }
+		public UsuarioExterno? UsuarioExterno { get; set; }
 
 		[Required]
 		public string Comentario { get; set; }

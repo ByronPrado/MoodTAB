@@ -17,16 +17,31 @@
                 />
             
             <Entry
-                Placeholder ="comentario"
+                Placeholder ="Escrie tu comentario"
+                Text ="{Binding ComentarioExterno}"
                 VerticalOptions ="Center"
                 HorizontalOptions="Center" 
+                />
+
+            <Label
+                Text ="{Binding Ide}"
+                TextColor ="Blue"
+                />
+            <Label
+                Text="{Binding Log_txt}"
+                TextColor="Red"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center"
+
                 />
             
             <Picker
                 Title="Escoge un cuestionario"
+                ItemsSource ="{Binding ListaCuestionarios}"
                 />
-                
-
+            <Button 
+                Text="Enviar comentario"
+                Command="{Binding EnviarComentarioCommand}"/>
             <Button Text="🚪 Cerrar Sesión"
                 FontSize="16"
                 FontAttributes="Bold"

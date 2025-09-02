@@ -11,6 +11,7 @@ namespace MoodTAB
         public static bool cuestionario_pendiente { get; set; } = false;
         public static bool respondido { get; set; } = false;
         public static bool esFamiliar { get; set; } = false;
+        public static string? id_usuario_externo_DB { get; set;}
 
         public static bool toBool(string? boole)
         {

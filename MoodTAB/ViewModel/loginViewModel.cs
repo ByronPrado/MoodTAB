@@ -35,20 +35,26 @@ namespace MoodTAB.ViewModels
                 Globals.nombre_Usuario = success.user.Nombre;
                 Globals.email_Usuario = success.user.Email;
                 Globals.esFamiliar = EsFamiliar;
-                Globals.id_paciente_DB = success.user.ID_Paciente.ToString(); // Guarda el ID del usuario
-                                                                              // Guarda en SecureStorage
+                Globals.id_paciente_DB = success.user.ID_Paciente.ToString();
+                Globals.id_usuario_externo_DB = success.user.IdUsuarioExterno.ToString();
+                // Guarda en SecureStorage
                 await SecureStorage.SetAsync("user_id", success.user.ID_Paciente.ToString());
+                await SecureStorage.SetAsync("externo_id", success.user.IdUsuarioExterno.ToString());
                 await SecureStorage.SetAsync("user_nombre", success.user.Nombre);
                 await SecureStorage.SetAsync("user_email", success.user.Email);
                 await SecureStorage.SetAsync("es_familiar", EsFamiliar.ToString());
 
                 var notificationManager = App.ServiceProvider.GetService<INotificationManagerService>();
                 if (EsFamiliar)
-                {
+                {   
+                    Console.WriteLine($"[DEBUG] Obtenido idexterno={success.user.IdUsuarioExterno}");
+
+                    //await SecureStorage.SetAsync("user_id", success.user.ID_Paciente.ToString());
                     Application.Current.MainPage = new NavigationPage(new UsuarioExternoPage(notificationManager));
                 }
                 else
                 {
+                    Console.WriteLine($"[DEBUG] Obtenido idpaciente={success.user.ID_Paciente}");
                     Application.Current.MainPage = new NavigationPage(new MainPage(notificationManager));
                 }
             }
@@ -68,11 +74,13 @@ namespace MoodTAB.ViewModels
             Globals.nombre_Usuario = null;
             Globals.email_Usuario = null;
             Globals.id_paciente_DB = "0";
+            Globals.id_usuario_externo_DB = "0";
 
             // Opcional: limpia SecureStorage si lo usas
             SecureStorage.Remove("user_id");
             SecureStorage.Remove("user_nombre");
             SecureStorage.Remove("user_email");
+            SecureStorage.Remove("externo_id");
 
             // Navega a la página de login
             //Application.Current.MainPage = new LoginPage();
