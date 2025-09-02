@@ -2,33 +2,67 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MoodTAB.Vistas.BorrarDatosPage"
-             Title="Solicitar eliminación de datos">
-    <VerticalStackLayout>
-        <Label Text="texto ley xxxxx derecho a borrar datos."
-               FontSize="24"
-               HorizontalOptions="Center" />
+             Title="Eliminar mis datos">
+             <ScrollView>
+    <VerticalStackLayout Padding="20" Spacing="20">
 
-        <Frame 
-            Margin="20"
-            Padding="10"
-            BorderColor="Gray"
-            CornerRadius="10"
-            HasShadow="True">
-            <Grid ColumnDefinitions ="auto,auto">
+      <!-- Título principal -->
+      <Label
+        Text="Ley 19.628 – Protección de Datos Personales"
+        FontSize="22"
+        FontAttributes="Bold"
+        HorizontalOptions="Center" />
 
-                <CheckBox Grid.Column="0"
-                    x:Name="check_aceptar"
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center"
-                    Color="Black"
-                    CheckedChanged="OnCheckBoxCheckedChanged"
-                    Margin="10"/>
-                <Button Grid.Column="1"
-                    Text="Enviar solicitud"
-                    Clicked="OnEnviarSolicitudClicked"
-                    Margin="10">
-                </Button>
-            </Grid>
-        </Frame>
+      <!-- Resumen de los derechos de cancelación -->
+      <Frame
+        BorderColor="Gray"
+        CornerRadius="8"
+        HasShadow="True"
+        Padding="15">
+        <VerticalStackLayout Spacing="8">
+
+          <Label Text="• Ley N° 19.628: regula el tratamiento de datos personales mediante consentimiento informado y lealtad." />
+
+          <Label Text="• Derecho ARCO: Acceso, Rectificación, Cancelación y Oposición de tus datos." />
+
+          <Label Text="• Art. 13 N° 2 – Derecho de Cancelación: solicita la eliminación de datos inexactos, innecesarios o caducados." />
+
+          <Label Text="• Plazos de atención: respuesta en 10 días hábiles; ejecución de la cancelación en 20 días hábiles." />
+
+          <Label Text="• Vías de reclamo: puedes acudir al Consejo para la Transparencia o la vía judicial en caso de negativa o silencio." />
+
+        </VerticalStackLayout>
+      </Frame>
+
+      <!-- Sección de aceptación y envío -->
+      <Frame
+        BorderColor="Gray"
+        CornerRadius="8"
+        HasShadow="True"
+        Padding="10">
+        <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto">
+
+          <CheckBox
+            x:Name="check_aceptar"
+            Grid.Column="0"
+            VerticalOptions="Center"
+            CheckedChanged="OnCheckBoxCheckedChanged" />
+
+          <Label
+            Text="He leído y acepto eliminar mis datos"
+            Grid.Column="1"
+            VerticalOptions="Center"
+            LineBreakMode="WordWrap" />
+
+          <Button
+            x:Name="btnEnviar"
+            Grid.Column="2"
+            Text="Enviar solicitud"
+            Clicked="OnEnviarSolicitudClicked" />
+
+        </Grid>
+      </Frame>
+
     </VerticalStackLayout>
+  </ScrollView>
 </ContentPage>

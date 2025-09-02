@@ -3,25 +3,71 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MoodTAB.Vistas.PlanSeguroPage"
              Title="Plan Seguro">
-    <VerticalStackLayout>
-        <Label 
-            Text="Este es tu plan seguro."
-            VerticalOptions="Center" 
-            HorizontalOptions="Center"
+    <ScrollView>
+    <VerticalStackLayout Padding="20" Spacing="20">
+
+      <!-- Título principal -->
+      <Label
+        Text="Tu Plan Seguro"
+        FontFamily="BreeSerif-Regular.ttf"
+        FontSize="24"
+        FontAttributes="Bold"
+        HorizontalOptions="Center" />
+
+      <!-- Contenido del plan -->
+      <Frame
+        Margin="0"
+        Padding="15"
+        BorderColor="Gray"
+        CornerRadius="10"
+        HasShadow="True">
+        <VerticalStackLayout Spacing="12">
+
+          <Label
+            Text="1. Reconoce tus emociones"
             FontFamily="BreeSerif-Regular.ttf"
-            FontSize="24"
-        />
-        <Frame 
-            Margin="20"
-            Padding="10"
-            BorderColor="Gray"
-            CornerRadius="10"
-            HasShadow="True">
-            <Label 
-                Text="Ingresa detalles del plan seguro"
-                Margin="20"
-                FontFamily="BreeSerif-Regular.ttf"
-            />            
-        </Frame>
+            FontAttributes="Bold" />
+          <Label
+            Text="Es normal sentirse abrumado. Permítete admitir que ahora tus emociones están muy intensas." />
+
+          <Label
+            Text="2. Vuelve al presente con tu respiración"
+            FontFamily="BreeSerif-Regular.ttf"
+            FontAttributes="Bold" />
+          <Label
+            Text="Inhala contando hasta cuatro, mantén un segundo, exhala contando hasta cuatro y repite tres veces." />
+
+          <Label
+            Text="3. Aterriza en el aquí y ahora"
+            FontFamily="BreeSerif-Regular.ttf"
+            FontAttributes="Bold" />
+          <Label
+            Text="Observa cinco objetos a tu alrededor, toca una superficie cercana y escucha tres sonidos distintos." />
+
+          <Label
+            Text="4. Cuida de ti mismo"
+            FontFamily="BreeSerif-Regular.ttf"
+            FontAttributes="Bold" />
+          <Label
+            Text="Siéntate o recuéstate en un lugar seguro. Hidrátate con agua fresca y abraza algo suave." />
+
+          <Label
+            Text="5. No estás solo"
+            FontFamily="BreeSerif-Regular.ttf"
+            FontAttributes="Bold" />
+          <Label
+            Text="Anota el nombre y número de alguien de confianza, o envía “Necesito una voz amiga ahora”. Busca apoyo profesional si lo necesitas." />
+
+          <Label
+            Text="Prevención del suicidio: *4141"
+            FontFamily="BreeSerif-Regular.ttf"
+            FontAttributes="Bold"
+            TextColor="Red"
+            HorizontalOptions="Center" />
+
+        </VerticalStackLayout>
+      </Frame>
+
     </VerticalStackLayout>
+ </ScrollView>
 </ContentPage>
