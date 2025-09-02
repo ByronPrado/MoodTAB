@@ -6,6 +6,8 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System;
 using System.Collections.ObjectModel;
+using MoodTAB.Services;
+
 
 namespace MoodTAB.ViewModel
 {
@@ -24,21 +26,29 @@ namespace MoodTAB.ViewModel
         private readonly HttpClient _httpClient;
 
         private readonly INotificationManagerService _notificationManager;
+        private readonly IDictationService dictationService;
 
-        public UsuarioExternoViewModel(INotificationManagerService notificationManager)
+        public UsuarioExternoViewModel(INotificationManagerService notificationManager, IDictationService dictationService)
         {
             //Ide = Globals.id_usuario_externo_DB;
             Ide = SecureStorage.GetAsync("externo_id").Result;
+            this.dictationService = dictationService;
             _notificationManager = notificationManager;
             _httpClient = new HttpClient
             {
-                BaseAddress = new Uri("http://10.0.2.2:5051/api/") 
+                BaseAddress = new Uri("http://10.0.2.2:5051/api/")
             };
             // Simulación de cuestionarios (podrías cargarlos desde la API también)
             ListaCuestionarios.Add("Cuestionario 1");
             ListaCuestionarios.Add("Cuestionario 2");
             ListaCuestionarios.Add("Cuestionario 3");
             //CuestionarioTexto = Globals.cuestionario_pendiente ? Globals.cuestionario : "No hay cuestionarios pendientes";
+        }
+
+                [RelayCommand]
+        public async Task DictarDiario()
+        {
+            ComentarioExterno = await dictationService.StartDictationAsync();
         }
 
         [RelayCommand]

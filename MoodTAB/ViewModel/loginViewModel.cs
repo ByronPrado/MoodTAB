@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MoodTAB.Platforms.Android;
 using MoodTAB.Services;
 using MoodTAB.ViewModel;
 using MoodTAB.Vistas;
@@ -14,10 +15,12 @@ namespace MoodTAB.ViewModels
         [ObservableProperty] bool esFamiliar;
 
         private readonly AuthService _authService;
+        private readonly IDictationService dictationService;
 
         public LoginViewModel()
         {
             _authService = new AuthService(); //  aquí podrías inyectar por DI
+            dictationService = new DictationService();
         }
 
         [RelayCommand]
@@ -50,7 +53,7 @@ namespace MoodTAB.ViewModels
                     Console.WriteLine($"[DEBUG] Obtenido idexterno={success.user.IdUsuarioExterno}");
 
                     //await SecureStorage.SetAsync("user_id", success.user.ID_Paciente.ToString());
-                    Application.Current.MainPage = new NavigationPage(new UsuarioExternoPage(notificationManager));
+                    Application.Current.MainPage = new NavigationPage(new UsuarioExternoPage(notificationManager,dictationService));
                 }
                 else
                 {

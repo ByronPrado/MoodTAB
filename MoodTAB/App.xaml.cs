@@ -41,6 +41,7 @@ public partial class App : Application
         Globals.respondido = resp != null && Globals.toBool(resp);
 
         var notificationManager = new NotificationManagerService();
+        var dictationService = new DictationService();
 
         if (!string.IsNullOrEmpty(userId)) // Solo si hay sesión guardada
         {
@@ -50,7 +51,7 @@ public partial class App : Application
             }
             else
             {
-                MainPage = new NavigationPage(new UsuarioExternoPage(notificationManager));
+                MainPage = new NavigationPage(new UsuarioExternoPage(notificationManager,dictationService));
             }
         }
         else

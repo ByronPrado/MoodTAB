@@ -1,5 +1,6 @@
 namespace MoodTAB.Vistas;
 
+using MoodTAB.ViewModel;
 using MoodTAB.ViewModels;
 using MoodTAB.Services;
 #if ANDROID
@@ -16,15 +17,17 @@ public partial class UsuarioExternoPage : ContentPage
 {
 
 	INotificationManagerService notificationManager;
+	IDictationService dictationService;
 	private ViewModel.UsuarioExternoViewModel viewModel;
-	public UsuarioExternoPage(INotificationManagerService manager)
+	public UsuarioExternoPage(INotificationManagerService manager, IDictationService dictation)
 	{
 		InitializeComponent();
-		viewModel = new ViewModel.UsuarioExternoViewModel(manager);
+		viewModel = new UsuarioExternoViewModel(manager, dictation);
 		//viewModel.Navigation = this.Navigation;
 		BindingContext = viewModel;
 
 		notificationManager = manager;
+		dictationService = dictation;
 	}
 		private async void OnLogoutClicked(object sender, EventArgs e)
 		{
