@@ -4,6 +4,7 @@ using MoodTAB.Models;
 using MoodTAB.Vistas;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using MoodTAB.Services;
@@ -55,6 +56,7 @@ namespace MoodTAB.ViewModel
         public long horast = 0;
         public long horasyutu = 0;
         private readonly IStepCounterService stepService;
+        private readonly IDictationService dictationService;
 
         [ObservableProperty]
         string colorFeliz;
@@ -95,9 +97,10 @@ namespace MoodTAB.ViewModel
         [ObservableProperty]
         string colorAnsioso_borde;
 
-        public DiarioViewModel(IStepCounterService stepService)
+        public DiarioViewModel(IStepCounterService stepService, IDictationService dictationService)
         {
             this.stepService = stepService;
+            this.dictationService = dictationService;
             stepService.Start();
 
             DescDia = "";
@@ -358,6 +361,12 @@ namespace MoodTAB.ViewModel
             {
                 Error = e.Message;
             }
+        }
+
+        [RelayCommand]
+        public async Task DictarDiario()
+        {
+            DescDia = await dictationService.StartDictationAsync();
         }
     }
 }

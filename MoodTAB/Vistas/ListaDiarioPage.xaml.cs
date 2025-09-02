@@ -42,7 +42,7 @@ public partial class ListaDiarioPage : ContentPage
     {
         try
         {
-            await Navigation.PushAsync(new DiarioPage(stepService));
+            await Navigation.PushAsync(new DiarioPage());
         }
         catch (Exception ex)
         {
