@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
 using MoodTAB.Vistas;
 using MoodTAB.Services;
+using CommunityToolkit.Maui;
 
 #if ANDROID
 	using MoodTAB.Platforms.Android;
 #endif
-
 
 namespace MoodTAB;
 
@@ -16,6 +16,7 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
+			.UseMauiCommunityToolkit()
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -34,6 +35,7 @@ public static class MauiProgram
 
 #if ANDROID
 		builder.Services.AddSingleton<IStepCounterService, StepCounterService>();
+		builder.Services.AddSingleton<IDictationService, DictationService>();
 		builder.Services.AddTransient<DiarioPage>();
 		builder.Services.AddTransient<ListaDiarioPage>();
 		builder.Services.AddSingleton<INotificationManagerService, NotificationManagerService>();

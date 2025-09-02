@@ -239,6 +239,7 @@
                     Background="red" 
                     Command="{Binding BorrarDiarioCommand}"/>
             <Label Text="{Binding Error}" TextColor="Red" FontSize="14" FontAttributes="Bold" />
+            <Button Text="Dictar Diario" Command="{Binding DictarDiarioCommand}" />
 
         </VerticalStackLayout>
     </ScrollView>

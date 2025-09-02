@@ -20,7 +20,7 @@ namespace MoodTAB.ViewModel
         ObservableCollection<Diario> diarios = new();
 
         [ObservableProperty]
-        ObservableCollection<string> emocionDiaria = new(); 
+        ObservableCollection<string> emocionDiaria = new();
 
         [ObservableProperty]
         ObservableCollection<EmocionItem> listaEmociones = new ObservableCollection<EmocionItem>();
@@ -49,7 +49,7 @@ namespace MoodTAB.ViewModel
         [ObservableProperty]
         double intensidadEmocion = 0.0;
         [ObservableProperty]
-        ObservableCollection<string> emocionesSeleccionadas = []; 
+        ObservableCollection<string> emocionesSeleccionadas = [];
         public List<string> redes =
     [
         "com.whatsapp",                 //whatsapp
@@ -65,12 +65,16 @@ namespace MoodTAB.ViewModel
         public long horasyutu = 0;
         private readonly IStepCounterService stepService;
 
+        private readonly IDictationService dictationService;
+
         [ObservableProperty]
         string test;
 
-        public DiarioViewModel(IStepCounterService stepService)
+        public DiarioViewModel(IStepCounterService stepService, IDictationService dictationService)
         {
             this.stepService = stepService;
+            this.dictationService = dictationService;
+
             stepService.Start();
 
             DescDia = "";
@@ -176,7 +180,7 @@ namespace MoodTAB.ViewModel
             try
             {
                 var main = Application.Current?.MainPage;
-                if (main == null) return; 
+                if (main == null) return;
                 if (EmocionDiaria.Count == 0 || string.IsNullOrWhiteSpace(DescDia))
                 {
                     await main.DisplayAlert("Campos en blanco", "No se puede dejar los campos en blanco", "OK");
@@ -254,6 +258,12 @@ namespace MoodTAB.ViewModel
             {
                 Error = e.Message;
             }
+        }
+        
+        [RelayCommand]
+        public async Task DictarDiario()
+        {
+            DescDia = await dictationService.StartDictationAsync();
         }
     }
 }

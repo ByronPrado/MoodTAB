@@ -3,19 +3,38 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MoodTAB.Vistas.UsuarioExternoPage"
              Title="UsuarioExternoPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+    <ScrollView>
+        <VerticalStackLayout>
+            <Label 
+                Text="Bienvenido {nombre}"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
 
-        <Button Text="🚪 Cerrar Sesión"
-            FontSize="16"
-            FontAttributes="Bold"
-            TextColor="White"
-            BackgroundColor="#6B7280"
-            CornerRadius="25"
-            HeightRequest="50"
-            Clicked="OnLogoutClicked"/>
-    </VerticalStackLayout>
+            <Label
+                Text = "Agrega un Comentario"
+                VerticalOptions="Center"
+                HorizontalOptions ="Center"
+                />
+            
+            <Entry
+                Placeholder ="comentario"
+                VerticalOptions ="Center"
+                HorizontalOptions="Center" 
+                />
+            
+            <Picker
+                Title="Escoge un cuestionario"
+                />
+                
+
+            <Button Text="🚪 Cerrar Sesión"
+                FontSize="16"
+                FontAttributes="Bold"
+                TextColor="White"
+                BackgroundColor="#6B7280"
+                CornerRadius="25"
+                HeightRequest="50"
+                Clicked="OnLogoutClicked"/>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

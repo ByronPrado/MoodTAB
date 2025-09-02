@@ -11,20 +11,24 @@ public partial class DiarioPage : ContentPage
 {
     private DiarioViewModel viewModel;
 
-    public DiarioPage(IStepCounterService stepService)
+    public DiarioPage(IStepCounterService stepService, IDictationService dictationService)
     {
         InitializeComponent();
-        viewModel = new DiarioViewModel(stepService);
+		viewModel = new DiarioViewModel(stepService, dictationService);
         BindingContext = viewModel;
     }
 
-    	protected override void OnAppearing()
-    {
-        base.OnAppearing();
+	// Constructor sin parámetros para Shell/XAML
+    public DiarioPage() : this(
+        IPlatformApplication.Current.Services.GetRequiredService<IStepCounterService>(),
+        IPlatformApplication.Current.Services.GetRequiredService<IDictationService>()) {}
+    protected override void OnAppearing()
+	{
+		base.OnAppearing();
 #if ANDROID
-        SolicitarPermisosAlIniciar();
+		SolicitarPermisosAlIniciar();
 #endif
-    }
+	}
 	private async void SolicitarPermisosAlIniciar()
 	{
 #if ANDROID
