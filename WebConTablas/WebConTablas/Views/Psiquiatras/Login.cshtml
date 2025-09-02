@@ -6,17 +6,15 @@
 
 <h2>Login</h2>
 
-
 <form asp-action="Login" method="post">
     <div>
-        <label for="Usuario">Nombre o Email</label>
-        <input type="text" id="Usuario" name="Usuario" required />
+        <label asp-for="Nombre"></label>
+        <input asp-for="Nombre" />
     </div>
     <div>
-        <label for="Contrasena">Contraseña</label>
-        <input type="password" id="Contrasena" name="Contrasena" required />
+        <label asp-for="Email"></label>
+        <input asp-for="Email" />
     </div>
-    <input type="hidden" name="EsFamiliar" value="false" />
     <button type="submit">Iniciar sesión</button>
 </form>
 
