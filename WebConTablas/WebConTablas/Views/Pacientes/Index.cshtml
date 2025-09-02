@@ -2,140 +2,296 @@
 @using System.Text.Json
 @using System.Collections.Generic
 
-<h2>Pacientes</h2>
-<a href="/Pacientes/Create" class="btn btn-primary mb-3">Agregar Paciente</a>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="@Url.Content("~/css/paciente.css")" />
+</head>
+<body>
+    <div class="main-container">
+        
+        <div class="sidebar">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="mb-0">Lista de Pacientes</h4>
+                <a href="/Pacientes/Create" class="btn btn-primary btn-sm">
+                    <i class="fas fa-plus"></i>
+                </a>
+            </div>
 
-<table class="table table-striped">
-    <thead>
-        <tr><th>Id</th><th>Nombre Completo</th><th>Preguntas</th><th>Acciones</th></tr>
-    </thead>
-    <tbody>
-        @foreach (var c in Model)
-        {
-            <tr>
-                <td>@c.ID_Paciente</td>
-                <td>@c.Nombre</td>
-                <td></td>
-                <td>
-                    <a href="/Pacientes/Edit/@c.ID_Paciente" class="btn btn-warning btn-sm">Editar</a>
-                    <a href="/Pacientes/Delete/@c.ID_Paciente" class="btn btn-danger btn-sm"
-                       onclick="return confirm('¿Seguro que quieres borrar este paciente?');">Borrar</a>
-                    <a href="/Pacientes/Details/@c.ID_Paciente" class="btn btn-info btn-sm">Ver Detalles</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-@foreach(var p in Model)
-{
-    <div class="card mb-3">
-        <div class="card-header">
-            <strong>@p.Nombre</strong> (ID: @p.ID_Paciente) - @p.Diagnostico
-        </div>
-        <div class="card-body">
-            <p><b>Edad:</b> @p.Edad | <b>Sexo:</b> @p.Sexo | <b>Email:</b> @p.Email | <b>Teléfono:</b> @p.Telefono</p>
-            <h5>Diarios emocionales</h5>
-            @if (p.DiariosEmocionales != null && p.DiariosEmocionales.Any())
+            @foreach (var paciente in Model)
             {
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Emociones</th>
-                            <th>Descripción</th>
-                            <th>Pasos</th>
-                            <th>Horas Celular</th>
-                            <th>Horas Redes</th>
-                            <th>Hora Dormida</th>
-                            <th>Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach(var d in p.DiariosEmocionales)
-                        {
-                            <tr>
-                                <td>@d.Fecha.ToShortDateString()</td>
-                                @{
-                                    var emocionesDict = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, int>>(d.Emociones);
-                                }
-                                <td>@string.Join(", ", emocionesDict.Keys)</td>
-                                <td>@d.Descripcion</td>
-                                <td>@d.Pasos</td>
-                                <td>@d.Horas_celular</td>
-                                <td>@d.Horas_redes</td>
-                                <td>@d.Hora_dormida</td>
-                                <td>
-                                    <span class="badge 
-                                        @(d.Estado == "exaltado" ? "bg-success" : d.Estado == "inhibido" ? "bg-danger" : "bg-secondary")">
-                                        @d.Estado
-                                    </span>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            }
-            else
-            {
-                <p class="text-muted">No hay diarios emocionales registrados.</p>
-            }
-            <h5>Formularios respondidos</h5>
-            <ul>
-            @foreach (var fa in p.FormulariosAsignados)
-            {
-                <li>
-                    <b>@fa.Formulario?.Titulo</b> (@fa.Estado) - Asignado: @fa.Fecha_Asignacion.ToShortDateString()
-
-                    @if (fa.Estado == "Listo" && fa.Respuestas.Any())
-                    {
-                        <ul>
-                            @foreach (var r in fa.Respuestas)
-                            {
-                                <li><b>@r.Pregunta?.Contenido:</b> @r.Contenido</li>
-                            }
-                        </ul>
-                    }
-                </li>
-            }
-            </ul>
-            <h5>Usuarios Externos</h5>
-            @if (p.UsuariosExternos != null && p.UsuariosExternos.Any())
-            {
-                <ul class="list-group mb-3">
-                @foreach (var ue in p.UsuariosExternos)
-                {
-                    var collapseId = $"collapseComentarios_{ue.IdUsuarioExterno}";
-                    <li class="list-group-item">
-                        <b>@ue.Nombre</b> (@ue.Parentezco) - <span class="text-muted">@ue.Email</span>
-                        <button class="btn btn-link btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
-                            Ver comentarios
-                        </button>
-                        <div class="collapse mt-2" id="@collapseId">
-                            @if (ue.Comentarios != null && ue.Comentarios.Any())
-                            {
-                                <ul class="list-group">
-                                @foreach (var cmt in ue.Comentarios.OrderByDescending(c => c.Fecha))
-                                {
-                                    <li class="list-group-item">
-                                        <b>@cmt.Fecha.ToString("g"):</b> @cmt.Comentario
-                                    </li>
-                                }
-                                </ul>
-                            }
-                            else
-                            {
-                                <span class="text-muted">No hay comentarios registrados.</span>
-                            }
+                <div class="paciente-card" data-patient-id="@paciente.ID_Paciente" onclick="showPatientDetails(@paciente.ID_Paciente)">
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="img-paciente">MT</div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1">@paciente.Nombre</h6>
                         </div>
-                    </li>
-                }
-                </ul>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="condition-badge condition-@paciente.Diagnostico?.ToLower()">
+                            @paciente.Diagnostico
+                        </span>
+                        <div class="d-flex gap-2">
+                            <span class="text-muted small">Diarios: @(paciente.DiariosEmocionales?.Count() ?? 0)</span>
+                        </div>
+                    </div>
+                </div>
             }
-            else
-            {
-                <p class="text-muted">No hay usuarios externos asociados.</p>
-            }
+        </div>
+
+
+        <div class="content-panel">
+            <div id="patient-details">
+                <div class="detail-card">
+                    <div class="no-data-state">
+                        <i class="fas fa-user"></i>
+                        <h5>Selecciona un paciente</h5>
+                        <p>Haz clic en un paciente de la lista para ver sus detalles</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Store all patient data for client-side access
+        const patientsData = @Html.Raw(JsonSerializer.Serialize(Model.Select(p => new {
+            ID_Paciente = p.ID_Paciente,
+            Nombre = p.Nombre,
+            Edad = p.Edad,
+            Sexo = p.Sexo,
+            Email = p.Email,
+            Telefono = p.Telefono,
+            Diagnostico = p.Diagnostico,
+            DiariosEmocionales = p.DiariosEmocionales?.Select(d => new {
+                Fecha = d.Fecha.ToString("yyyy-MM-dd"),
+                Emociones = d.Emociones,
+                Descripcion = d.Descripcion,
+                Pasos = d.Pasos,
+                Horas_celular = d.Horas_celular,
+                Horas_redes = d.Horas_redes,
+                Hora_dormida = d.Hora_dormida
+            }).ToList(),
+            FormulariosAsignados = p.FormulariosAsignados?.Select(f => new {
+                Estado = f.Estado,
+                Fecha_Asignacion = f.Fecha_Asignacion.ToString("yyyy-MM-dd"),
+                Titulo = f.Formulario?.Titulo ?? "Evaluación inicial"
+            }).ToList(),
+            UsuariosExternos = p.UsuariosExternos?.Select(u => new {
+                Nombre = u.Nombre,
+                Parentezco = u.Parentezco,
+                Email = u.Email,
+                UltimoComentario = u.Comentarios?.OrderByDescending(c => c.Fecha).FirstOrDefault()?.Fecha.ToString("yyyy-MM-dd")
+            }).ToList()
+        })));
+
+        function showPatientDetails(patientId) {
+            // Remove active class from all cards
+            document.querySelectorAll('.paciente-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            // Add active class to clicked card
+            const clickedCard = document.querySelector(`[data-patient-id="${patientId}"]`);
+            if (clickedCard) {
+                clickedCard.classList.add('active');
+            }
+            
+            // Find patient data
+            const patient = patientsData.find(p => p.ID_Paciente === patientId);
+            if (!patient) return;
+            
+            // Update patient details content
+            const detailsContainer = document.getElementById('patient-details');
+            detailsContainer.innerHTML = generatePatientDetailsHTML(patient);
+        }
+
+        function generatePatientDetailsHTML(patient) {
+            const initials = "MT";
+            const diagnosticoClass = patient.Diagnostico ? patient.Diagnostico.toLowerCase() : '';
+            
+            let diariosHTML = '';
+            if (patient.DiariosEmocionales && patient.DiariosEmocionales.length > 0) {
+                diariosHTML = patient.DiariosEmocionales.slice(0, 3).map(diario => {
+                    let emocionesHTML = '';
+                    try {
+                        const emociones = JSON.parse(diario.Emociones);
+                        emocionesHTML = Object.keys(emociones).slice(0, 2).map(emocion => {
+                            const emoji = emocion === 'feliz' ? '😊' : emocion === 'triste' ? '😢' : '😰';
+                            const capitalizedEmocion = emocion.charAt(0).toUpperCase() + emocion.slice(1);
+                            return `<span class="emotion-badge emotion-${emocion.toLowerCase()}">${emoji} ${capitalizedEmocion}</span>`;
+                        }).join('');
+                    } catch (e) {
+                        emocionesHTML = '<span class="emotion-badge">Sin emociones</span>';
+                    }
+                    
+                    const fecha = new Date(diario.Fecha).toLocaleDateString('es-ES');
+                    return `
+                        <div class="emotion-entry">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <span class="fw-medium">${fecha}</span>
+                            </div>
+                            <div class="emotion-badges">${emocionesHTML}</div>
+                            <p class="mb-2 text-muted">"${diario.Descripcion || 'Sin descripción'}"</p>
+                            <div class="metrics-grid">
+                                <div class="metric-item">
+                                    <i class="fas fa-walking text-success"></i>
+                                    <span>${diario.Pasos || 0} pasos</span>
+                                </div>
+                                <div class="metric-item">
+                                    <i class="fas fa-mobile-alt text-primary"></i>
+                                    <span>${diario.Horas_celular || 0}h celular</span>
+                                </div>
+                                <div class="metric-item">
+                                    <i class="fas fa-share-alt text-info"></i>
+                                    <span>${diario.Horas_redes || 0}h redes</span>
+                                </div>
+                                <div class="metric-item">
+                                    <i class="fas fa-moon text-warning"></i>
+                                    <span>${diario.Hora_dormida || 'N/A'} sueño</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                diariosHTML = `
+                    <div class="no-data-state">
+                        <i class="fas fa-heart"></i>
+                        <p>No hay diarios emocionales registrados</p>
+                    </div>
+                `;
+            }
+
+            let formulariosHTML = '';
+            if (patient.FormulariosAsignados && patient.FormulariosAsignados.length > 0) {
+                formulariosHTML = patient.FormulariosAsignados.map(formulario => {
+                    const isCompleted = formulario.Estado === 'Listo';
+                    const fecha = new Date(formulario.Fecha_Asignacion).toLocaleDateString('es-ES');
+                    return `
+                        <div class="form-status-card ${isCompleted ? 'form-completado' : 'form-pendiente'}">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <i class="fas ${isCompleted ? 'fa-check-circle text-success' : 'fa-exclamation-triangle text-warning'} me-2"></i>
+                                    <strong>${formulario.Titulo}</strong>
+                                    <div class="text-muted small mt-1">
+                                        ${isCompleted ? 'Completado' : 'Vence'}: ${fecha}
+                                    </div>
+                                </div>
+                                <span class="badge ${isCompleted ? 'bg-success' : 'bg-warning'}">
+                                    ${isCompleted ? 'Completado' : 'Pendiente'}
+                                </span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                formulariosHTML = `
+                    <div class="no-data-state">
+                        <i class="fas fa-clipboard-list"></i>
+                        <p>No hay formularios asignados</p>
+                    </div>
+                `;
+            }
+
+            let usuariosHTML = '';
+            if (patient.UsuariosExternos && patient.UsuariosExternos.length > 0) {
+                usuariosHTML = patient.UsuariosExternos.map(usuario => {
+                    const userInitials = usuario.Nombre.substring(0, 2).toUpperCase();
+                    const ultimoComentario = usuario.UltimoComentario ? 
+                        `<div class="mt-2"><small class="text-muted">Último comentario: ${new Date(usuario.UltimoComentario).toLocaleDateString('es-ES')}</small></div>` : '';
+                    return `
+                        <div class="external-user-card">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="patient-avatar me-3" style="width: 40px; height: 40px; font-size: 1rem;">
+                                    ${userInitials}
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">${usuario.Nombre}</h6>
+                                    <small class="text-muted">${usuario.Parentezco} - ${usuario.Email}</small>
+                                </div>
+                            </div>
+                            ${ultimoComentario}
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                usuariosHTML = `
+                    <div class="no-data-state">
+                        <i class="fas fa-users"></i>
+                        <p>No hay usuarios externos registrados</p>
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="detail-card">
+                    <div class="img-paciente">MT</div>
+                    <div class="flex-grow-1">
+                        <h3 class="mb-1">${patient.Nombre}</h3>
+                        <p class="mb-0"> 
+                            <span class="condition-badge condition-${diagnosticoClass} ms-2">
+                                ${patient.Diagnostico || 'Sin diagnóstico'}
+                            </span>
+                        </p>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="datos-paciente">
+                                    <span class="info-icon">📅</span>
+                                    <span>${patient.Edad} años</span>
+                                </div>
+                                <div class="datos-paciente">
+                                    <span class="info-icon">👤</span>
+                                    <span>${patient.Sexo}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="datos-paciente">
+                                    <span class="info-icon">✉️</span>
+                                    <span>${patient.Email}</span>
+                                </div>
+                                <div class="datos-paciente">
+                                    <span class="info-icon">📞</span>
+                                    <span>${patient.Telefono}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+
+                <div class="detail-card">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0">Diarios Emocionales</h5>
+                        <a href="/Pacientes/Details/${patient.ID_Paciente.toString()}" class="text-primary text-decoration-none">Ver todos</a>
+                    </div>
+                    ${diariosHTML}
+                </div>
+
+                <div class="detail-card">
+                    <h5 class="mb-3">Formularios</h5>
+                    ${formulariosHTML}
+                </div>
+
+                <div class="detail-card">
+                    <h5 class="mb-3">Usuarios Externos</h5>
+                    ${usuariosHTML}
+                </div>
+            `;
+        }
+
+        // Auto-select first patient on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            if (patientsData.length > 0) {
+                showPatientDetails(patientsData[0].ID_Paciente);
+            }
+        });
+    </script>
+</body>
+</html>
