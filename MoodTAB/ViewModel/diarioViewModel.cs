@@ -217,7 +217,7 @@ namespace MoodTAB.ViewModel
                     Fecha = DateTime.UtcNow
                 };
 
-                var url = "http://10.0.2.2:5051/api/DiarioEmocional";
+                var url = $"{Globals.direccion_ngrok}api/DiarioEmocional";
                 var json = JsonSerializer.Serialize(payload);
                 var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 

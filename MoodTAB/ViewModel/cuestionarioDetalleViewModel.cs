@@ -78,7 +78,7 @@ namespace MoodTAB.ViewModel
                 var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
                 using var client = new HttpClient();
-                var response = await client.PostAsync("http://10.0.2.2:5051/api/formulario/responder", content);
+                var response = await client.PostAsync($"{Globals.direccion_ngrok}api/formulario/responder", content);
 
                 await MainThread.InvokeOnMainThreadAsync(async () =>
                 {

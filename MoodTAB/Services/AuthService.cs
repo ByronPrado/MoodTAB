@@ -12,7 +12,7 @@ namespace MoodTAB.Services
         {
             _httpClient = new HttpClient
             {
-                BaseAddress = new Uri("http://10.0.2.2:5051/api/") // emulador Android
+                BaseAddress = new Uri($"{Globals.direccion_ngrok}api/") // emulador Android
             };
         }
 

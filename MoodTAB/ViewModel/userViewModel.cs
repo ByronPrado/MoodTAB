@@ -46,7 +46,7 @@ namespace MoodTAB.ViewModel
         public async Task GuardarCambios()
         {
             var httpClient = new HttpClient();
-            var url = "http://10.0.2.2:5051/api/apipacientesedit/" + SecureStorage.GetAsync("user_id").Result;
+            var url = $"{Globals.direccion_ngrok}api/apipacientesedit/" + SecureStorage.GetAsync("user_id").Result;
             var payload = new
             {
                 nombre = Nombre,

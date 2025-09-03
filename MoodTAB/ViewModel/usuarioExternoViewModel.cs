@@ -36,7 +36,7 @@ namespace MoodTAB.ViewModel
             _notificationManager = notificationManager;
             _httpClient = new HttpClient
             {
-                BaseAddress = new Uri("http://10.0.2.2:5051/api/")
+                BaseAddress = new Uri($"{Globals.direccion_ngrok}api/")
             };
             // Simulación de cuestionarios (podrías cargarlos desde la API también)
             ListaCuestionarios.Add("Cuestionario 1");

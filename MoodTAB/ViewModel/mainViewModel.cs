@@ -79,7 +79,7 @@ namespace MoodTAB.ViewModel
                 {
                     Timeout = TimeSpan.FromSeconds(10)
                 };
-                var url = "http://10.0.2.2:5051/api/pacientes";
+                var url = $"{Globals.direccion_ngrok}api/pacientes";
                 return await client.GetStringAsync(url);
             }
             catch (TaskCanceledException ex)
@@ -137,7 +137,7 @@ namespace MoodTAB.ViewModel
             try
             {
                 var notif = SecureStorage.GetAsync("notif_c").Result;
-                var url = $"http://10.0.2.2:5051/api/formulario/{Globals.id_paciente_DB}";
+                var url = $"{Globals.direccion_ngrok}api/formulario/{Globals.id_paciente_DB}";
                 using var client = new HttpClient()
                 {
                     Timeout = TimeSpan.FromSeconds(10)
