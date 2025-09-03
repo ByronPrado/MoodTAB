@@ -5,6 +5,18 @@
 <h2>Pacientes</h2>
 <a href="/Pacientes/Create" class="btn btn-primary mb-3">Agregar Paciente</a>
 
+@if (ViewBag.Alertas != null && ((List<string>)ViewBag.Alertas).Any())
+{
+    <div class="alert alert-warning">
+        <ul>
+        @foreach (var alerta in (List<string>)ViewBag.Alertas)
+        {
+            <li>@Html.Raw(alerta)</li>
+        }
+        </ul>
+    </div>
+}
+
 <table class="table table-striped">
     <thead>
         <tr><th>Id</th><th>Nombre Completo</th><th>Preguntas</th><th>Acciones</th></tr>
