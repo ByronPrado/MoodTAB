@@ -21,21 +21,32 @@ public class PsiquiatrasController : Controller
 
     // POST: Psiquiatras/Login
     [HttpPost]
-    public IActionResult Login(Psiquiatra model)
+    public IActionResult Login(string usuario, string contrasena)
     {
+        if (string.IsNullOrWhiteSpace(usuario) || string.IsNullOrWhiteSpace(contrasena))
+        {
+            ViewBag.Error = "Debes ingresar usuario y contraseña.";
+            return View();
+        }
+
+        var usuarioInput = usuario.Trim().ToLower();
+        var contrasenaInput = contrasena.Trim();
+
         var psiquiatra = _context.Psiquiatras
-            .FirstOrDefault(p => p.Nombre == model.Nombre && p.Email == model.Email);
+        .FirstOrDefault(p =>
+            (p.Nombre != null && p.Nombre.Trim().ToLower() == usuarioInput ||
+             p.Email != null && p.Email.Trim().ToLower() == usuarioInput)
+            && (p.Contrasena != null && p.Contrasena.Trim() == contrasenaInput)
+        );
 
         if (psiquiatra != null)
         {
-            // Autenticación exitosa: redirigir a otra vista (ej. Index)
             HttpContext.Session.SetInt32("PsiquiatraId", psiquiatra.ID_Psiquiatra);
             return RedirectToAction("Index", "Pacientes");
         }
         else
         {
-            // Falla de login
-            ViewBag.Error = "Nombre o correo incorrectos.";
+            ViewBag.Error = "Usuario o contraseña incorrectos.";
             return View();
         }
     }

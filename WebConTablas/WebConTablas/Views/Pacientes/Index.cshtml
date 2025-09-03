@@ -83,10 +83,15 @@
                 Titulo = f.Formulario?.Titulo ?? "Evaluación inicial"
             }).ToList(),
             UsuariosExternos = p.UsuariosExternos?.Select(u => new {
+                IdUsuarioExterno = u.IdUsuarioExterno,
                 Nombre = u.Nombre,
                 Parentezco = u.Parentezco,
                 Email = u.Email,
-                UltimoComentario = u.Comentarios?.OrderByDescending(c => c.Fecha).FirstOrDefault()?.Fecha.ToString("yyyy-MM-dd")
+                UltimoComentario = u.Comentarios?.OrderByDescending(c => c.Fecha).FirstOrDefault()?.Fecha.ToString("yyyy-MM-dd"),
+                Comentarios = u.Comentarios?.Select(c => new {
+                    Fecha = c.Fecha.ToString("g"),
+                    Comentario = c.Comentario
+                }).OrderByDescending(c => c.Fecha).ToList()
             }).ToList()
         })));
 
@@ -203,20 +208,42 @@
             if (patient.UsuariosExternos && patient.UsuariosExternos.length > 0) {
                 usuariosHTML = patient.UsuariosExternos.map(usuario => {
                     const userInitials = usuario.Nombre.substring(0, 2).toUpperCase();
+                    const collapseId = `collapseComentarios_${usuario.IdUsuarioExterno}`;
                     const ultimoComentario = usuario.UltimoComentario ? 
                         `<div class="mt-2"><small class="text-muted">Último comentario: ${new Date(usuario.UltimoComentario).toLocaleDateString('es-ES')}</small></div>` : '';
+                    
+                    let comentariosHTML = '';
+                    if (usuario.Comentarios && usuario.Comentarios.length > 0) {
+                        comentariosHTML = usuario.Comentarios.map(comentario => `
+                            <li class="list-group-item">
+                                <strong>${comentario.Fecha}:</strong> ${comentario.Comentario}
+                            </li>
+                        `).join('');
+                        comentariosHTML = `<ul class="list-group">${comentariosHTML}</ul>`;
+                    } else {
+                        comentariosHTML = '<span class="text-muted">No hay comentarios registrados.</span>';
+                    }
+                    
                     return `
                         <div class="external-user-card">
-                            <div class="d-flex align-items-center mb-2">
-                                <div class="patient-avatar me-3" style="width: 40px; height: 40px; font-size: 1rem;">
-                                    ${userInitials}
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <div class="d-flex align-items-center">
+                                    <div class="patient-avatar me-3" style="width: 40px; height: 40px; font-size: 1rem;">
+                                        ${userInitials}
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">${usuario.Nombre}</h6>
+                                        <small class="text-muted">${usuario.Parentezco} - ${usuario.Email}</small>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h6 class="mb-0">${usuario.Nombre}</h6>
-                                    <small class="text-muted">${usuario.Parentezco} - ${usuario.Email}</small>
-                                </div>
+                                <button class="btn btn-link btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="false" aria-controls="${collapseId}">
+                                    Ver comentarios
+                                </button>
                             </div>
                             ${ultimoComentario}
+                            <div class="collapse mt-2" id="${collapseId}">
+                                ${comentariosHTML}
+                            </div>
                         </div>
                     `;
                 }).join('');
