@@ -122,52 +122,53 @@
 
         @if (Model.DiariosEmocionales != null && Model.DiariosEmocionales.Any())
         {
-            <table class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Emociones</th>
-                        <th>Descripción</th>
-                        <th>Pasos</th>
-                        <th>Horas Celular</th>
-                        <th>Horas Redes</th>
-                        <th>Hora Dormida</th>
-                        <th>Estado</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var d in Model.DiariosEmocionales.OrderByDescending(d => d.Fecha))
-                    {
-                        <tr>
-                            <td>@d.Fecha.ToShortDateString()</td>
-                            @{
-                                string emocionesStr = "N/A";
-                                try
-                                {
-                                    if (!string.IsNullOrEmpty(d.Emociones))
-                                    {
-                                        var emocionesDict = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, int>>(d.Emociones);
-                                        emocionesStr = string.Join(", ", emocionesDict.Keys);
-                                    }
-                                }
-                                catch { }
+            @foreach (var d in Model.DiariosEmocionales.OrderByDescending(d => d.Fecha))
+            {
+                <div class="emotion-entry">
+                    @{
+                        string emocionesStr = "N/A";
+                        try
+                        {
+                            if (!string.IsNullOrEmpty(d.Emociones))
+                            {
+                                var emocionesDict = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, int>>(d.Emociones);
+                                emocionesStr = string.Join(", ", emocionesDict.Keys);
                             }
-                            <td>@emocionesStr</td>
-                            <td>@d.Descripcion</td>
-                            <td>@d.Pasos</td>
-                            <td>@d.Horas_celular</td>
-                            <td>@d.Horas_redes</td>
-                            <td>@d.Hora_dormida</td>
-                            <td>
-                                <span class="badge 
-                                    @(d.Estado == "exaltado" ? "bg-success" : d.Estado == "inhibido" ? "bg-danger" : "bg-secondary")">
-                                    @d.Estado
-                                </span>
-                            </td>
-                        </tr>
+                        }
+                        catch { }
                     }
-                </tbody>
-            </table>
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="fw-medium">@d.Fecha.ToShortDateString()</span>
+                    </div>
+                    <div class="emotion-badges">@emocionesStr</div>
+                    <p class="mb-2 text-muted">@d.Descripcion</p>
+                    <div class="metrics-grid">
+                        <div class="metric-item">
+                            <i class="fas fa-walking text-success"></i>
+                            <span>@d.Pasos pasos</span>
+                        </div>
+                        <div class="metric-item">
+                            <i class="fas fa-mobile-alt text-primary"></i>
+                            <span>@d.Horas_celular horas de celular</span>
+                        </div>
+                        <div class="metric-item">
+                            <i class="fas fa-share-alt text-info"></i>
+                            <span>@d.Horas_redes horas redes sociales</span>
+                        </div>
+                        <div class="metric-item">
+                            <i class="fas fa-moon text-warning"></i>
+                            <span>@d.Hora_dormida horas dormidas</span>
+                        </div>
+                        <div class="metric-item">
+                            <i class="fas fa-moon text-warning"></i>
+                            <span class="badge 
+                                @(d.Estado == "exaltado" ? "bg-success" : d.Estado == "inhibido" ? "bg-danger" : "bg-secondary")">
+                                @d.Estado
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            }
         }
         else
         {

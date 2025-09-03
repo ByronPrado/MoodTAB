@@ -3,23 +3,27 @@
 @{
     ViewData["Title"] = "Login";
 }
+<link rel="stylesheet" href="@Url.Content("~/css/site.css")" />
 
-<h2>Login</h2>
+<div class="center-card">
+    <h2 class="formtitulo">Login</h2>
+    <form asp-action="Login" method="post">
+        <div>
+            <label class="formsubtitulo" for="Usuario">Nombre o Email</label>
+            <input type="text" id="Usuario" name="Usuario" required class="input-login"/>
+        </div>
+        <div>
+            <label class="formsubtitulo" for="Contrasena">Contraseña</label>
+            <input type="password" id="Contrasena" name="Contrasena" required class="input-login"/>
+        </div>
+        <input type="hidden" name="EsFamiliar" value="false" />
+        <button class="botonenviar" type="submit">Iniciar sesión</button>
+    </form>
 
-<form asp-action="Login" method="post">
-    <div>
-        <label for="Usuario">Nombre o Email</label>
-        <input type="text" id="Usuario" name="Usuario" required />
-    </div>
-    <div>
-        <label for="Contrasena">Contraseña</label>
-        <input type="password" id="Contrasena" name="Contrasena" required />
-    </div>
-    <input type="hidden" name="EsFamiliar" value="false" />
-    <button type="submit">Iniciar sesión</button>
-</form>
+    @if (ViewBag.Error != null)
+    {
+        <p style="color:red">@ViewBag.Error</p>
+    }
+</div>
 
-@if (ViewBag.Error != null)
-{
-    <p style="color:red">@ViewBag.Error</p>
-}
+

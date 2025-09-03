@@ -11,8 +11,19 @@ public class FormulariosController : Controller
 
     public IActionResult Create()
     {
-        ViewBag.Psiquiatras = _context.Psiquiatras.ToList();
-        return View();
+        
+        var psiquiatraId = HttpContext.Session.GetInt32("PsiquiatraId");
+        if (psiquiatraId == null)
+        {
+
+            return RedirectToAction("Login", "Psiquiatras");
+        }
+        var formulario = new Formulario
+        {
+            ID_Psiquiatra = psiquiatraId.Value
+        };
+
+        return View(formulario);
     }
     
     public async Task<IActionResult> Details(int? id)
