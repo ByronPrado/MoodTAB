@@ -4,7 +4,6 @@
              xmlns:viewModel="clr-namespace:MoodTAB.ViewModel" 
              x:Class="MoodTAB.Vistas.MainPage"
              NavigationPage.HasNavigationBar="False">
-
     <Grid>
         
         <!-- Contenido principal -->
@@ -35,6 +34,7 @@
                                TextColor="#FF9B9B9B"
                                Grid.Row="1"/>
                         <Label Text="{Binding TitleApi}"
+                            IsVisible ="false"
                                Grid.Row="2"/>
                     </Grid>
                 </Frame>
@@ -116,14 +116,17 @@
                        FontSize="20"
                        FontAttributes="Bold"
                        TextColor="Gray"
-                       Margin="0,20,0,0"/>
+                       Margin="0,20,0,0"
+                       IsVisible="False"/>
                 <Button Text="Test"
                         Command="{Binding MovetoPageCommand}"
                         CommandParameter="TestPage"
-                        BackgroundColor="Red"/>
+                        BackgroundColor="Red"
+                        IsVisible="False"/>
                 <Button Text="Probar Notificación"
                         Clicked="NotificationClick"
-                        BackgroundColor="#68ACD5"/>
+                        BackgroundColor="#68ACD5"
+                        IsVisible="False"/>
             </VerticalStackLayout>
         </ScrollView>
 

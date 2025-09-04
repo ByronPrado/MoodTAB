@@ -2,20 +2,58 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MoodTAB.Vistas.LoginPage"
-             Title="LoginPage">
-    <ScrollView>
+             NavigationPage.HasNavigationBar="False">
+    <ScrollView BackgroundColor="#FFF3F3FF">
         <VerticalStackLayout Padding="30" Spacing="15">
-            <Label Text="MoodTAB - Iniciar Sesión" FontSize="24" HorizontalOptions="Center"/>
+            <Image Source="moodtablogo.png"/>
+            <Frame CornerRadius="12"
+                Padding="15"
+                BackgroundColor="#FFFCFCFC"
+                BorderColor="#0C000000"
+                HorizontalOptions ="Center"
+                VerticalOptions ="Center">
+                <Grid
+                    ColumnSpacing="0"
+                    RowSpacing="10"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Center"
+                    RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
+                    <Label Text="Iniciar Sesión"
+                            Grid.Row="0"
+                            FontSize="20"
+                            FontFamily="BreeSerif-Regular.ttf"
+                            FontAttributes="Bold"
+                            TextColor="#FF141414"/>
+                    <Label Text="Ingresa tu Correo y Clave"
+                            FontSize="14"
+                            FontFamily="BreeSerif-Regular.ttf"
+                            TextColor="#FF9B9B9B"
+                            Grid.Row="1"/>
+                    <Entry Placeholder="Nombre"
+                        Text="{Binding Nombre}"
+                        FontFamily="BreeSerif-Regular.ttf"
+                        Grid.Row="2" />
+                    <Entry Placeholder="Email"
+                        FontFamily="BreeSerif-Regular.ttf" 
+                        Text="{Binding Email}"
+                        Grid.Row="3"
+                        />
+                    <HorizontalStackLayout Grid.Row ="4">
+                        <CheckBox IsChecked="{Binding EsFamiliar}" />
+                        <Label Text="Soy Familiar / Tutor / Externo"                            
+                            FontFamily="BreeSerif-Regular.ttf" 
+                            VerticalOptions="Center"
+                        />
+                    </HorizontalStackLayout>
+                    <Button Text="Ingresar"
+                         Command="{Binding LoginCommand}" 
+                         Grid.Row="5"/>
+                </Grid>
+            </Frame>
 
-            <Label Text="{Binding LogsMessage}" TextColor="Blue" FontSize="14" HorizontalOptions="Center"/>
+            <Label IsVisible="False" Text="{Binding LogsMessage}" TextColor="Blue" FontSize="14" HorizontalOptions="Center"/>
 
-            <Entry Placeholder="Nombre" Text="{Binding Nombre}" />
-            <Entry Placeholder="Email" Text="{Binding Email}" />
-            <HorizontalStackLayout>
-                <CheckBox IsChecked="{Binding EsFamiliar}" />
-                <Label Text="Soy familiar/tutor/externo" VerticalOptions="Center"/>
-            </HorizontalStackLayout>
-            <Button Text="Ingresar" Command="{Binding LoginCommand}" />
+
 
             <Label Text="{Binding ErrorMessage}" TextColor="Red" />
         </VerticalStackLayout>
