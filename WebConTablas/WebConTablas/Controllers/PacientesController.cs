@@ -36,6 +36,27 @@ public class PacientesController : Controller
             .ThenInclude(ue => ue.Comentarios)
         .ToListAsync();
 
+        // --- Lógica de alerta por estado exaltado/inhibido 3 días o más ---
+        var alertas = new List<string>();
+        foreach (var paciente in pacientes)
+        {
+            // Toma los últimos 7 diarios emocionales (o los que haya)
+            var ultimosDiarios = paciente.DiariosEmocionales
+                .OrderByDescending(d => d.Fecha)
+                .Take(7)
+                .ToList();
+
+            // Cuenta días con estado "exaltado" o "inhibido"
+            int diasAlterados = ultimosDiarios
+                .Count(d => d.Estado == "exaltado" || d.Estado == "inhibido");
+
+            if (diasAlterados >= 2)
+            {
+                alertas.Add($"El paciente <b>{paciente.Nombre}</b> lleva {diasAlterados} días en estado <b>exaltado</b> o <b>inhibido</b>.");
+            }
+        }
+        ViewBag.Alertas = alertas;
+
         return View(pacientes);
     }
 

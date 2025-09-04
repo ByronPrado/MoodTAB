@@ -3,19 +3,266 @@
     var preguntas = ViewBag.Preguntas as List<WebConTablas.Models.Pregunta>;
 }
 
-<h2>Asignar preguntas a formulario: @formulario.Titulo</h2>
-<form asp-action="Asignar" method="post">
-    <input type="hidden" name="id" value="@formulario.ID_Formulario" />
-    <div class="form-group">
-        @foreach (var pregunta in preguntas)
-        {
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="preguntasSeleccionadas" value="@pregunta.ID_Pregunta" id="pregunta_@pregunta.ID_Pregunta" />
-                <label class="form-check-label" for="pregunta_@pregunta.ID_Pregunta">
-                    @pregunta.Contenido
-                </label>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asignar Preguntas - @formulario.Titulo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="@Url.Content("~/css/asignar.css")" />
+</head>
+<body>
+    <div class="main-container">
+        <!-- Header -->
+        <div class="header-card">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h2 class="mb-1">
+                        <i class="fas fa-clipboard-list text-primary me-2"></i>
+                        Asignar Preguntas
+                    </h2>
+                    <p class="text-muted mb-0">Formulario: <strong>@formulario.Titulo</strong></p>
+                </div>
+                <a asp-action="Index" asp-controller="Formularios" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-1"></i> Volver
+                </a>
             </div>
-        }
+        </div>
+
+        <!-- Main Content -->
+        <div class="content-grid">
+            <!-- Available Questions Panel -->
+            <div class="questions-panel">
+                <h5 class="mb-3">
+                    <i class="fas fa-question-circle text-primary me-2"></i>
+                    Preguntas Disponibles
+                </h5>
+                <p class="text-muted small mb-3">Haz clic en una pregunta para agregarla al formulario</p>
+                
+                <div id="available-questions">
+                    @if (preguntas != null && preguntas.Any())
+                    {
+                        @foreach (var pregunta in preguntas)
+                        {
+                            <div class="question-item" data-id="@pregunta.ID_Pregunta" onclick="addQuestion(@pregunta.ID_Pregunta, '@Html.Raw(Html.Encode(pregunta.Contenido))')">
+                                <div class="d-flex align-items-start">
+                                    <i class="fas fa-plus-circle text-success me-2 mt-1"></i>
+                                    <div class="flex-grow-1">
+                                        <p class="mb-1">@pregunta.Contenido</p>
+                                        <small class="text-muted">ID: @pregunta.ID_Pregunta</small>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="empty-state">
+                            <i class="fas fa-check-circle text-success"></i>
+                            <p>Todas las preguntas han sido asignadas</p>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Selected Questions Panel -->
+            <div class="selected-panel">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0">
+                        <i class="fas fa-list-ol text-primary me-2"></i>
+                        Preguntas Seleccionadas
+                    </h5>
+                    <span class="badge bg-primary" id="question-count">0</span>
+                </div>
+                <p class="text-muted small mb-3">Arrastra las preguntas para cambiar su orden</p>
+
+                <div id="selected-questions">
+                    <div class="empty-state" id="empty-message">
+                        <i class="fas fa-mouse-pointer"></i>
+                        <p>Selecciona preguntas de la lista para comenzar</p>
+                    </div>
+                </div>
+
+                <!-- Form -->
+                <form asp-action="Asignar" method="post" id="assign-form" style="display: none;">
+                    <input type="hidden" name="id" value="@formulario.ID_Formulario" />
+                    <div id="hidden-inputs"></div>
+                    
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-save me-2"></i>
+                            Asignar Preguntas al Formulario
+                        </button>
+                        <button type="button" class="btn btn-outline-danger" onclick="clearAll()">
+                            <i class="fas fa-trash me-2"></i>
+                            Limpiar Selección
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-    <button type="submit" class="btn btn-primary mt-2">Asignar</button>
-</form>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <script>
+        let selectedQuestions = [];
+        let sortable;
+
+        // Initialize sortable functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const selectedContainer = document.getElementById('selected-questions');
+            sortable = Sortable.create(selectedContainer, {
+                animation: 150,
+                ghostClass: 'sortable-ghost',
+                chosenClass: 'sortable-chosen',
+                onEnd: function(evt) {
+                    updateQuestionOrder();
+                }
+            });
+        });
+
+        function addQuestion(id, content) {
+            // Check if question is already selected
+            if (selectedQuestions.find(q => q.id === id)) {
+                return;
+            }
+
+            // Add to selected questions
+            selectedQuestions.push({ id: id, content: content });
+
+            // Hide from available questions
+            const questionItem = document.querySelector(`[data-id="${id}"]`);
+            if (questionItem) {
+                questionItem.style.display = 'none';
+            }
+
+            updateSelectedQuestionsDisplay();
+            updateForm();
+        }
+
+        function removeQuestion(id) {
+            // Remove from selected questions
+            selectedQuestions = selectedQuestions.filter(q => q.id !== id);
+
+            // Show in available questions
+            const questionItem = document.querySelector(`[data-id="${id}"]`);
+            if (questionItem) {
+                questionItem.style.display = 'block';
+            }
+
+            updateSelectedQuestionsDisplay();
+            updateForm();
+        }
+
+        function updateSelectedQuestionsDisplay() {
+            const container = document.getElementById('selected-questions');
+            const emptyMessage = document.getElementById('empty-message');
+            const questionCount = document.getElementById('question-count');
+
+            if (selectedQuestions.length === 0) {
+                container.innerHTML = '<div class="empty-state" id="empty-message"><i class="fas fa-mouse-pointer"></i><p>Selecciona preguntas de la lista para comenzar</p></div>';
+                questionCount.textContent = '0';
+                return;
+            }
+
+            let html = '';
+            selectedQuestions.forEach((question, index) => {
+                html += `
+                    <div class="selected-question" data-id="${question.id}">
+                        <i class="fas fa-grip-vertical drag-handle"></i>
+                        <button type="button" class="remove-btn" onclick="removeQuestion(${question.id})">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <div class="question-content">
+                            <div class="d-flex align-items-start">
+                                <div class="flex-grow-1">
+                                    <p class="mb-1">${question.content}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+            questionCount.textContent = selectedQuestions.length;
+
+            // Reinitialize sortable
+            if (sortable) {
+                sortable.destroy();
+            }
+            sortable = Sortable.create(container, {
+                animation: 150,
+                ghostClass: 'sortable-ghost',
+                chosenClass: 'sortable-chosen',
+                onEnd: function(evt) {
+                    updateQuestionOrder();
+                }
+            });
+        }
+
+        function updateQuestionOrder() {
+            const questionElements = document.querySelectorAll('.selected-question');
+            const newOrder = [];
+            
+            questionElements.forEach((element, index) => {
+                const id = parseInt(element.getAttribute('data-id'));
+                const question = selectedQuestions.find(q => q.id === id);
+                if (question) {
+                    newOrder.push(question);
+                }
+            });
+            
+            selectedQuestions = newOrder;
+            updateSelectedQuestionsDisplay();
+            updateForm();
+        }
+
+        function updateForm() {
+            const form = document.getElementById('assign-form');
+            const hiddenInputs = document.getElementById('hidden-inputs');
+
+            if (selectedQuestions.length === 0) {
+                form.style.display = 'none';
+                return;
+            }
+
+            form.style.display = 'block';
+
+            // Clear existing hidden inputs
+            hiddenInputs.innerHTML = '';
+
+            // Add hidden inputs for each selected question in order
+            selectedQuestions.forEach((question, index) => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'preguntasOrdenadas';
+                input.value = question.id;
+                hiddenInputs.appendChild(input);
+            });
+        }
+
+        function clearAll() {
+            if (selectedQuestions.length === 0) return;
+            
+            if (confirm('¿Estás seguro de que quieres limpiar toda la selección?')) {
+                // Show all hidden questions
+                selectedQuestions.forEach(question => {
+                    const questionItem = document.querySelector(`[data-id="${question.id}"]`);
+                    if (questionItem) {
+                        questionItem.style.display = 'block';
+                    }
+                });
+
+                selectedQuestions = [];
+                updateSelectedQuestionsDisplay();
+                updateForm();
+            }
+        }
+    </script>
+</body>
+</html>

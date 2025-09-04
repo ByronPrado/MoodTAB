@@ -1,24 +1,203 @@
 @model IEnumerable<WebConTablas.Models.Pregunta>
-<h2>Preguntas</h2>
-<a asp-action="Create" class="btn btn-primary mb-3">Nueva Pregunta</a>
-<table class="table">
-    <thead>
-        <tr><th>ID</th><th>Contenido</th><th>Tipo</th><th>Creada</th><th>Acciones</th></tr>
-    </thead>
-    <tbody>
-    @foreach(var p in Model)
-    {
-        <tr>
-            <td>@p.ID_Pregunta</td>
-            <td>@p.Contenido</td>
-            <td>@p.Tipo</td>
-            <td>@p.Created_at</td>
-            <td>
-                <form asp-action="Delete" asp-route-id="@p.ID_Pregunta" method="post" style="display:inline;">
-                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar esta pregunta?');">Eliminar</button>
-                </form>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+@using System.Text.Json
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Preguntas - MindCare Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="@Url.Content("~/css/preguntas.css")" />
+</head>
+<body>
+    <div class="main-container">
+        <!-- Sidebar with Questions List -->
+        <div class="sidebar">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="mb-0">
+                    Preguntas
+                </h4>
+                <a asp-action="Create" class="btn btn-primary btn-sm">
+                    <i class="fas fa-plus"></i> Agregar pregunta
+                </a>
+            </div>
+
+            <!-- Search Box -->
+            <div class="search-box">
+                <input type="text" class="form-control" placeholder="Buscar preguntas..." id="searchInput" onkeyup="filterQuestions()">
+                <i class="fas fa-search"></i>
+            </div>
+
+            <!-- Questions List -->
+            <div id="questions-list">
+                @foreach (var pregunta in Model)
+                {
+                    <div class="pregunta-card" data-question-id="@pregunta.ID_Pregunta" onclick="showQuestionDetails(@pregunta.ID_Pregunta)">
+                        <div class="d-flex align-items-start mb-2">
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">@pregunta.Contenido</h6>
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="tipo-badge tipo-@(pregunta.Tipo?.ToLower() ?? "texto")">
+                                        @(pregunta.Tipo ?? "Texto")
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <small class="text-muted">
+                                <i class="fas fa-calendar-alt me-1"></i>
+                                Creada: @(pregunta.Created_at?.ToString("dd/MM/yyyy") ?? "N/A")
+                            </small>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            @if (!Model.Any())
+            {
+                <div class="no-data-state">
+                    <i class="fas fa-question-circle"></i>
+                    <h5>No hay preguntas</h5>
+                    <p>Comienza creando tu primera pregunta</p>
+                    <a asp-action="Create" class="btn btn-primary">
+                        <i class="fas fa-plus me-1"></i> Crear Primera Pregunta
+                    </a>
+                </div>
+            }
+        </div>
+
+        <!-- Main Content Panel -->
+        <div class="content-panel">
+            <div id="question-details">
+                <div class="detail-card">
+                    <div class="no-data-state">
+                        <i class="fas fa-question-circle"></i>
+                        <h5>Selecciona una pregunta</h5>
+                        <p>Haz clic en una pregunta de la lista para ver sus detalles y opciones</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const antiForgeryToken = '@Html.AntiForgeryToken()'.match(/value="([^"]+)"/)[1];
+        
+        // Store all questions data for client-side access
+        const questionsData = @Html.Raw(JsonSerializer.Serialize(Model.Select(p => new {
+            ID_Pregunta = p.ID_Pregunta,
+            Contenido = p.Contenido,
+            Opciones = p.OpcionesSeleccion?.Split(','),
+            EscalaMin = p.EscalaMin,
+            EscalaMax = p.EscalaMax,
+            Tipo = p.Tipo,
+            Created_at = p.Created_at?.ToString("dd/MM/yyyy HH:mm") ?? "N/A"
+        })));
+
+        const urls = {
+            edit: '@Url.Action("Edit", "Preguntas")',
+            delete: '@Url.Action("Delete", "Preguntas")',
+            create: '@Url.Action("Create", "Preguntas")'
+        };
+
+        function showQuestionDetails(questionId) {
+            // Remove active class from all cards
+            document.querySelectorAll('.pregunta-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            // Add active class to clicked card
+            const clickedCard = document.querySelector(`[data-question-id="${questionId}"]`);
+            if (clickedCard) {
+                clickedCard.classList.add('active');
+            }
+            
+            // Find question data
+            const question = questionsData.find(q => q.ID_Pregunta === questionId);
+            if (!question) return;
+            
+            // Update question details content
+            const detailsContainer = document.getElementById('question-details');
+            detailsContainer.innerHTML = generateQuestionDetailsHTML(question);
+        }
+
+        function generateQuestionDetailsHTML(question) {
+            const tipoClass = `tipo-${(question.Tipo || 'texto').toLowerCase()}`;
+            
+            return `
+                <div class="detail-card">
+                    <div class="pregunta-header">
+                        <div class="flex-grow-1">
+                            <h3 class="mb-1">${question.Contenido}</h3>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <form action="${urls.delete}/${question.ID_Pregunta}" method="post" style="display:inline;">
+                                <input type="hidden" name="__RequestVerificationToken" value="${antiForgeryToken}" />
+                                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('¿Seguro que deseas eliminar esta pregunta?');">
+                                    <i class="fas fa-trash"></i> Eliminar
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Tipo de Pregunta</div>
+                            <div class="info-value">${question.Tipo || 'Texto'}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Fecha de Creación</div>
+                            <div class="info-value">${question.Created_at}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="detail-card ${question.Tipo == "Escala"  ? ' ' : 'hidden'}">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Escala Minima</div>
+                            <div class="info-value">${question.EscalaMin}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Escala Máxima</div>
+                            <div class="info-value">${question.EscalaMax}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-card ${question.Tipo == "Seleccion"  ? ' ' : 'hidden'}">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Opciones</div>
+                            <div class="info-value">${question.Opciones}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function filterQuestions() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const questionCards = document.querySelectorAll('.pregunta-card');
+            
+            questionCards.forEach(card => {
+                const content = card.textContent.toLowerCase();
+                if (content.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Auto-select first question on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            if (questionsData.length > 0) {
+                showQuestionDetails(questionsData[0].ID_Pregunta);
+            }
+        });
+    </script>
+</body>
+</html>

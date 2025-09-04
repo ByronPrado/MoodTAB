@@ -34,21 +34,30 @@ public class FormularioPreguntasController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Asignar(int id, int[] preguntasSeleccionadas)
+    public async Task<IActionResult> Asignar(int id, List<int> preguntasOrdenadas)
     {
-        foreach (var idPregunta in preguntasSeleccionadas)
+        var formulario = await _context.Formularios.FindAsync(id);
+        if (formulario == null)
         {
-            if (!_context.FormularioPreguntas.Any(fp => fp.ID_Formulario == id && fp.ID_Pregunta == idPregunta))
+            return NotFound();
+        }
+
+        if (preguntasOrdenadas != null && preguntasOrdenadas.Any())
+        {
+            for (int i = 0; i < preguntasOrdenadas.Count; i++)
             {
-                _context.FormularioPreguntas.Add(new FormularioPregunta
+                var formularioPregunta = new FormularioPregunta
                 {
                     ID_Formulario = id,
-                    ID_Pregunta = idPregunta,
-                    Orden = 1 // Puedes ajustar el orden si lo necesitas
-                });
+                    ID_Pregunta = preguntasOrdenadas[i],
+                    Orden = i + 1
+                };
+                _context.FormularioPreguntas.Add(formularioPregunta);
             }
+
+            await _context.SaveChangesAsync();
         }
-        await _context.SaveChangesAsync();
+
         return RedirectToAction("Index", "Formularios");
     }
 
@@ -64,6 +73,6 @@ public class FormularioPreguntasController : Controller
             _context.FormularioPreguntas.Remove(relacion);
             await _context.SaveChangesAsync();
         }
-        return RedirectToAction("Details", "Formularios", new { id = formularioId });
+        return RedirectToAction("Index", "Formularios", new { id = formularioId });
     }
 }

@@ -1,26 +1,204 @@
 @model IEnumerable<WebConTablas.Models.Formulario>
-<h2>Formularios</h2>
-<a asp-action="Create" class="btn btn-primary mb-3">Nuevo Formulario</a>
-<table class="table">
-    <thead>
-        <tr><th>ID</th><th>Título</th><th>Descripción</th><th>Psiquiatra</th><th>Creado</th><th>Acciones</th></tr>
-    </thead>
-    <tbody>
-    @foreach(var f in Model)
-    {
-        <tr>
-            <td>@f.ID_Formulario</td>
-            <td>@f.Titulo</td>
-            <td>@f.Descripcion</td>
-            <td>@f.Psiquiatra?.Nombre</td>
-            <td>@f.Created_at</td>
-            <td>
-                <a asp-action="Details" asp-route-id="@f.ID_Formulario" class="btn btn-info btn-sm">Ver Detalles</a>
-                <form asp-action="Delete" asp-route-id="@f.ID_Formulario" method="post" style="display:inline;">
-                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar este formulario?');">Eliminar</button>
-                </form>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+@using System.Text.Json
+@using System.Collections.Generic
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="@Url.Content("~/css/formulario.css")" />
+</head>
+<body>
+    <div class="main-container">
+        <!-- Sidebar with Forms List -->
+        <div class="sidebar">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="mb-0">Lista de Formularios</h4>
+                <a asp-action="Create" class="btn btn-primary btn-sm">
+                    <i class="fas fa-plus"></i> Nuevo Formulario
+                </a>
+            </div>
+
+            @foreach (var formulario in Model)
+            {
+                <div class="formulario-card" data-form-id="@formulario.ID_Formulario" onclick="showFormDetails(@formulario.ID_Formulario)">
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1">@formulario.Titulo</h6>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex gap-2">
+                            <span class="text-muted small">Preguntas: @(formulario.Preguntas?.Count() ?? 0)</span>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <small>@formulario.Psiquiatra?.Nombre</small>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Main Content Panel -->
+        <div class="content-panel">
+            <div id="form-details">
+                <div class="detail-card">
+                    <div class="no-data-state">
+                        <i class="fas fa-clipboard-list"></i>
+                        <h5>Selecciona un formulario</h5>
+                        <p>Haz clic en un formulario de la lista para ver sus detalles y preguntas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const antiForgeryToken = '@Html.AntiForgeryToken()'.match(/value="([^"]+)"/)[1];
+        // Store all form data for client-side access
+        const formsData = @Html.Raw(JsonSerializer.Serialize(Model.Select(f => new {
+            ID_Formulario = f.ID_Formulario,
+            Titulo = f.Titulo,
+            Descripcion = f.Descripcion,
+            Created_at = f.Created_at.ToString(),
+            Psiquiatra = new {
+                Nombre = f.Psiquiatra?.Nombre ?? "No asignado"
+            },
+            Preguntas = f.Preguntas?.OrderBy(fp => fp.Orden ?? int.MaxValue).Select(fp => new {
+                ID_Pregunta = fp.ID_Pregunta,
+                Contenido = fp.Pregunta?.Contenido ?? "Pregunta no disponible",
+                Tipo = fp.Pregunta?.Tipo,
+                Orden = fp.Orden
+            }).ToList()
+        })));
+
+        const urls = {
+            desasignar: '@Url.Action("Desasignar", "FormularioPreguntas")',
+            asignar: '@Url.Action("Asignar", "FormularioPreguntas")',
+            edit: '@Url.Action("Edit", "Formularios")',
+            delete: '@Url.Action("Delete", "Formularios")',
+            details: '@Url.Action("Details", "Formularios")',
+            index: '@Url.Action("Index", "Formularios")'
+        };
+
+        function showFormDetails(formId) {
+            // Remove active class from all cards
+            document.querySelectorAll('.formulario-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            // Add active class to clicked card
+            const clickedCard = document.querySelector(`[data-form-id="${formId}"]`);
+            if (clickedCard) {
+                clickedCard.classList.add('active');
+            }
+            
+            // Find form data
+            const form = formsData.find(f => f.ID_Formulario === formId);
+            if (!form) return;
+            
+            // Update form details content
+            const detailsContainer = document.getElementById('form-details');
+            detailsContainer.innerHTML = generateFormDetailsHTML(form);
+        }
+
+        function generateFormDetailsHTML(form) {
+            const fechaCreacion = new Date(form.Created_at).toLocaleDateString('es-ES');
+            
+            let preguntasHTML = '';
+            if (form.Preguntas && form.Preguntas.length > 0) {
+                const sortedPreguntas = form.Preguntas.sort((a, b) => {
+                    const ordenA = a.Orden || 999999;
+                    const ordenB = b.Orden || 999999;
+                    return ordenA - ordenB;
+                });
+                
+                preguntasHTML = sortedPreguntas.map((pregunta, index) => `
+                    <div class="question-card">
+                        <div class="d-flex align-items-start">
+                            <div class="me-3">
+                                <span class="badge bg-primary">${pregunta.Orden || (index + 1)}</span>
+                            </div>
+                            <div class="flex-grow-1">
+                                <p class="mb-2">${pregunta.Contenido}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">Tipo: ${pregunta.Tipo}</small>
+                                    <form action="${urls.desasignar}" method="post" style="display:inline;">
+                                        <input type="hidden" name="__RequestVerificationToken" value="${antiForgeryToken}" />
+                                        <input type="hidden" name="formularioId" value="${form.ID_Formulario}" />
+                                        <input type="hidden" name="preguntaId" value="${pregunta.ID_Pregunta}" />
+                                        <button type="submit" class="btn btn-link btn-sm text-danger" onclick="return confirm('¿Desasignar esta pregunta?');">
+                                            <i class="fas fa-unlink"></i> Desasignar
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                preguntasHTML = `
+                    <div class="no-data-state">
+                        <i class="fas fa-question-circle"></i>
+                        <p>No hay preguntas asignadas a este formulario</p>
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="detail-card">
+                    <div class="formulario-header">
+                        <div class="flex-grow-1">
+                            <h3 class="mb-1">${form.Titulo}</h3>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <form action="${urls.delete}/${form.ID_Formulario}" method="post" style="display:inline;">
+                                <input type="hidden" name="__RequestVerificationToken" value="${antiForgeryToken}" />
+                                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('¿Seguro que deseas eliminar este formulario?');">
+                                    <i class="fas fa-trash"></i> Eliminar
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="info-value">${form.Descripcion || 'Sin descripción'}</div>
+                    <div style="height: 2rem;"></div>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Psiquiatra</div>
+                            <div class="info-value">${form.Psiquiatra.Nombre}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Fecha de Creación</div>
+                            <div class="info-value">${fechaCreacion}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-card">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="mb-0">
+                            Preguntas Asignadas
+                        </h5>
+                        <a href="${urls.asignar}/${form.ID_Formulario}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-plus"></i> Asignar Preguntas
+                        </a>
+                    </div>
+                    ${preguntasHTML}
+                </div>
+            `;
+        }
+
+        // Auto-select first form on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            if (formsData.length > 0) {
+                showFormDetails(formsData[0].ID_Formulario);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -21,7 +21,7 @@
             <input asp-for="ID_Psiquiatra" class="form-control" type="hidden" />
         </div>
         <button type="submit" class="btn btn-success">Guardar</button>
-        <button asp-action="Index" class="btn btn-secondary">Cancelar</button>
+        <a href="/Formularios/Index" class="btn btn-secondary">Cancelar</a>
         <span>@User?.Identity?.Name</span>
     </form>
 </div>

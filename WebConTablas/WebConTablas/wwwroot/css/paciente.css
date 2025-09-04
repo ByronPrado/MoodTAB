@@ -103,10 +103,9 @@ body {
 
 .sidebar {
     width: 400px;
-    background: white;
-    border-right: 1px solid #e5e7eb;
     overflow-y: auto;
     padding: 1.5rem;
+    height: 90vh;
 }
 
 .content-panel {
@@ -142,11 +141,14 @@ body {
     padding: 0.25rem 0.75rem;
     border-radius: 20px;
     font-weight: 500;
+    background-color: #fef3c7; 
+    color: #92400e;
 }
 
 .condition-ansiedad { background-color: #fef3c7; color: #92400e; }
 .condition-depresion { background-color: #dbeafe; color: #1e40af; }
 .condition-estres { background-color: #fce7f3; color: #be185d; }
+.condition-tda { background-color: #fce7f3; color: #be185d; }
 
 .detail-card {
     background: white;
@@ -213,11 +215,19 @@ body {
     border-radius: 20px;
     font-size: 0.75rem;
     font-weight: 500;
+    background-color: #fff692; 
+    color: #A3960A;
 }
 
-.emotion-feliz { background-color: #fef3c7; color: #92400e; }
-.emotion-triste { background-color: #dbeafe; color: #1e40af; }
-.emotion-ansioso { background-color: #fee2e2; color: #991b1b; }
+.emotion-feliz { background-color: #fff692; color: #A3960A; }
+.emotion-emocionado { background-color: #ffd195; color: #A3610A; }
+.emotion-cansado { background-color: #cb9bff; color: #540AA3; }
+.emotion-triste { background-color: #99c5fe; color: #0A4CA3; }
+.emotion-frustrado { background-color: #e5fb96; color: #82A30A; }
+.emotion-enojado { background-color: #ff8787; color: #A30A0A; }
+.emotion-neutro { background-color: #bababa; color: #818181; }
+.emotion-angustia { background-color: #9baffd; color: #6470A3; }
+.emotion-ansioso { background-color: #9bffe9; color: #64A395; }
 
 .metrics-grid {
     display: grid;
@@ -270,4 +280,16 @@ body {
     font-size: 3rem;
     margin-bottom: 1rem;
     opacity: 0.5;
+}
+
+.hidden{
+    visibility: hidden;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #5588b4 0%, #42719a 100%);
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
 }

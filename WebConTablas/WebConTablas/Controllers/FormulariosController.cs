@@ -7,7 +7,11 @@ public class FormulariosController : Controller
     private readonly AppDbContext _context;
     public FormulariosController(AppDbContext context) => _context = context;
 
-    public async Task<IActionResult> Index() => View(await _context.Formularios.Include(f => f.Psiquiatra).ToListAsync());
+    public async Task<IActionResult> Index() => View(await _context.Formularios
+    .Include(f => f.Psiquiatra)
+    .Include(f => f.Preguntas)
+        .ThenInclude(fp => fp.Pregunta)
+    .ToListAsync());
 
     public IActionResult Create()
     {
