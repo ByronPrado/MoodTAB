@@ -58,15 +58,16 @@ public class FormulariosController : Controller
             ViewBag.Psiquiatras = _context.Psiquiatras.ToList();
             return View(formulario);
         }
-        if (ModelState.IsValid)
+       if (ModelState.IsValid)
         {
             formulario.Created_at = DateTime.UtcNow;
             _context.Add(formulario);
             await _context.SaveChangesAsync();
-            // Redirige a la asignación de preguntas
-            Console.WriteLine("ID generado: " + formulario.ID_Formulario);
-            var id = formulario.ID_Formulario;
-            return RedirectToAction("Asignar", "FormularioPreguntas", new { id = formulario.ID_Formulario });
+
+            TempData["FormularioCreated"] = true;
+            TempData["FormularioId"] = formulario.ID_Formulario;
+
+            return RedirectToAction(nameof(Create));
         }
         ViewBag.Psiquiatras = _context.Psiquiatras.ToList();
         return View(formulario);

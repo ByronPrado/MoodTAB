@@ -2,6 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebConTablas.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 public class FormulariosAsignadosController : Controller
 {
@@ -29,7 +32,7 @@ public class FormulariosAsignadosController : Controller
             _context.FormulariosAsignados.Remove(asignacion);
             await _context.SaveChangesAsync();
         }
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction("Index","Pacientes");
     }
 
     // GET: FormulariosAsignados/Asignar
@@ -40,12 +43,13 @@ public class FormulariosAsignadosController : Controller
         return View();
     }
 
-        // POST: FormulariosAsignados/Asignar
+    // POST: FormulariosAsignados/Asignar
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Asignar(List<int> ID_Formulario, int ID_Paciente, DateTime? Fecha_Limite)
     {
         var errores = new List<string>();
+        var asignacionesExitosas = new List<string>();
 
         foreach (var formularioId in ID_Formulario)
         {
@@ -75,6 +79,12 @@ public class FormulariosAsignadosController : Controller
             };
 
             _context.FormulariosAsignados.Add(asignacion);
+            
+            var tituloFormulario = await _context.Formularios
+                .Where(f => f.ID_Formulario == formularioId)
+                .Select(f => f.Titulo)
+                .FirstOrDefaultAsync();
+            asignacionesExitosas.Add(tituloFormulario);
         }
 
         // En caso de errores, avisar.
@@ -88,6 +98,18 @@ public class FormulariosAsignadosController : Controller
 
         // Guardar cambios en caso contrario.
         await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));
+        
+        if (asignacionesExitosas.Any())
+        {
+            var pacienteNombre = await _context.Pacientes
+                .Where(p => p.ID_Paciente == ID_Paciente)
+                .Select(p => p.Nombre)
+                .FirstOrDefaultAsync();
+            
+            TempData["SuccessMessage"] = $"Se asignaron {asignacionesExitosas.Count} formulario(s) exitosamente a {pacienteNombre}";
+            TempData["AssignedForms"] = string.Join(", ", asignacionesExitosas);
+        }
+        
+        return RedirectToAction(nameof(Asignar));
     }
 }

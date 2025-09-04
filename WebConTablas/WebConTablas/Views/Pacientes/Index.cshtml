@@ -20,6 +20,7 @@
             @foreach (var alerta in (List<string>)ViewBag.Alertas)
             {
                 <li>@Html.Raw(alerta)</li>
+                
             }
             </ul>
         </div>
@@ -89,7 +90,7 @@
                 Hora_dormida = d.Hora_dormida
             }).ToList(),
             FormulariosAsignados = p.FormulariosAsignados?.Select(f => new {
-                IdForm = f.ID_Formulario,
+                IdForm = f.ID_Asignacion,
                 Estado = f.Estado,
                 Fecha_Asignacion = f.Fecha_Asignacion.ToString("yyyy-MM-dd"),
                 Titulo = f.Formulario?.Titulo ?? "Evaluación inicial",
@@ -111,6 +112,9 @@
                 }).OrderByDescending(c => c.Fecha).ToList()
             }).ToList()
         })));
+
+        const antiForgeryToken = document.querySelector('input[name="__RequestVerificationToken"]')?.value || 
+                                '@Html.AntiForgeryToken()'.match(/value="([^"]+)"/)?.[1];
 
         function showPatientDetails(patientId) {
             // Remove active class from all cards
@@ -234,12 +238,13 @@
                                     <div class="text-muted small mt-1">
                                        Creado: ${fecha}
                                     </div>
-                                    <a href="/Formularios/Details/${formulario.IdForm}" class="text-primary text-decoration-none">
-                                        Detalles
-                                    </a>
-                                    <a href="/Formularios/Details/${formulario.IdForm}" class="text-primary text-decoration-none ${isCompleted ? 'hidden' : ' '}">
-                                        Eliminar
-                                    </a>
+                                    <form action="/FormulariosAsignados/Delete" method="post" style="display:inline;" onsubmit="return confirm('¿Seguro que deseas eliminar esta asignación?');">
+                                        <input type="hidden" name="__RequestVerificationToken" value="${antiForgeryToken}" />
+                                        <input type="hidden" name="id" value="${formulario.IdForm}" />
+                                        <button type="submit" class="btn btn-link text-danger text-decoration-none p-0 border-0 bg-transparent">
+                                            <i class="fas fa-trash-alt me-1"></i>Eliminar
+                                        </button>
+                                    </form>
                                     ${respuestasHTML}
                                 </div>
                                 <span class="badge ${isCompleted ? 'bg-success' : 'bg-warning'}">
@@ -282,9 +287,6 @@
                         <div class="external-user-card">
                             <div class="d-flex align-items-center justify-content-between mb-2">
                                 <div class="d-flex align-items-center">
-                                    <div class="img-paciente me-3" style="width: 40px; height: 40px; font-size: 1rem;">
-                                        MT
-                                    </div>
                                     <div>
                                         <h6 class="mb-0">${usuario.Nombre}</h6>
                                         <small class="text-muted">${usuario.Parentezco}</small>
@@ -311,7 +313,6 @@
 
             return `
                 <div class="detail-card">
-                    <div class="img-paciente">MT</div>
                     <div class="flex-grow-1">
                         <h3 class="mb-1">${patient.Nombre}</h3>
                         <p class="mb-0"> 
@@ -378,5 +379,6 @@
             }
         });
     </script>
+    @Html.AntiForgeryToken()
 </body>
 </html>

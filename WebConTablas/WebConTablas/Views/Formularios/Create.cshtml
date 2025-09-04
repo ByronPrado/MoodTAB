@@ -1,31 +1,151 @@
 @model WebConTablas.Models.Formulario
 
-<link rel="stylesheet" href="@Url.Content("~/css/site.css")" />
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+@{
+    ViewData["Title"] = "Crear Formulario";
+}
 
-<div class="center-card">
-    <h2>Crear Nuevo Formulario</h2>
-    @Html.ValidationSummary(true, "x", new { @class = "text-danger" })
-    <form asp-action="Create" method="post">
-        <div class="mb-3">
-            <label class="formsubtitulo" asp-for="Titulo" class="form-label">Título</label>
-            <input asp-for="Titulo" class="form-control" required />
-            <span asp-validation-for="Titulo" class="text-danger"></span>
+<link rel="stylesheet" href="@Url.Content("~/css/forms.css")" />
+<link rel="stylesheet" href="@Url.Content("~/css/formulario.css")" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+<div class="main-container2">
+    <div class="header-section">
+        <div class="d-flex align-items-center justify-content-between">
+            <div>
+                <h1 class="mb-2">
+                    <i class="fas fa-file-medical text-primary me-3"></i>
+                    Crear Nuevo Formulario
+                </h1>
+                <p class="text-muted mb-0">Complete la información básica del formulario</p>
+            </div>
+            <div class="text-end">
+                <i class="fas fa-clipboard-list fa-3x text-primary opacity-25"></i>
+            </div>
         </div>
-        <div class="mb-3">
-            <label class="formsubtitulo" asp-for="Descripcion" class="form-label">Descripción</label>
-            <textarea asp-for="Descripcion" class="form-control"></textarea>
-            <span asp-validation-for="Descripcion" class="text-danger"></span>
-        </div>
-        <div class="mb-3">
-            <input asp-for="ID_Psiquiatra" class="form-control" type="hidden" />
-        </div>
-        <button type="submit" class="btn btn-success">Guardar</button>
-        <a href="/Formularios/Index" class="btn btn-secondary">Cancelar</a>
-        <span>@User?.Identity?.Name</span>
-    </form>
+    </div>
+
+    <div class="form-container">
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger alert-custom mb-4">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                <strong>Error:</strong> Por favor corrija los errores en el formulario.
+                @Html.ValidationSummary(true, "", new { @class = "mt-2 mb-0" })
+            </div>
+        }
+
+        <form asp-action="Create" method="post" id="createForm">
+            @Html.AntiForgeryToken()
+            
+            <div class="form-section">
+                <h5>
+                    <i class="fas fa-heading text-primary"></i>
+                    Información Básica
+                </h5>
+                
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label asp-for="Titulo" class="form-label fw-semibold">
+                            <i class="fas fa-tag me-2"></i>Título del Formulario
+                        </label>
+                        <input asp-for="Titulo" class="form-control" placeholder="Ingrese el título del formulario" required />
+                        <span asp-validation-for="Titulo" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="col-md-12 mb-3">
+                        <label asp-for="Descripcion" class="form-label fw-semibold">
+                            <i class="fas fa-align-left me-2"></i>Descripción
+                        </label>
+                        <textarea asp-for="Descripcion" class="form-control" rows="4" placeholder="Describa el propósito y contenido del formulario"></textarea>
+                        <span asp-validation-for="Descripcion" class="text-danger"></span>
+                    </div>
+                </div>
+                
+                <input asp-for="ID_Psiquiatra" type="hidden" />
+            </div>
+
+            <div class="d-flex gap-3 justify-content-end">
+                <a href="@Url.Action("Index", "Formularios")" class="btn btn-secondary">
+                    <i class="fas fa-times me-2"></i>Cancelar
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save me-2"></i>Crear Formulario
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
 
+<!-- Success Modal -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-success text-white border-0">
+                <h5 class="modal-title" id="successModalLabel">
+                    <i class="fas fa-check-circle me-2"></i>¡Formulario Creado!
+                </h5>
+            </div>
+            <div class="modal-body text-center py-4">
+                <div class="mb-3">
+                    <i class="fas fa-clipboard-check fa-4x text-success mb-3"></i>
+                </div>
+                <h6 class="fw-bold mb-2">Formulario creado exitosamente</h6>
+                <p class="text-muted mb-0">El formulario ha sido guardado y está listo para asignar preguntas.</p>
+            </div>
+            <div class="modal-footer border-0 justify-content-center">
+                <button type="button" class="btn btn-success" onclick="proceedToQuestions()">
+                    <i class="fas fa-arrow-right me-2"></i>Asignar Preguntas
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Check if form was successfully submitted
+    @if (TempData["FormularioCreated"] != null)
+    {
+        <text>
+        document.addEventListener('DOMContentLoaded', function() {
+            var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            successModal.show();
+            
+            // Store the formulario ID for redirection
+            window.formularioId = @TempData["FormularioId"];
+        });
+        </text>
+    }
+    
+    function proceedToQuestions() {
+        if (window.formularioId) {
+            window.location.href = '@Url.Action("Asignar", "FormularioPreguntas")?id=' + window.formularioId;
+        } else {
+            window.location.href = '@Url.Action("Index", "Formularios")';
+        }
+    }
+    
+    // Form validation and styling
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('createForm');
+        const inputs = form.querySelectorAll('.form-control');
+        
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.classList.add('focused');
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.classList.remove('focused');
+                if (this.value.trim() !== '') {
+                    this.classList.add('has-value');
+                } else {
+                    this.classList.remove('has-value');
+                }
+            });
+        });
+    });
+</script>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

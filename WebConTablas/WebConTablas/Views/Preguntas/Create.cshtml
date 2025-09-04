@@ -38,7 +38,7 @@
     </div>
     <div class="mb-3">
         <label asp-for="Extra" class="form-label">Extra (opcional)</label>
-        <input asp-for="Extra" class="form-control" />
+        <input asp-for="Extra" class="form-control" value="null" type="hidden"/>
         <span asp-validation-for="Extra" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-success">Guardar</button>

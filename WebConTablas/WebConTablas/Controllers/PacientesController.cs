@@ -47,15 +47,55 @@ public class PacientesController : Controller
                 .ToList();
 
             // Cuenta días con estado "exaltado" o "inhibido"
-            int diasAlterados = ultimosDiarios
-                .Count(d => d.Estado == "exaltado" || d.Estado == "inhibido");
+            int diasAlteradosIn = ultimosDiarios
+                .Count(d => d.Estado == "inhibido");
 
-            if (diasAlterados >= 2)
+            int diasAlteradosEx = ultimosDiarios
+                .Count(d => d.Estado == "exaltado");
+
+            if (ultimosDiarios.Count() >= 3) {
+
+                // Promedios
+                var suma_pasos = 0;
+                var suma_celular = 0;
+                foreach (var diarios in ultimosDiarios.Take(ultimosDiarios.Count - 1))
+                {
+                    suma_pasos += diarios.Pasos ?? 0;
+                    suma_celular += diarios.Horas_celular ?? 0;
+                }
+                var promedio_pasos = suma_pasos / (ultimosDiarios.Count() -1);
+                var promedio_celular = suma_celular / (ultimosDiarios.Count() -1);
+                // margen de diferencia
+                var margen_pasos = 10000;
+                var margen_celular = 10;
+
+                if (margen_pasos + promedio_pasos < ultimosDiarios.Last().Pasos || promedio_pasos - margen_pasos > ultimosDiarios.Last().Pasos)
+                {
+                    alertas.Add($"El paciente <b>{paciente.Nombre}</b> tiene una alteración inusual en sus <b>pasos</b>.     <a href=\"/Pacientes/Details/{paciente.ID_Paciente}/#listadiarios\" class=\"text-primary text-decoration-none\">Ver Detalles</a>");
+                }
+
+                if (margen_celular + promedio_celular < ultimosDiarios.Last().Horas_celular || promedio_celular - margen_celular > ultimosDiarios.Last().Horas_celular)
+                {
+                    alertas.Add($"El paciente <b>{paciente.Nombre}</b> tiene una alteración inusual en sus <b>Horas de celular</b>.     <a href=\"/Pacientes/Details/{paciente.ID_Paciente}/#listadiarios\" class=\"text-primary text-decoration-none\">Ver Detalles</a>");
+                }
+            }
+            
+
+
+
+            if (diasAlteradosIn >= 2)
             {
-                alertas.Add($"El paciente <b>{paciente.Nombre}</b> lleva {diasAlterados} días en estado <b>exaltado</b> o <b>inhibido</b>.");
+                alertas.Add($"El paciente <b>{paciente.Nombre}</b> lleva {diasAlteradosIn} días en estado <b>inhibido</b>.     <a href=\"/Pacientes/Details/{paciente.ID_Paciente}/#listadiarios\" class=\"text-primary text-decoration-none\">Ver Detalles</a>");
+            }
+
+            if (diasAlteradosEx >= 2)
+            {
+                alertas.Add($"El paciente <b>{paciente.Nombre}</b> lleva {diasAlteradosEx} días en estado <b>exaltado</b>.     <a href=\"/Pacientes/Details/{paciente.ID_Paciente}/#listadiarios\" class=\"text-primary text-decoration-none\">Ver Detalles</a>");
             }
         }
         ViewBag.Alertas = alertas;
+
+        
 
         return View(pacientes);
     }

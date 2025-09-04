@@ -3,46 +3,197 @@
     var pacientes = ViewBag.Pacientes as List<WebConTablas.Models.Paciente>;
 }
 
-<h2>Asignar Formulario a Paciente</h2>
-
-@if (ViewBag.Errores != null)
-{
-    <div class="alert alert-danger">
-        <ul>
-            @foreach (var err in ViewBag.Errores as List<string>)
-            {
-                <li>@err</li>
-            }
-        </ul>
-    </div>
-}
-
-<form asp-action="Asignar" method="post">
-    <div class="form-group">
-        <label>Formularios</label>
-        <div>
-            @foreach (var f in formularios)
-            {
-                <div class="form-check">
-                    <input type="checkbox" name="ID_Formulario" value="@f.ID_Formulario" class="form-check-input" id="formulario_@f.ID_Formulario" />
-                    <label class="form-check-label" for="formulario_@f.ID_Formulario">@f.Titulo</label>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Asignar Formularios - MindCare Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="@Url.Content("~/css/forms.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/css/formulario.css")" />
+</head>
+<body>
+    <div class="main-container2">
+        <!-- Header Section -->
+        <div class="header-section">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h1 class="mb-2">
+                        <i class="fas fa-clipboard-list me-3"></i>
+                        Asignar Formularios
+                    </h1>
+                    <p class="mb-0 opacity-90">Asigna formularios de evaluación a tus pacientes</p>
                 </div>
-            }
+                <div class="text-end">
+                    <a href="@Url.Action("Index","Pacientes")" class="btn btn-light">
+                        <i class="fas fa-arrow-left me-2"></i>Volver
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error Messages -->
+        @if (ViewBag.Errores != null)
+        {
+            <div class="alert alert-danger alert-custom">
+                <h6><i class="fas fa-exclamation-triangle me-2"></i>Se encontraron los siguientes errores:</h6>
+                <ul class="mb-0">
+                    @foreach (var err in ViewBag.Errores as List<string>)
+                    {
+                        <li>@err</li>
+                    }
+                </ul>
+            </div>
+        }
+
+        <!-- Assignment Form -->
+        <div class="form-container">
+            <form asp-action="Asignar" method="post" id="assignmentForm">
+                @Html.AntiForgeryToken()
+                
+                <!-- Formularios Section -->
+                <div class="form-section">
+                    <h5>
+                        <i class="fas fa-file-alt text-primary"></i>
+                        Seleccionar Formularios
+                        <span class="selected-count" id="selectedCount">0 seleccionados</span>
+                    </h5>
+                    <div class="row">
+                        @foreach (var f in formularios)
+                        {
+                            <div class="col-md-6 col-lg-4">
+                                <div class="formulario-card" onclick="toggleFormulario(@f.ID_Formulario)">
+                                    <input type="checkbox" name="ID_Formulario" value="@f.ID_Formulario" 
+                                           class="form-check-input" id="formulario_@f.ID_Formulario" 
+                                           onchange="updateSelectedCount()" />
+                                    <label class="form-check-label w-100" for="formulario_@f.ID_Formulario">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div>
+                                                <strong>@f.Titulo</strong>
+                                                @if (!string.IsNullOrEmpty(f.Descripcion))
+                                                {
+                                                    <br><small class="text-muted">@f.Descripcion</small>
+                                                }
+                                            </div>
+                                            <i class="fas fa-check-circle text-success" style="display: none;"></i>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Patient Section -->
+                <div class="form-section">
+                    <h5>
+                        <i class="fas fa-user text-info"></i>
+                        Seleccionar Paciente
+                    </h5>
+                    <select name="ID_Paciente" class="form-control custom-select" required>
+                        <option value="">Seleccione un paciente</option>
+                        @foreach (var p in pacientes)
+                        {
+                            <option value="@p.ID_Paciente">@p.Nombre</option>
+                        }
+                    </select>
+                </div>
+
+                <!-- Date Section -->
+                <div class="form-section">
+                    <h5>
+                        <i class="fas fa-calendar text-warning"></i>
+                        Fecha Límite (Opcional)
+                    </h5>
+                    <input type="date" name="Fecha_Limite" class="form-control custom-date" />
+                    <small class="text-muted mt-1 d-block">
+                        <i class="fas fa-info-circle me-1"></i>
+                        Si no se especifica, el formulario no tendrá fecha límite
+                    </small>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary" id="submitBtn" disabled>
+                        <i class="fas fa-paper-plane me-2"></i>
+                        Asignar Formularios
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
-    <div class="form-group">
-        <label for="ID_Paciente">Paciente</label>
-        <select name="ID_Paciente" class="form-control" required>
-            <option value="">Seleccione un paciente</option>
-            @foreach (var p in pacientes)
-            {
-                <option value="@p.ID_Paciente">@p.Nombre</option>
+
+    <!-- Success Notification Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">
+                        <i class="fas fa-check-circle me-2"></i>
+                        ¡Asignación Exitosa!
+                    </h5>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="mb-3">
+                        <i class="fas fa-check-circle text-success" style="font-size: 3rem;"></i>
+                    </div>
+                    <h6 id="successMessage"></h6>
+                    <p class="text-muted" id="assignedFormsList"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" onclick="window.location.href='@Url.Action("Index","Pacientes")'">
+                        <i class="fas fa-list me-2"></i>Volver
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleFormulario(id) {
+            const checkbox = document.getElementById(`formulario_${id}`);
+            const card = checkbox.closest('.formulario-card');
+            const icon = card.querySelector('.fa-check-circle');
+            
+            checkbox.checked = !checkbox.checked;
+            
+            if (checkbox.checked) {
+                card.classList.add('selected');
+                icon.style.display = 'block';
+            } else {
+                card.classList.remove('selected');
+                icon.style.display = 'none';
             }
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="Fecha_Limite">Fecha Límite (opcional)</label>
-        <input type="date" name="Fecha_Limite" class="form-control" />
-    </div>
-    <button type="submit" class="btn btn-primary mt-2">Asignar</button>
-</form>
+            
+            updateSelectedCount();
+        }
+        
+        function updateSelectedCount() {
+            const selectedCheckboxes = document.querySelectorAll('input[name="ID_Formulario"]:checked');
+            const count = selectedCheckboxes.length;
+            const countElement = document.getElementById('selectedCount');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            countElement.textContent = `${count} seleccionado${count !== 1 ? 's' : ''}`;
+            submitBtn.disabled = count === 0;
+        }
+        
+        // Check for success message from TempData
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <text>
+            document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('successMessage').textContent = '@TempData["SuccessMessage"]';
+                document.getElementById('assignedFormsList').textContent = 'Formularios: @TempData["AssignedForms"]';
+                
+                const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                successModal.show();
+            });
+            </text>
+        }
+    </script>
+</body>
+</html>
