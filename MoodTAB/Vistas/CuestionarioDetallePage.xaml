@@ -105,6 +105,7 @@
             </Button> 
             <Button Text="DUMP DB"
                 BackgroundColor="Red"
+                IsVisible="False"
                 Command="{Binding BorrarBaseDatosCommand}">
                 <Button.Triggers>
                     <DataTrigger TargetType="Button"

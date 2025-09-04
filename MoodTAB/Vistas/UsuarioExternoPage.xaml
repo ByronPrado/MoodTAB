@@ -2,8 +2,9 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MoodTAB.Vistas.UsuarioExternoPage"
-             IconImageSource="appicon.png">
-    <ScrollView>
+             IconImageSource="appicon.png"
+             NavigationPage.HasNavigationBar="False">
+    <ScrollView BackgroundColor="#FFF3F3FF">
             <VerticalStackLayout Padding="20,20,20,90" Spacing="15">
 
                 <!-- Frame con título de la API -->
@@ -17,7 +18,7 @@
                         RowSpacing="10"
                         HorizontalOptions="Fill"
                         VerticalOptions="Center"
-                        RowDefinitions="Auto,Auto,auto">
+                        RowDefinitions="Auto,Auto">
                         <Label Text="Bienvenido"
                                Grid.Row="0"
                                FontSize="20"
@@ -29,8 +30,6 @@
                                FontFamily="BreeSerif-Regular.ttf"
                                TextColor="#FF9B9B9B"
                                Grid.Row="1"/>
-                        <Label Text="{Binding Log_txt}"
-                               Grid.Row="2"/>
                     </Grid>
                 </Frame>
 
@@ -51,10 +50,21 @@
                         HeightRequest="100"
                         BackgroundColor="White"
                         TextColor="Black"
+                        Placeholder="Comenta"
                         Text="{Binding ComentarioExterno}" />
                     <Button 
                         Text="🗣️ Dictar Diario"
-                        Command="{Binding DictarDiarioCommand}" />
+                        Command="{Binding DictarDiarioCommand}"
+                        FontSize="16"
+                        FontFamily="BreeSerif-Regular.ttf"
+                        HorizontalOptions="Center"
+                        HeightRequest="50">
+                        <Button.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="#3B82F6" Offset="0.0" />
+                            <GradientStop Color="#10B981" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Button.Background></Button>
                     <Button Text="💾 Guardar Comentario"
                         FontSize="16"
                         FontFamily="BreeSerif-Regular.ttf"
@@ -78,7 +88,8 @@
                 CornerRadius="15"
                 Padding="10"
                 BorderColor="#FFC7DFFF"
-                HasShadow="False">
+                HasShadow="False"
+                IsVisible="False">
                 <VerticalStackLayout Spacing="5">
             <Label
                 Text ="{Binding Ide}"
