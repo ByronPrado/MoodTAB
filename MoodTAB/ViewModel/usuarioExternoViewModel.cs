@@ -21,7 +21,7 @@ namespace MoodTAB.ViewModel
         [ObservableProperty] string log_txt;
         [ObservableProperty] string ide;
 
-        [ObservableProperty] string comentarioExterno = null;
+        [ObservableProperty] string comentarioExterno = "comentario text";
 
         private readonly HttpClient _httpClient;
 

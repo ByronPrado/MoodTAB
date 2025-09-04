@@ -110,21 +110,9 @@
                         BackgroundColor="White"
                         TextColor="Black"
                         Text="{Binding DescDia}" />
-                    <Button
+                    <Button 
                         Text="Dictar Diario"
-                        Command="{Binding DictarDiarioCommand}"
-                        FontSize="16"
-                        FontFamily="BreeSerif-Regular.ttf"
-                        HorizontalOptions="Center"
-                        HeightRequest="50"
-                        >
-                        <Button.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                            <GradientStop Color="#3B82F6" Offset="0.0" />
-                            <GradientStop Color="#10B981" Offset="1.0" />
-                        </LinearGradientBrush>
-                    </Button.Background>                   
-                    </Button>
+                        Command="{Binding DictarDiarioCommand}" />
                 </VerticalStackLayout>
             </Frame>
             </VerticalStackLayout>
@@ -254,8 +242,7 @@
                     Background="red" 
                     Command="{Binding BorrarDiarioCommand}"
                     IsVisible="False"/>
-            <Label Text="{Binding Error}" TextColor="Red" FontSize="14" FontAttributes="Bold"
-                IsVisible="False" />
+            <Label Text="{Binding Error}" TextColor="Red" FontSize="14" FontAttributes="Bold" />
             
 
         </VerticalStackLayout>
