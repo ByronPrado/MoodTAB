@@ -1,21 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\munoz\\Desktop\\Universidad\\Feria\\MoodTAB\\MoodTAB\\MoodTAB.csproj": {}
+    "C:\\Users\\PC RST\\Documents\\GitHub\\MoodTAB\\MoodTAB\\MoodTAB.csproj": {}
   },
   "projects": {
-    "C:\\Users\\munoz\\Desktop\\Universidad\\Feria\\MoodTAB\\MoodTAB\\MoodTAB.csproj": {
+    "C:\\Users\\PC RST\\Documents\\GitHub\\MoodTAB\\MoodTAB\\MoodTAB.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\munoz\\Desktop\\Universidad\\Feria\\MoodTAB\\MoodTAB\\MoodTAB.csproj",
+        "projectUniqueName": "C:\\Users\\PC RST\\Documents\\GitHub\\MoodTAB\\MoodTAB\\MoodTAB.csproj",
         "projectName": "MoodTAB",
-        "projectPath": "C:\\Users\\munoz\\Desktop\\Universidad\\Feria\\MoodTAB\\MoodTAB\\MoodTAB.csproj",
-        "packagesPath": "C:\\Users\\munoz\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\munoz\\Desktop\\Universidad\\Feria\\MoodTAB\\MoodTAB\\obj\\",
+        "projectPath": "C:\\Users\\PC RST\\Documents\\GitHub\\MoodTAB\\MoodTAB\\MoodTAB.csproj",
+        "packagesPath": "C:\\Users\\PC RST\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\PC RST\\Documents\\GitHub\\MoodTAB\\MoodTAB\\obj\\",
         "projectStyle": "PackageReference",
         "crossTargeting": true,
         "configFilePaths": [
-          "C:\\Users\\munoz\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\PC RST\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0-android",
@@ -60,6 +60,10 @@
         "net8.0-android34.0": {
           "targetAlias": "net8.0-android",
           "dependencies": {
+            "CommunityToolkit.Maui": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
             "CommunityToolkit.Mvvm": {
               "target": "Package",
               "version": "[8.4.0, )"
@@ -79,8 +83,12 @@
             "Microsoft.NET.ILLink.Tasks": {
               "suppressParent": "All",
               "target": "Package",
-              "version": "[8.0.15, )",
+              "version": "[8.0.17, )",
               "autoReferenced": true
+            },
+            "Plugin.Maui.Audio": {
+              "target": "Package",
+              "version": "[2.0.0, )"
             },
             "sqlite-net-pcl": {
               "target": "Package",
@@ -106,11 +114,15 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.408/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.411/PortableRuntimeIdentifierGraph.json"
         },
         "net8.0-ios18.0": {
           "targetAlias": "net8.0-ios",
           "dependencies": {
+            "CommunityToolkit.Maui": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
             "CommunityToolkit.Mvvm": {
               "target": "Package",
               "version": "[8.4.0, )"
@@ -130,8 +142,12 @@
             "Microsoft.NET.ILLink.Tasks": {
               "suppressParent": "All",
               "target": "Package",
-              "version": "[8.0.15, )",
+              "version": "[8.0.17, )",
               "autoReferenced": true
+            },
+            "Plugin.Maui.Audio": {
+              "target": "Package",
+              "version": "[2.0.0, )"
             },
             "sqlite-net-pcl": {
               "target": "Package",
@@ -157,11 +173,15 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.408/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.411/PortableRuntimeIdentifierGraph.json"
         },
         "net8.0-maccatalyst18.0": {
           "targetAlias": "net8.0-maccatalyst",
           "dependencies": {
+            "CommunityToolkit.Maui": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
             "CommunityToolkit.Mvvm": {
               "target": "Package",
               "version": "[8.4.0, )"
@@ -181,8 +201,12 @@
             "Microsoft.NET.ILLink.Tasks": {
               "suppressParent": "All",
               "target": "Package",
-              "version": "[8.0.15, )",
+              "version": "[8.0.17, )",
               "autoReferenced": true
+            },
+            "Plugin.Maui.Audio": {
+              "target": "Package",
+              "version": "[2.0.0, )"
             },
             "sqlite-net-pcl": {
               "target": "Package",
@@ -209,11 +233,15 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.408/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.411/PortableRuntimeIdentifierGraph.json"
         },
         "net8.0-windows10.0.19041": {
           "targetAlias": "net8.0-windows10.0.19041.0",
           "dependencies": {
+            "CommunityToolkit.Maui": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
             "CommunityToolkit.Mvvm": {
               "target": "Package",
               "version": "[8.4.0, )"
@@ -229,6 +257,10 @@
             "Microsoft.Maui.Controls.Compatibility": {
               "target": "Package",
               "version": "[8.0.100, )"
+            },
+            "Plugin.Maui.Audio": {
+              "target": "Package",
+              "version": "[2.0.0, )"
             },
             "sqlite-net-pcl": {
               "target": "Package",
@@ -260,7 +292,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.408\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.411\\RuntimeIdentifierGraph.json"
         }
       },
       "runtimes": {

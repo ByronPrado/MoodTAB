@@ -2,6 +2,41 @@
   "version": 3,
   "targets": {
     "net8.0-android34.0": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -455,10 +490,23 @@
           "buildTransitive/Microsoft.Maui.Resizetizer.targets": {}
         }
       },
-      "Microsoft.NET.ILLink.Tasks/8.0.15": {
+      "Microsoft.NET.ILLink.Tasks/8.0.17": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
+        }
+      },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0-android31.0/Plugin.Maui.Audio.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-android31.0/Plugin.Maui.Audio.dll": {
+            "related": ".xml"
+          }
         }
       },
       "sqlite-net-pcl/1.9.172": {
@@ -2330,6 +2378,41 @@
       }
     },
     "net8.0-android34.0/android-arm": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -2783,10 +2866,23 @@
           "buildTransitive/Microsoft.Maui.Resizetizer.targets": {}
         }
       },
-      "Microsoft.NET.ILLink.Tasks/8.0.15": {
+      "Microsoft.NET.ILLink.Tasks/8.0.17": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
+        }
+      },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0-android31.0/Plugin.Maui.Audio.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-android31.0/Plugin.Maui.Audio.dll": {
+            "related": ".xml"
+          }
         }
       },
       "sqlite-net-pcl/1.9.172": {
@@ -4658,6 +4754,41 @@
       }
     },
     "net8.0-android34.0/android-arm64": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -5111,10 +5242,23 @@
           "buildTransitive/Microsoft.Maui.Resizetizer.targets": {}
         }
       },
-      "Microsoft.NET.ILLink.Tasks/8.0.15": {
+      "Microsoft.NET.ILLink.Tasks/8.0.17": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
+        }
+      },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0-android31.0/Plugin.Maui.Audio.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-android31.0/Plugin.Maui.Audio.dll": {
+            "related": ".xml"
+          }
         }
       },
       "sqlite-net-pcl/1.9.172": {
@@ -6986,6 +7130,41 @@
       }
     },
     "net8.0-android34.0/android-x64": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -7439,10 +7618,23 @@
           "buildTransitive/Microsoft.Maui.Resizetizer.targets": {}
         }
       },
-      "Microsoft.NET.ILLink.Tasks/8.0.15": {
+      "Microsoft.NET.ILLink.Tasks/8.0.17": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
+        }
+      },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0-android31.0/Plugin.Maui.Audio.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-android31.0/Plugin.Maui.Audio.dll": {
+            "related": ".xml"
+          }
         }
       },
       "sqlite-net-pcl/1.9.172": {
@@ -9314,6 +9506,41 @@
       }
     },
     "net8.0-android34.0/android-x86": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -9767,10 +9994,23 @@
           "buildTransitive/Microsoft.Maui.Resizetizer.targets": {}
         }
       },
-      "Microsoft.NET.ILLink.Tasks/8.0.15": {
+      "Microsoft.NET.ILLink.Tasks/8.0.17": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
+        }
+      },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0-android31.0/Plugin.Maui.Audio.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-android31.0/Plugin.Maui.Audio.dll": {
+            "related": ".xml"
+          }
         }
       },
       "sqlite-net-pcl/1.9.172": {
@@ -11642,6 +11882,41 @@
       }
     },
     "net8.0-android34.0/iossimulator-x64": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -12095,10 +12370,23 @@
           "buildTransitive/Microsoft.Maui.Resizetizer.targets": {}
         }
       },
-      "Microsoft.NET.ILLink.Tasks/8.0.15": {
+      "Microsoft.NET.ILLink.Tasks/8.0.17": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
+        }
+      },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0-android31.0/Plugin.Maui.Audio.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-android31.0/Plugin.Maui.Audio.dll": {
+            "related": ".xml"
+          }
         }
       },
       "sqlite-net-pcl/1.9.172": {
@@ -13970,6 +14258,41 @@
       }
     },
     "net8.0-android34.0/maccatalyst-x64": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -14423,10 +14746,23 @@
           "buildTransitive/Microsoft.Maui.Resizetizer.targets": {}
         }
       },
-      "Microsoft.NET.ILLink.Tasks/8.0.15": {
+      "Microsoft.NET.ILLink.Tasks/8.0.17": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
+        }
+      },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0-android31.0/Plugin.Maui.Audio.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-android31.0/Plugin.Maui.Audio.dll": {
+            "related": ".xml"
+          }
         }
       },
       "sqlite-net-pcl/1.9.172": {
@@ -16298,6 +16634,41 @@
       }
     },
     "net8.0-android34.0/win10-x64": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-android34.0/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -16751,10 +17122,23 @@
           "buildTransitive/Microsoft.Maui.Resizetizer.targets": {}
         }
       },
-      "Microsoft.NET.ILLink.Tasks/8.0.15": {
+      "Microsoft.NET.ILLink.Tasks/8.0.17": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
+        }
+      },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0-android31.0/Plugin.Maui.Audio.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-android31.0/Plugin.Maui.Audio.dll": {
+            "related": ".xml"
+          }
         }
       },
       "sqlite-net-pcl/1.9.172": {
@@ -18626,6 +19010,41 @@
       }
     },
     "net8.0-ios18.0": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -19055,10 +19474,22 @@
           "buildTransitive/Microsoft.Maui.Resizetizer.targets": {}
         }
       },
-      "Microsoft.NET.ILLink.Tasks/8.0.15": {
+      "Microsoft.NET.ILLink.Tasks/8.0.17": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
+        }
+      },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Runtime.InteropServices.NFloat.Internal": "6.0.1"
+        },
+        "compile": {
+          "lib/net6.0-ios16.1/Plugin.Maui.Audio.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0-ios16.1/Plugin.Maui.Audio.dll": {}
         }
       },
       "sqlite-net-pcl/1.9.172": {
@@ -19133,6 +19564,41 @@
       }
     },
     "net8.0-ios18.0/android-arm": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -19562,10 +20028,22 @@
           "buildTransitive/Microsoft.Maui.Resizetizer.targets": {}
         }
       },
-      "Microsoft.NET.ILLink.Tasks/8.0.15": {
+      "Microsoft.NET.ILLink.Tasks/8.0.17": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
+        }
+      },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Runtime.InteropServices.NFloat.Internal": "6.0.1"
+        },
+        "compile": {
+          "lib/net6.0-ios16.1/Plugin.Maui.Audio.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0-ios16.1/Plugin.Maui.Audio.dll": {}
         }
       },
       "sqlite-net-pcl/1.9.172": {
@@ -19640,6 +20118,41 @@
       }
     },
     "net8.0-ios18.0/android-arm64": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -20069,10 +20582,22 @@
           "buildTransitive/Microsoft.Maui.Resizetizer.targets": {}
         }
       },
-      "Microsoft.NET.ILLink.Tasks/8.0.15": {
+      "Microsoft.NET.ILLink.Tasks/8.0.17": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
+        }
+      },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Runtime.InteropServices.NFloat.Internal": "6.0.1"
+        },
+        "compile": {
+          "lib/net6.0-ios16.1/Plugin.Maui.Audio.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0-ios16.1/Plugin.Maui.Audio.dll": {}
         }
       },
       "sqlite-net-pcl/1.9.172": {
@@ -20147,6 +20672,41 @@
       }
     },
     "net8.0-ios18.0/android-x64": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -20576,10 +21136,22 @@
           "buildTransitive/Microsoft.Maui.Resizetizer.targets": {}
         }
       },
-      "Microsoft.NET.ILLink.Tasks/8.0.15": {
+      "Microsoft.NET.ILLink.Tasks/8.0.17": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
+        }
+      },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Runtime.InteropServices.NFloat.Internal": "6.0.1"
+        },
+        "compile": {
+          "lib/net6.0-ios16.1/Plugin.Maui.Audio.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0-ios16.1/Plugin.Maui.Audio.dll": {}
         }
       },
       "sqlite-net-pcl/1.9.172": {
@@ -20654,6 +21226,41 @@
       }
     },
     "net8.0-ios18.0/android-x86": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -21083,10 +21690,22 @@
           "buildTransitive/Microsoft.Maui.Resizetizer.targets": {}
         }
       },
-      "Microsoft.NET.ILLink.Tasks/8.0.15": {
+      "Microsoft.NET.ILLink.Tasks/8.0.17": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
+        }
+      },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Runtime.InteropServices.NFloat.Internal": "6.0.1"
+        },
+        "compile": {
+          "lib/net6.0-ios16.1/Plugin.Maui.Audio.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0-ios16.1/Plugin.Maui.Audio.dll": {}
         }
       },
       "sqlite-net-pcl/1.9.172": {
@@ -21161,6 +21780,41 @@
       }
     },
     "net8.0-ios18.0/iossimulator-x64": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -21590,10 +22244,22 @@
           "buildTransitive/Microsoft.Maui.Resizetizer.targets": {}
         }
       },
-      "Microsoft.NET.ILLink.Tasks/8.0.15": {
+      "Microsoft.NET.ILLink.Tasks/8.0.17": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
+        }
+      },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Runtime.InteropServices.NFloat.Internal": "6.0.1"
+        },
+        "compile": {
+          "lib/net6.0-ios16.1/Plugin.Maui.Audio.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0-ios16.1/Plugin.Maui.Audio.dll": {}
         }
       },
       "sqlite-net-pcl/1.9.172": {
@@ -21668,6 +22334,41 @@
       }
     },
     "net8.0-ios18.0/maccatalyst-x64": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -22097,10 +22798,22 @@
           "buildTransitive/Microsoft.Maui.Resizetizer.targets": {}
         }
       },
-      "Microsoft.NET.ILLink.Tasks/8.0.15": {
+      "Microsoft.NET.ILLink.Tasks/8.0.17": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
+        }
+      },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Runtime.InteropServices.NFloat.Internal": "6.0.1"
+        },
+        "compile": {
+          "lib/net6.0-ios16.1/Plugin.Maui.Audio.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0-ios16.1/Plugin.Maui.Audio.dll": {}
         }
       },
       "sqlite-net-pcl/1.9.172": {
@@ -22175,6 +22888,41 @@
       }
     },
     "net8.0-ios18.0/win10-x64": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-ios17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -22604,10 +23352,22 @@
           "buildTransitive/Microsoft.Maui.Resizetizer.targets": {}
         }
       },
-      "Microsoft.NET.ILLink.Tasks/8.0.15": {
+      "Microsoft.NET.ILLink.Tasks/8.0.17": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
+        }
+      },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Runtime.InteropServices.NFloat.Internal": "6.0.1"
+        },
+        "compile": {
+          "lib/net6.0-ios16.1/Plugin.Maui.Audio.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0-ios16.1/Plugin.Maui.Audio.dll": {}
         }
       },
       "sqlite-net-pcl/1.9.172": {
@@ -22682,6 +23442,41 @@
       }
     },
     "net8.0-maccatalyst18.0": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -23111,10 +23906,22 @@
           "buildTransitive/Microsoft.Maui.Resizetizer.targets": {}
         }
       },
-      "Microsoft.NET.ILLink.Tasks/8.0.15": {
+      "Microsoft.NET.ILLink.Tasks/8.0.17": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
+        }
+      },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Runtime.InteropServices.NFloat.Internal": "6.0.1"
+        },
+        "compile": {
+          "lib/net6.0-maccatalyst16.1/Plugin.Maui.Audio.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0-maccatalyst16.1/Plugin.Maui.Audio.dll": {}
         }
       },
       "sqlite-net-pcl/1.9.172": {
@@ -23280,9 +24087,52 @@
         "runtime": {
           "lib/netcoreapp2.1/_._": {}
         }
+      },
+      "System.Runtime.InteropServices.NFloat.Internal/6.0.1": {
+        "type": "package",
+        "compile": {
+          "ref/net6.0/System.Runtime.InteropServices.dll": {
+            "related": ".xml"
+          }
+        }
       }
     },
     "net8.0-maccatalyst18.0/android-arm": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -23712,10 +24562,22 @@
           "buildTransitive/Microsoft.Maui.Resizetizer.targets": {}
         }
       },
-      "Microsoft.NET.ILLink.Tasks/8.0.15": {
+      "Microsoft.NET.ILLink.Tasks/8.0.17": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
+        }
+      },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Runtime.InteropServices.NFloat.Internal": "6.0.1"
+        },
+        "compile": {
+          "lib/net6.0-maccatalyst16.1/Plugin.Maui.Audio.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0-maccatalyst16.1/Plugin.Maui.Audio.dll": {}
         }
       },
       "sqlite-net-pcl/1.9.172": {
@@ -23794,9 +24656,52 @@
         "runtime": {
           "lib/netcoreapp2.1/_._": {}
         }
+      },
+      "System.Runtime.InteropServices.NFloat.Internal/6.0.1": {
+        "type": "package",
+        "compile": {
+          "ref/net6.0/System.Runtime.InteropServices.dll": {
+            "related": ".xml"
+          }
+        }
       }
     },
     "net8.0-maccatalyst18.0/android-arm64": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -24226,10 +25131,22 @@
           "buildTransitive/Microsoft.Maui.Resizetizer.targets": {}
         }
       },
-      "Microsoft.NET.ILLink.Tasks/8.0.15": {
+      "Microsoft.NET.ILLink.Tasks/8.0.17": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
+        }
+      },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Runtime.InteropServices.NFloat.Internal": "6.0.1"
+        },
+        "compile": {
+          "lib/net6.0-maccatalyst16.1/Plugin.Maui.Audio.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0-maccatalyst16.1/Plugin.Maui.Audio.dll": {}
         }
       },
       "sqlite-net-pcl/1.9.172": {
@@ -24308,9 +25225,52 @@
         "runtime": {
           "lib/netcoreapp2.1/_._": {}
         }
+      },
+      "System.Runtime.InteropServices.NFloat.Internal/6.0.1": {
+        "type": "package",
+        "compile": {
+          "ref/net6.0/System.Runtime.InteropServices.dll": {
+            "related": ".xml"
+          }
+        }
       }
     },
     "net8.0-maccatalyst18.0/android-x64": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -24740,10 +25700,22 @@
           "buildTransitive/Microsoft.Maui.Resizetizer.targets": {}
         }
       },
-      "Microsoft.NET.ILLink.Tasks/8.0.15": {
+      "Microsoft.NET.ILLink.Tasks/8.0.17": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
+        }
+      },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Runtime.InteropServices.NFloat.Internal": "6.0.1"
+        },
+        "compile": {
+          "lib/net6.0-maccatalyst16.1/Plugin.Maui.Audio.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0-maccatalyst16.1/Plugin.Maui.Audio.dll": {}
         }
       },
       "sqlite-net-pcl/1.9.172": {
@@ -24822,9 +25794,52 @@
         "runtime": {
           "lib/netcoreapp2.1/_._": {}
         }
+      },
+      "System.Runtime.InteropServices.NFloat.Internal/6.0.1": {
+        "type": "package",
+        "compile": {
+          "ref/net6.0/System.Runtime.InteropServices.dll": {
+            "related": ".xml"
+          }
+        }
       }
     },
     "net8.0-maccatalyst18.0/android-x86": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -25254,10 +26269,22 @@
           "buildTransitive/Microsoft.Maui.Resizetizer.targets": {}
         }
       },
-      "Microsoft.NET.ILLink.Tasks/8.0.15": {
+      "Microsoft.NET.ILLink.Tasks/8.0.17": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
+        }
+      },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Runtime.InteropServices.NFloat.Internal": "6.0.1"
+        },
+        "compile": {
+          "lib/net6.0-maccatalyst16.1/Plugin.Maui.Audio.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0-maccatalyst16.1/Plugin.Maui.Audio.dll": {}
         }
       },
       "sqlite-net-pcl/1.9.172": {
@@ -25336,9 +26363,52 @@
         "runtime": {
           "lib/netcoreapp2.1/_._": {}
         }
+      },
+      "System.Runtime.InteropServices.NFloat.Internal/6.0.1": {
+        "type": "package",
+        "compile": {
+          "ref/net6.0/System.Runtime.InteropServices.dll": {
+            "related": ".xml"
+          }
+        }
       }
     },
     "net8.0-maccatalyst18.0/iossimulator-x64": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -25768,10 +26838,22 @@
           "buildTransitive/Microsoft.Maui.Resizetizer.targets": {}
         }
       },
-      "Microsoft.NET.ILLink.Tasks/8.0.15": {
+      "Microsoft.NET.ILLink.Tasks/8.0.17": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
+        }
+      },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Runtime.InteropServices.NFloat.Internal": "6.0.1"
+        },
+        "compile": {
+          "lib/net6.0-maccatalyst16.1/Plugin.Maui.Audio.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0-maccatalyst16.1/Plugin.Maui.Audio.dll": {}
         }
       },
       "sqlite-net-pcl/1.9.172": {
@@ -25847,9 +26929,52 @@
         "runtime": {
           "lib/netcoreapp2.1/_._": {}
         }
+      },
+      "System.Runtime.InteropServices.NFloat.Internal/6.0.1": {
+        "type": "package",
+        "compile": {
+          "ref/net6.0/System.Runtime.InteropServices.dll": {
+            "related": ".xml"
+          }
+        }
       }
     },
     "net8.0-maccatalyst18.0/maccatalyst-x64": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -26279,10 +27404,22 @@
           "buildTransitive/Microsoft.Maui.Resizetizer.targets": {}
         }
       },
-      "Microsoft.NET.ILLink.Tasks/8.0.15": {
+      "Microsoft.NET.ILLink.Tasks/8.0.17": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
+        }
+      },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Runtime.InteropServices.NFloat.Internal": "6.0.1"
+        },
+        "compile": {
+          "lib/net6.0-maccatalyst16.1/Plugin.Maui.Audio.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0-maccatalyst16.1/Plugin.Maui.Audio.dll": {}
         }
       },
       "sqlite-net-pcl/1.9.172": {
@@ -26361,9 +27498,52 @@
         "runtime": {
           "lib/netcoreapp2.1/_._": {}
         }
+      },
+      "System.Runtime.InteropServices.NFloat.Internal/6.0.1": {
+        "type": "package",
+        "compile": {
+          "ref/net6.0/System.Runtime.InteropServices.dll": {
+            "related": ".xml"
+          }
+        }
       }
     },
     "net8.0-maccatalyst18.0/win10-x64": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -26793,10 +27973,22 @@
           "buildTransitive/Microsoft.Maui.Resizetizer.targets": {}
         }
       },
-      "Microsoft.NET.ILLink.Tasks/8.0.15": {
+      "Microsoft.NET.ILLink.Tasks/8.0.17": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
+        }
+      },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Runtime.InteropServices.NFloat.Internal": "6.0.1"
+        },
+        "compile": {
+          "lib/net6.0-maccatalyst16.1/Plugin.Maui.Audio.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0-maccatalyst16.1/Plugin.Maui.Audio.dll": {}
         }
       },
       "sqlite-net-pcl/1.9.172": {
@@ -26872,9 +28064,53 @@
         "runtime": {
           "lib/netcoreapp2.1/_._": {}
         }
+      },
+      "System.Runtime.InteropServices.NFloat.Internal/6.0.1": {
+        "type": "package",
+        "compile": {
+          "ref/net6.0/System.Runtime.InteropServices.dll": {
+            "related": ".xml"
+          }
+        }
       }
     },
     "net8.0-windows10.0.19041": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14",
+          "System.Speech": "8.0.0"
+        },
+        "compile": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -27479,6 +28715,15 @@
           }
         }
       },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0-windows10.0.19041/Plugin.Maui.Audio.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0-windows10.0.19041/Plugin.Maui.Audio.dll": {}
+        }
+      },
       "sqlite-net-pcl/1.9.172": {
         "type": "package",
         "dependencies": {
@@ -27642,9 +28887,63 @@
         "runtime": {
           "lib/netcoreapp2.1/_._": {}
         }
+      },
+      "System.Speech/8.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/System.Speech.dll": {}
+        },
+        "runtime": {
+          "lib/net8.0/System.Speech.dll": {}
+        },
+        "build": {
+          "buildTransitive/net6.0/_._": {}
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/net8.0/System.Speech.dll": {
+            "assetType": "runtime",
+            "rid": "win"
+          }
+        }
       }
     },
     "net8.0-windows10.0.19041/android-arm": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14",
+          "System.Speech": "8.0.0"
+        },
+        "compile": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -28207,6 +29506,15 @@
         "build": {
           "buildTransitive/Microsoft.WindowsAppSDK.props": {},
           "buildTransitive/Microsoft.WindowsAppSDK.targets": {}
+        }
+      },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0-windows10.0.19041/Plugin.Maui.Audio.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0-windows10.0.19041/Plugin.Maui.Audio.dll": {}
         }
       },
       "sqlite-net-pcl/1.9.172": {
@@ -28285,9 +29593,57 @@
         "runtime": {
           "lib/netcoreapp2.1/_._": {}
         }
+      },
+      "System.Speech/8.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/System.Speech.dll": {}
+        },
+        "runtime": {
+          "lib/net8.0/System.Speech.dll": {}
+        },
+        "build": {
+          "buildTransitive/net6.0/_._": {}
+        }
       }
     },
     "net8.0-windows10.0.19041/android-arm64": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14",
+          "System.Speech": "8.0.0"
+        },
+        "compile": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -28850,6 +30206,15 @@
         "build": {
           "buildTransitive/Microsoft.WindowsAppSDK.props": {},
           "buildTransitive/Microsoft.WindowsAppSDK.targets": {}
+        }
+      },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0-windows10.0.19041/Plugin.Maui.Audio.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0-windows10.0.19041/Plugin.Maui.Audio.dll": {}
         }
       },
       "sqlite-net-pcl/1.9.172": {
@@ -28928,9 +30293,57 @@
         "runtime": {
           "lib/netcoreapp2.1/_._": {}
         }
+      },
+      "System.Speech/8.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/System.Speech.dll": {}
+        },
+        "runtime": {
+          "lib/net8.0/System.Speech.dll": {}
+        },
+        "build": {
+          "buildTransitive/net6.0/_._": {}
+        }
       }
     },
     "net8.0-windows10.0.19041/android-x64": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14",
+          "System.Speech": "8.0.0"
+        },
+        "compile": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -29493,6 +30906,15 @@
         "build": {
           "buildTransitive/Microsoft.WindowsAppSDK.props": {},
           "buildTransitive/Microsoft.WindowsAppSDK.targets": {}
+        }
+      },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0-windows10.0.19041/Plugin.Maui.Audio.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0-windows10.0.19041/Plugin.Maui.Audio.dll": {}
         }
       },
       "sqlite-net-pcl/1.9.172": {
@@ -29571,9 +30993,57 @@
         "runtime": {
           "lib/netcoreapp2.1/_._": {}
         }
+      },
+      "System.Speech/8.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/System.Speech.dll": {}
+        },
+        "runtime": {
+          "lib/net8.0/System.Speech.dll": {}
+        },
+        "build": {
+          "buildTransitive/net6.0/_._": {}
+        }
       }
     },
     "net8.0-windows10.0.19041/android-x86": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14",
+          "System.Speech": "8.0.0"
+        },
+        "compile": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -30136,6 +31606,15 @@
         "build": {
           "buildTransitive/Microsoft.WindowsAppSDK.props": {},
           "buildTransitive/Microsoft.WindowsAppSDK.targets": {}
+        }
+      },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0-windows10.0.19041/Plugin.Maui.Audio.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0-windows10.0.19041/Plugin.Maui.Audio.dll": {}
         }
       },
       "sqlite-net-pcl/1.9.172": {
@@ -30214,9 +31693,57 @@
         "runtime": {
           "lib/netcoreapp2.1/_._": {}
         }
+      },
+      "System.Speech/8.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/System.Speech.dll": {}
+        },
+        "runtime": {
+          "lib/net8.0/System.Speech.dll": {}
+        },
+        "build": {
+          "buildTransitive/net6.0/_._": {}
+        }
       }
     },
     "net8.0-windows10.0.19041/iossimulator-x64": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14",
+          "System.Speech": "8.0.0"
+        },
+        "compile": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -30779,6 +32306,15 @@
         "build": {
           "buildTransitive/Microsoft.WindowsAppSDK.props": {},
           "buildTransitive/Microsoft.WindowsAppSDK.targets": {}
+        }
+      },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0-windows10.0.19041/Plugin.Maui.Audio.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0-windows10.0.19041/Plugin.Maui.Audio.dll": {}
         }
       },
       "sqlite-net-pcl/1.9.172": {
@@ -30854,9 +32390,57 @@
         "runtime": {
           "lib/netcoreapp2.1/_._": {}
         }
+      },
+      "System.Speech/8.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/System.Speech.dll": {}
+        },
+        "runtime": {
+          "lib/net8.0/System.Speech.dll": {}
+        },
+        "build": {
+          "buildTransitive/net6.0/_._": {}
+        }
       }
     },
     "net8.0-windows10.0.19041/maccatalyst-x64": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14",
+          "System.Speech": "8.0.0"
+        },
+        "compile": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -31419,6 +33003,15 @@
         "build": {
           "buildTransitive/Microsoft.WindowsAppSDK.props": {},
           "buildTransitive/Microsoft.WindowsAppSDK.targets": {}
+        }
+      },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0-windows10.0.19041/Plugin.Maui.Audio.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0-windows10.0.19041/Plugin.Maui.Audio.dll": {}
         }
       },
       "sqlite-net-pcl/1.9.172": {
@@ -31497,9 +33090,57 @@
         "runtime": {
           "lib/netcoreapp2.1/_._": {}
         }
+      },
+      "System.Speech/8.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/System.Speech.dll": {}
+        },
+        "runtime": {
+          "lib/net8.0/System.Speech.dll": {}
+        },
+        "build": {
+          "buildTransitive/net6.0/_._": {}
+        }
       }
     },
     "net8.0-windows10.0.19041/win10-x64": {
+      "CommunityToolkit.Maui/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "CommunityToolkit.Maui.Core": "8.0.1",
+          "Microsoft.Maui.Controls": "8.0.14",
+          "Microsoft.Maui.Controls.Compatibility": "8.0.14"
+        },
+        "compile": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "CommunityToolkit.Maui.Core/8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Maui.Core": "8.0.14",
+          "Microsoft.Maui.Essentials": "8.0.14",
+          "System.Speech": "8.0.0"
+        },
+        "compile": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -32070,6 +33711,15 @@
           "buildTransitive/Microsoft.WindowsAppSDK.targets": {}
         }
       },
+      "Plugin.Maui.Audio/2.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0-windows10.0.19041/Plugin.Maui.Audio.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0-windows10.0.19041/Plugin.Maui.Audio.dll": {}
+        }
+      },
       "sqlite-net-pcl/1.9.172": {
         "type": "package",
         "dependencies": {
@@ -32146,10 +33796,75 @@
         "runtime": {
           "lib/netcoreapp2.1/_._": {}
         }
+      },
+      "System.Speech/8.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/System.Speech.dll": {}
+        },
+        "runtime": {
+          "runtimes/win/lib/net8.0/System.Speech.dll": {}
+        },
+        "build": {
+          "buildTransitive/net6.0/_._": {}
+        }
       }
     }
   },
   "libraries": {
+    "CommunityToolkit.Maui/8.0.1": {
+      "sha512": "eDzpn74Q+UlJVS8yKIIbTd0CmYZli+U3CzuurnQ3r6AQq/oBvAmHXkGyfp6nIsc4E11CD6esZZ46jofQqJPXsQ==",
+      "type": "package",
+      "path": "communitytoolkit.maui/8.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "ReadMe.txt",
+        "analyzers/dotnet/cs/CommunityToolkit.Maui.Analyzers.CodeFixes.dll",
+        "analyzers/dotnet/cs/CommunityToolkit.Maui.Analyzers.dll",
+        "analyzers/dotnet/cs/CommunityToolkit.Maui.SourceGenerators.dll",
+        "communitytoolkit.maui.8.0.1.nupkg.sha512",
+        "communitytoolkit.maui.nuspec",
+        "icon.png",
+        "lib/net8.0-android34.0/CommunityToolkit.Maui.dll",
+        "lib/net8.0-android34.0/CommunityToolkit.Maui.xml",
+        "lib/net8.0-ios17.2/CommunityToolkit.Maui.dll",
+        "lib/net8.0-ios17.2/CommunityToolkit.Maui.xml",
+        "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.dll",
+        "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.xml",
+        "lib/net8.0-tizen8.0/CommunityToolkit.Maui.dll",
+        "lib/net8.0-tizen8.0/CommunityToolkit.Maui.xml",
+        "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.dll",
+        "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.xml",
+        "lib/net8.0/CommunityToolkit.Maui.dll",
+        "lib/net8.0/CommunityToolkit.Maui.xml"
+      ]
+    },
+    "CommunityToolkit.Maui.Core/8.0.1": {
+      "sha512": "PN1SqdiDgiqaKrRJyIjE4eDMbvxzHZ9d/CuPVRIzwfVepMRH6VdhErqiPTNXKrtANwyKUPpbQ+7FUoF6NmsSvw==",
+      "type": "package",
+      "path": "communitytoolkit.maui.core/8.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "ReadMe.txt",
+        "communitytoolkit.maui.core.8.0.1.nupkg.sha512",
+        "communitytoolkit.maui.core.nuspec",
+        "icon.png",
+        "lib/net8.0-android34.0/CommunityToolkit.Maui.Core.dll",
+        "lib/net8.0-android34.0/CommunityToolkit.Maui.Core.xml",
+        "lib/net8.0-ios17.2/CommunityToolkit.Maui.Core.dll",
+        "lib/net8.0-ios17.2/CommunityToolkit.Maui.Core.xml",
+        "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.Core.dll",
+        "lib/net8.0-maccatalyst17.2/CommunityToolkit.Maui.Core.xml",
+        "lib/net8.0-tizen8.0/CommunityToolkit.Maui.Core.dll",
+        "lib/net8.0-tizen8.0/CommunityToolkit.Maui.Core.xml",
+        "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.Core.dll",
+        "lib/net8.0-windows10.0.19041/CommunityToolkit.Maui.Core.xml",
+        "lib/net8.0/CommunityToolkit.Maui.Core.dll",
+        "lib/net8.0/CommunityToolkit.Maui.Core.xml"
+      ]
+    },
     "CommunityToolkit.Mvvm/8.4.0": {
       "sha512": "tqVU8yc/ADO9oiTRyTnwhFN68hCwvkliMierptWOudIAvWY1mWCh5VFh+guwHJmpMwfg0J0rY+yyd5Oy7ty9Uw==",
       "type": "package",
@@ -33548,10 +35263,10 @@
         "microsoft.maui.resizetizer.nuspec"
       ]
     },
-    "Microsoft.NET.ILLink.Tasks/8.0.15": {
-      "sha512": "s4eXlcRGyHeCgFUGQnhq0e/SCHBPp0jOHgMqZg3fQ2OCHJSm1aOUhI6RFWuVIcEb9ig2WgI2kWukk8wu72EbUQ==",
+    "Microsoft.NET.ILLink.Tasks/8.0.17": {
+      "sha512": "x5/y4l8AtshpBOrCZdlE4txw8K3e3s9meBFeZeR3l8hbbku2V7kK6ojhXvrbjg1rk3G+JqL1BI26gtgc1ZrdUw==",
       "type": "package",
-      "path": "microsoft.net.illink.tasks/8.0.15",
+      "path": "microsoft.net.illink.tasks/8.0.17",
       "hasTools": true,
       "files": [
         ".nupkg.metadata",
@@ -33565,7 +35280,7 @@
         "build/Microsoft.NET.ILLink.Analyzers.props",
         "build/Microsoft.NET.ILLink.Tasks.props",
         "build/Microsoft.NET.ILLink.targets",
-        "microsoft.net.illink.tasks.8.0.15.nupkg.sha512",
+        "microsoft.net.illink.tasks.8.0.17.nupkg.sha512",
         "microsoft.net.illink.tasks.nuspec",
         "tools/net472/ILLink.Tasks.dll",
         "tools/net472/ILLink.Tasks.dll.config",
@@ -34448,6 +36163,24 @@
         "tools/x86/GenXbf.dll"
       ]
     },
+    "Plugin.Maui.Audio/2.0.0": {
+      "sha512": "0XAwMMxYFPCOb/N69Uf+GCCe4OnETfV2mz9eFA2+gYsmw4ayMhtwmiOo5qECOISXnXNqwxkK4ACmFmlZ7+AR6Q==",
+      "type": "package",
+      "path": "plugin.maui.audio/2.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "icon.png",
+        "lib/net6.0-android31.0/Plugin.Maui.Audio.dll",
+        "lib/net6.0-android31.0/Plugin.Maui.Audio.xml",
+        "lib/net6.0-ios16.1/Plugin.Maui.Audio.dll",
+        "lib/net6.0-maccatalyst16.1/Plugin.Maui.Audio.dll",
+        "lib/net6.0-windows10.0.19041/Plugin.Maui.Audio.dll",
+        "lib/net6.0/Plugin.Maui.Audio.dll",
+        "plugin.maui.audio.2.0.0.nupkg.sha512",
+        "plugin.maui.audio.nuspec"
+      ]
+    },
     "sqlite-net-pcl/1.9.172": {
       "sha512": "go533+huyvg5bOMmCpX+DyvLrcVRiEBIpqEiDHgXRijWIBBNkWnyMr/w+5ZzrUArKY+4ApucsbBnFtP3QITrJg==",
       "type": "package",
@@ -34666,6 +36399,32 @@
         "ref/net6.0/System.Runtime.InteropServices.xml",
         "system.runtime.interopservices.nfloat.internal.6.0.1.nupkg.sha512",
         "system.runtime.interopservices.nfloat.internal.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
+    "System.Speech/8.0.0": {
+      "sha512": "CNuiA6vb95Oe5PRjClZEBiaju31vwB8OIeCgeSBXyZL6+MS4RVVB2X/C11z0xCkooHE3Vy91nM2z76emIzR+sg==",
+      "type": "package",
+      "path": "system.speech/8.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "PACKAGE.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net6.0/_._",
+        "buildTransitive/netcoreapp2.0/System.Speech.targets",
+        "lib/net462/_._",
+        "lib/net6.0/System.Speech.dll",
+        "lib/net7.0/System.Speech.dll",
+        "lib/net8.0/System.Speech.dll",
+        "lib/netstandard2.0/System.Speech.dll",
+        "runtimes/win/lib/net6.0/System.Speech.dll",
+        "runtimes/win/lib/net7.0/System.Speech.dll",
+        "runtimes/win/lib/net8.0/System.Speech.dll",
+        "system.speech.8.0.0.nupkg.sha512",
+        "system.speech.nuspec",
         "useSharedDesignerContext.txt"
       ]
     },
@@ -36709,52 +38468,60 @@
   },
   "projectFileDependencyGroups": {
     "net8.0-android34.0": [
+      "CommunityToolkit.Maui >= 8.0.1",
       "CommunityToolkit.Mvvm >= 8.4.0",
       "Microsoft.Extensions.Logging.Debug >= 8.0.1",
       "Microsoft.Maui.Controls >= 8.0.100",
       "Microsoft.Maui.Controls.Compatibility >= 8.0.100",
-      "Microsoft.NET.ILLink.Tasks >= 8.0.15",
+      "Microsoft.NET.ILLink.Tasks >= 8.0.17",
+      "Plugin.Maui.Audio >= 2.0.0",
       "sqlite-net-pcl >= 1.9.172"
     ],
     "net8.0-ios18.0": [
+      "CommunityToolkit.Maui >= 8.0.1",
       "CommunityToolkit.Mvvm >= 8.4.0",
       "Microsoft.Extensions.Logging.Debug >= 8.0.1",
       "Microsoft.Maui.Controls >= 8.0.100",
       "Microsoft.Maui.Controls.Compatibility >= 8.0.100",
-      "Microsoft.NET.ILLink.Tasks >= 8.0.15",
+      "Microsoft.NET.ILLink.Tasks >= 8.0.17",
+      "Plugin.Maui.Audio >= 2.0.0",
       "sqlite-net-pcl >= 1.9.172"
     ],
     "net8.0-maccatalyst18.0": [
+      "CommunityToolkit.Maui >= 8.0.1",
       "CommunityToolkit.Mvvm >= 8.4.0",
       "Microsoft.Extensions.Logging.Debug >= 8.0.1",
       "Microsoft.Maui.Controls >= 8.0.100",
       "Microsoft.Maui.Controls.Compatibility >= 8.0.100",
-      "Microsoft.NET.ILLink.Tasks >= 8.0.15",
+      "Microsoft.NET.ILLink.Tasks >= 8.0.17",
+      "Plugin.Maui.Audio >= 2.0.0",
       "sqlite-net-pcl >= 1.9.172"
     ],
     "net8.0-windows10.0.19041": [
+      "CommunityToolkit.Maui >= 8.0.1",
       "CommunityToolkit.Mvvm >= 8.4.0",
       "Microsoft.Extensions.Logging.Debug >= 8.0.1",
       "Microsoft.Maui.Controls >= 8.0.100",
       "Microsoft.Maui.Controls.Compatibility >= 8.0.100",
+      "Plugin.Maui.Audio >= 2.0.0",
       "sqlite-net-pcl >= 1.9.172"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\munoz\\.nuget\\packages\\": {}
+    "C:\\Users\\PC RST\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\munoz\\Desktop\\Universidad\\Feria\\MoodTAB\\MoodTAB\\MoodTAB.csproj",
+      "projectUniqueName": "C:\\Users\\PC RST\\Documents\\GitHub\\MoodTAB\\MoodTAB\\MoodTAB.csproj",
       "projectName": "MoodTAB",
-      "projectPath": "C:\\Users\\munoz\\Desktop\\Universidad\\Feria\\MoodTAB\\MoodTAB\\MoodTAB.csproj",
-      "packagesPath": "C:\\Users\\munoz\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\munoz\\Desktop\\Universidad\\Feria\\MoodTAB\\MoodTAB\\obj\\",
+      "projectPath": "C:\\Users\\PC RST\\Documents\\GitHub\\MoodTAB\\MoodTAB\\MoodTAB.csproj",
+      "packagesPath": "C:\\Users\\PC RST\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\PC RST\\Documents\\GitHub\\MoodTAB\\MoodTAB\\obj\\",
       "projectStyle": "PackageReference",
       "crossTargeting": true,
       "configFilePaths": [
-        "C:\\Users\\munoz\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\PC RST\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0-android",
@@ -36799,6 +38566,10 @@
       "net8.0-android34.0": {
         "targetAlias": "net8.0-android",
         "dependencies": {
+          "CommunityToolkit.Maui": {
+            "target": "Package",
+            "version": "[8.0.1, )"
+          },
           "CommunityToolkit.Mvvm": {
             "target": "Package",
             "version": "[8.4.0, )"
@@ -36818,8 +38589,12 @@
           "Microsoft.NET.ILLink.Tasks": {
             "suppressParent": "All",
             "target": "Package",
-            "version": "[8.0.15, )",
+            "version": "[8.0.17, )",
             "autoReferenced": true
+          },
+          "Plugin.Maui.Audio": {
+            "target": "Package",
+            "version": "[2.0.0, )"
           },
           "sqlite-net-pcl": {
             "target": "Package",
@@ -36845,11 +38620,15 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.408/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.411/PortableRuntimeIdentifierGraph.json"
       },
       "net8.0-ios18.0": {
         "targetAlias": "net8.0-ios",
         "dependencies": {
+          "CommunityToolkit.Maui": {
+            "target": "Package",
+            "version": "[8.0.1, )"
+          },
           "CommunityToolkit.Mvvm": {
             "target": "Package",
             "version": "[8.4.0, )"
@@ -36869,8 +38648,12 @@
           "Microsoft.NET.ILLink.Tasks": {
             "suppressParent": "All",
             "target": "Package",
-            "version": "[8.0.15, )",
+            "version": "[8.0.17, )",
             "autoReferenced": true
+          },
+          "Plugin.Maui.Audio": {
+            "target": "Package",
+            "version": "[2.0.0, )"
           },
           "sqlite-net-pcl": {
             "target": "Package",
@@ -36896,11 +38679,15 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.408/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.411/PortableRuntimeIdentifierGraph.json"
       },
       "net8.0-maccatalyst18.0": {
         "targetAlias": "net8.0-maccatalyst",
         "dependencies": {
+          "CommunityToolkit.Maui": {
+            "target": "Package",
+            "version": "[8.0.1, )"
+          },
           "CommunityToolkit.Mvvm": {
             "target": "Package",
             "version": "[8.4.0, )"
@@ -36920,8 +38707,12 @@
           "Microsoft.NET.ILLink.Tasks": {
             "suppressParent": "All",
             "target": "Package",
-            "version": "[8.0.15, )",
+            "version": "[8.0.17, )",
             "autoReferenced": true
+          },
+          "Plugin.Maui.Audio": {
+            "target": "Package",
+            "version": "[2.0.0, )"
           },
           "sqlite-net-pcl": {
             "target": "Package",
@@ -36948,11 +38739,15 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.408/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.411/PortableRuntimeIdentifierGraph.json"
       },
       "net8.0-windows10.0.19041": {
         "targetAlias": "net8.0-windows10.0.19041.0",
         "dependencies": {
+          "CommunityToolkit.Maui": {
+            "target": "Package",
+            "version": "[8.0.1, )"
+          },
           "CommunityToolkit.Mvvm": {
             "target": "Package",
             "version": "[8.4.0, )"
@@ -36968,6 +38763,10 @@
           "Microsoft.Maui.Controls.Compatibility": {
             "target": "Package",
             "version": "[8.0.100, )"
+          },
+          "Plugin.Maui.Audio": {
+            "target": "Package",
+            "version": "[2.0.0, )"
           },
           "sqlite-net-pcl": {
             "target": "Package",
@@ -36999,7 +38798,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.408\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.411\\RuntimeIdentifierGraph.json"
       }
     },
     "runtimes": {

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using WebConTablas.Controllers; // 👈 Aquí está tu ChatService
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +21,15 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod();
     });
 });
+// 👇 REGISTRO DEL CHATBOT SERVICE
+builder.Services.AddSingleton<ChatService>(sp =>
+{
+    var apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY");
+    if (string.IsNullOrEmpty(apiKey))
+        throw new Exception("❌ No se encontró la API Key en OPENAI_API_KEY.");
 
+    return new ChatService(apiKey);
+});
 
 var app = builder.Build();
 

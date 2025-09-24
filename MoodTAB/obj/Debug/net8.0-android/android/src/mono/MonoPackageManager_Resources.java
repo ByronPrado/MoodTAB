@@ -3,6 +3,8 @@ public class MonoPackageManager_Resources {
 	public static String[] Assemblies = new String[]{
 		/* We need to ensure that "MoodTAB.dll" comes first in this list. */
 		"MoodTAB.dll",
+		"CommunityToolkit.Maui.dll",
+		"CommunityToolkit.Maui.Core.dll",
 		"CommunityToolkit.Mvvm.dll",
 		"GoogleGson.dll",
 		"Microsoft.Extensions.Configuration.dll",
@@ -20,6 +22,7 @@ public class MonoPackageManager_Resources {
 		"Microsoft.Maui.dll",
 		"Microsoft.Maui.Essentials.dll",
 		"Microsoft.Maui.Graphics.dll",
+		"Plugin.Maui.Audio.dll",
 		"SQLite-net.dll",
 		"SQLitePCLRaw.batteries_v2.dll",
 		"SQLitePCLRaw.core.dll",

@@ -382,3 +382,15 @@ C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\qualifiers.txt.intermediate
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\MultipleQualifiersPerDimensionFound.txt
 C:\Users\byrom\OneDrive\Escritorio\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\ProjectArchitectures.txt
+C:\Users\PC RST\Documents\GitHub\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\MoodTAB.csproj.AssemblyReference.cache
+C:\Users\PC RST\Documents\GitHub\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\mauiimage.inputs
+C:\Users\PC RST\Documents\GitHub\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\mauifont.inputs
+C:\Users\PC RST\Documents\GitHub\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\mauisplash.inputs
+C:\Users\PC RST\Documents\GitHub\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\mauimanifest.stamp
+C:\Users\PC RST\Documents\GitHub\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\Platforms\Windows\App.g.i.cs
+C:\Users\PC RST\Documents\GitHub\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\Platforms\Windows\App.g.cs
+C:\Users\PC RST\Documents\GitHub\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\XamlTypeInfo.g.cs
+C:\Users\PC RST\Documents\GitHub\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\Platforms\Windows\App.xaml
+C:\Users\PC RST\Documents\GitHub\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\Platforms\Windows\App.xbf
+C:\Users\PC RST\Documents\GitHub\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\XamlSaveStateFile.xml
+C:\Users\PC RST\Documents\GitHub\MoodTAB\MoodTAB\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\MoodTAB.GeneratedMSBuildEditorConfig.editorconfig

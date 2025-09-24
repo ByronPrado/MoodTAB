@@ -1,0 +1,10 @@
+version: 3
+agent:
+  authtoken: 32A89wFTsPk9WVvD0doCz7Eejkl_7N3X1fqPfubvvo51V4XKn
+
+tunnels:
+  web:
+    proto: http
+    addr: 5051
+    # Descomenta para proteger con usuario y contraseña
+    # auth: "usuario:clave"

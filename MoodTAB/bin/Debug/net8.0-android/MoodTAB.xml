@@ -4,6 +4,13 @@
         <name>MoodTAB</name>
     </assembly>
     <members>
+        <member name="M:MoodTAB.Services.IDictationService.StartDictationAsync(System.Threading.CancellationToken)">
+            <summary>
+            Inicia el dictado y devuelve el texto reconocido.
+            </summary>
+            <param name="cancellationToken">Token para cancelar el dictado.</param>
+            <returns>Texto reconocido del usuario.</returns>
+        </member>
         <member name="T:MoodTAB.ViewModel.AddPregunta">
             <inheritdoc/>
             <inheritdoc/>
@@ -43,6 +50,35 @@
         <member name="P:MoodTAB.ViewModel.AddPregunta.BorrarBaseDatosCommand">
             <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.AddPregunta.BorrarBaseDatos"/>.</summary>
         </member>
+        <member name="T:MoodTAB.ViewModel.CuestionarioDetalleViewmodel">
+            <inheritdoc/>
+            <inheritdoc/>
+            <inheritdoc/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.CuestionarioDetalleViewmodel.Log_test">
+            <inheritdoc cref="F:MoodTAB.ViewModel.CuestionarioDetalleViewmodel.log_test"/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.CuestionarioDetalleViewmodel.RespuestaUsuarioEscala">
+            <inheritdoc cref="F:MoodTAB.ViewModel.CuestionarioDetalleViewmodel.respuestaUsuarioEscala"/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.CuestionarioDetalleViewmodel.PreguntasConRespuesta">
+            <inheritdoc cref="F:MoodTAB.ViewModel.CuestionarioDetalleViewmodel.preguntasConRespuesta"/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.CuestionarioDetalleViewmodel.RespuestasLista">
+            <inheritdoc cref="F:MoodTAB.ViewModel.CuestionarioDetalleViewmodel.respuestasLista"/>
+        </member>
+        <member name="F:MoodTAB.ViewModel.CuestionarioDetalleViewmodel.guardarRespuestasCommand">
+            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.CuestionarioDetalleViewmodel.GuardarRespuestasCommand"/>.</summary>
+        </member>
+        <member name="P:MoodTAB.ViewModel.CuestionarioDetalleViewmodel.GuardarRespuestasCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.CuestionarioDetalleViewmodel.GuardarRespuestas"/>.</summary>
+        </member>
+        <member name="F:MoodTAB.ViewModel.CuestionarioDetalleViewmodel.borrarBaseDatosCommand">
+            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.CuestionarioDetalleViewmodel.BorrarBaseDatosCommand"/>.</summary>
+        </member>
+        <member name="P:MoodTAB.ViewModel.CuestionarioDetalleViewmodel.BorrarBaseDatosCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.CuestionarioDetalleViewmodel.BorrarBaseDatos"/>.</summary>
+        </member>
         <member name="T:MoodTAB.ViewModel.PreguntaConRespuesta">
             <inheritdoc/>
             <inheritdoc/>
@@ -62,16 +98,6 @@
         <member name="T:MoodTAB.ViewModel.Cuestionario">
             <inheritdoc/>
             <inheritdoc/>
-            <inheritdoc/>
-        </member>
-        <member name="P:MoodTAB.ViewModel.Cuestionario.PreguntasConRespuesta">
-            <inheritdoc cref="F:MoodTAB.ViewModel.Cuestionario.preguntasConRespuesta"/>
-        </member>
-        <member name="P:MoodTAB.ViewModel.Cuestionario.RespuestasLista">
-            <inheritdoc cref="F:MoodTAB.ViewModel.Cuestionario.respuestasLista"/>
-        </member>
-        <member name="P:MoodTAB.ViewModel.Cuestionario.RespuestaUsuarioEscala">
-            <inheritdoc cref="F:MoodTAB.ViewModel.Cuestionario.respuestaUsuarioEscala"/>
         </member>
         <member name="P:MoodTAB.ViewModel.Cuestionario.Pendiente">
             <inheritdoc cref="F:MoodTAB.ViewModel.Cuestionario.pendiente"/>
@@ -79,17 +105,25 @@
         <member name="P:MoodTAB.ViewModel.Cuestionario.Nopendiente">
             <inheritdoc cref="F:MoodTAB.ViewModel.Cuestionario.nopendiente"/>
         </member>
-        <member name="F:MoodTAB.ViewModel.Cuestionario.guardarRespuestasCommand">
-            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.Cuestionario.GuardarRespuestasCommand"/>.</summary>
+        <member name="P:MoodTAB.ViewModel.Cuestionario.Log_test">
+            <inheritdoc cref="F:MoodTAB.ViewModel.Cuestionario.log_test"/>
         </member>
-        <member name="P:MoodTAB.ViewModel.Cuestionario.GuardarRespuestasCommand">
-            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.Cuestionario.GuardarRespuestas"/>.</summary>
+        <member name="P:MoodTAB.ViewModel.Cuestionario.ListaCuestionarios">
+            <inheritdoc cref="F:MoodTAB.ViewModel.Cuestionario.listaCuestionarios"/>
         </member>
-        <member name="F:MoodTAB.ViewModel.Cuestionario.borrarBaseDatosCommand">
-            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.Cuestionario.BorrarBaseDatosCommand"/>.</summary>
+        <member name="P:MoodTAB.ViewModel.Cuestionario.CuestionarioSeleccionado">
+            <inheritdoc cref="F:MoodTAB.ViewModel.Cuestionario.cuestionarioSeleccionado"/>
         </member>
-        <member name="P:MoodTAB.ViewModel.Cuestionario.BorrarBaseDatosCommand">
-            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.Cuestionario.BorrarBaseDatos"/>.</summary>
+        <member name="M:MoodTAB.ViewModel.Cuestionario.OnCuestionarioSeleccionadoChanged(MoodTAB.ViewModel.CuestionarioData)">
+            <summary>Executes the logic for when <see cref="P:MoodTAB.ViewModel.Cuestionario.CuestionarioSeleccionado"/> just changed.</summary>
+            <param name="value">The new property value that was set.</param>
+            <remarks>This method is invoked right after the value of <see cref="P:MoodTAB.ViewModel.Cuestionario.CuestionarioSeleccionado"/> is changed.</remarks>
+        </member>
+        <member name="F:MoodTAB.ViewModel.Cuestionario.seleccionarCuestionarioCommand">
+            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.Cuestionario.SeleccionarCuestionarioCommand"/>.</summary>
+        </member>
+        <member name="P:MoodTAB.ViewModel.Cuestionario.SeleccionarCuestionarioCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand`1"/> instance wrapping <see cref="M:MoodTAB.ViewModel.Cuestionario.SeleccionarCuestionario(MoodTAB.ViewModel.CuestionarioData)"/>.</summary>
         </member>
         <member name="T:MoodTAB.ViewModel.DataBaseViewModel">
             <inheritdoc/>
@@ -151,12 +185,16 @@
             <inheritdoc/>
             <inheritdoc/>
             <inheritdoc/>
+            <inheritdoc/>
         </member>
         <member name="P:MoodTAB.ViewModel.DiarioViewModel.Diarios">
             <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.diarios"/>
         </member>
         <member name="P:MoodTAB.ViewModel.DiarioViewModel.EmocionDiaria">
             <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.emocionDiaria"/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.DiarioViewModel.ListaEmociones">
+            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.listaEmociones"/>
         </member>
         <member name="P:MoodTAB.ViewModel.DiarioViewModel.DescDia">
             <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.descDia"/>
@@ -179,59 +217,14 @@
         <member name="P:MoodTAB.ViewModel.DiarioViewModel.Error">
             <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.error"/>
         </member>
-        <member name="P:MoodTAB.ViewModel.DiarioViewModel.ColorFeliz">
-            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.colorFeliz"/>
+        <member name="P:MoodTAB.ViewModel.DiarioViewModel.IntensidadEmocion">
+            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.intensidadEmocion"/>
         </member>
-        <member name="P:MoodTAB.ViewModel.DiarioViewModel.ColorEmocionado">
-            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.colorEmocionado"/>
+        <member name="P:MoodTAB.ViewModel.DiarioViewModel.EmocionesSeleccionadas">
+            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.emocionesSeleccionadas"/>
         </member>
-        <member name="P:MoodTAB.ViewModel.DiarioViewModel.ColorCansado">
-            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.colorCansado"/>
-        </member>
-        <member name="P:MoodTAB.ViewModel.DiarioViewModel.ColorTriste">
-            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.colorTriste"/>
-        </member>
-        <member name="P:MoodTAB.ViewModel.DiarioViewModel.ColorFrustrado">
-            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.colorFrustrado"/>
-        </member>
-        <member name="P:MoodTAB.ViewModel.DiarioViewModel.ColorEnojado">
-            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.colorEnojado"/>
-        </member>
-        <member name="P:MoodTAB.ViewModel.DiarioViewModel.ColorNeutro">
-            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.colorNeutro"/>
-        </member>
-        <member name="P:MoodTAB.ViewModel.DiarioViewModel.ColorAngustiado">
-            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.colorAngustiado"/>
-        </member>
-        <member name="P:MoodTAB.ViewModel.DiarioViewModel.ColorAnsioso">
-            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.colorAnsioso"/>
-        </member>
-        <member name="P:MoodTAB.ViewModel.DiarioViewModel.ColorFeliz_borde">
-            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.colorFeliz_borde"/>
-        </member>
-        <member name="P:MoodTAB.ViewModel.DiarioViewModel.ColorEmocionado_borde">
-            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.colorEmocionado_borde"/>
-        </member>
-        <member name="P:MoodTAB.ViewModel.DiarioViewModel.ColorCansado_borde">
-            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.colorCansado_borde"/>
-        </member>
-        <member name="P:MoodTAB.ViewModel.DiarioViewModel.ColorTriste_borde">
-            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.colorTriste_borde"/>
-        </member>
-        <member name="P:MoodTAB.ViewModel.DiarioViewModel.ColorFrustrado_borde">
-            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.colorFrustrado_borde"/>
-        </member>
-        <member name="P:MoodTAB.ViewModel.DiarioViewModel.ColorEnojado_borde">
-            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.colorEnojado_borde"/>
-        </member>
-        <member name="P:MoodTAB.ViewModel.DiarioViewModel.ColorNeutro_borde">
-            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.colorNeutro_borde"/>
-        </member>
-        <member name="P:MoodTAB.ViewModel.DiarioViewModel.ColorAngustiado_borde">
-            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.colorAngustiado_borde"/>
-        </member>
-        <member name="P:MoodTAB.ViewModel.DiarioViewModel.ColorAnsioso_borde">
-            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.colorAnsioso_borde"/>
+        <member name="P:MoodTAB.ViewModel.DiarioViewModel.Test">
+            <inheritdoc cref="F:MoodTAB.ViewModel.DiarioViewModel.test"/>
         </member>
         <member name="M:MoodTAB.ViewModel.DiarioViewModel.OnHorasSuenoChanged(System.String)">
             <summary>Executes the logic for when <see cref="P:MoodTAB.ViewModel.DiarioViewModel.HorasSueno"/> just changed.</summary>
@@ -255,6 +248,12 @@
         </member>
         <member name="P:MoodTAB.ViewModel.DiarioViewModel.BorrarDiarioCommand">
             <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.DiarioViewModel.BorrarDiario"/>.</summary>
+        </member>
+        <member name="F:MoodTAB.ViewModel.DiarioViewModel.dictarDiarioCommand">
+            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.DiarioViewModel.DictarDiarioCommand"/>.</summary>
+        </member>
+        <member name="P:MoodTAB.ViewModel.DiarioViewModel.DictarDiarioCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.DiarioViewModel.DictarDiario"/>.</summary>
         </member>
         <member name="T:MoodTAB.ViewModel.HealthDataViewModel">
             <inheritdoc/>
@@ -353,6 +352,35 @@
         <member name="P:MoodTAB.ViewModel.UserViewModel.GuardarCambiosCommand">
             <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.UserViewModel.GuardarCambios"/>.</summary>
         </member>
+        <member name="T:MoodTAB.ViewModel.UsuarioExternoViewModel">
+            <inheritdoc/>
+            <inheritdoc/>
+            <inheritdoc/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.UsuarioExternoViewModel.CuestionarioTexto">
+            <inheritdoc cref="F:MoodTAB.ViewModel.UsuarioExternoViewModel.cuestionarioTexto"/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.UsuarioExternoViewModel.Log_txt">
+            <inheritdoc cref="F:MoodTAB.ViewModel.UsuarioExternoViewModel.log_txt"/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.UsuarioExternoViewModel.Ide">
+            <inheritdoc cref="F:MoodTAB.ViewModel.UsuarioExternoViewModel.ide"/>
+        </member>
+        <member name="P:MoodTAB.ViewModel.UsuarioExternoViewModel.ComentarioExterno">
+            <inheritdoc cref="F:MoodTAB.ViewModel.UsuarioExternoViewModel.comentarioExterno"/>
+        </member>
+        <member name="F:MoodTAB.ViewModel.UsuarioExternoViewModel.dictarDiarioCommand">
+            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.UsuarioExternoViewModel.DictarDiarioCommand"/>.</summary>
+        </member>
+        <member name="P:MoodTAB.ViewModel.UsuarioExternoViewModel.DictarDiarioCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.UsuarioExternoViewModel.DictarDiario"/>.</summary>
+        </member>
+        <member name="F:MoodTAB.ViewModel.UsuarioExternoViewModel.enviarComentarioCommand">
+            <summary>The backing field for <see cref="P:MoodTAB.ViewModel.UsuarioExternoViewModel.EnviarComentarioCommand"/>.</summary>
+        </member>
+        <member name="P:MoodTAB.ViewModel.UsuarioExternoViewModel.EnviarComentarioCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModel.UsuarioExternoViewModel.EnviarComentario"/>.</summary>
+        </member>
         <member name="T:MoodTAB.ViewModels.LoginViewModel">
             <inheritdoc/>
             <inheritdoc/>
@@ -370,6 +398,9 @@
         <member name="P:MoodTAB.ViewModels.LoginViewModel.LogsMessage">
             <inheritdoc cref="F:MoodTAB.ViewModels.LoginViewModel.logsMessage"/>
         </member>
+        <member name="P:MoodTAB.ViewModels.LoginViewModel.EsFamiliar">
+            <inheritdoc cref="F:MoodTAB.ViewModels.LoginViewModel.esFamiliar"/>
+        </member>
         <member name="F:MoodTAB.ViewModels.LoginViewModel.loginCommand">
             <summary>The backing field for <see cref="P:MoodTAB.ViewModels.LoginViewModel.LoginCommand"/>.</summary>
         </member>
@@ -381,6 +412,126 @@
         </member>
         <member name="P:MoodTAB.ViewModels.LoginViewModel.LogoutCommand">
             <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:MoodTAB.ViewModels.LoginViewModel.Logout"/>.</summary>
+        </member>
+        <member name="M:Microsoft.Maui.Controls.ColorAnimationExtensions_Button.TextColorTo(Microsoft.Maui.Controls.Button,Microsoft.Maui.Graphics.Color,System.UInt32,System.UInt32,Microsoft.Maui.Easing,System.Threading.CancellationToken)">
+            <summary>
+            Animates the TextColor of an <see cref = "T:Microsoft.Maui.ITextStyle"/> to the given color
+            </summary>
+            <param name = "element"></param>
+            <param name = "color">The target color to animate the <see cref = "P:Microsoft.Maui.ITextStyle.TextColor"/> to</param>
+            <param name = "rate">The time, in milliseconds, between the frames of the animation</param>
+            <param name = "length">The duration, in milliseconds, of the animation</param>
+            <param name = "easing">The easing function to be used in the animation</param>
+            <param name = "token"><see cref = "T:System.Threading.CancellationToken"/></param>
+            <returns>Value indicating if the animation completed successfully or not</returns>
+        </member>
+        <member name="M:Microsoft.Maui.Controls.ColorAnimationExtensions_DatePicker.TextColorTo(Microsoft.Maui.Controls.DatePicker,Microsoft.Maui.Graphics.Color,System.UInt32,System.UInt32,Microsoft.Maui.Easing,System.Threading.CancellationToken)">
+            <summary>
+            Animates the TextColor of an <see cref = "T:Microsoft.Maui.ITextStyle"/> to the given color
+            </summary>
+            <param name = "element"></param>
+            <param name = "color">The target color to animate the <see cref = "P:Microsoft.Maui.ITextStyle.TextColor"/> to</param>
+            <param name = "rate">The time, in milliseconds, between the frames of the animation</param>
+            <param name = "length">The duration, in milliseconds, of the animation</param>
+            <param name = "easing">The easing function to be used in the animation</param>
+            <param name = "token"><see cref = "T:System.Threading.CancellationToken"/></param>
+            <returns>Value indicating if the animation completed successfully or not</returns>
+        </member>
+        <member name="M:Microsoft.Maui.Controls.ColorAnimationExtensions_Editor.TextColorTo(Microsoft.Maui.Controls.Editor,Microsoft.Maui.Graphics.Color,System.UInt32,System.UInt32,Microsoft.Maui.Easing,System.Threading.CancellationToken)">
+            <summary>
+            Animates the TextColor of an <see cref = "T:Microsoft.Maui.ITextStyle"/> to the given color
+            </summary>
+            <param name = "element"></param>
+            <param name = "color">The target color to animate the <see cref = "P:Microsoft.Maui.ITextStyle.TextColor"/> to</param>
+            <param name = "rate">The time, in milliseconds, between the frames of the animation</param>
+            <param name = "length">The duration, in milliseconds, of the animation</param>
+            <param name = "easing">The easing function to be used in the animation</param>
+            <param name = "token"><see cref = "T:System.Threading.CancellationToken"/></param>
+            <returns>Value indicating if the animation completed successfully or not</returns>
+        </member>
+        <member name="M:Microsoft.Maui.Controls.ColorAnimationExtensions_Entry.TextColorTo(Microsoft.Maui.Controls.Entry,Microsoft.Maui.Graphics.Color,System.UInt32,System.UInt32,Microsoft.Maui.Easing,System.Threading.CancellationToken)">
+            <summary>
+            Animates the TextColor of an <see cref = "T:Microsoft.Maui.ITextStyle"/> to the given color
+            </summary>
+            <param name = "element"></param>
+            <param name = "color">The target color to animate the <see cref = "P:Microsoft.Maui.ITextStyle.TextColor"/> to</param>
+            <param name = "rate">The time, in milliseconds, between the frames of the animation</param>
+            <param name = "length">The duration, in milliseconds, of the animation</param>
+            <param name = "easing">The easing function to be used in the animation</param>
+            <param name = "token"><see cref = "T:System.Threading.CancellationToken"/></param>
+            <returns>Value indicating if the animation completed successfully or not</returns>
+        </member>
+        <member name="M:Microsoft.Maui.Controls.ColorAnimationExtensions_InputView.TextColorTo(Microsoft.Maui.Controls.InputView,Microsoft.Maui.Graphics.Color,System.UInt32,System.UInt32,Microsoft.Maui.Easing,System.Threading.CancellationToken)">
+            <summary>
+            Animates the TextColor of an <see cref = "T:Microsoft.Maui.ITextStyle"/> to the given color
+            </summary>
+            <param name = "element"></param>
+            <param name = "color">The target color to animate the <see cref = "P:Microsoft.Maui.ITextStyle.TextColor"/> to</param>
+            <param name = "rate">The time, in milliseconds, between the frames of the animation</param>
+            <param name = "length">The duration, in milliseconds, of the animation</param>
+            <param name = "easing">The easing function to be used in the animation</param>
+            <param name = "token"><see cref = "T:System.Threading.CancellationToken"/></param>
+            <returns>Value indicating if the animation completed successfully or not</returns>
+        </member>
+        <member name="M:Microsoft.Maui.Controls.ColorAnimationExtensions_Label.TextColorTo(Microsoft.Maui.Controls.Label,Microsoft.Maui.Graphics.Color,System.UInt32,System.UInt32,Microsoft.Maui.Easing,System.Threading.CancellationToken)">
+            <summary>
+            Animates the TextColor of an <see cref = "T:Microsoft.Maui.ITextStyle"/> to the given color
+            </summary>
+            <param name = "element"></param>
+            <param name = "color">The target color to animate the <see cref = "P:Microsoft.Maui.ITextStyle.TextColor"/> to</param>
+            <param name = "rate">The time, in milliseconds, between the frames of the animation</param>
+            <param name = "length">The duration, in milliseconds, of the animation</param>
+            <param name = "easing">The easing function to be used in the animation</param>
+            <param name = "token"><see cref = "T:System.Threading.CancellationToken"/></param>
+            <returns>Value indicating if the animation completed successfully or not</returns>
+        </member>
+        <member name="M:Microsoft.Maui.Controls.ColorAnimationExtensions_Picker.TextColorTo(Microsoft.Maui.Controls.Picker,Microsoft.Maui.Graphics.Color,System.UInt32,System.UInt32,Microsoft.Maui.Easing,System.Threading.CancellationToken)">
+            <summary>
+            Animates the TextColor of an <see cref = "T:Microsoft.Maui.ITextStyle"/> to the given color
+            </summary>
+            <param name = "element"></param>
+            <param name = "color">The target color to animate the <see cref = "P:Microsoft.Maui.ITextStyle.TextColor"/> to</param>
+            <param name = "rate">The time, in milliseconds, between the frames of the animation</param>
+            <param name = "length">The duration, in milliseconds, of the animation</param>
+            <param name = "easing">The easing function to be used in the animation</param>
+            <param name = "token"><see cref = "T:System.Threading.CancellationToken"/></param>
+            <returns>Value indicating if the animation completed successfully or not</returns>
+        </member>
+        <member name="M:Microsoft.Maui.Controls.ColorAnimationExtensions_RadioButton.TextColorTo(Microsoft.Maui.Controls.RadioButton,Microsoft.Maui.Graphics.Color,System.UInt32,System.UInt32,Microsoft.Maui.Easing,System.Threading.CancellationToken)">
+            <summary>
+            Animates the TextColor of an <see cref = "T:Microsoft.Maui.ITextStyle"/> to the given color
+            </summary>
+            <param name = "element"></param>
+            <param name = "color">The target color to animate the <see cref = "P:Microsoft.Maui.ITextStyle.TextColor"/> to</param>
+            <param name = "rate">The time, in milliseconds, between the frames of the animation</param>
+            <param name = "length">The duration, in milliseconds, of the animation</param>
+            <param name = "easing">The easing function to be used in the animation</param>
+            <param name = "token"><see cref = "T:System.Threading.CancellationToken"/></param>
+            <returns>Value indicating if the animation completed successfully or not</returns>
+        </member>
+        <member name="M:Microsoft.Maui.Controls.ColorAnimationExtensions_SearchBar.TextColorTo(Microsoft.Maui.Controls.SearchBar,Microsoft.Maui.Graphics.Color,System.UInt32,System.UInt32,Microsoft.Maui.Easing,System.Threading.CancellationToken)">
+            <summary>
+            Animates the TextColor of an <see cref = "T:Microsoft.Maui.ITextStyle"/> to the given color
+            </summary>
+            <param name = "element"></param>
+            <param name = "color">The target color to animate the <see cref = "P:Microsoft.Maui.ITextStyle.TextColor"/> to</param>
+            <param name = "rate">The time, in milliseconds, between the frames of the animation</param>
+            <param name = "length">The duration, in milliseconds, of the animation</param>
+            <param name = "easing">The easing function to be used in the animation</param>
+            <param name = "token"><see cref = "T:System.Threading.CancellationToken"/></param>
+            <returns>Value indicating if the animation completed successfully or not</returns>
+        </member>
+        <member name="M:Microsoft.Maui.Controls.ColorAnimationExtensions_TimePicker.TextColorTo(Microsoft.Maui.Controls.TimePicker,Microsoft.Maui.Graphics.Color,System.UInt32,System.UInt32,Microsoft.Maui.Easing,System.Threading.CancellationToken)">
+            <summary>
+            Animates the TextColor of an <see cref = "T:Microsoft.Maui.ITextStyle"/> to the given color
+            </summary>
+            <param name = "element"></param>
+            <param name = "color">The target color to animate the <see cref = "P:Microsoft.Maui.ITextStyle.TextColor"/> to</param>
+            <param name = "rate">The time, in milliseconds, between the frames of the animation</param>
+            <param name = "length">The duration, in milliseconds, of the animation</param>
+            <param name = "easing">The easing function to be used in the animation</param>
+            <param name = "token"><see cref = "T:System.Threading.CancellationToken"/></param>
+            <returns>Value indicating if the animation completed successfully or not</returns>
         </member>
         <member name="T:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs">
             <summary>
@@ -403,11 +554,11 @@
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Opciones">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Opciones" generated properties.</summary>
         </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.RespuestaUsuario">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "RespuestaUsuario" generated properties.</summary>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Log_test">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Log_test" generated properties.</summary>
         </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.OpcionSeleccionada">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "OpcionSeleccionada" generated properties.</summary>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.RespuestaUsuarioEscala">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "RespuestaUsuarioEscala" generated properties.</summary>
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.PreguntasConRespuesta">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "PreguntasConRespuesta" generated properties.</summary>
@@ -415,14 +566,23 @@
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.RespuestasLista">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "RespuestasLista" generated properties.</summary>
         </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.RespuestaUsuarioEscala">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "RespuestaUsuarioEscala" generated properties.</summary>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.RespuestaUsuario">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "RespuestaUsuario" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.OpcionSeleccionada">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "OpcionSeleccionada" generated properties.</summary>
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Pendiente">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Pendiente" generated properties.</summary>
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Nopendiente">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Nopendiente" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ListaCuestionarios">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ListaCuestionarios" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.CuestionarioSeleccionado">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "CuestionarioSeleccionado" generated properties.</summary>
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Items">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Items" generated properties.</summary>
@@ -472,59 +632,14 @@
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Error">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Error" generated properties.</summary>
         </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ColorFeliz">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ColorFeliz" generated properties.</summary>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.IntensidadEmocion">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "IntensidadEmocion" generated properties.</summary>
         </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ColorEmocionado">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ColorEmocionado" generated properties.</summary>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.EmocionesSeleccionadas">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "EmocionesSeleccionadas" generated properties.</summary>
         </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ColorCansado">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ColorCansado" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ColorTriste">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ColorTriste" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ColorFrustrado">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ColorFrustrado" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ColorEnojado">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ColorEnojado" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ColorNeutro">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ColorNeutro" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ColorAngustiado">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ColorAngustiado" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ColorAnsioso">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ColorAnsioso" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ColorFeliz_borde">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ColorFeliz_borde" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ColorEmocionado_borde">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ColorEmocionado_borde" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ColorCansado_borde">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ColorCansado_borde" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ColorTriste_borde">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ColorTriste_borde" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ColorFrustrado_borde">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ColorFrustrado_borde" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ColorEnojado_borde">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ColorEnojado_borde" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ColorNeutro_borde">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ColorNeutro_borde" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ColorAngustiado_borde">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ColorAngustiado_borde" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ColorAnsioso_borde">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ColorAnsioso_borde" generated properties.</summary>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Test">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Test" generated properties.</summary>
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Title">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Title" generated properties.</summary>
@@ -550,6 +665,9 @@
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.LogsMessage">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "LogsMessage" generated properties.</summary>
         </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.EsFamiliar">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "EsFamiliar" generated properties.</summary>
+        </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Cuestionario">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Cuestionario" generated properties.</summary>
         </member>
@@ -564,6 +682,18 @@
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.BotonEditar">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "BotonEditar" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.CuestionarioTexto">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "CuestionarioTexto" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Log_txt">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Log_txt" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Ide">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Ide" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ComentarioExterno">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ComentarioExterno" generated properties.</summary>
         </member>
         <member name="T:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs">
             <summary>
@@ -586,11 +716,11 @@
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Opciones">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Opciones" generated properties.</summary>
         </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.RespuestaUsuario">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "RespuestaUsuario" generated properties.</summary>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Log_test">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Log_test" generated properties.</summary>
         </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.OpcionSeleccionada">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "OpcionSeleccionada" generated properties.</summary>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.RespuestaUsuarioEscala">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "RespuestaUsuarioEscala" generated properties.</summary>
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.PreguntasConRespuesta">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "PreguntasConRespuesta" generated properties.</summary>
@@ -598,14 +728,23 @@
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.RespuestasLista">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "RespuestasLista" generated properties.</summary>
         </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.RespuestaUsuarioEscala">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "RespuestaUsuarioEscala" generated properties.</summary>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.RespuestaUsuario">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "RespuestaUsuario" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.OpcionSeleccionada">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "OpcionSeleccionada" generated properties.</summary>
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Pendiente">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Pendiente" generated properties.</summary>
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Nopendiente">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Nopendiente" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ListaCuestionarios">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ListaCuestionarios" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.CuestionarioSeleccionado">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "CuestionarioSeleccionado" generated properties.</summary>
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Items">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Items" generated properties.</summary>
@@ -655,59 +794,14 @@
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Error">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Error" generated properties.</summary>
         </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ColorFeliz">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ColorFeliz" generated properties.</summary>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.IntensidadEmocion">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "IntensidadEmocion" generated properties.</summary>
         </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ColorEmocionado">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ColorEmocionado" generated properties.</summary>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.EmocionesSeleccionadas">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "EmocionesSeleccionadas" generated properties.</summary>
         </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ColorCansado">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ColorCansado" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ColorTriste">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ColorTriste" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ColorFrustrado">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ColorFrustrado" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ColorEnojado">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ColorEnojado" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ColorNeutro">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ColorNeutro" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ColorAngustiado">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ColorAngustiado" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ColorAnsioso">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ColorAnsioso" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ColorFeliz_borde">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ColorFeliz_borde" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ColorEmocionado_borde">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ColorEmocionado_borde" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ColorCansado_borde">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ColorCansado_borde" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ColorTriste_borde">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ColorTriste_borde" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ColorFrustrado_borde">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ColorFrustrado_borde" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ColorEnojado_borde">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ColorEnojado_borde" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ColorNeutro_borde">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ColorNeutro_borde" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ColorAngustiado_borde">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ColorAngustiado_borde" generated properties.</summary>
-        </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ColorAnsioso_borde">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ColorAnsioso_borde" generated properties.</summary>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Test">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Test" generated properties.</summary>
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Title">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Title" generated properties.</summary>
@@ -733,6 +827,9 @@
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.LogsMessage">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "LogsMessage" generated properties.</summary>
         </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.EsFamiliar">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "EsFamiliar" generated properties.</summary>
+        </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Cuestionario">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Cuestionario" generated properties.</summary>
         </member>
@@ -747,6 +844,18 @@
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.BotonEditar">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "BotonEditar" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.CuestionarioTexto">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "CuestionarioTexto" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Log_txt">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Log_txt" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Ide">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Ide" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ComentarioExterno">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ComentarioExterno" generated properties.</summary>
         </member>
     </members>
 </doc>
