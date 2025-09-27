@@ -10,19 +10,34 @@
     <button class="btn btn-primary ms-2" onclick="sendMessage()">Enviar</button>
 </div>
 
+<hr />
+<h4>🛑 Palabras sensibles detectadas (debug)</h4>
+<table class="table table-sm table-bordered">
+    <thead>
+        <tr>
+            <th>Palabra</th>
+        </tr>
+    </thead>
+    <tbody id="sensitive-words">
+    </tbody>
+</table>
+
 @section Scripts {
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
 <script>
 async function sendMessage() {
     const input = document.getElementById("userInput");
     const chatBox = document.getElementById("chat-box");
+    const sensitiveTable = document.getElementById("sensitive-words");
 
     const userMessage = input.value;
     if (!userMessage.trim()) return;
 
-    chatBox.innerHTML += `<div><b>👤 Tú:</b> ${userMessage}</div>`;
+    chatBox.innerHTML += `<div><b>👤 Tú:</b> ${marked.parse(userMessage)}</div>`;
     input.value = "";
 
-    // Reutiliza tu ChatController existente
+    // Llamada al ChatController
     const response = await fetch("/chat/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -30,8 +45,18 @@ async function sendMessage() {
     });
 
     const data = await response.json();
-    chatBox.innerHTML += `<div><b>🤖 Bot:</b> ${data.reply}</div>`;
+
+    // Respuesta del bot
+    chatBox.innerHTML += `<div><b>🤖 Bot:</b> ${marked.parse(data.reply)}</div>`;
     chatBox.scrollTop = chatBox.scrollHeight;
+
+    // 🔹 Actualizar tabla con palabras sensibles
+    sensitiveTable.innerHTML = "";
+    if (data.sensitiveWords && data.sensitiveWords.length > 0) {
+        data.sensitiveWords.forEach(w => {
+            sensitiveTable.innerHTML += `<tr><td>${w}</td></tr>`;
+        });
+    }
 }
 </script>
 }
