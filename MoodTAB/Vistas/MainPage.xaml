@@ -68,7 +68,7 @@
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer
                                         Command="{Binding MovetoPageCommand}"
-                                        CommandParameter="ListaDiaroPage" />
+                                        CommandParameter="CalendarioPage" />
                                 </Frame.GestureRecognizers>
                                     <Image Source="neosurveywhite.png" WidthRequest="20" HeightRequest="20"/>
                             </Frame>
@@ -89,7 +89,7 @@
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer
                                 Command="{Binding MovetoPageCommand}"
-                                CommandParameter="ListaDiaroPage" />
+                                CommandParameter="CalendarioPage" />
                         </Frame.GestureRecognizers>
                         <Grid ColumnDefinitions="40,*"
                                 RowDefinitions="40">
@@ -99,7 +99,7 @@
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer
                                         Command="{Binding MovetoPageCommand}"
-                                        CommandParameter="ListaDiaroPage" />
+                                        CommandParameter="CalendarioPage" />
                                 </Frame.GestureRecognizers>
                                     <Image Source="neodiarywhite.png" WidthRequest="20" HeightRequest="20"/>
                             </Frame>
@@ -161,7 +161,7 @@
                         VerticalOptions="Center"
                         BackgroundColor="Transparent"
                         Command="{Binding MovetoPageCommand}"
-                        CommandParameter="ListaDiaroPage"
+                        CommandParameter="CalendarioPage"
                         Grid.Row="0"/>
                 <Image Grid.Row="0" Source="neodiary.png" HeightRequest="30" WidthRequest="30" Margin="0,0,0,15"/>
                 <Label Text="Mis Diarios" FontFamily="BreeSerif-Regular.ttf" HorizontalTextAlignment="Center" FontSize="12" TextColor="#FF61666D" Padding="0,50,0,0"></Label>

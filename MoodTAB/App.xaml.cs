@@ -4,6 +4,7 @@ using MoodTAB.Data;
 using MoodTAB.Vistas;
 using MoodTAB.Services;
 using MoodTAB.Platforms.Android;
+using Microsoft.Maui.Controls;
 
 public partial class App : Application
 {

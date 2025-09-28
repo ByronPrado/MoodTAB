@@ -1,12 +1,15 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel; 
 using CommunityToolkit.Mvvm.Input;
 using MoodTAB.Models;
 using MoodTAB.Vistas;
-using System;
 using System.Collections.ObjectModel;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using System.Net.Http;
+using Plugin.Maui.Calendar.Models;
+using System.Globalization;
+using System.Linq;
+using Plugin.Maui.Calendar.Models;     
+using Microsoft.Maui.Graphics;
+using System.Security.Cryptography.X509Certificates;
+using Microsoft.Maui.Controls;
 
 namespace MoodTAB.ViewModel
 {
@@ -14,22 +17,27 @@ namespace MoodTAB.ViewModel
     {
         [ObservableProperty]
         public ObservableCollection<Diario> listaDiarios = [];
+        [ObservableProperty]
+        public DateTime fecha;
+
         public ListaDiarioViewModel()
         {
         }
-        public async Task CargarListaDiarios()
+        public async Task CargarListaDiarios(DateTime fecha)
         {
             try
             {
-                var todas = await App.Database.GetDiarioAsync();
-                ListaDiarios = new ObservableCollection<Diario>(todas);
+                Fecha = fecha.Date;
+                var diariosDelDia = await App.Database.GetDiariosByDateAsync(fecha.Date);
+
+                ListaDiarios = new ObservableCollection<Diario>(diariosDelDia);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error al cargar la lista de diarios: {ex.Message}");
             }
         }
-    }
-    
-    
+
+        
+    }    
 }

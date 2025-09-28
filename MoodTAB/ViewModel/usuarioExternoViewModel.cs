@@ -7,6 +7,7 @@ using System.Net.Http.Json;
 using System;
 using System.Collections.ObjectModel;
 using MoodTAB.Services;
+using Microsoft.Maui.Controls;
 
 
 namespace MoodTAB.ViewModel
@@ -83,7 +84,7 @@ namespace MoodTAB.ViewModel
                 if (response.IsSuccessStatusCode)
                 {
                     Log_txt = "Comentario enviado correctamente";
-                    await Application.Current.MainPage.DisplayAlert("Éxito", "Comentario enviado", "OK");
+                    await Microsoft.Maui.Controls.Application.Current.MainPage.DisplayAlert("Éxito", "Comentario enviado", "OK");
                     ComentarioExterno = string.Empty;
                 }
                 else
@@ -91,14 +92,14 @@ namespace MoodTAB.ViewModel
                     var error = await response.Content.ReadAsStringAsync();
                     Log_txt = $"Error API: {error}";
                     Console.WriteLine($"[DEBUG] Error API: {error}");
-                    await Application.Current.MainPage.DisplayAlert("Error", $"No se pudo enviar: {error}", "OK");
+                    await Microsoft.Maui.Controls.Application.Current.MainPage.DisplayAlert("Error", $"No se pudo enviar: {error}", "OK");
                 }
             }
             catch (Exception ex)
             {
                 Log_txt = $"Excepción: {ex.Message}";
                 Console.WriteLine($"[DEBUG] Excepción: {ex}");
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+                await Microsoft.Maui.Controls.Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
             }
         }
     }

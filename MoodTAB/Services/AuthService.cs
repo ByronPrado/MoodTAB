@@ -1,6 +1,8 @@
 using System.Net.Http.Json;
 using System.Text.Json;
-using MoodTAB.ViewModels; // si quieres pasar logs al ViewModel
+using Microsoft.Maui.Controls;
+
+using MoodTAB.ViewModels; 
 
 namespace MoodTAB.Services
 {
@@ -70,7 +72,7 @@ namespace MoodTAB.Services
             SecureStorage.Remove("user_email");
             SecureStorage.Remove("es_familiar");
 
-            Application.Current.MainPage = new NavigationPage(new Vistas.LoginPage());
+            Microsoft.Maui.Controls.Application.Current.MainPage = new NavigationPage(new Vistas.LoginPage());
         }
     }
 

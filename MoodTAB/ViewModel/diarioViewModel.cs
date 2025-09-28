@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using MoodTAB.Services;
 using System.Linq;
 using System.Text.Json;
+using Microsoft.Maui.Controls;
+
 
 namespace MoodTAB.ViewModel
 
@@ -179,7 +181,7 @@ namespace MoodTAB.ViewModel
         {
             try
             {
-                var main = Application.Current?.MainPage;
+                var main = Microsoft.Maui.Controls.Application.Current?.MainPage;
                 if (main == null) return;
 
                 if (EmocionDiaria.Count == 0 || string.IsNullOrWhiteSpace(DescDia))

@@ -3,6 +3,9 @@ using CommunityToolkit.Mvvm.Input;
 using MoodTAB.Models;
 using System.Collections.ObjectModel;
 using System.Text.Json;
+using Microsoft.Maui.Controls;
+
+
 
 namespace MoodTAB.ViewModel
 {
@@ -36,10 +39,10 @@ namespace MoodTAB.ViewModel
             
             try
             {
-                if (Application.Current.MainPage == null || Application.Current == null) return;
+                if (Microsoft.Maui.Controls.Application.Current.MainPage == null || Microsoft.Maui.Controls.Application.Current == null) return;
                 if (PreguntasConRespuesta == null || !PreguntasConRespuesta.Any())
                 {
-                    Application.Current.MainPage.DisplayAlert("Error", "No hay preguntas cargadas.", "OK");
+                    Microsoft.Maui.Controls.Application.Current.MainPage.DisplayAlert("Error", "No hay preguntas cargadas.", "OK");
                     return;
                 }
 
@@ -52,7 +55,7 @@ namespace MoodTAB.ViewModel
                 {
                     var primeraPregunta = preguntasInvalidas.FirstOrDefault()?.Pregunta?.Contenido ?? "Pregunta desconocida";
 
-                    await Application.Current.MainPage.DisplayAlert("Respuesta vacía",
+                    await Microsoft.Maui.Controls.Application.Current.MainPage.DisplayAlert("Respuesta vacía",
                         $"Por favor, responde todas las preguntas antes de guardar.\nFalta: '{primeraPregunta}'",
                         "OK");
                     return;
@@ -84,20 +87,20 @@ namespace MoodTAB.ViewModel
                 {
                     if (response != null && response.IsSuccessStatusCode)
                     {
-                        await Application.Current.MainPage.DisplayAlert("¡Listo!", "Respuestas enviadas correctamente.", "OK");
-                        await Application.Current.MainPage.Navigation.PopAsync();
+                        await Microsoft.Maui.Controls.Application.Current.MainPage.DisplayAlert("¡Listo!", "Respuestas enviadas correctamente.", "OK");
+                        await Microsoft.Maui.Controls.Application.Current.MainPage.Navigation.PopAsync();
 
                     }
                     else
                     {
                         var errorMsg = response != null ? await response.Content.ReadAsStringAsync() : "No hubo respuesta del servidor";
-                        await Application.Current.MainPage.DisplayAlert("Error", $"No se pudieron enviar las respuestas.\n{errorMsg}", "OK");
+                        await Microsoft.Maui.Controls.Application.Current.MainPage.DisplayAlert("Error", $"No se pudieron enviar las respuestas.\n{errorMsg}", "OK");
                     }
                 });
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Excepción", ex.ToString(), "OK");
+                await Microsoft.Maui.Controls.Application.Current.MainPage.DisplayAlert("Excepción", ex.ToString(), "OK");
             }
         }
 
