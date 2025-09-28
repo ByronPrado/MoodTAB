@@ -22,6 +22,12 @@
                 </a>
             </div>
 
+            <div class="search-box">
+                <input type="text" class="form-control" placeholder="Buscar preguntas..." id="searchInput" onkeyup="filterForm()">
+                <i class="fas fa-search"></i>
+            </div>
+
+            <div class="card-list">
             @foreach (var formulario in Model)
             {
                 <div class="formulario-card" data-form-id="@formulario.ID_Formulario" onclick="showFormDetails(@formulario.ID_Formulario)">
@@ -40,6 +46,7 @@
                     </div>
                 </div>
             }
+            </div>
         </div>
 
         <!-- Main Content Panel -->
@@ -193,12 +200,19 @@
             `;
         }
 
-        // Auto-select first form on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            if (formsData.length > 0) {
-                showFormDetails(formsData[0].ID_Formulario);
-            }
-        });
+        function filterForm() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const questionCards = document.querySelectorAll('.formulario-card');
+            
+            questionCards.forEach(card => {
+                const content = card.textContent.toLowerCase();
+                if (content.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
     </script>
 </body>
 </html>

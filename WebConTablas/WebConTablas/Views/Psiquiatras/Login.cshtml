@@ -3,27 +3,37 @@
 @{
     ViewData["Title"] = "Login";
 }
+
 <link rel="stylesheet" href="@Url.Content("~/css/site.css")" />
 
-<div class="center-card">
-    <h2 class="formtitulo">Login</h2>
-    <form asp-action="Login" method="post">
-        <div>
-            <label class="formsubtitulo" for="Usuario">Nombre o Email</label>
-            <input type="text" id="Usuario" name="Usuario" required class="input-login"/>
-        </div>
-        <div>
-            <label class="formsubtitulo" for="Contrasena">Contraseña</label>
-            <input type="password" id="Contrasena" name="Contrasena" required class="input-login"/>
-        </div>
-        <input type="hidden" name="EsFamiliar" value="false" />
-        <button class="botonenviar" type="submit">Iniciar sesión</button>
-    </form>
+<div class="background">
+    <div class="main-container">
+        <img src="@Url.Content("~/moodtablogo_white.svg")" alt="" style="height : 100px;">
+        <div class="center-card">
+            <h2 class="formtitulo">Ingreso Psiquiatras</h2>
+            <form asp-action="Login" method="post">
+                <div>
+                    <label class="formsubtitulo" for="Usuario">Nombre o Email</label>
+                    <input type="text" id="Usuario" name="Usuario" required class="input-login"/>
+                </div>
+                <div style="height: 2rem;"></div>
+                <div>
+                    <label class="formsubtitulo" for="Contrasena">Contraseña</label>
+                    <input type="password" id="Contrasena" name="Contrasena" required class="input-login"/>
+                </div>
+                <input type="hidden" name="EsFamiliar" value="false" />
+                <button class="botonenviar" type="submit">Iniciar sesión</button>
+            </form>
 
-    @if (ViewBag.Error != null)
-    {
-        <p style="color:red">@ViewBag.Error</p>
-    }
+            @if (ViewBag.Error != null)
+            {
+                <p style="color:red">@ViewBag.Error</p>
+            }
+        </div>
+    </div>
 </div>
+
+
+
 
 

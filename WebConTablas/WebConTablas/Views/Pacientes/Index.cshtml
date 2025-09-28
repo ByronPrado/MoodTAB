@@ -35,6 +35,12 @@
                 </a>
             </div>
 
+            <div class="search-box">
+                <input type="text" class="form-control" placeholder="Buscar preguntas..." id="searchInput" onkeyup="filterPacientes()">
+                <i class="fas fa-search"></i>
+            </div>
+
+            <div class="card-list">
             @foreach (var paciente in Model)
             {
                 <div class="paciente-card" data-patient-id="@paciente.ID_Paciente" onclick="showPatientDetails(@paciente.ID_Paciente)">
@@ -53,6 +59,7 @@
                     </div>
                 </div>
             }
+            </div>
         </div>
 
 
@@ -372,12 +379,20 @@
             `;
         }
 
-        // Auto-select first patient on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            if (patientsData.length > 0) {
-                showPatientDetails(patientsData[0].ID_Paciente);
-            }
-        });
+        function filterPacientes() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const questionCards = document.querySelectorAll('.paciente-card');
+            
+            questionCards.forEach(card => {
+                const content = card.textContent.toLowerCase();
+                if (content.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
     </script>
     @Html.AntiForgeryToken()
 </body>

@@ -103,9 +103,14 @@ body {
 
 .sidebar {
     width: 400px;
-    overflow-y: auto;
+    overflow-y: hidden;
     padding: 1.5rem;
     height: 90vh;
+}
+
+.card-list{
+    height: 70vh;
+    overflow-y: scroll;
 }
 
 .content-panel {
@@ -302,4 +307,23 @@ body {
 
 .hidden {
     display: none !important;
+}
+
+.search-box {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.search-box input {
+    border-radius: 25px;
+    padding-left: 2.5rem;
+    border: 1px solid #e9ecef;
+}
+
+.search-box i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c757d;
 }

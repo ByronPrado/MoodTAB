@@ -1,25 +1,5 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  margin-bottom: 60px;
-  background-color: #F8FAFC;
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
@@ -32,14 +12,38 @@ body {
 }
 
 .center-card {
-    background-color: rgb(255, 255, 255);
-    width: 400px;
-    height: auto;
-    position: relative;
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-top: 50px;
+  background-color: rgb(255, 255, 255);
+  width: 400px;
+  height: auto;
+  position: relative;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+body{
+  background-color: #6493e5;
+}
+
+.main-container{
+  display: flex;
+  min-width: 80%;
+  gap: 15%;
+}
+
+.main-container img{
+  align-self: center;
+}
+
+.background {
+  place-items: center;
+}
+
+.main-content {
+  padding: 40px 10px;
+  position: relative;
 }
 
 .formtitulo

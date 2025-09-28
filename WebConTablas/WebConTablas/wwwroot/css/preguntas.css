@@ -21,7 +21,7 @@ body {
 .sidebar {
     width: 400px;
     padding: 2rem;
-    overflow-y: auto;
+    overflow-y: hidden;
     height: 90vh;
 }
 
@@ -166,4 +166,9 @@ body {
 
 .hidden{
      display: none;
+}
+
+.card-list{
+    height: 70vh;
+    overflow-y: scroll;
 }
