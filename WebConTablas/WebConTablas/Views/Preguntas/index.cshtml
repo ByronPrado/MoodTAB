@@ -31,7 +31,7 @@
             </div>
 
             <!-- Questions List -->
-            <div id="questions-list">
+            <div class="card-list" id="questions-list">
                 @foreach (var pregunta in Model)
                 {
                     <div class="pregunta-card" data-question-id="@pregunta.ID_Pregunta" onclick="showQuestionDetails(@pregunta.ID_Pregunta)">
@@ -191,13 +191,6 @@
                 }
             });
         }
-
-        // Auto-select first question on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            if (questionsData.length > 0) {
-                showQuestionDetails(questionsData[0].ID_Pregunta);
-            }
-        });
     </script>
 </body>
 </html>
