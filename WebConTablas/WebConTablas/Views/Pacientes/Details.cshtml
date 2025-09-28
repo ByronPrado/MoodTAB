@@ -3,6 +3,14 @@
 @{
     ViewData["Title"] = "Detalles del Paciente";
 }
+@{
+    // Agrupa por fecha (sin hora) y toma el diario más reciente de cada día
+    var diariosPorDia = Model.DiariosEmocionales
+        .GroupBy(d => d.Fecha.Date)
+        .Select(g => g.OrderByDescending(d => d.Fecha).First())
+        .OrderBy(d => d.Fecha.Date)
+        .ToList();
+}
 <link rel="stylesheet" href="@Url.Content("~/css/paciente.css")" />
 
 <div class="container">
@@ -10,183 +18,151 @@
         <span>←</span> Volver
     </a>
 
+    <!-- 🔹 Resumen fijo del paciente -->
     <div class="info-grid">
-
         <!-- Información paciente -->
         <div class="info-paciente info-card">
             <div class="d-flex align-items-start gap-3">
                 <div class="img-paciente">MT</div>
                 <div class="flex-grow-1">
                     <h3 class="mb-1">@Model.Nombre</h3>
-                    
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="datos-paciente">
-                                <span class="info-icon">📅</span>
-                                <span>@Model.Edad años</span>
-                            </div>
-                            <div class="datos-paciente">
-                                <span class="info-icon">👤</span>
-                                <span>@Model.Sexo</span>
-                            </div>
+                            <div class="datos-paciente">📅 @Model.Edad años</div>
+                            <div class="datos-paciente">👤 @Model.Sexo</div>
                         </div>
                         <div class="col-md-6">
-                            <div class="datos-paciente">
-                                <span class="info-icon">✉️</span>
-                                <span>@Model.Email</span>
-                            </div>
-                            <div class="datos-paciente">
-                                <span class="info-icon">📞</span>
-                                <span>@Model.Telefono</span>
-                            </div>
+                            <div class="datos-paciente">✉️ @Model.Email</div>
+                            <div class="datos-paciente">📞 @Model.Telefono</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <!-- Información Diagnostico -->
+
+        <!-- Información Diagnóstico -->
         <div class="info-diagnostico info-card">
-            <div class="d-flex justify-content-between align-items-start mb-2">
-                <h6 class="mb-0">Diagnóstico General</h6>
-            </div>
+            <h6>Diagnóstico General</h6>
             <p class="mb-2" style="color: #b32a2a;">@(Model.Diagnostico ?? "No especificado")</p>
-            <small style="color: #5b5b5b;">Fecha del Diagnostico</small>
-            <p class="mb-2">@DateTime.Now.ToString("dd 'de' MMMM, yyyy")</p>
-            <small style="color: #5b5b5b;">Severidad</small>
-            <p class="mb-0">⭐⭐ Moderada</p>
+            <small>Fecha del Diagnóstico</small>
+            <p>@DateTime.Now.ToString("dd 'de' MMMM, yyyy")</p>
+            <small>Severidad</small>
+            <p>⭐⭐ Moderada</p>
         </div>
     </div>
 
-    <div class="mt-4">
-        <h4>Diarios Emocionales</h4>
-    
-        <div class="mt-3"></div>
-            <!-- Botón para descargar el PDF -->
-            <button id="btnDescargarPdf" class="btn btn-success" style="align-self: end;">Descargar Reporte (PDF)</button>
-        </div>
-        <!-- Contenedor para los gráficos -->
-        <div class="row">
-            <!-- Gráfico de Pasos -->
-            @if (Model.DiariosEmocionales != null && Model.DiariosEmocionales.Any(d => d.Pasos.HasValue))
-            {
-                <div class="col-md-6">
-                    <div class="chart-card mb-4">
-                        <div class="info-card-body">
-                            <h5 class="info-card-title">Gráfico de Pasos (Últimos 7 días)</h5>
-                            <div style="height: 1rem;"></div>
-                            <canvas id="pasosChart" width="400" height="200"></canvas>
-                        </div>
-                    </div>
-                </div>
-            }
+    <!-- 🔹 Tabs para organizar -->
+    <ul class="nav nav-tabs mt-4" id="pacienteTabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="tab" href="#diariosTab">Diarios</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#graficosTab">Gráficos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#reportesTab">Reportes</a>
+        </li>
+    </ul>
 
-            <!-- Gráfico Horas de Celular -->
-            @if (Model.DiariosEmocionales != null && Model.DiariosEmocionales.Any(d => d.Horas_celular.HasValue))
-            {
-                <div class="col-md-6">
-                    <div class="chart-card mb-4">
-                        <div class="info-card-body">
-                            <h5 class="info-card-title">Gráfico de Horas de Celular (Últimos 7 días)</h5>
-                            <div style="height: 1rem;"></div>
-                            <canvas id="celularChart" width="400" height="200"></canvas>
-                        </div>
-                    </div>
-                </div>
-            }
+    <div class="tab-content mt-3">
+        <!-- 📒 Diarios Tab -->
+        <div class="tab-pane fade show active" id="diariosTab">
+            <!-- Filtros + calendario -->
+            <div class="mb-3">
+                <label for="periodoFiltro">Ver diarios de:</label>
+                <select id="periodoFiltro" class="form-select w-auto d-inline-block">
+                    <option value="semana">Semana actual</option>
+                    <option value="mes">Mes actual</option>
+                    <option value="todo">Todo</option>
+                    <option value="personalizado">Personalizado</option>
+                </select>
+                <input type="date" id="fechaInicio" class="form-control d-inline-block hidden" style="width:auto;">
+                <input type="date" id="fechaFin" class="form-control d-inline-block hidden" style="width:auto;">
 
-            <!-- Gráfico Horas Redes Sociales -->
-            @if (Model.DiariosEmocionales != null && Model.DiariosEmocionales.Any(d => d.Horas_redes.HasValue))
-            {
-                <div class="col-md-6">
-                    <div class="chart-card mb-4">
-                        <div class="info-card-body">
-                            <h5 class="info-card-title">Gráfico de Horas en Redes Sociales (Últimos 7 días)</h5>
-                            <div style="height: 1rem;"></div>
-                            <canvas id="redesChart" width="400" height="200"></canvas>
-                        </div>
-                    </div>
-                </div>
-            }
+            </div>
+            <div id="calendarioDiarios" style="max-width: 900px; margin-bottom: 2rem;"></div>
 
-            <!-- Gráfico Estados de Ánimo -->
-            @if (Model.DiariosEmocionales != null && Model.DiariosEmocionales.Any())
-            {
-                <div class="col-md-6">
-                    <div class="chart-card mb-4">
-                        <div class="info-card-body">
-                            <h5 class="info-card-title">Distribución de Estados (Últimos 7 días)</h5>
-                            <div style="height: 1rem;"></div>
-                            <canvas id="estadosChart" style="max-height: 300px;"></canvas>
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
-        <div id="listadiarios">
-        @if (Model.DiariosEmocionales != null && Model.DiariosEmocionales.Any())
-        {
-            @foreach (var d in Model.DiariosEmocionales.OrderByDescending(d => d.Fecha))
-            {
-                <div class="emotion-entry">
-                    @{
-                        string emocionesStr = "N/A";
-                        try
-                        {
+            <!-- Acordeón para diarios -->
+            <div class="accordion" id="accordionDiarios">
+                @if (Model.DiariosEmocionales != null && Model.DiariosEmocionales.Any())
+                {
+                    foreach (var d in Model.DiariosEmocionales.OrderByDescending(d => d.Fecha))
+                    {
+                        var emocionesStr = "N/A";
+                        try {
                             if (!string.IsNullOrEmpty(d.Emociones))
                             {
                                 var emocionesDict = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, int>>(d.Emociones);
                                 emocionesStr = string.Join(", ", emocionesDict.Keys);
                             }
-                        }
-                        catch { }
+                        } catch {}
+
+                        var collapseId = $"collapse-{d.ID_Diario}";
+                        var headingId  = $"heading-{d.ID_Diario}";
+
+                        <div class="accordion-item emotion-entry" id="diario-@d.ID_Diario">
+                            <h2 class="accordion-header" id="@headingId">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                    data-bs-target="#@collapseId" aria-expanded="false"
+                                    aria-controls="@collapseId">
+                                    @d.Fecha.ToShortDateString() - @d.Estado
+                                </button>
+                            </h2>
+                            <div id="@collapseId" class="accordion-collapse collapse"
+                                aria-labelledby="@headingId" data-bs-parent="#accordionDiarios">
+                                <div class="accordion-body">
+                                    <p class="fw-medium"><strong>Emociones:</strong> @emocionesStr</p>
+                                    <p class="text-muted">@d.Descripcion</p>
+                                    <ul class="list-group list-group-flush mb-2">
+                                        <li class="list-group-item"><strong>Pasos:</strong> @(d.Pasos ?? 0)</li>
+                                        <li class="list-group-item"><strong>Horas de celular:</strong> @(d.Horas_celular ?? 0)</li>
+                                        <li class="list-group-item"><strong>Horas en redes sociales:</strong> @(d.Horas_redes ?? 0)</li>
+                                        <li class="list-group-item"><strong>Hora dormida:</strong> @(d.Hora_dormida ?? "No registrada")</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     }
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                        <span class="fw-medium">@d.Fecha.ToShortDateString()</span>
-                    </div>
-                    <div class="emotion-badges">@emocionesStr</div>
-                    <p class="mb-2 text-muted">@d.Descripcion</p>
-                    <div class="metrics-grid">
-                        <div class="metric-item">
-                            <i class="fas fa-walking text-success"></i>
-                            <span>@d.Pasos pasos</span>
-                        </div>
-                        <div class="metric-item">
-                            <i class="fas fa-mobile-alt text-primary"></i>
-                            <span>@d.Horas_celular horas de celular</span>
-                        </div>
-                        <div class="metric-item">
-                            <i class="fas fa-share-alt text-info"></i>
-                            <span>@d.Horas_redes horas redes sociales</span>
-                        </div>
-                        <div class="metric-item">
-                            <i class="fas fa-moon text-warning"></i>
-                            <span>@d.Hora_dormida horas dormidas</span>
-                        </div>
-                        <div class="metric-item">
-                            <i class="fas fa-moon text-warning"></i>
-                            <span class="badge 
-                                @(d.Estado == "exaltado" ? "bg-success" : d.Estado == "inhibido" ? "bg-danger" : "bg-secondary")">
-                                @d.Estado
-                            </span>
-                        </div>
-                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">No hay diarios emocionales registrados.</p>
+                }
+            </div>
+        </div>
+
+        <!-- 📊 Gráficos Tab -->
+        <div class="tab-pane fade" id="graficosTab">
+            <div class="row">
+                <div class="col-md-6">
+                    <canvas id="pasosChart"></canvas>
                 </div>
-            }
-        }
-        else
-        {
-            <p class="text-muted">No hay diarios emocionales registrados para este paciente.</p>
-        }
+                <div class="col-md-6">
+                    <canvas id="celularChart"></canvas>
+                </div>
+                <div class="col-md-6">
+                    <canvas id="redesChart"></canvas>
+                </div>
+                <div class="col-md-6">
+                    <canvas id="estadosChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- 📑 Reportes Tab -->
+        <div class="tab-pane fade" id="reportesTab">
+            <button id="btnDescargarPdf" class="btn btn-success">Descargar Reporte (PDF)</button>
         </div>
     </div>
 </div>
+
 
 
 @section Scripts {
     <!-- 1. Incluimos las librerías jsPDF y Chart.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js'></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -258,51 +234,290 @@
                 btnDescargar.disabled = true;
                 btnDescargar.innerText = 'Generando...';
 
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF({
-                    orientation: 'p',
-                    unit: 'mm',
-                    format: 'a4'
-                });
+                // Asegura que el tab de gráficos esté visible
+                const graficosTab = document.querySelector('a[href="#graficosTab"]');
+                if (graficosTab && !graficosTab.classList.contains('active')) {
+                    graficosTab.click();
+                    // Espera a que el DOM y los canvas se actualicen
+                    await new Promise(res => setTimeout(res, 500));
+                }
 
-                // 1. Título
-                doc.setFontSize(18);
-                doc.text('Reporte de Seguimiento del Paciente', 105, 20, { align: 'center' });
+                try {
+                    const { jsPDF } = window.jspdf;
+                    if (!jsPDF) {
+                        alert("No se pudo cargar jsPDF.");
+                        return;
+                    }
+                    const doc = new jsPDF({
+                        orientation: 'p',
+                        unit: 'mm',
+                        format: 'a4'
+                    });
 
-                // 2. Información del paciente
-                doc.setFontSize(12);
-                doc.text(`Nombre: @Html.Raw(Model.Nombre.Replace("'", "\\'"))`, 15, 40);
-                doc.text(`Diagnóstico: @Html.Raw((Model.Diagnostico ?? "N/A").Replace("'", "\\'"))`, 15, 50);
-                doc.text(`Edad: @Model.Edad años`, 15, 60);
+                    // 1. Título
+                    doc.setFontSize(18);
+                    doc.text('Reporte de Seguimiento del Paciente', 105, 20, { align: 'center' });
 
-                // 3. Gráficos
-                const chartIds = ['pasosChart', 'celularChart', 'redesChart', 'estadosChart'];
-                let yPosition = 80;
+                    // 2. Información del paciente
+                    doc.setFontSize(12);
+                    doc.text(`Nombre: @Html.Raw(Model.Nombre.Replace("'", "\\'"))`, 15, 40);
+                    doc.text(`Diagnóstico: @Html.Raw((Model.Diagnostico ?? "N/A").Replace("'", "\\'"))`, 15, 50);
+                    doc.text(`Edad: @Model.Edad años`, 15, 60);
 
-                for (const id of chartIds) {
-                    if (myCharts[id]) {
-                        const chartImage = myCharts[id].toBase64Image();
-                        
-                        doc.setFontSize(14);
-                        doc.text(document.getElementById(id).previousElementSibling.innerText, 15, yPosition - 5);
-                        doc.addImage(chartImage, 'PNG', 15, yPosition, 180, 90);
-                        
-                        yPosition += 110;
+                    // 3. Gráficos
+                    const chartIds = [
+                        { id: 'pasosChart', label: 'Pasos realizados' },
+                        { id: 'celularChart', label: 'Horas de uso del celular' },
+                        { id: 'redesChart', label: 'Horas en redes sociales' },
+                        { id: 'estadosChart', label: 'Distribución de Estados' }
+                    ];
+                    let yPosition = 80;
 
-                        if (yPosition > 250 && chartIds.indexOf(id) < chartIds.length -1) {
-                            doc.addPage();
-                            yPosition = 20;
+                    for (const chart of chartIds) {
+                        if (myCharts[chart.id]) {
+                            myCharts[chart.id].update();
+                            // Espera a que el gráfico termine de renderizar
+                            await new Promise(res => setTimeout(res, 100));
+                            const chartImage = myCharts[chart.id].toBase64Image();
+
+                            doc.setFontSize(14);
+                            doc.text(chart.label, 15, yPosition - 5);
+                            doc.addImage(chartImage, 'PNG', 15, yPosition, 180, 90);
+
+                            yPosition += 110;
+
+                            if (yPosition > 250 && chartIds.indexOf(chart) < chartIds.length - 1) {
+                                doc.addPage();
+                                yPosition = 20;
+                            }
                         }
                     }
+
+                    // 4. Guardar
+                    const fecha = new Date().toISOString().slice(0, 10);
+                    doc.save(`Reporte-@Html.Raw(Model.Nombre.Replace(" ", "_").Replace("'", ""))-${fecha}.pdf`);
+                } catch (err) {
+                    alert("Error generando PDF: " + err.message);
+                    console.error(err);
+                } finally {
+                    btnDescargar.disabled = false;
+                    btnDescargar.innerText = 'Descargar Reporte (PDF)';
                 }
-                
-                // 4. Guardar
-                const fecha = new Date().toISOString().slice(0, 10);
-                doc.save(`Reporte-@Html.Raw(Model.Nombre.Replace(" ", "_").Replace("'", ""))-${fecha}.pdf`);
-                
-                btnDescargar.disabled = false;
-                btnDescargar.innerText = 'Descargar Reporte (PDF)';
             });
+            // --- Datos de diarios emocionales para el calendario ---
+            let diarios = @Html.Raw(Json.Serialize(
+                diariosPorDia.Select(d => new {
+                    id = d.ID_Diario,
+                    title = d.Estado,
+                    start = d.Fecha.ToString("yyyy-MM-dd"),
+                    descripcion = d.Descripcion,
+                    estado = d.Estado
+                })
+            ));
+
+            // Si no hay diarios reales, mete uno de prueba ANTES de crear el calendario
+            if (!Array.isArray(diarios) || diarios.length === 0) {
+                diarios = [{ id: 999, title: "Prueba", start: "2025-09-27", estado: "exaltado" }];
+            }
+
+            console.log("Diarios para calendario:", diarios);
+
+            // --- Inicializar FullCalendar ---
+            let calendarEl = document.getElementById('calendarioDiarios');
+            let calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                initialDate: diarios[diarios.length - 1].start,
+                locale: 'es',
+                aspectRatio: 1.7,
+                height: 'auto',
+                events: diarios.map(ev => ({
+                    id: ev.id.toString(),  
+                    title: ev.title,
+                    start: ev.start,
+                    color: ev.estado === "exaltado" ? "#28a745" 
+                        : ev.estado === "inhibido" ? "#dc3545" 
+                        : "#4e73df",
+                    textColor: '#fff'
+                })),
+                eventClick: function(info) {
+                    const diarioId = info.event.id; // siempre string
+                    const entry = document.getElementById(`diario-${diarioId}`);
+                    if (entry) {
+                        entry.classList.add("highlight");
+                        setTimeout(() => entry.classList.remove("highlight"), 2000);
+                        entry.scrollIntoView({ behavior: "smooth", block: "center" });
+                    }
+                }
+
+            });
+
+            calendar.render();
+            const periodoFiltro = document.getElementById('periodoFiltro');
+            const fechaInicio = document.getElementById('fechaInicio');
+            const fechaFin = document.getElementById('fechaFin');
+
+            // --- Filtros de periodo ---
+            function pad(n){ return n < 10 ? '0' + n : '' + n; }
+
+            function formatDateLocal(d){
+                // devuelve "YYYY-MM-DD" usando fecha local (sin tocar UTC)
+                return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate());
+            }
+
+            function parseDateFromInputYMD(ymd){ 
+                // espera "YYYY-MM-DD" (value de <input type="date">)
+                if (!ymd) return null;
+                const parts = ymd.split('-');
+                if (parts.length !== 3) return null;
+                return new Date(parseInt(parts[0],10), parseInt(parts[1],10)-1, parseInt(parts[2],10));
+            }
+            let rangoBackgroundEvent = null;
+
+            function resaltarRango(start, end) {
+                // eliminar posibles eventos previos con id fija
+                calendar.getEvents()
+                    .filter(ev => ev.id === 'rangoFiltro')
+                    .forEach(ev => ev.remove());
+
+                if (!start || !end) return;
+
+                // Normalizar a medianoche local (creamos nuevas fechas locales)
+                const s = new Date(start.getFullYear(), start.getMonth(), start.getDate());
+                const e = new Date(end.getFullYear(), end.getMonth(), end.getDate());
+
+                // FullCalendar usa end COMO EXCLUSIVO para all-day events, así que
+                // si el usuario quiere inclusive '26', debemos pasar '27' como end.
+                const ePlus = new Date(e);
+                ePlus.setDate(ePlus.getDate() + 1);
+
+                // Añadir evento de fondo con id fijo (fácil de borrar la próxima vez)
+                calendar.addEvent({
+                    id: 'rangoFiltro',
+                    start: formatDateLocal(s),   // "YYYY-MM-DD"
+                    end:   formatDateLocal(ePlus),
+                    display: 'background',
+                    allDay: true,
+                    color: 'rgba(17, 180, 136, 0.24)',
+                    overlap: false
+                });
+            }
+
+            function filtrarDiarios() {
+                let start = null, end = null;
+                const hoy = new Date();
+
+                if (periodoFiltro.value === "semana") {
+                    // crear startOfWeek en local (domingo = 0)
+                    const dow = hoy.getDay();
+                    const startOfWeek = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate() - dow);
+                    start = new Date(startOfWeek.getFullYear(), startOfWeek.getMonth(), startOfWeek.getDate());
+                    end = new Date(start);
+                    end.setDate(start.getDate() + 6);
+                } else if (periodoFiltro.value === "mes") {
+                    start = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
+                    end = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0);
+                } else if (periodoFiltro.value === "personalizado") {
+                    // parseamos explícitamente desde "YYYY-MM-DD" para evitar UTC issues
+                    start = fechaInicio.value ? parseDateFromInputYMD(fechaInicio.value) : null;
+                    end   = fechaFin.value   ? parseDateFromInputYMD(fechaFin.value)   : null;
+                } else if (periodoFiltro.value === "todo") {
+                    start = null; end = null;
+                }
+
+                // Normalizar horas a medianoche local (si existen)
+                if (start) start.setHours(0,0,0,0);
+                if (end)   end.setHours(0,0,0,0);
+
+                // aplicar el resaltado sin tocar los eventos del calendario
+                if (start && end) {
+                    resaltarRango(start, end);
+                } else {
+                    resaltarRango(null, null);
+                }
+
+                // --- (tu lógica para filtrar la lista DOM sigue igual) ---
+                document.querySelectorAll('.emotion-entry').forEach(entry => {
+                    let fechaStr = entry.querySelector('.fw-medium')?.innerText;
+                    if (!fechaStr) return;
+
+                    const parts = fechaStr.split('/');
+                    let fecha;
+                    if (parts.length === 3) {
+                        fecha = new Date(parseInt(parts[2],10), parseInt(parts[1],10)-1, parseInt(parts[0],10));
+                    } else if (parts.length === 2) {
+                        const year = (new Date()).getFullYear();
+                        fecha = new Date(year, parseInt(parts[1],10)-1, parseInt(parts[0],10));
+                    } else {
+                        fecha = new Date(fechaStr);
+                    }
+                    fecha.setHours(0,0,0,0);
+
+                    let visible = true;
+                    if (start && fecha < start) visible = false;
+                    if (end && fecha > end)     visible = false;
+
+                    entry.style.display = visible ? '' : 'none';
+                });
+            }
+
+
+            periodoFiltro.addEventListener('change', function() {
+                if (this.value === "personalizado") {
+                    fechaInicio.classList.remove('hidden');
+                    fechaFin.classList.remove('hidden');
+                } else {
+                    fechaInicio.classList.add('hidden');
+                    fechaFin.classList.add('hidden');
+                    // Limpiar valores para evitar filtros residuales
+                    fechaInicio.value = '';
+                    fechaFin.value = '';
+                    filtrarDiarios();
+                }
+            });
+
+
+            fechaInicio.addEventListener('change', filtrarDiarios);
+            fechaFin.addEventListener('change', filtrarDiarios);
+
+            // Inicializamos ocultos
+            fechaInicio.style.display = 'none';
+            fechaFin.style.display = 'none';
+            filtrarDiarios(); // para aplicar filtro inicial
+
+            // Inicializar filtro
+            filtrarDiarios();
+
+            // --- Exportar a CSV ---
+            const btnCsv = document.createElement('button');
+            btnCsv.className = 'btn btn-outline-primary ms-2';
+            btnCsv.innerText = 'Exportar CSV';
+            btnCsv.onclick = function() {
+                let rows = [["Fecha", "Emociones", "Descripción"]];
+                document.querySelectorAll('.emotion-entry').forEach(entry => {
+                    if(entry.style.display === 'none') return;
+                    // Fecha: del botón del acordeón
+                    let fecha = entry.querySelector('.accordion-button')?.innerText.split('-')[0]?.trim() || '';
+                    // Emociones: del <p class="fw-medium">
+                    let emociones = entry.querySelector('.fw-medium')?.innerText.replace('Emociones:', '').trim() || '';
+                    // Descripción
+                    let desc = entry.querySelector('p.text-muted')?.innerText || '';
+                    rows.push([fecha, emociones, desc]);
+                });
+                let csv = rows.map(r => r.map(x => `"${(x||'').replace(/"/g, '""')}"`).join(',')).join('\n');
+                let blob = new Blob([csv], {type: 'text/csv'});
+                let a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = 'diarios_emocionales.csv';
+                a.click();
+            };
+            document.getElementById('btnDescargarPdf').after(btnCsv);
         });
     </script>
+        <style>
+        .emotion-entry.highlight {
+            border: 2px solid #007bff;
+            background: #eaf4ff;
+            transition: background 0.5s;
+        }
+    </style>
 }
