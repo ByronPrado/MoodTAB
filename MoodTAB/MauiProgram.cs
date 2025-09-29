@@ -39,6 +39,12 @@ public static class MauiProgram
 		builder.Services.AddTransient<DiarioPage>();
 		builder.Services.AddTransient<ListaDiarioPage>();
 		builder.Services.AddSingleton<INotificationManagerService, NotificationManagerService>();
+
+		builder.Services.AddSingleton<IHealthBridgeService>(provider =>
+        {
+            var context = Android.App.Application.Context;
+            return new HealthBridgeService(context);
+        });
 #endif
 
 		return builder.Build();

@@ -1,52 +1,64 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MoodTAB.Models;
+using MoodTAB.Vistas;
 #if ANDROID
 using Android.Content;
-using Com.Example.Healthbridge;
+using Android.App;
 #endif
+using System;
+using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Microsoft.Maui.Controls;
-
 
 namespace MoodTAB.ViewModel;
 
 public partial class HealthDataViewModel : ObservableObject
-{
+{ 
     [ObservableProperty]
     private string _title = "Diario de Salud";
+    [ObservableProperty]
+    private ObservableCollection<string> _appUsageStats = new();
 
     [ObservableProperty]
     private string _stepsText = "?";
-
-    [ObservableProperty]
-    private string _sleepText = "?";
-
-    public HealthDataViewModel()
-    {
-        // Constructor vacío, no necesitamos inicializar nada más
-    }
-
+    public HealthDataViewModel(){}    
+    
     [RelayCommand]
-    public async Task LoadHealthDataAsync()
+    public void CheckClicked()
     {
-        StepsText = "Cargando...";
-        SleepText = "Cargando...";
 
+    }
+    [RelayCommand]
+    public static void OpenUsageAccessSettings()
+    {
+        #if ANDROID
+                var intent = new Intent(Android.Provider.Settings.ActionUsageAccessSettings);
+                intent.SetFlags(ActivityFlags.NewTask);
+                Android.App.Application.Context.StartActivity(intent);
+        #endif
+    }
+    [RelayCommand]
+    public void RequestPermissionsClicked()
+    {
 #if ANDROID
-        var context = Android.App.Application.Context;
-
-        // Ejecutamos en un hilo de background para no bloquear la UI
-        var stepsToday = await Task.Run(() =>
-            HealthBridge.GetStepsTodayBlocking(context)
-        
-        );
-
-        var sleepMinutesToday = await Task.Run(() =>
-            HealthBridge.GetSleepMinutesTodayBlocking(context)
-        );
-
-        StepsText = stepsToday.ToString();
-        SleepText = sleepMinutesToday.ToString();
+        UsageStatsHelper.OpenUsageAccessSettings();
 #endif
     }
+    [RelayCommand]
+    public void ReadStepsClicked()
+    {
+
+        #if ANDROID
+        AppUsageStats.Clear();
+
+        var stats = UsageStatsHelper.GetAppUsageStats();
+        foreach (var stat in (stats ?? Enumerable.Empty<KeyValuePair<string, long>>()).OrderByDescending(x => x.Value).Take(10))        {
+            var appName = stat.Key;
+            var timeMinutes = stat.Value / 60000;
+            AppUsageStats.Add($"{appName}: {timeMinutes} min");
+        }
+        #endif
+    }
+    
 }
