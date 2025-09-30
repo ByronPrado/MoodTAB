@@ -15,17 +15,12 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="82dp"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/Theme.MoodTAB.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include
-        android:id="@+id/content_main"
-        layout="@layout/content_main" />
-
-    <!-- This CoordinatorLayout is to dodge the BottomNavigationView when the Snackbar is shown -->
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -41,4 +36,10 @@
             android:contentDescription="@string/fab_content_description"
             app:srcCompat="@android:drawable/ic_dialog_email" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <include
+        android:id="@+id/content_main"
+        layout="@layout/content_main" />
+
+    <!-- This CoordinatorLayout is to dodge the BottomNavigationView when the Snackbar is shown -->
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
