@@ -37,7 +37,7 @@
                     <div class="pregunta-card" data-question-id="@pregunta.ID_Pregunta" onclick="showQuestionDetails(@pregunta.ID_Pregunta)">
                         <div class="d-flex align-items-start mb-2">
                             <div class="flex-grow-1">
-                                <h6 class="mb-1">@pregunta.Contenido</h6>
+                                <h6 class="mb-1" id="pregunta-content">@pregunta.Contenido</h6>
                                 <div class="d-flex align-items-center gap-2">
                                     <span class="tipo-badge tipo-@(pregunta.Tipo?.ToLower() ?? "texto")">
                                         @(pregunta.Tipo ?? "Texto")
@@ -178,13 +178,13 @@
             `;
         }
 
+        const questionCards = document.querySelectorAll('.pregunta-card');
         function filterQuestions() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const questionCards = document.querySelectorAll('.pregunta-card');
             
             questionCards.forEach(card => {
-                const content = card.textContent.toLowerCase();
-                if (content.includes(searchTerm)) {
+                const content = card.querySelector("#pregunta-content");
+                if (content.textContent.toLowerCase().includes(searchTerm)) {
                     card.style.display = 'block';
                 } else {
                     card.style.display = 'none';

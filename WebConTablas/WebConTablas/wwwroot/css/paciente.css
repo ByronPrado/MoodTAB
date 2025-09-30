@@ -116,7 +116,7 @@ body {
 .content-panel {
     flex: 1;
     background: var(--light-bg);
-    overflow-y: auto;
+    overflow-y: scroll;
     padding: 0 1.5rem 1.5rem 1.5rem;
 }
 
@@ -326,4 +326,20 @@ body {
     top: 50%;
     transform: translateY(-50%);
     color: #6c757d;
+}
+
+.detail-card summary {
+  list-style: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.detail-card summary::before {
+  content: "▶";
+  font-size: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.detail-card[open] summary::before {
+  content: "▼";
 }

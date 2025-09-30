@@ -40,19 +40,26 @@
                 <i class="fas fa-search"></i>
             </div>
 
+            <label for="cars">Diagnostico</label>
+            <select name="diagnostico" id="diagnostico">
+                <option value="none">Seleccionar un diagnostico</option>
+                <option value="Ansiedad">Ansiedad</option>
+                <option value="TDA">TDA</option>
+                <option value="Depresión">Depresión</option>
+                <option value="Manía">Manía</option>
+            </select>
+
             <div class="card-list">
             @foreach (var paciente in Model)
             {
                 <div class="paciente-card" data-patient-id="@paciente.ID_Paciente" onclick="showPatientDetails(@paciente.ID_Paciente)">
                     <div class="d-flex align-items-center mb-2">
                         <div class="flex-grow-1">
-                            <h6 class="mb-1">@paciente.Nombre</h6>
+                            <h6 class="mb-1" id="nombre-paciente">@paciente.Nombre</h6>
                         </div>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
-                        <span class="condition-badge condition-@paciente.Diagnostico?.ToLower()">
-                            @paciente.Diagnostico
-                        </span>
+                        <span id="paciente-diagnostico" class="condition-badge condition-@paciente.Diagnostico?.ToLower()">@paciente.Diagnostico</span>
                         <div class="d-flex gap-2">
                             <span class="text-muted small">Cuestionarios: @(paciente.FormulariosAsignados?.Count() ?? 0) Diarios: @(paciente.DiariosEmocionales?.Count() ?? 0)</span>
                         </div>
@@ -354,44 +361,67 @@
                 </div>
                 
 
-                <div class="detail-card">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
+                <details class="detail-card">
+                    <summary class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="mb-0">Diarios emocionales recientes</h5>
                         <a href="/Pacientes/Details/${patient.ID_Paciente.toString()}" class="text-primary text-decoration-none">Ver Detalles</a>
-                    </div>
+                    </summary>
                     ${diariosHTML}
-                </div>
+                </details>
 
-                <div class="detail-card">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
+                <details class="detail-card">
+                    <summary class="d-flex justify-content-between align-items-center mb-4">
                         <h5 class="mb-0">Formularios</h4>
                         <a href="/FormulariosAsignados/Asignar" class="text-primary text-decoration-none">
                             <i class="fas fa-plus"></i> Asignar otro Formulario
                         </a>
-                    </div>
+                    </summary>
                     ${formulariosHTML}
-                </div>
+                </details>
 
-                <div class="detail-card">
-                    <h5 class="mb-3">Usuarios Externos</h5>
+                <details class="detail-card">
+                    <summary class="mb-3">Usuarios Externos</summary>
                     ${usuariosHTML}
-                </div>
+                </details>
             `;
         }
 
+        const questionCards = document.querySelectorAll('.paciente-card');
+        
         function filterPacientes() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const questionCards = document.querySelectorAll('.paciente-card');
+            
             
             questionCards.forEach(card => {
-                const content = card.textContent.toLowerCase();
-                if (content.includes(searchTerm)) {
+                const content = card.querySelector("#paciente-nombre");
+                if (content.textContent.toLowerCase().includes(searchTerm)) {
                     card.style.display = 'block';
                 } else {
                     card.style.display = 'none';
                 }
             });
         }
+
+        const selectDiagnostico = document.getElementById("diagnostico");
+
+        selectDiagnostico.addEventListener("change", function() {
+            if (this.value == "none"){
+                questionCards.forEach(card => {
+                    card.style.display = 'block';
+                });
+            }
+            else {
+                questionCards.forEach(card => {
+                    const content = card.querySelector("#paciente-diagnostico");
+                    if (content.textContent == this.value) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+            
+        });
 
     </script>
     @Html.AntiForgeryToken()
