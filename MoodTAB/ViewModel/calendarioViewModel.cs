@@ -58,15 +58,8 @@ namespace MoodTAB.ViewModel
             }
             else
             {
-                bool respuesta = await Application.Current.MainPage.DisplayAlert("No hay Registro", $"No hay diario registrado este dia\n¿Deseas agregar un diario?", "Si", "No");
-                if (respuesta)
-                {
-                    var stepService = IPlatformApplication.Current?.Services?.GetService<IStepCounterService>();
-                    var dictationService = IPlatformApplication.Current?.Services?.GetService<IDictationService>();
-                    await Microsoft.Maui.Controls.Application.Current.MainPage.Navigation.PushAsync(new DiarioPage(stepService, dictationService));
-                }
-                else { }
-
+                await Application.Current.MainPage.DisplayAlert("No hay Registro", $"No hay diario registrado este dia\n", "No");
+                return;
             }
         }
 
