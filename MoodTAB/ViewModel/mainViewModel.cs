@@ -125,6 +125,7 @@ namespace MoodTAB.ViewModel
                 {
                     "CuestionarioPage" => new CuestionarioPage(),
                     "TestPage" => new TestPage(),
+                    "DiarioPage" => new DiarioPage(),
                     "CalendarioPage" => new CalendarioDiario(),
                     "UserPage" => new UserPage(),
                     _ => null

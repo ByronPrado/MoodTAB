@@ -1,4 +1,3 @@
-
 namespace MoodTAB.Vistas;
 using MoodTAB.ViewModel;
 using MoodTAB.Models;
@@ -39,6 +38,14 @@ public partial class CalendarioDiario : ContentPage
 			WeekLayout.Month => WeekLayout.Week,
 			_ => WeekLayout.Week
 		};
-		LabelVista.Text = MiCalendario.CalendarLayout.ToString();
+		CambiarVistaCalendarioButton.Text = CambiarVistaCalendarioButton.Text switch
+		{
+			"Ver Ultima Semana" => "Ver Ultimos 15 Días",
+			"Ver Ultimos 15 Días" => "Ver Mes Completo",
+			"Ver Mes Completo" => "Ver Ultima Semana" ,
+			_ => "Ver Ultimos 15 Días" 
+		};
+		//LabelVista.Text = MiCalendario.CalendarLayout.ToString();
 	}
+
 }

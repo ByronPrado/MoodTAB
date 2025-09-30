@@ -6,70 +6,73 @@
              Title="CalendarioDiario">
     <NavigationPage.TitleView>
         <Grid>
-            <Label Text="Calendario"
-                   HorizontalOptions="Start"
+            <Label Text="Mis Diarios"
                    VerticalOptions="Center"
+                   HorizontalTextAlignment="Start"
                    FontSize="20"
                    FontFamily="BreeSerif-Regular.ttf"
                    TextColor="#FF191919"/>
         </Grid>
     </NavigationPage.TitleView>
     <ScrollView>
-        <VerticalStackLayout>
-            <!-- Botón para nuevo diario -->
-            <Label Text="{Binding CalendarLayout}" TextColor="Red"/>
-            <Button Text="➕ Ingresar nuevo diario"
-                    Clicked="OnNewSeleccionado"
-                    HeightRequest="50">
-                <Button.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Color="#3B82F6" Offset="0.0" />
-                        <GradientStop Color="#10B981" Offset="1.0" />
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>
-
-            <HorizontalStackLayout Spacing="10">
-                <Button Text="Cambiar Vista" Clicked="OnCambiarVista"/>
-                <Label x:Name= "LabelVista" Text="Week"/>
-            </HorizontalStackLayout>
-            <controls:Calendar
-                x:Name="MiCalendario"
-                CalendarLayout = "Week"
-                Culture="{Binding Cultura}"
-                Events="{Binding Events}"
-                DayTappedCommand="{Binding DiaTocadoCommand}"
-                VerticalOptions="Fill"
-                HorizontalOptions="Fill"
-                FirstDayOfWeek="Monday"
-                EventIndicatorColor="#3B82F6"
-                EventIndicatorSelectedColor="White"
-                DeselectedDayTextColor="Black"
-                SelectedDayTextColor="White"
-                SelectedDayBackgroundColor="#3B82F6"
-                SwipeUpToHideEnabled="True"
-                SwipeRightCommand="{Binding CambiarVistaCommand}"
-                TodayOutlineColor="#10B981"
-                TodayFillColor="#D1FAE5"
-                OtherMonthDayColor="LightGray"
-                EventIndicatorType="BottomDot"
-                ShowYearPicker ="False"
-                ArrowsColor ="White"
-                ArrowsSymbolNext =">"
-                ArrowsSymbolPrev ="&lt;"
-                ArrowsBackgroundColor="#3B82F6"
+           <VerticalStackLayout
+                x:Name ="VistaCalendario"
+                Padding ="10"
+                Spacing ="10"
                 >
-                <!-- Pie personalizado -->
-                <controls:Calendar.FooterSectionTemplate>
-                    <DataTemplate>
-                        <StackLayout Padding="5" BackgroundColor="#E0F2FE">
-                            <Label Text="Selecciona un día para ver tus diarios"
-                                HorizontalOptions="Center"
-                                TextColor="#0369A1"/>
-                        </StackLayout>
-                    </DataTemplate>
-                </controls:Calendar.FooterSectionTemplate>
-            </controls:Calendar>
-        </VerticalStackLayout>
+                <Label
+                    Text ="Empty" 
+                    />
+                <controls:Calendar
+                    x:Name="MiCalendario"
+                    CalendarLayout = "Week"
+                    Culture="{Binding Cultura}"
+                    Events="{Binding Events}"
+                    DayTappedCommand="{Binding DiaTocadoCommand}"
+                    VerticalOptions="Fill"
+                    HorizontalOptions="Fill"
+                    FirstDayOfWeek="Monday"
+                    EventIndicatorColor="#3B82F6"
+                    EventIndicatorSelectedColor="White"
+                    DeselectedDayTextColor="Black"
+                    SelectedDayTextColor="White"
+                    SelectedDayBackgroundColor="#3B82F6"
+                    SwipeUpToHideEnabled="True"
+                    SwipeRightCommand="{Binding CambiarVistaCommand}"
+                    TodayOutlineColor="#10B981"
+                    TodayFillColor="#D1FAE5"
+                    OtherMonthDayColor="LightGray"
+                    EventIndicatorType="BottomDot"
+
+                    ShowYearPicker ="False"
+                    ArrowsColor ="White"
+                    ArrowsSymbolNext =">"
+                    ArrowsSymbolPrev ="&lt;"
+                    ArrowsBackgroundColor="#3B82F6"
+                    >
+                    <!-- Pie personalizado -->
+                    <controls:Calendar.FooterSectionTemplate>
+                        <DataTemplate>
+                            <StackLayout Padding="5" BackgroundColor="#E0F2FE">
+                                <Label Text="Selecciona un día para ver tus diarios"
+                                    HorizontalOptions="Center"
+                                    TextColor="#0369A1"/>
+                            </StackLayout>
+                        </DataTemplate>
+                    </controls:Calendar.FooterSectionTemplate>
+                </controls:Calendar>
+
+                <Button 
+                    x:Name ="CambiarVistaCalendarioButton"
+                    Text="Ver Ultimos 15 Días" 
+                    Clicked="OnCambiarVista">
+                        <Button.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="#3B82F6" Offset="0.0" />
+                            <GradientStop Color="#10B981" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button> 
+            </VerticalStackLayout>    
     </ScrollView>
 </ContentPage>

@@ -5,8 +5,6 @@ using MoodTAB.Vistas;
 using Plugin.Maui.Calendar.Models;
 using System.Globalization;
 using MoodTAB.Services;
-using Microsoft.Maui.Controls;
-using System.Linq;
 
 namespace MoodTAB.ViewModel
 {
@@ -36,7 +34,6 @@ namespace MoodTAB.ViewModel
             {
                 if (int.TryParse(delta, out var d)) ShownDate = ShownDate.AddMonths(d);
             });
-
         }
 
         private async void OnDiaTocado(DateTime fecha)
@@ -54,14 +51,14 @@ namespace MoodTAB.ViewModel
                 else
                 {
                     var stepService = IPlatformApplication.Current?.Services?.GetService<IStepCounterService>();
-                    await App.Current.MainPage.Navigation.PushAsync(new ListaDiarioPage(stepService, fecha));
+                    await Application.Current.MainPage.Navigation.PushAsync(new ListaDiarioPage(stepService, fecha));
                     return;
                 }
 
             }
             else
             {
-                bool respuesta = await Microsoft.Maui.Controls.Application.Current.MainPage.DisplayAlert("No hay Registro", $"No hay diario registrado este dia\n¿Deseas agregar un diario?", "Si", "No");
+                bool respuesta = await Application.Current.MainPage.DisplayAlert("No hay Registro", $"No hay diario registrado este dia\n¿Deseas agregar un diario?", "Si", "No");
                 if (respuesta)
                 {
                     var stepService = IPlatformApplication.Current?.Services?.GetService<IStepCounterService>();
@@ -69,10 +66,10 @@ namespace MoodTAB.ViewModel
                     await Microsoft.Maui.Controls.Application.Current.MainPage.Navigation.PushAsync(new DiarioPage(stepService, dictationService));
                 }
                 else { }
-                
+
             }
         }
-             
+
         private async void CargarEventos()
         {
             var diarios = await App.Database.GetDiarioAsync();

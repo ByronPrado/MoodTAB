@@ -89,7 +89,7 @@
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer
                                 Command="{Binding MovetoPageCommand}"
-                                CommandParameter="CalendarioPage" />
+                                CommandParameter="DiarioPage" />
                         </Frame.GestureRecognizers>
                         <Grid ColumnDefinitions="40,*"
                                 RowDefinitions="40">
@@ -99,7 +99,7 @@
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer
                                         Command="{Binding MovetoPageCommand}"
-                                        CommandParameter="CalendarioPage" />
+                                        CommandParameter="DiarioPage" />
                                 </Frame.GestureRecognizers>
                                     <Image Source="neodiarywhite.png" WidthRequest="20" HeightRequest="20"/>
                             </Frame>
