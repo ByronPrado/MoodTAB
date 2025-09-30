@@ -18,9 +18,7 @@
         <span>←</span> Volver
     </a>
 
-    <!-- 🔹 Resumen fijo del paciente -->
     <div class="info-grid">
-        <!-- Información paciente -->
         <div class="info-paciente info-card">
             <div class="d-flex align-items-start gap-3">
                 <div class="img-paciente">MT</div>
@@ -40,7 +38,6 @@
             </div>
         </div>
 
-        <!-- Información Diagnóstico -->
         <div class="info-diagnostico info-card">
             <h6>Diagnóstico General</h6>
             <p class="mb-2" style="color: #b32a2a;">@(Model.Diagnostico ?? "No especificado")</p>
@@ -51,7 +48,12 @@
         </div>
     </div>
 
-    <!-- 🔹 Tabs para organizar -->
+    <li class="nav-item" style="list-style: none;">
+        <div class="form-check form-switch ms-3 d-flex align-items-center">
+            <input class="form-check-input" type="checkbox" id="toggleDiarios" style="cursor: pointer;">
+            <label class="form-check-label ms-2" for="toggleDiarios">Mostrar Diarios</label>
+        </div>
+    </li>
     <ul class="nav nav-tabs mt-4" id="pacienteTabs">
         <li class="nav-item">
             <a class="nav-link active" data-bs-toggle="tab" href="#diariosTab">Diarios</a>
@@ -65,9 +67,7 @@
     </ul>
 
     <div class="tab-content mt-3">
-        <!-- 📒 Diarios Tab -->
         <div class="tab-pane fade show active" id="diariosTab">
-            <!-- Filtros + calendario -->
             <div class="mb-3">
                 <label for="periodoFiltro">Ver diarios de:</label>
                 <select id="periodoFiltro" class="form-select w-auto d-inline-block">
@@ -81,8 +81,28 @@
 
             </div>
             <div id="calendarioDiarios" style="max-width: 900px; margin-bottom: 2rem;"></div>
+                <div class="form-check form-switch mb-3" id="vistaToggleContainer" style="display: none;">
+                <input class="form-check-input" type="checkbox" id="toggleVista">
+                <label class="form-check-label" for="toggleVista">Vista simplificada</label>
+            </div>
 
-            <!-- Acordeón para diarios -->
+            <script>
+            document.getElementById("toggleVista").addEventListener("change", function () {
+                const simplificado = this.checked;
+
+                document.querySelectorAll(".accordion-body").forEach(body => {
+                if (simplificado) {
+                    // Ocultar todo excepto emociones básicas
+                    body.querySelectorAll("p, ul").forEach(el => el.classList.add("d-none"));
+                    const emociones = body.querySelector(".fw-medium");
+                    if (emociones) emociones.classList.remove("d-none");
+                } else {
+                    // Mostrar todo
+                    body.querySelectorAll("p, ul").forEach(el => el.classList.remove("d-none"));
+                }
+                });
+            });
+            </script>
             <div class="accordion" id="accordionDiarios">
                 @if (Model.DiariosEmocionales != null && Model.DiariosEmocionales.Any())
                 {
@@ -103,9 +123,9 @@
                         <div class="accordion-item emotion-entry" id="diario-@d.ID_Diario">
                             <h2 class="accordion-header" id="@headingId">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
-                                    data-bs-target="#@collapseId" aria-expanded="false"
-                                    aria-controls="@collapseId">
-                                    @d.Fecha.ToShortDateString() - @d.Estado
+                                        data-bs-target="#@collapseId" aria-expanded="false"
+                                        aria-controls="@collapseId">
+                                        @d.Fecha.ToShortDateString() - @d.Estado
                                 </button>
                             </h2>
                             <div id="@collapseId" class="accordion-collapse collapse"
@@ -130,8 +150,7 @@
                 }
             </div>
         </div>
-
-        <!-- 📊 Gráficos Tab -->
+        </div>
         <div class="tab-pane fade" id="graficosTab">
             <div class="row">
                 <div class="col-md-6">
@@ -149,7 +168,6 @@
             </div>
         </div>
 
-        <!-- 📑 Reportes Tab -->
         <div class="tab-pane fade" id="reportesTab">
             <button id="btnDescargarPdf" class="btn btn-success">Descargar Reporte (PDF)</button>
         </div>
@@ -159,13 +177,30 @@
 
 
 @section Scripts {
-    <!-- 1. Incluimos las librerías jsPDF y Chart.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js'></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            const toggleDiarios = document.getElementById('toggleDiarios');
+            const diariosContent = document.getElementById('accordionDiarios');
+            const vistaToggleContainer = document.getElementById('vistaToggleContainer');
+
+            // Add event listener to the toggle switch
+            toggleDiarios.addEventListener('change', function () {
+                if (this.checked) {
+                    // Show the daily journal content if the switch is ON
+                    diariosContent.style.display = 'block';
+                    // Show the view toggle as well
+                    vistaToggleContainer.style.display = 'block';
+                } else {
+                    // Hide the daily journal content if the switch is OFF
+                    diariosContent.style.display = 'none';
+                    // Hide the view toggle
+                    vistaToggleContainer.style.display = 'none';
+                }
+            });
             
             // Objeto para guardar las instancias de los gráficos y poder acceder a ellas después
             let myCharts = {}; 
@@ -218,13 +253,13 @@
                 createAndStoreChart('pasosChart', { type: 'bar', data: { labels: @Html.Raw(Json.Serialize(labelsPasosList)), datasets: [{ label: 'Pasos realizados', data: @Html.Raw(Json.Serialize(dataPasosList)), backgroundColor: 'rgba(54, 162, 235, 0.6)' }] }, options: { animation: false, scales: { y: { beginAtZero: true, title: { display: true, text: 'Cantidad de Pasos' } } }, plugins: { legend: { display: false } } } });
             }
             if (document.getElementById('celularChart')) {
-                 createAndStoreChart('celularChart', { type: 'line', data: { labels: @Html.Raw(Json.Serialize(labelsCelularList)), datasets: [{ label: 'Horas de uso', data: @Html.Raw(Json.Serialize(dataCelularList)), fill: false, borderColor: 'rgb(255, 99, 132)', tension: 0.1 }] }, options: { animation: false, scales: { y: { beginAtZero: true, title: { display: true, text: 'Horas de Uso' } } }, plugins: { legend: { display: false } } } });
+                createAndStoreChart('celularChart', { type: 'line', data: { labels: @Html.Raw(Json.Serialize(labelsCelularList)), datasets: [{ label: 'Horas de uso', data: @Html.Raw(Json.Serialize(dataCelularList)), fill: false, borderColor: 'rgb(255, 99, 132)', tension: 0.1 }] }, options: { animation: false, scales: { y: { beginAtZero: true, title: { display: true, text: 'Horas de Uso' } } }, plugins: { legend: { display: false } } } });
             }
             if (document.getElementById('redesChart')) {
-                 createAndStoreChart('redesChart', { type: 'line', data: { labels: @Html.Raw(Json.Serialize(labelsRedesList)), datasets: [{ label: 'Horas en redes', data: @Html.Raw(Json.Serialize(dataRedesList)), fill: false, borderColor: 'rgb(75, 192, 192)', tension: 0.1 }] }, options: { animation: false, scales: { y: { beginAtZero: true, title: { display: true, text: 'Horas de Uso' } } }, plugins: { legend: { display: false } } } });
+                createAndStoreChart('redesChart', { type: 'line', data: { labels: @Html.Raw(Json.Serialize(labelsRedesList)), datasets: [{ label: 'Horas en redes', data: @Html.Raw(Json.Serialize(dataRedesList)), fill: false, borderColor: 'rgb(75, 192, 192)', tension: 0.1 }] }, options: { animation: false, scales: { y: { beginAtZero: true, title: { display: true, text: 'Horas de Uso' } } }, plugins: { legend: { display: false } } } });
             }
             if (document.getElementById('estadosChart')) {
-                 createAndStoreChart('estadosChart', { type: 'doughnut', data: { labels: @Html.Raw(Json.Serialize(labelsEstadosList)), datasets: [{ label: 'Distribución de Estados', data: @Html.Raw(Json.Serialize(dataEstadosList)), backgroundColor: ['rgba(255, 99, 132, 0.7)', 'rgba(75, 192, 192, 0.7)', 'rgba(201, 203, 207, 0.7)'] }] }, options: { animation: false, responsive: true, plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: function(c) { return `${c.label}: ${c.parsed}%`; } } } } } });
+                createAndStoreChart('estadosChart', { type: 'doughnut', data: { labels: @Html.Raw(Json.Serialize(labelsEstadosList)), datasets: [{ label: 'Distribución de Estados', data: @Html.Raw(Json.Serialize(dataEstadosList)), backgroundColor: ['rgba(255, 99, 132, 0.7)', 'rgba(75, 192, 192, 0.7)', 'rgba(201, 203, 207, 0.7)'] }] }, options: { animation: false, responsive: true, plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: function(c) { return `${c.label}: ${c.parsed}%`; } } } } } });
             }
 
 
@@ -393,7 +428,7 @@
                 // Añadir evento de fondo con id fijo (fácil de borrar la próxima vez)
                 calendar.addEvent({
                     id: 'rangoFiltro',
-                    start: formatDateLocal(s),   // "YYYY-MM-DD"
+                    start: formatDateLocal(s),  // "YYYY-MM-DD"
                     end:   formatDateLocal(ePlus),
                     display: 'background',
                     allDay: true,
@@ -437,7 +472,7 @@
 
                 // --- (tu lógica para filtrar la lista DOM sigue igual) ---
                 document.querySelectorAll('.emotion-entry').forEach(entry => {
-                    let fechaStr = entry.querySelector('.fw-medium')?.innerText;
+                    let fechaStr = entry.querySelector('.accordion-button')?.innerText.split('-')[0]?.trim() || '';
                     if (!fechaStr) return;
 
                     const parts = fechaStr.split('/');
