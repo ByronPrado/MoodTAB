@@ -17,7 +17,7 @@ class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
-    private var direccion_ngrok = "0"
+    private var direccion_ngrok = "http://10.0.2.2:5051/"
 
 
     private lateinit var viewModel: LoginViewModel
