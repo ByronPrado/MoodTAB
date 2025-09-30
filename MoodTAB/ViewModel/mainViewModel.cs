@@ -25,6 +25,8 @@ namespace MoodTAB.ViewModel
         private string _emailUsuario = "mail";
         [ObservableProperty]
         private bool cuestionario = false;
+        [ObservableProperty]
+        private bool isBusy;
 
         [ObservableProperty]
         private string _titleApi = "Bienvenido a MoodTAB";
@@ -120,6 +122,7 @@ namespace MoodTAB.ViewModel
         {
             try
             {
+                IsBusy = true;
                 ActualizarDatosUsuario();
                 Page? page = pageName switch
                 {
@@ -140,6 +143,10 @@ namespace MoodTAB.ViewModel
             {
                 Title = $"Error al navegar: {ex.Message}";
                 Console.WriteLine($"[DEBUG]ERROR Inavigation: {ex.Message}");
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
         private async void getCuestionario()
