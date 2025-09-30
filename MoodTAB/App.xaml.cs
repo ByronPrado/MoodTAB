@@ -23,10 +23,14 @@ public partial class App : Application
             return database;
         }
     }
+    
+    
+	
     public App()
     {
         InitializeComponent();
-
+        //Register Syncfusion<sup>®</sup> license
+	    Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1JFaF5cXGRCf1NpQnxbf1x1ZFBMZFpbRXFPIiBoS35Rc0VqWn9fd3BTR2dYVUZ3VEFc");
         // Verificar si el usuario ya tiene sesión guardada
         var userId = SecureStorage.GetAsync("user_id").Result;
         var userNombre = SecureStorage.GetAsync("user_nombre").Result;
@@ -52,7 +56,7 @@ public partial class App : Application
             }
             else
             {
-                MainPage = new NavigationPage(new UsuarioExternoPage(notificationManager,dictationService));
+                MainPage = new NavigationPage(new UsuarioExternoPage(notificationManager, dictationService));
             }
         }
         else

@@ -22,7 +22,8 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
-
+		//Register Syncfusion<sup>®</sup> license
+		Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1JFaF5cXGRCf1NpQnxbf1x1ZFBMZFpbRXFPIiBoS35Rc0VqWn9fd3BTR2dYVUZ3VEFc");
 #if DEBUG
 		builder.Logging.AddDebug();
 		builder.Services.AddSingleton(Connectivity.Current);
