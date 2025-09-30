@@ -57,10 +57,6 @@ public partial class CalendarioDiario : ContentPage
 				"Ver Mes Completo" => "Ver Ultima Semana",
 				_ => "Ver Ultimos 15 Días"
 			};
-
-			// Si quieres actualizar un Label con la vista actual:
-			// LabelVista.Text = MiCalendario.CalendarLayout.ToString();
-
 			// Pequeño delay opcional para que el cambio se note suave
 			FrameCalendario.IsVisible = true;
 			await Task.Delay(100);
@@ -70,6 +66,11 @@ public partial class CalendarioDiario : ContentPage
 			// Ocultar overlay
 			LoadingOverlay.IsVisible = false;
 		}
+	}
+
+	private void OnExportarPDFClicked(object sender, EventArgs e)
+	{
+		viewModel.ExportarPDF();
 	}
 
 }

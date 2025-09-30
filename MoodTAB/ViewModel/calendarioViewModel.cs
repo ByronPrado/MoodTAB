@@ -5,6 +5,9 @@ using MoodTAB.Vistas;
 using Plugin.Maui.Calendar.Models;
 using System.Globalization;
 using MoodTAB.Services;
+using Syncfusion.Pdf;
+using Syncfusion.Pdf.Graphics;
+using System.IO;
 
 namespace MoodTAB.ViewModel
 {
@@ -14,7 +17,7 @@ namespace MoodTAB.ViewModel
         public EventCollection events = new EventCollection();
         [ObservableProperty]
         private CultureInfo cultura = new("es-ES");
-        public string logtext ="";
+        public string logtext = "";
         //"Week"
         [ObservableProperty]
         private DateTime shownDate = DateTime.Today;
@@ -80,5 +83,38 @@ namespace MoodTAB.ViewModel
                 (Events[fecha] as List<Diario>)!.Add(diario);
             }
         }
+        public async Task ExportarPDF()
+        {
+            using var document = new PdfDocument();
+            var page = document.Pages.Add();
+
+            var font = new PdfStandardFont(PdfFontFamily.Helvetica, 12);
+            page.Graphics.DrawString("Mis diarios emocionales", font, PdfBrushes.Black, 0, 0);
+
+            var diarios = await App.Database.GetDiarioAsync();
+            float y = 20;
+            foreach (var diario in diarios)
+            {
+                page.Graphics.DrawString(
+                    $"{diario.CreatedAt:dd/MM/yyyy} - {diario.Descripcion}: {diario.Emocion_Diaria}",
+                    font,
+                    PdfBrushes.Black,
+                    0,
+                    y
+                );
+                y += 20;
+            }
+
+            var filePath = Path.Combine(FileSystem.CacheDirectory, "Diarios.pdf");
+            using var stream = File.Create(filePath);
+            document.Save(stream);
+            document.Close(true);
+
+            await Launcher.OpenAsync(new OpenFileRequest
+            {
+                File = new ReadOnlyFile(filePath)
+            });
+        }
+   
     }
 }

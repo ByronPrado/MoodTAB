@@ -72,9 +72,10 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
 		<PackageReference Include="Plugin.Maui.Calendar" Version="1.2.6" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
+		<PackageReference Include="Syncfusion.Pdf.Net" Version="31.1.22" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-android'">
-		<AndroidAarLibrary Include= "Platforms\Android\Bindings\HealthBridge\HealthBridge-release.aar"/>
+		<AndroidAarLibrary Include="Platforms\Android\Bindings\HealthBridge\HealthBridge-release.aar" />
 	</ItemGroup>
 </Project>

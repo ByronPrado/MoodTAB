@@ -30,7 +30,7 @@
         
                     <Frame Padding="10" BorderColor="#7B000000"
                         x:Name="FrameCalendario">
-                        <Grid RowDefinitions ="auto,auto">
+                        <Grid RowDefinitions ="auto,auto,auto">
                             <controls:Calendar
                                 x:Name="MiCalendario"
                                 CalendarLayout = "Week"
@@ -83,6 +83,9 @@
                                     </LinearGradientBrush>
                                 </Button.Background>
                             </Button> 
+                            <Button Text="Exportar a PDF"
+                                 Clicked="OnExportarPDFClicked"
+                                 Grid.Row="2"/>
                         </Grid>
                     </Frame>
                 </VerticalStackLayout>    
