@@ -117,7 +117,7 @@ body {
     flex: 1;
     background: var(--light-bg);
     overflow-y: scroll;
-    padding: 0 1.5rem 1.5rem 1.5rem;
+    padding: 1.5rem;
 }
 
 .paciente-card {

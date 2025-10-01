@@ -13,18 +13,6 @@
     
 </head>
 <body>
-    @if (ViewBag.Alertas != null && ((List<string>)ViewBag.Alertas).Any())
-    {
-        <div class="alert alert-warning">
-            <ul>
-            @foreach (var alerta in (List<string>)ViewBag.Alertas)
-            {
-                <li>@Html.Raw(alerta)</li>
-                
-            }
-            </ul>
-        </div>
-    }
     <div class="main-container">
         
         <div class="sidebar">
@@ -36,26 +24,38 @@
             </div>
 
             <div class="search-box">
-                <input type="text" class="form-control" placeholder="Buscar preguntas..." id="searchInput" onkeyup="filterPacientes()">
+                <input type="text" class="form-control" placeholder="Buscar preguntas..." id="searchInput" onkeyup="filtrar()">
                 <i class="fas fa-search"></i>
             </div>
 
-            <label for="cars">Diagnostico</label>
-            <select name="diagnostico" id="diagnostico">
+            <label for="diagnostico">Diagnostico</label>
+            <select name="diagnostico" id="filtro-diagnostico">
                 <option value="none">Seleccionar un diagnostico</option>
                 <option value="Ansiedad">Ansiedad</option>
                 <option value="TDA">TDA</option>
                 <option value="Depresión">Depresión</option>
                 <option value="Manía">Manía</option>
             </select>
+            <div style="height: 1rem;"></div>
+            <input type="checkbox" name="alerta" id="filtro-alerta"/>
+            <label for="alerta">Alerta</label><br>
+
+            <div style="height: 2rem;"></div>
 
             <div class="card-list">
             @foreach (var paciente in Model)
             {
                 <div class="paciente-card" data-patient-id="@paciente.ID_Paciente" onclick="showPatientDetails(@paciente.ID_Paciente)">
                     <div class="d-flex align-items-center mb-2">
-                        <div class="flex-grow-1">
-                            <h6 class="mb-1" id="nombre-paciente">@paciente.Nombre</h6>
+                        <div class="d-flex flex-grow-1 justify-content-between align-items-center">
+                            <h6 class="mb-1" id="paciente-nombre">@paciente.Nombre</h6>
+                        @if (ViewBag.AlertasA != null && ((List<string>)ViewBag.AlertasA).Any())
+                        {
+                            if (((List<string>)ViewBag.AlertasA).Contains(paciente.Nombre))
+                            {
+                                <span class="condition-badge condition-ansiedad" id="alerta">Desvio</span>
+                            }
+                        }
                         </div>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
@@ -385,9 +385,9 @@
                 </details>
             `;
         }
-
-        const questionCards = document.querySelectorAll('.paciente-card');
         
+        
+        /*
         function filterPacientes() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             
@@ -422,6 +422,59 @@
             }
             
         });
+
+        var checkboxalerta = document.querySelector("input[name=alerta]");
+
+        checkboxalerta.addEventListener('change', function() {
+            if (!this.checked){
+                questionCards.forEach(card => {
+                    card.style.display = 'block';
+                });
+            }
+            else {
+                questionCards.forEach(card => {
+                    const content = card.querySelector("#alerta");
+                    if (content != null) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+        }); */
+
+        function filtrar(){
+            const questionCards = document.querySelectorAll('.paciente-card');
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const diagnostico = document.getElementById('filtro-diagnostico').value;
+            const alerta = document.getElementById('filtro-alerta').checked;
+            questionCards.forEach(card => {
+                if(diagnostico == "none"){
+                    card.style.display = 'block';
+                }
+                else{
+                    if (card.querySelector("#paciente-diagnostico").textContent == diagnostico){
+                        card.style.display = 'block';
+                    }
+                    else{
+                        card.style.display = 'none';
+                    }
+                }
+                if(alerta){
+                    if(card.querySelector("#alerta") == null){
+                        card.style.display = 'none';
+                    }
+                }
+                if (!(card.querySelector("#paciente-nombre").textContent.toLowerCase().includes(searchTerm))){
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        const selectDiagnostico = document.getElementById("filtro-diagnostico");
+        const checkboxalerta = document.getElementById("filtro-alerta");
+        selectDiagnostico.addEventListener("change", filtrar);
+        checkboxalerta.addEventListener("change", filtrar);
 
     </script>
     @Html.AntiForgeryToken()
