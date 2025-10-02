@@ -1,0 +1,392 @@
+:root {
+    --primary-color: #6366f1;
+    --secondary-color: #8b5cf6;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --danger-color: #ef4444;
+    --light-bg: #f8fafc;
+    --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #5588b4 0%, #42719a 100%);
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+}
+
+.btn-outline-danger {
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+}
+
+body{
+    background-color: #F8FAFC;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.main-container {
+    display: flex;
+    height: 92vh;
+    overflow: hidden;
+}
+
+.main-container2 {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.sidebar {
+    width: 400px;
+    overflow-y: hidden;
+    padding: 1.5rem;
+    height: 90vh;
+}
+
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #e9ecef;
+    }
+}
+
+.card-list-pacientes{
+    height: 53vh;
+    overflow-y: scroll;
+}
+
+.card-list-formularios{
+    height: 65vh;
+    overflow-y: scroll;
+}
+
+.card-list-preguntas{
+    height: 66vh;
+    overflow-y: scroll;
+}
+
+.white-card {
+    z-index: 9;
+    background: white;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--card-shadow);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+}
+
+.white-card:hover {
+    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px);
+}
+
+.white-card.active {
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 12px 0 rgba(99, 102, 241, 0.15);
+}
+
+.content-panel {
+    flex: 1;
+    background: var(--light-bg);
+    overflow-y: scroll;
+    padding: 1.5rem;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.search-box {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.search-box input {
+    border-radius: 25px;
+    padding-left: 2.5rem;
+    border: 1px solid #e9ecef;
+}
+
+.search-box i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c757d;
+}
+
+.detail-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--card-shadow);
+    border: 1px solid #e9ecef;
+}
+
+.detail-card summary {
+  list-style: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.detail-card summary::before {
+  content: "▶";
+  font-size: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.detail-card[open] summary::before {
+  content: "▼";
+}
+
+.no-data-state {
+    text-align: center;
+    padding: 3rem;
+    color: #6b7280;
+}
+
+.no-data-state i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.hidden{
+     display: none;
+}
+
+.other-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.info-icon {
+    width: 16px;
+    height: 16px;
+    align-self: center;
+    color: #6b7280;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.info-item {
+    padding: 1rem;
+    background: var(--light-bg);
+    border-radius: 8px;
+}
+
+.info-label {
+    font-size: 0.875rem;
+    color: #6b7280;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.info-value {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #212529;
+}
+
+.no-data-state i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #dee2e6;
+}
+
+.no-data-state {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: #6c757d;
+}
+
+/* ------------- Pacientes ------------- */
+
+.datos-paciente {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+
+.info-paciente    { grid-area: 1 / 1 / 4 / 4; }
+.info-diagnostico { grid-area: 1 / 4 / 4 / 6; }
+
+.chart-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    height: 400px;
+}
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #374151;
+    text-decoration: none;
+    margin-bottom: 1rem;
+}
+
+.back-button:hover {
+    color: #667eea;
+    text-decoration: none;
+}
+
+
+.paciente-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.paciente-header .big-img {
+    width: 80px;
+    height: 80px;
+    font-size: 2rem;
+}
+
+.emotion-entry {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.emotion-entry.highlight {
+    border: 2px solid #007bff;
+    background: #eaf4ff;
+    transition: background 0.5s;
+}
+
+.emotion-badges {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+}
+
+.emotion-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    background-color: #fff692; 
+    color: #A3960A;
+}
+
+.emotion-feliz { background-color: #fff692; color: #A3960A; }
+.emotion-emocionado { background-color: #ffd195; color: #A3610A; }
+.emotion-cansado { background-color: #cb9bff; color: #540AA3; }
+.emotion-triste { background-color: #99c5fe; color: #0A4CA3; }
+.emotion-frustrado { background-color: #e5fb96; color: #82A30A; }
+.emotion-enojado { background-color: #ff8787; color: #A30A0A; }
+.emotion-neutro { background-color: #bababa; color: #818181; }
+.emotion-angustia { background-color: #9baffd; color: #6470A3; }
+.emotion-ansioso { background-color: #9bffe9; color: #64A395; }
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.metric-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background: var(--light-bg);
+    border-radius: 6px;
+}
+
+.form-status-card {
+    border-left: 4px solid;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    border-radius: 0 8px 8px 0;
+}
+
+.form-pendiente {
+    border-left-color: var(--warning-color);
+    background-color: #fffbeb;
+}
+
+.form-completado {
+    border-left-color: var(--success-color);
+    background-color: #f0fdf4;
+}
+
+.external-user-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.condition-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-weight: 500;
+    background-color: #fef3c7; 
+    color: #92400e;
+}
+
+.condition-ansiedad { background-color: #fef3c7; color: #92400e; }
+.condition-depresion { background-color: #dbeafe; color: #1e40af; }
+.condition-estres { background-color: #fce7f3; color: #be185d; }
+.condition-tda { background-color: #fce7f3; color: #be185d; }
+
+
+/* ------------- Pacientes ------------- */
+
+/* ------------- Formularios ------------- */
+
+.question-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* ------------- Formularios ------------- */
+
+/* ------------- Preguntas ------------- */
+.tipo-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.tipo-abierta { background-color: #e3f2fd; color: #1976d2; }
+.tipo-seleccion { background-color: #f3e5f5; color: #7b1fa2; }
+.tipo-escala { background-color: #e8f5e8; color: #388e3c; }
+.tipo-fecha { background-color: #fff3e0; color: #f57c00; }
+/* ------------- Preguntas ------------- */
