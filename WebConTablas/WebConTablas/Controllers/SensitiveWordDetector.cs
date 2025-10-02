@@ -1,56 +1,68 @@
 using FuzzySharp;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Extensions.Options;
+using WebConTablas.Controllers;
 
 public class SensitiveWordDetector
 {
-    private readonly List<string> _sensitiveWords = new List<string>
+    private readonly List<string> _sensitiveWords;
+    private const int PhraseThreshold = 80; // Alto umbral para frases (casi exacto)
+    private const int WordThreshold = 60;   // Umbral medio para palabras (permite errores)
+
+    public SensitiveWordDetector(IOptions<AnalysisSettings> settings)
     {
-        // Suicidio
-        "suicidio", "suicidarme", "suicidarse", "suicidarme yo", "intentar suicidio",
-        "matarme", "matarse", "matarme yo", "quitarme la vida",
-        "acabar con mi vida", "terminar con mi vida",
-
-        // Muerte
-        "muerte", "morir", "morirme", "morirse", "quiero morir",
-        "me quiero morir", "deseo morir", "muerto", "muerta",
-
-        // Depresión
-        "depresión", "depresion", "depresivo", "depresiva",
-        "estoy deprimido", "estoy deprimida", "me siento deprimido",
-        "me siento deprimida", "sin ganas de vivir",
-
-        // Autolesión
-        "autolesión", "autolesion", "autolesiones", "autolesionarme",
-        "lastimarme", "lastimarse", "hacerme daño", "hacerme daño a mí mismo",
-        "hacerme daño a mi misma", "cortarme", "cortarme las venas",
-        "cortarme yo", "autoagresión", "autoagresion", "autoagredirme",
-
-        // Otros términos relacionados
-        "ahorcarme", "ahorcarse", "tirarme por", "tirarme del puente",
-        "tirarme por la ventana", "sobredosis", "tomar pastillas",
-        "tomarme pastillas", "beber veneno", "veneno", "colgarme",
-        "colgarse", "asfixiarme", "asfixiarse",
-        "no quiero vivir", "no puedo más", "me quiero ir", "no aguanto más",
-        "acabar conmigo", "terminar conmigo", "desaparecer", "desaparecerme",
-        "estoy al límite", "estoy cansado de vivir", "estoy cansada de vivir"
-    };
+        _sensitiveWords = settings.Value.SensitiveWords;
+    }
 
     public List<string> Detect(string text)
     {
         var detected = new List<string>();
-        var words = text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        string normalizedText = text.ToLowerInvariant();
+        
+        // 1. Detección de FRASES SENSIBLES (más larga y compleja)
+        // Usamos PartialRatio para ver si alguna frase sensible está contenida en el texto, 
+        // incluso si el usuario añade palabras antes o después (ej. "Yo no, pero me quiero morir ya").
 
-        foreach (var word in words)
+        var sensitivePhrases = _sensitiveWords.Where(w => w.Contains(' ')).ToList();
+        
+        foreach (var phrase in sensitivePhrases)
         {
-            foreach (var sensitive in _sensitiveWords)
+            // PartialRatio: Compara si la subcadena más similar al target excede el umbral.
+            int score = Fuzz.PartialRatio(normalizedText, phrase);
+            
+            if (score >= PhraseThreshold)
             {
-                int score = Fuzz.Ratio(word.ToLower(), sensitive.ToLower());
-                if (score > 50) // tolerancia, 100 = exacto
-                {
-                    detected.Add(sensitive);
-                }
+                // Si detectamos una frase, añadimos la frase maestra a la lista.
+                detected.Add(phrase); 
             }
         }
 
-        return detected;
+        // 2. Detección de PALABRAS SENSIBLES INDIVIDUALES (con errores tipográficos)
+        // Tokenizamos el texto del usuario para aislar cada palabra.
+        // Se recomienda tokenizar mejor que solo por espacio para manejo de puntuación.
+        var userWords = text.Split(new char[] { ' ', '.', ',', '?', '!', '¿', '¡', ':', ';' }, StringSplitOptions.RemoveEmptyEntries)
+                              .Select(w => w.ToLowerInvariant()).ToList();
+        
+        var sensitiveSingleWords = _sensitiveWords.Where(w => !w.Contains(' ')).ToList();
+        
+        foreach (var userWord in userWords)
+        {
+            foreach (var sensitiveWord in sensitiveSingleWords)
+            {
+                // Ratio: Compara la palabra del usuario con la palabra sensible.
+                // Es ideal para detectar errores ortográficos.
+                int score = Fuzz.Ratio(userWord, sensitiveWord);
+                
+                if (score >= WordThreshold) 
+                {
+                    // Si encontramos una coincidencia con alta similitud
+                    detected.Add(sensitiveWord); 
+                }
+            }
+        }
+        
+        // Retornamos todas las detecciones únicas (tanto frases como palabras)
+        return detected.Distinct().ToList();
     }
 }

@@ -6,12 +6,47 @@
 <div id="chat-box" style="border:1px solid #ccc; padding:10px; height:400px; overflow-y:auto; background:#f9f9f9; text-align:left;"></div>
 
 <div class="mt-2 d-flex">
-    <input id="userInput" type="text" class="form-control" placeholder="Escribe un mensaje..." />
+    <input id="userInput" type="text" class="form-control" placeholder="Escribe un mensaje..." 
+           onkeydown="handleKeyDown(event)" onkeyup="handleKeyUp(event)" />
     <button class="btn btn-primary ms-2" onclick="sendMessage()">Enviar</button>
 </div>
 
 <hr />
-<h4>🛑 Palabras sensibles detectadas (debug)</h4>
+<h4 class="mt-4">🛠️ Análisis de Mensaje (Debug)</h4>
+
+<table class="table table-sm table-bordered">
+    <thead>
+        <tr>
+            <th>Velocidad (WPM)</th>
+            <th>Errores Gramaticales</th>
+            <th>Coherencia</th>
+        </tr>
+    </thead>
+    <tbody id="analysis-summary">
+        <tr>
+            <td id="speed-wpm">-</td>
+            <td id="grammar-errors">-</td>
+            <td id="coherence-score">-</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="row">
+    <div class="col-md-6">
+        <h5>🔑 Palabras Clave</h5>
+        <ul id="keywords-list" class="list-group list-group-flush small">
+            <li class="list-group-item">-</li>
+        </ul>
+    </div>
+    <div class="col-md-6">
+        <h5>🗣️ Muletillas</h5>
+        <ul id="filler-words-list" class="list-group list-group-flush small">
+            <li class="list-group-item">-</li>
+        </ul>
+    </div>
+</div>
+
+<h5 class="mt-3">🛑 Palabras Sensibles Detectadas</h5>
 <table class="table table-sm table-bordered">
     <thead>
         <tr>
@@ -22,41 +57,117 @@
     </tbody>
 </table>
 
+
 @section Scripts {
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
 <script>
+// Variables para medir la velocidad de escritura
+let startTime = null;
+
+function handleKeyDown(event) {
+    // Al empezar a escribir, si startTime es nulo, guárdalo
+    if (startTime === null) {
+        startTime = performance.now();
+    }
+}
+
+// Puedes usar keyup o keydown, keydown es más preciso para el inicio.
+function handleKeyUp(event) {
+    // Si se pulsa Enter, simula el clic en Enviar
+    if (event.key === 'Enter') {
+        sendMessage();
+    }
+}
+
+
 async function sendMessage() {
     const input = document.getElementById("userInput");
     const chatBox = document.getElementById("chat-box");
-    const sensitiveTable = document.getElementById("sensitive-words");
-
+    
     const userMessage = input.value;
     if (!userMessage.trim()) return;
 
+    // 1. Calcular el tiempo transcurrido
+    let timeElapsedSeconds = 0;
+    if (startTime !== null) {
+        const endTime = performance.now();
+        // Convertir milisegundos a segundos
+        timeElapsedSeconds = (endTime - startTime) / 1000;
+    }
+    
+    // Resetear el tiempo para el próximo mensaje
+    startTime = null;
+
+    // Mostrar mensaje del usuario y limpiar input
     chatBox.innerHTML += `<div><b>👤 Tú:</b> ${marked.parse(userMessage)}</div>`;
     input.value = "";
+    chatBox.scrollTop = chatBox.scrollHeight;
 
-    // Llamada al ChatController
+    // Llamada al ChatController con el tiempo
     const response = await fetch("/chat/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: userMessage })
+        body: JSON.stringify({ 
+            text: userMessage,
+            timeElapsedSeconds: timeElapsedSeconds 
+        })
     });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        chatBox.innerHTML += `<div><b>🤖 Error:</b> ${errorData.error}</div>`;
+        chatBox.scrollTop = chatBox.scrollHeight;
+        return;
+    }
 
     const data = await response.json();
 
-    // Respuesta del bot
+    // 2. Respuesta del bot
     chatBox.innerHTML += `<div><b>🤖 Bot:</b> ${marked.parse(data.reply)}</div>`;
     chatBox.scrollTop = chatBox.scrollHeight;
 
-    // 🔹 Actualizar tabla con palabras sensibles
+    // 3. Actualizar la sección de Debug
+    updateDebugPanel(data);
+}
+
+function updateDebugPanel(data) {
+    // 1) Actualizar Resumen
+    document.getElementById("speed-wpm").innerText = data.typingSpeed_WPM ? `${data.typingSpeed_WPM} WPM` : '-';
+    document.getElementById("grammar-errors").innerText = data.grammaticalErrors ?? '-';
+    document.getElementById("coherence-score").innerText = data.coherenceScore ?? '-';
+
+    // 2) Palabras Clave
+    const keywordsList = document.getElementById("keywords-list");
+    keywordsList.innerHTML = "";
+    if (data.keywords && data.keywords.length > 0) {
+        data.keywords.forEach(w => {
+            keywordsList.innerHTML += `<li class="list-group-item">${w}</li>`;
+        });
+    } else {
+        keywordsList.innerHTML = `<li class="list-group-item">No se detectaron palabras clave.</li>`;
+    }
+
+    // 3) Muletillas
+    const fillerWordsList = document.getElementById("filler-words-list");
+    fillerWordsList.innerHTML = "";
+    const fillerEntries = Object.entries(data.fillerWords || {});
+    if (fillerEntries.length > 0) {
+        fillerEntries.forEach(([word, count]) => {
+            fillerWordsList.innerHTML += `<li class="list-group-item">${word} (${count} veces)</li>`;
+        });
+    } else {
+        fillerWordsList.innerHTML = `<li class="list-group-item">No se detectaron muletillas.</li>`;
+    }
+
+    // 4) Palabras Sensibles
+    const sensitiveTable = document.getElementById("sensitive-words");
     sensitiveTable.innerHTML = "";
     if (data.sensitiveWords && data.sensitiveWords.length > 0) {
         data.sensitiveWords.forEach(w => {
             sensitiveTable.innerHTML += `<tr><td>${w}</td></tr>`;
         });
     }
-}
+}   
 </script>
-}
+    }
