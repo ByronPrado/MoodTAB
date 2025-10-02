@@ -169,8 +169,10 @@
         </div>
 
         <div class="tab-pane fade" id="reportesTab">
-            <button id="btnDescargarPdf" class="btn btn-success">Descargar Reporte (PDF)</button>
+            <button id="btnDescargarPdf" class="btn btn-success">Descargar Gráficos (PDF)</button>
+            <button id="btnDescargarCalendarioPdf" class="btn btn-primary ms-2">Descargar Calendario (PDF)</button>
         </div>
+
     </div>
 </div>
 
@@ -180,6 +182,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -522,10 +525,64 @@
             // Inicializar filtro
             filtrarDiarios();
 
+            const btnCalendario = document.getElementById('btnDescargarCalendarioPdf');
+
+            btnCalendario.addEventListener("click", async function () {
+                btnCalendario.disabled = true;
+                btnCalendario.innerText = "Generando...";
+
+                try {
+                    const { jsPDF } = window.jspdf;
+                    if (!jsPDF) {
+                        alert("No se pudo cargar jsPDF.");
+                        return;
+                    }
+
+                    // Forzar que el tab de Diarios esté activo
+                    const diariosTab = document.querySelector('a[href="#diariosTab"]');
+                    if (diariosTab && !diariosTab.classList.contains('active')) {
+                        diariosTab.click();
+                        // darle tiempo a que el DOM renderice el calendario
+                        await new Promise(res => setTimeout(res, 600));
+                    }
+
+                    // Capturamos el calendario
+                    const calendario = document.getElementById("calendarioDiarios");
+                    const canvas = await html2canvas(calendario, { scale: 2, useCORS: true });
+                    const imgData = canvas.toDataURL("image/png");
+
+                    // Crear PDF
+                    const doc = new jsPDF({
+                        orientation: "landscape",
+                        unit: "mm",
+                        format: "a4"
+                    });
+
+                    doc.setFontSize(18);
+                    doc.text("Calendario de Diarios Emocionales", 148, 20, { align: "center" });
+
+                    const pageWidth = doc.internal.pageSize.getWidth() - 20;
+                    const pageHeight = doc.internal.pageSize.getHeight() - 40;
+                    doc.addImage(imgData, "PNG", 10, 30, pageWidth, pageHeight);
+
+                    const fecha = new Date().toISOString().slice(0, 10);
+                    doc.save(`Calendario-@Html.Raw(Model.Nombre.Replace(" ", "_").Replace("'", ""))-${fecha}.pdf`);
+
+                } catch (err) {
+                    alert("Error generando PDF: " + err.message);
+                    console.error(err);
+                } finally {
+                    btnCalendario.disabled = false;
+                    btnCalendario.innerText = "Descargar Calendario (PDF)";
+                }
+            });
+
+
+
             // --- Exportar a CSV ---
             const btnCsv = document.createElement('button');
             btnCsv.className = 'btn btn-outline-primary ms-2';
-            btnCsv.innerText = 'Exportar CSV';
+            btnCsv.innerText = 'Exportar Calendario (CSV)';
             btnCsv.onclick = function() {
                 let rows = [["Fecha", "Emociones", "Descripción"]];
                 document.querySelectorAll('.emotion-entry').forEach(entry => {
