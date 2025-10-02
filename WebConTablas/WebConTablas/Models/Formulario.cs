@@ -10,6 +10,7 @@ namespace WebConTablas.Models
         public Psiquiatra? Psiquiatra { get; set; }
         public string? Titulo { get; set; }
         public string? Descripcion { get; set; }
+        public string? Grupo { get; set; }
         public DateTime? Created_at { get; set; }
 
         public ICollection<FormularioPregunta> Preguntas { get; set; } = new List<FormularioPregunta>();

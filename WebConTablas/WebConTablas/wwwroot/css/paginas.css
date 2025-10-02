@@ -58,18 +58,22 @@ body{
 }
 
 .card-list-pacientes{
-    height: 53vh;
+    max-height: 53vh;
     overflow-y: scroll;
+    padding: 5px 0 0 0;
+
 }
 
 .card-list-formularios{
-    height: 65vh;
+    max-height: 53vh;
     overflow-y: scroll;
+    padding: 5px 0 0 0;
 }
 
 .card-list-preguntas{
-    height: 66vh;
+    max-height: 66vh;
     overflow-y: scroll;
+    padding: 5px 0 0 0;
 }
 
 .white-card {

@@ -2,6 +2,15 @@
 @using System.Text.Json
 @using System.Collections.Generic
 
+@{
+    var grupos = Model
+        .Where(f => !string.IsNullOrEmpty(f.Grupo)) // evitar nulos o vacíos
+        .Select(f => f.Grupo)
+        .Distinct()
+        .OrderBy(g => g)
+        .ToList();
+}
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -26,6 +35,16 @@
                 <input type="text" class="form-control" placeholder="Buscar preguntas..." id="searchInput" onkeyup="filterForm()">
                 <i class="fas fa-search"></i>
             </div>
+
+            <label for="filtro-grupo">Grupo</label>
+            <select id="filtro-grupo" class="form-select" onchange="filterForm()">
+                <option value="all">Todos</option>
+                @foreach (var grupo in grupos)
+                {
+                    <option value="@grupo">@grupo</option>
+                }
+            </select>
+            <div style="height: 2rem;"></div>
 
             <div class="card-list-formularios">
             @foreach (var formulario in Model)
@@ -70,6 +89,7 @@
         const formsData = @Html.Raw(JsonSerializer.Serialize(Model.Select(f => new {
             ID_Formulario = f.ID_Formulario,
             Titulo = f.Titulo,
+            Grupo = f.Grupo,
             Descripcion = f.Descripcion,
             Created_at = f.Created_at.ToString(),
             Psiquiatra = new {
@@ -183,6 +203,10 @@
                             <div class="info-label">Fecha de Creación</div>
                             <div class="info-value">${fechaCreacion}</div>
                         </div>
+                        <div class="info-item">
+                            <div class="info-label">Grupo</div>
+                            <div class="info-value">${form.Grupo}</div>
+                        </div>
                     </div>
                 </div>
 
@@ -202,15 +226,24 @@
 
         function filterForm() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const grupoSeleccionado = document.getElementById('filtro-grupo').value;
             const questionCards = document.querySelectorAll('.white-card');
-            
+
             questionCards.forEach(card => {
-                const content = card.querySelector("#formulario-titulo");
-                if (content.textContent.toLowerCase().includes(searchTerm)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
+                const titulo = card.querySelector("#formulario-titulo").textContent.toLowerCase();
+                const grupo = formsData.find(f => f.ID_Formulario == card.dataset.formId)?.Grupo || "";
+
+                let visible = true;
+
+                if (!titulo.includes(searchTerm)) {
+                    visible = false;
                 }
+
+                if (grupoSeleccionado !== "all" && grupo !== grupoSeleccionado) {
+                    visible = false;
+                }
+
+                card.style.display = visible ? "block" : "none";
             });
         }
     </script>
