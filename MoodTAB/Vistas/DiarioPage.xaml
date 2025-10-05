@@ -137,22 +137,165 @@
                        FontSize="16" 
                        TextColor="#0F172A"/>
 
+                <!-- Ritmo Cardiaco -->
+                <Frame CornerRadius="15" 
+                       Padding="10" 
+                       BackgroundColor="#FEE2E2" 
+                       BorderColor="#EF4444">
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="❤️ Ritmo Cardiaco (BPM)" 
+                               FontAttributes="Bold" 
+                               FontFamily="BreeSerif-Regular.ttf" 
+                               FontSize="16" 
+                               TextColor="#B91C1C"/>
+                        <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                            <Entry Text="{Binding RitmoCardiaco}" 
+                                   IsEnabled="{Binding IsManualRitmoCardiaco}" 
+                                   Keyboard="Numeric" 
+                                   FontSize="22" 
+                                   FontAttributes="Bold" 
+                                   TextColor="#B91C1C"/>
+                            <Switch IsToggled="{Binding IsManualRitmoCardiaco}" />
+                            <Label Text="Manual/Smartwatch" 
+                                   FontSize="12" 
+                                   VerticalOptions="Center" 
+                                   TextColor="#B91C1C"/>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Variabilidad de la Frecuencia Cardiaca -->
+                <Frame CornerRadius="15" 
+                       Padding="10" 
+                       BackgroundColor="#E0E7FF" 
+                       BorderColor="#6366F1">
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="💓 Variabilidad Frecuencia Cardiaca (ms)" 
+                               FontAttributes="Bold" 
+                               FontFamily="BreeSerif-Regular.ttf" 
+                               FontSize="16" 
+                               TextColor="#3730A3"/>
+                        <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                            <Entry Text="{Binding VariabilidadFrecuenciaCardiaca}" 
+                                   IsEnabled="{Binding IsManualVariabilidad}" 
+                                   Keyboard="Numeric" 
+                                   FontSize="22" 
+                                   FontAttributes="Bold" 
+                                   TextColor="#3730A3"/>
+                            <Switch IsToggled="{Binding IsManualVariabilidad}" />
+                            <Label Text="Manual/Smartwatch" 
+                                   FontSize="12" 
+                                   VerticalOptions="Center" 
+                                   TextColor="#3730A3"/>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+
                 <!-- Pasos -->
                 <Frame CornerRadius="15" 
                        Padding="10" 
                        BackgroundColor="#DCFCE7" 
                        BorderColor="#FFA2FFC2">
-                    <VerticalStackLayout>
-                        <Label Text="🚶 Pasos" 
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="🚶 Cantidad de Pasos" 
                                FontAttributes="Bold" 
                                FontFamily="BreeSerif-Regular.ttf" 
                                FontSize="16" 
                                TextColor="#166534"/>
+                        <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                            <Entry Text="{Binding CantidadPasos}" 
+                                   IsEnabled="{Binding IsManualPasos}" 
+                                   Keyboard="Numeric" 
+                                   FontSize="22" 
+                                   FontAttributes="Bold" 
+                                   TextColor="#166534"/>
+                            <Switch IsToggled="{Binding IsManualPasos}" />
+                            <Label Text="Manual/Smartwatch" 
+                                   FontSize="12" 
+                                   VerticalOptions="Center" 
+                                   TextColor="#166534"/>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Frame>
 
-                        <Label Text="{Binding CantidadPasos}" 
-                               FontSize="22" 
+                <!-- Hora en que se durmió -->
+                <Frame CornerRadius="15" 
+                       Padding="10" 
+                       BackgroundColor="#E0F2FE" 
+                       BorderColor="#0EA5E9">
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="🌙 Hora en que se durmió" 
                                FontAttributes="Bold" 
-                               TextColor="#166534"/>
+                               FontFamily="BreeSerif-Regular.ttf" 
+                               FontSize="16" 
+                               TextColor="#0C4A6E"/>
+                        <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                            <TimePicker Time="{Binding HoraDurmio}" 
+                                        IsEnabled="{Binding IsManualHoraDurmio}" 
+                                        FontSize="22" 
+                                        TextColor="#0C4A6E"/>
+                            <Switch IsToggled="{Binding IsManualHoraDurmio}" />
+                            <Label Text="Manual/Smartwatch" 
+                                   FontSize="12" 
+                                   VerticalOptions="Center" 
+                                   TextColor="#0C4A6E"/>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Hora en que despertó -->
+                <Frame CornerRadius="15" 
+                       Padding="10" 
+                       BackgroundColor="#E0F2FE" 
+                       BorderColor="#0EA5E9">
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="☀️ Hora en que despertó" 
+                               FontAttributes="Bold" 
+                               FontFamily="BreeSerif-Regular.ttf" 
+                               FontSize="16" 
+                               TextColor="#0C4A6E"/>
+                        <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                            <TimePicker Time="{Binding HoraDesperto}" 
+                                        IsEnabled="{Binding IsManualHoraDesperto}" 
+                                        FontSize="22" 
+                                        TextColor="#0C4A6E"/>
+                            <Switch IsToggled="{Binding IsManualHoraDesperto}" />
+                            <Label Text="Manual/Smartwatch" 
+                                   FontSize="12" 
+                                   VerticalOptions="Center" 
+                                   TextColor="#0C4A6E"/>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Cantidad de horas de sueño -->
+                <Frame CornerRadius="15"
+                       Padding="10" 
+                       BackgroundColor="#FFC1E4FF" 
+                       BorderColor="#FF86C8FA">
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="💤 Cantidad de Horas de Sueño" 
+                               FontAttributes="Bold" 
+                               FontFamily="BreeSerif-Regular.ttf" 
+                               FontSize="16"
+                               TextColor="#FF1A4E75"/>
+                        <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                            <Entry Text="{Binding HorasSueno}" 
+                                   IsEnabled="{Binding IsManualHorasSueno}" 
+                                   Keyboard="Numeric" 
+                                   FontSize="22" 
+                                   FontAttributes="Bold" 
+                                   TextColor="#FF1A4E75"/>
+                            <Label Text="hrs" 
+                                   FontSize="22" 
+                                   FontAttributes="Bold" 
+                                   TextColor="#FF1A4E75"/>
+                            <Switch IsToggled="{Binding IsManualHorasSueno}" />
+                            <Label Text="Manual/Smartwatch" 
+                                   FontSize="12" 
+                                   VerticalOptions="Center" 
+                                   TextColor="#FF1A4E75"/>
+                        </HorizontalStackLayout>
                     </VerticalStackLayout>
                 </Frame>
 
@@ -181,7 +324,7 @@
                        BackgroundColor="#F5D0FE" 
                        BorderColor="#FFEEACFF">
                     <VerticalStackLayout>
-                        <Label Text="📣 Redes sociales" 
+                        <Label Text="📣 Cantidad de Horas en Redes Sociales" 
                                FontAttributes="Bold" 
                                FontFamily="BreeSerif-Regular.ttf" 
                                FontSize="16"
@@ -195,43 +338,6 @@
                     </VerticalStackLayout>
                 </Frame>
 
-                <!-- Sueño -->
-                <Frame CornerRadius="15"
-                       Padding="10" 
-                       BackgroundColor="#FFC1E4FF" 
-                       BorderColor="#FF86C8FA">
-                    <VerticalStackLayout>
-                        <Label Text="💤 Sueño" 
-                               FontAttributes="Bold" 
-                               FontFamily="BreeSerif-Regular.ttf" 
-                               FontSize="16"
-                               TextColor="#FF1A4E75"/>
-
-                        <Grid 
-                               ColumnSpacing="10" RowSpacing="10"
-                               RowDefinitions="*"
-                               ColumnDefinitions="35,60"
-                               HorizontalOptions="Center"
-                               Grid.Row="4" Grid.Column="1"
-                               Padding="0,-10,150,0">
-
-                            <Entry Text="{Binding HorasSueno, StringFormat='{0:F1}'}" 
-                                   Grid.Column="0" 
-                                   FontSize="22" 
-                                   Keyboard="Numeric" 
-                                   FontAttributes="Bold" 
-                                   TextColor="#FF1A4E75"/>
-
-                            <Label Text="hrs" 
-                                   Grid.Column="1" 
-                                   FontSize="22" 
-                                   FontAttributes="Bold" 
-                                   Padding="-10,10,0,0" 
-                                   TextColor="#FF1A4E75"/>
-                        </Grid>
-                        <!--Label Text="Introducir horas dormidas" FontSize="12" TextColor="#FF1A4E75"/-->
-                    </VerticalStackLayout>
-                </Frame>
             </VerticalStackLayout>
 
             <Button Text="💾 Guardar registro del día"

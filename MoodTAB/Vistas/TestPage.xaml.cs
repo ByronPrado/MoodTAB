@@ -1,7 +1,9 @@
 namespace MoodTAB.Vistas;
 
-using Microsoft.Maui.ApplicationModel; 
+using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.ApplicationModel.DataTransfer;
+using MoodTAB.ViewModel;
+using MoodTAB.ViewModels;
 
 
 
@@ -12,6 +14,8 @@ public partial class TestPage : ContentPage
 	public TestPage()
 	{
 		InitializeComponent();
+		BindingContext = new TestViewModel();
+
 		NombreLabel.Text = Nombre; // Muestra el valor inicial
 		connectivity = Connectivity.Current;
 	}

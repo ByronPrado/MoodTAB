@@ -1,29 +1,31 @@
 using Android.Content;
-//using Com.Example.Healthbridge; // generado automáticamente desde tu .aar
+//using Com.Example.Healthbridge; 
 using MoodTAB.Services;
-using MyMauiApp.Services;
+using Kotlin.Coroutines;
 
 namespace MoodTAB.Platforms.Android
 {
-    public class HealthBridgeService : IHealthBridgeService
+    public class HealthBridgeService
     {
-        private readonly Context _context;
-
-        public HealthBridgeService(Context context)
+        public static Task<long> GetTodayStepsAsync()
         {
-            _context = context;
-        }
+            var tcs = new TaskCompletionSource<long>();
+            var context = Application.BindingContextProperty;
 
-        public long GetStepsToday()
-        {
-            //return HealthBridge.GetStepsTodayBlocking(_context);
-            return 0;
-        }
-
-        public long GetSleepMinutesToday()
-        {
-            //return HealthBridge.GetSleepMinutesTodayBlocking(_context);
-            return 0;
+            // Ejecutamos la tarea asíncrona usando Task.Run
+            Task.Run(async () =>
+            {
+                try
+                {
+                    //long steps = await HealthConnectBridge.GetTodaySteps(context);
+                    long steps = 10000;
+                    tcs.SetResult(steps);
+                }
+                catch (System.Exception ex)
+                {
+                    tcs.SetException(ex);
+                }
+            });            return tcs.Task;
         }
     }
 }

@@ -40,10 +40,41 @@ namespace MoodTAB.ViewModel
         double horasYT;
 
         [ObservableProperty]
+        public int ritmoCardiaco;
+
+        [ObservableProperty]
+        public int variabilidadFrecuenciaCardiaca;
+
+        [ObservableProperty]
         int cantidadPasos;
 
         [ObservableProperty]
         string horasSueno;
+
+        [ObservableProperty]
+        public TimeSpan horaDurmio;
+
+        [ObservableProperty]
+        public TimeSpan horaDesperto;
+
+        // Switches: true = manual, false = smartwatch
+        [ObservableProperty]
+        private bool isManualRitmoCardiaco = true; // Nuevo, default manual
+
+        [ObservableProperty]
+        private bool isManualVariabilidad = true;
+
+        [ObservableProperty]
+        private bool isManualPasos = true;
+
+        [ObservableProperty]
+        private bool isManualHoraDurmio = true;
+
+        [ObservableProperty]
+        private bool isManualHoraDesperto = true;
+
+        [ObservableProperty]
+        private bool isManualHorasSueno = true;
 
         [ObservableProperty]
         string error;
@@ -86,6 +117,10 @@ namespace MoodTAB.ViewModel
             CantidadPasos = (int)stepService.TotalSteps;
             HorasSueno = "0";
             Error = "";
+            RitmoCardiaco = 0;
+            VariabilidadFrecuenciaCardiaca = 0;
+            HoraDurmio = TimeSpan.Zero;
+            HoraDesperto = TimeSpan.Zero;
             test = "veamos";
 
             foreach (var key in Globals.colores.Keys)
@@ -142,6 +177,63 @@ namespace MoodTAB.ViewModel
             if (int.TryParse(value, out int intValue) && intValue > 24)
             {
                 HorasSueno = "24";
+            }
+        }
+
+        // Manejo de cambios en switches (usando partial void para setters)
+        partial void OnIsManualRitmoCardiacoChanged(bool value)
+        {
+            HandleSwitchChange(value, nameof(RitmoCardiaco));
+        }
+
+        partial void OnIsManualVariabilidadChanged(bool value)
+        {
+            HandleSwitchChange(value, nameof(VariabilidadFrecuenciaCardiaca));
+        }
+
+        partial void OnIsManualPasosChanged(bool value)
+        {
+            HandleSwitchChange(value, nameof(CantidadPasos));
+            if (value) CantidadPasos = (int)stepService.TotalSteps; // Si manual, carga actual, pero permite editar
+        }
+
+        partial void OnIsManualHoraDurmioChanged(bool value)
+        {
+            HandleSwitchChange(value, nameof(HoraDurmio));
+        }
+
+        partial void OnIsManualHoraDespertoChanged(bool value)
+        {
+            HandleSwitchChange(value, nameof(HoraDesperto));
+        }
+
+        partial void OnIsManualHorasSuenoChanged(bool value)
+        {
+            HandleSwitchChange(value, nameof(HorasSueno));
+        }
+
+        private async void HandleSwitchChange(bool isManual, string propertyName)
+        {
+            if (!isManual)
+            {
+                // Smartwatch seleccionado
+                await Application.Current.MainPage.DisplayAlert("Característica Futura", "La integración con smartwatch no está disponible aún.", "OK");
+                // Resetear valor a default (puedes personalizar)
+                SetPropertyByName(propertyName, propertyName.Contains("Hora") ? TimeSpan.Zero : (object)0);
+            }
+        }
+
+        private void SetPropertyByName(string propertyName, object value)
+        {
+            // Helper para setear propiedades dinámicamente
+            switch (propertyName)
+            {
+                case nameof(RitmoCardiaco): RitmoCardiaco = (int)value; break;
+                case nameof(VariabilidadFrecuenciaCardiaca): VariabilidadFrecuenciaCardiaca = (int)value; break;
+                case nameof(CantidadPasos): CantidadPasos = (int)value; break;
+                case nameof(HoraDurmio): HoraDurmio = (TimeSpan)value; break;
+                case nameof(HoraDesperto): HoraDesperto = (TimeSpan)value; break;
+                case nameof(HorasSueno): HorasSueno = value.ToString(); break;
             }
         }
 
@@ -208,6 +300,10 @@ namespace MoodTAB.ViewModel
                     Horas_Redes = HorasRedes,
                     Horas_Yt = HorasYT,
                     Horas_Sueno = HorasSueno,
+                    Ritmo_Cardiaco = RitmoCardiaco,
+                    Variabilidad_Frecuencia_Cardiaca = VariabilidadFrecuenciaCardiaca,
+                    Hora_Durmio = HoraDurmio,
+                    Hora_Desperto = HoraDesperto,
                     Cantidad_Pasos = CantidadPasos,
                     CreatedAt = DateTime.UtcNow,
                 };
@@ -227,6 +323,10 @@ namespace MoodTAB.ViewModel
                     Horas_redes = (int)HorasRedes,
                     Horas_Yt = (int)HorasYT,
                     Hora_dormida = HorasSueno,
+                    RitmoCardiaco,
+                    VariabilidadFrecuenciaCardiaca,
+                    Hora_durmio = HoraDurmio.ToString(),
+                    Hora_desperto = HoraDesperto.ToString(),
                     Fecha = DateTime.UtcNow
                 };
 
