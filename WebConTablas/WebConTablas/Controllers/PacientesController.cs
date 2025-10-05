@@ -5,6 +5,7 @@ using WebConTablas.Models;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 public class PacientesController : Controller
 {
@@ -109,8 +110,24 @@ public class PacientesController : Controller
 
     public IActionResult Create()
     {
+        var idPsiquiatra = HttpContext.Session.GetInt32("PsiquiatraId");
+
+        if (idPsiquiatra == null)
+        {
+            return RedirectToAction("Login", "Psiquiatras");
+        }
+
+        // Filtrar solo los formularios del psiquiatra y del grupo "Formulario de Autoevaluación"
+        var formularios = _context.Formularios
+            .Where(f => f.ID_Psiquiatra == idPsiquiatra && f.Grupo == "Formulario de Autoevaluación")
+            .Select(f => new { f.ID_Formulario, f.Titulo })
+            .ToList();
+
+        ViewBag.FormulariosAutoevaluacion = new SelectList(formularios, "ID_Formulario", "Titulo");
+
         return View();
     }
+
 
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
@@ -123,7 +140,7 @@ public class PacientesController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(Paciente paciente)
+    public async Task<IActionResult> Create(Paciente paciente, int? ID_FormularioSeleccionado)
     {
         var idPsiquiatra = HttpContext.Session.GetInt32("PsiquiatraId");
 
@@ -138,11 +155,35 @@ public class PacientesController : Controller
         {
             _context.Pacientes.Add(paciente);
             await _context.SaveChangesAsync();
+
+            // Si seleccionó un formulario, se le asigna al paciente recién creado
+            if (ID_FormularioSeleccionado.HasValue)
+            {
+                var asignacion = new FormularioAsignado
+                {
+                    ID_Formulario = ID_FormularioSeleccionado.Value,
+                    ID_Paciente = paciente.ID_Paciente,
+                    Fecha_Asignacion = DateTime.UtcNow
+                };
+
+                _context.Add(asignacion);
+                await _context.SaveChangesAsync();
+            }
+
             return RedirectToAction(nameof(Index));
         }
 
+        // Si falla la validación, volvemos a cargar el combo de formularios
+        var formularios = _context.Formularios
+            .Where(f => f.ID_Psiquiatra == idPsiquiatra && f.Grupo == "Formulario de Autoevaluación")
+            .Select(f => new { f.ID_Formulario, f.Titulo })
+            .ToList();
+
+        ViewBag.FormulariosAutoevaluacion = new SelectList(formularios, "ID_Formulario", "Titulo");
+
         return View(paciente);
     }
+
 
     [HttpPost]
     public async Task<IActionResult> Edit(Paciente paciente)

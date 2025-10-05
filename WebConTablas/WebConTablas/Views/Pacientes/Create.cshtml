@@ -30,6 +30,18 @@
         <input asp-for="Diagnostico" class="form-control" />
         <span asp-validation-for="Diagnostico" class="text-danger"></span>
     </div>
+    <div class="mb-3">
+        <label for="ID_FormularioSeleccionado" class="form-label">
+            Formulario de Autoevaluación (opcional)
+        </label>
+        <select id="ID_FormularioSeleccionado" name="ID_FormularioSeleccionado" class="form-select">
+            <option value="">Seleccione un formulario...</option>
+            @foreach (var formulario in (SelectList)ViewBag.FormulariosAutoevaluacion)
+            {
+                <option value="@formulario.Value">@formulario.Text</option>
+            }
+        </select>
+    </div>
 
     <button type="submit" class="btn btn-success">Guardar</button>
     <a asp-controller="Psiquiatras" asp-action="Index" class="btn btn-secondary">Cancelar</a>

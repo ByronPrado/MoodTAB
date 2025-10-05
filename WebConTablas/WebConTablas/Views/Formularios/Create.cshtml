@@ -53,6 +53,16 @@
                     </div>
                     
                     <div class="col-md-12 mb-3">
+                        <label asp-for="Grupo" class="form-label fw-semibold">
+                            <i class="fas fa-list-ul me-2"></i>Tipo
+                        </label>
+                        <select asp-for="Grupo" asp-items="ViewBag.Grupos" class="form-select" required>
+                            <option value="">Seleccione un tipo...</option>
+                        </select>
+                        <span asp-validation-for="Grupo" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-12 mb-3">
                         <label asp-for="Descripcion" class="form-label fw-semibold">
                             <i class="fas fa-align-left me-2"></i>Descripción
                         </label>

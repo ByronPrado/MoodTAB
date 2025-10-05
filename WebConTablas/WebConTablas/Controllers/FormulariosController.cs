@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebConTablas.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 public class FormulariosController : Controller
 {
@@ -15,7 +16,15 @@ public class FormulariosController : Controller
 
     public IActionResult Create()
     {
-        
+        ViewBag.Grupos = new SelectList(new[] 
+        {
+            "Formulario de Autoevaluación",
+            "Seguimiento",
+            "Diagnóstico",
+            "Control",
+            "Alta médica"
+        });
+
         var psiquiatraId = HttpContext.Session.GetInt32("PsiquiatraId");
         if (psiquiatraId == null)
         {
