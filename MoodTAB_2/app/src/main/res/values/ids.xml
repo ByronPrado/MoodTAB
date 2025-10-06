@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="action_loginFragment_to_mainFragment" type="id" />
+    <item name="action_loginFragment_to_usuarioExternoFragment" type="id" />
+</resources>

@@ -2,6 +2,8 @@
 
 using MoodTAB.ViewModel;
 using MoodTAB.Services;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 
 
 #if ANDROID
@@ -63,13 +65,29 @@ public partial class MainPage : ContentPage
 #endif
 
     void NotificationClick(object sender, EventArgs e)
-    {   
+    {
         viewModel.ActualizarDatosUsuario();
 
         string title = $"Notificación de prueba";
-        string message = Globals.cuestionario_pendiente.ToString() ;
-        notificationManager.SendNotification(title, message, DateTime.Now.AddSeconds(1),1);
+        string message = Globals.cuestionario_pendiente.ToString();
+        notificationManager.SendNotification(title, message, DateTime.Now.AddSeconds(1), 1);
     }
 
+    public async void OnOpinionComentario(object sender, EventArgs e)
+    {
+        if (sender is Button button)
+        {
+            string mensaje = button.Text == "Es util "
+                ? "Se marcó como útil"
+                : "Se marcó como no relevante";
+
+            await Toast.Make(mensaje, ToastDuration.Short, 14).Show();
+        }
+
+    }
+    private void ShowLoading(bool show)
+    {
+        LoadingOverlay.IsVisible = show;
+    }
     
 }

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Plugin.Maui.Calendar.Controls;assembly=Plugin.Maui.Calendar" 
+             x:Class="MoodTAB.Vistas.CalendarioDiario"
+             Title="CalendarioDiario">
+    <NavigationPage.TitleView>
+        <Grid>
+            <Label Text="Mis Diarios"
+                   VerticalOptions="Center"
+                   HorizontalTextAlignment="Start"
+                   FontSize="20"
+                   FontFamily="BreeSerif-Regular.ttf"
+                   TextColor="#FF191919"/>
+        </Grid>
+    </NavigationPage.TitleView>
+    <Grid x:Name="MainGrid"
+        BackgroundColor="#FFF3F3FF">
+        <ScrollView
+                VerticalScrollBarVisibility="Never"
+            HorizontalScrollBarVisibility="Never">
+            <VerticalStackLayout
+                    x:Name ="VistaCalendario"
+                    Padding ="10"
+                    Spacing ="10"
+                    >
+                    <Label
+                        Text ="Empty"
+                        FontFamily="BreeSerif-Regular.ttf"/>
+        
+                    <Frame Padding="10" BorderColor="#7B000000"
+                        x:Name="FrameCalendario">
+                        <Grid RowDefinitions ="auto,auto,auto">
+                            <controls:Calendar
+                                x:Name="MiCalendario"
+                                CalendarLayout = "Week"
+                                Culture="{Binding Cultura}"
+                                Events="{Binding Events}"
+                                DayTappedCommand="{Binding DiaTocadoCommand}"
+                                VerticalOptions="Fill"
+                                HorizontalOptions="Fill"
+                                FirstDayOfWeek="Monday"
+                                EventIndicatorColor="#3B82F6"
+                                EventIndicatorSelectedColor="White"
+                                DeselectedDayTextColor="Black"
+                                SelectedDayTextColor="White"
+                                SelectedDayBackgroundColor="#3B82F6"
+                                SwipeUpToHideEnabled="True"
+                                SwipeRightCommand="{Binding CambiarVistaCommand}"
+                                TodayOutlineColor="#10B981"
+                                TodayFillColor="#D1FAE5"
+                                OtherMonthDayColor="LightGray"
+                                EventIndicatorType="BottomDot"
+
+                                ShowYearPicker ="False"
+                                ArrowsColor ="White"
+                                ArrowsSymbolNext =">"
+                                ArrowsSymbolPrev ="&lt;"
+                                ArrowsBackgroundColor="#3B82F6"
+                                Grid.Row="0"
+                                >
+                                <!-- Pie personalizado -->
+                                <controls:Calendar.FooterSectionTemplate>
+                                    <DataTemplate>
+                                        <StackLayout Padding="5" BackgroundColor="#E0F2FE">
+                                            <Label Text="Selecciona un día para ver tus diarios"
+                                                HorizontalOptions="Center"
+                                                TextColor="#0369A1"/>
+                                        </StackLayout>
+                                    </DataTemplate>
+                                </controls:Calendar.FooterSectionTemplate>
+                            </controls:Calendar> 
+
+                            <Button 
+                                x:Name ="CambiarVistaCalendarioButton"
+                                Text="Ver Ultimos 15 Días" 
+                                Clicked="OnCambiarVista"
+                                Grid.Row="1">
+                                    <Button.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                        <GradientStop Color="#3B82F6" Offset="0.0" />
+                                        <GradientStop Color="#10B981" Offset="1.0" />
+                                    </LinearGradientBrush>
+                                </Button.Background>
+                            </Button> 
+                            <Button Text="Exportar a PDF"
+                                 Clicked="OnExportarPDFClicked"
+                                 Grid.Row="2"/>
+                        </Grid>
+                    </Frame>
+                </VerticalStackLayout>    
+        </ScrollView>
+        <!-- Overlay de carga -->
+        <Grid x:Name="LoadingOverlay"
+              BackgroundColor="#FFF3F3FF" 
+              IsVisible="False"
+              HorizontalOptions="Fill"
+              VerticalOptions="Fill">
+            <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                <ActivityIndicator IsRunning="True" Color="#FF071A1E" WidthRequest="50" HeightRequest="50"/>
+                <Label Text="Cargando Diarios..." TextColor="#FF191919" FontSize="16" HorizontalOptions="Center" FontFamily="BreeSerif-Regular.ttf"/>
+            </StackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/loginFragment">
+
+    <!-- Login -->
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.mindraco.moodtab.ui.login.LoginFragment"
+        tools:layout="@layout/fragment_login"
+        android:label="Login">
+        <action
+            android:id="@+id/action_loginFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_usuarioExternoFragment"
+            app:destination="@id/usuarioExternoFragment" />
+    </fragment>
+
+    <!-- Main   tools:layout="@layout/fragment_main"-->
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.mindraco.moodtab.ui.main.MainFragment"
+        android:label="Main" />
+
+    <!-- Usuario Externo   tools:layout="@layout/fragment_main" -->
+    <fragment
+        android:id="@+id/usuarioExternoFragment"
+        android:name="com.mindraco.moodtab.ui.usuarioexterno.UsuarioExternoFragment"
+        android:label="Usuario Externo" />
+
+
+</navigation>

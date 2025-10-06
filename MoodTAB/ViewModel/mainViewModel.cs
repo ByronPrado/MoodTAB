@@ -11,6 +11,9 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Net.Http;
 
+using Microsoft.Maui.Controls;
+
+
 namespace MoodTAB.ViewModel
 {
     public partial class MainViewModel : ObservableObject
@@ -22,6 +25,8 @@ namespace MoodTAB.ViewModel
         private string _emailUsuario = "mail";
         [ObservableProperty]
         private bool cuestionario = false;
+        [ObservableProperty]
+        private bool isBusy;
 
         [ObservableProperty]
         private string _titleApi = "Bienvenido a MoodTAB";
@@ -49,7 +54,7 @@ namespace MoodTAB.ViewModel
             {
                 TitleApi = "No se pudo conectar a la web " + e.Message;
             }
-            
+
         }
 
         public void ActualizarDatosUsuario()
@@ -57,7 +62,11 @@ namespace MoodTAB.ViewModel
             // Inicializar el nombre de usuario
             NameUser = SecureStorage.GetAsync("user_nombre").Result ?? "TestActDatosusuario";
             EmailUsuario = SecureStorage.GetAsync("user_email").Result ?? "test";
-            Title = $"Hola {NameUser}";
+            try { Title = $"Hola {NameUser}"; }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[DEBUG]ERROR mainviewmodel: {ex.Message}");
+            }
         }
         private async void CargarSaludoAsync()
         {
@@ -68,6 +77,7 @@ namespace MoodTAB.ViewModel
             catch (Exception ex)
             {
                 TitleApi = $"Error: {ex.Message}";
+                Console.WriteLine($"[DEBUG]ERROR mainviewmodel: {ex.Message}");
             }
         }
 
@@ -102,7 +112,7 @@ namespace MoodTAB.ViewModel
                 Console.WriteLine($"Excepción inesperada: {ex}");
                 return $"Error inesperado: {ex.Message}";
             }
-                    
+
         }
 
         public INavigation? Navigation { get; set; }
@@ -112,12 +122,14 @@ namespace MoodTAB.ViewModel
         {
             try
             {
+                IsBusy = true;
                 ActualizarDatosUsuario();
                 Page? page = pageName switch
                 {
                     "CuestionarioPage" => new CuestionarioPage(),
                     "TestPage" => new TestPage(),
-                    "ListaDiaroPage" => new ListaDiarioPage(new StepCounterService()),
+                    "DiarioPage" => new DiarioPage(),
+                    "CalendarioPage" => new CalendarioDiario(),
                     "UserPage" => new UserPage(),
                     _ => null
                 };
@@ -130,6 +142,11 @@ namespace MoodTAB.ViewModel
             catch (Exception ex)
             {
                 Title = $"Error al navegar: {ex.Message}";
+                Console.WriteLine($"[DEBUG]ERROR Inavigation: {ex.Message}");
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
         private async void getCuestionario()

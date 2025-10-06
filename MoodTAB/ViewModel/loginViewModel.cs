@@ -4,6 +4,9 @@ using MoodTAB.Platforms.Android;
 using MoodTAB.Services;
 using MoodTAB.ViewModel;
 using MoodTAB.Vistas;
+using Microsoft.Maui.Controls;
+
+
 namespace MoodTAB.ViewModels
 {
     public partial class LoginViewModel : ObservableObject
@@ -30,7 +33,7 @@ namespace MoodTAB.ViewModels
 
             ErrorMessage = string.Empty;
             Console.WriteLine($"Intentando login con Nombre={Nombre}, Email={Email}");
-            var success = await _authService.LoginAsync(Nombre, Email,EsFamiliar);
+            var success = await _authService.LoginAsync(Nombre, Email, EsFamiliar);
             LogsMessage += $"\nResultado login: {success.log}";
             if (success.success)
             {
@@ -49,16 +52,16 @@ namespace MoodTAB.ViewModels
 
                 var notificationManager = App.ServiceProvider.GetService<INotificationManagerService>();
                 if (EsFamiliar)
-                {   
+                {
                     Console.WriteLine($"[DEBUG] Obtenido idexterno={success.user.IdUsuarioExterno}");
 
                     //await SecureStorage.SetAsync("user_id", success.user.ID_Paciente.ToString());
-                    Application.Current.MainPage = new NavigationPage(new UsuarioExternoPage(notificationManager,dictationService));
+                    Microsoft.Maui.Controls.Application.Current.MainPage = new NavigationPage(new UsuarioExternoPage(notificationManager, dictationService));
                 }
                 else
                 {
                     Console.WriteLine($"[DEBUG] Obtenido idpaciente={success.user.ID_Paciente}");
-                    Application.Current.MainPage = new NavigationPage(new MainPage(notificationManager));
+                    Microsoft.Maui.Controls.Application.Current.MainPage = new NavigationPage(new MainPage(notificationManager));
                 }
             }
             else
@@ -87,7 +90,7 @@ namespace MoodTAB.ViewModels
 
             // Navega a la página de login
             //Application.Current.MainPage = new LoginPage();
-            Application.Current.MainPage = new NavigationPage(new LoginPage());
+            Microsoft.Maui.Controls.Application.Current.MainPage = new NavigationPage(new LoginPage());
 
         }
     }

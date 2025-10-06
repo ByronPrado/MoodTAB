@@ -68,7 +68,7 @@
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer
                                         Command="{Binding MovetoPageCommand}"
-                                        CommandParameter="ListaDiaroPage" />
+                                        CommandParameter="CalendarioPage" />
                                 </Frame.GestureRecognizers>
                                     <Image Source="neosurveywhite.png" WidthRequest="20" HeightRequest="20"/>
                             </Frame>
@@ -89,7 +89,7 @@
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer
                                 Command="{Binding MovetoPageCommand}"
-                                CommandParameter="ListaDiaroPage" />
+                                CommandParameter="DiarioPage" />
                         </Frame.GestureRecognizers>
                         <Grid ColumnDefinitions="40,*"
                                 RowDefinitions="40">
@@ -99,7 +99,7 @@
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer
                                         Command="{Binding MovetoPageCommand}"
-                                        CommandParameter="ListaDiaroPage" />
+                                        CommandParameter="DiarioPage" />
                                 </Frame.GestureRecognizers>
                                     <Image Source="neodiarywhite.png" WidthRequest="20" HeightRequest="20"/>
                             </Frame>
@@ -108,6 +108,37 @@
                                 <Label Text="Registra tu estado de ánimo" FontFamily="BreeSerif-Regular.ttf" FontSize="12" TextColor="White" HorizontalOptions="Start"/>
                             </VerticalStackLayout>
                         </Grid>
+                    </Frame>
+                    <Frame  BackgroundColor="#C31EBBB0"
+                            BorderColor="Transparent"
+                            CornerRadius="15"
+                            Padding="10"
+                            Margin="5"
+                            HasShadow="False"
+                            IsClippedToBounds="False">
+                            <VerticalStackLayout Padding="10,0,0,0">
+                                <Label Text="Titulo Consejo" FontFamily="BreeSerif-Regular.ttf" FontSize="16" TextColor="White" FontAttributes="Bold" HorizontalOptions="Start"/>
+                                <Label Text="Texto Consejo" FontFamily="BreeSerif-Regular.ttf" FontSize="12" TextColor="White" HorizontalOptions="Start"/>
+                                <HorizontalStackLayout
+                                    HeightRequest="40"
+                                    Padding="5"
+                                    Spacing ="10"
+                                    HorizontalOptions="End"
+                                    >
+                                    <Label Text="Te resultó util el consejo?" FontFamily="BreeSerif-Regular.ttf" FontSize="8" TextColor="White" HorizontalOptions="Start"/>
+
+                                    <Button Text="Es util "
+                                        FontSize ="8"
+                                        FontFamily="BreeSerif-Regular.ttf"
+                                        Clicked="OnOpinionComentario"
+                                        />
+                                    <Button Text="No relevante"
+                                        FontSize ="8"
+                                        FontFamily="BreeSerif-Regular.ttf"
+                                        Clicked="OnOpinionComentario"
+                                        />
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
                     </Frame>
                 </VerticalStackLayout>
 
@@ -158,7 +189,7 @@
                         VerticalOptions="Center"
                         BackgroundColor="Transparent"
                         Command="{Binding MovetoPageCommand}"
-                        CommandParameter="ListaDiaroPage"
+                        CommandParameter="CalendarioPage"
                         Grid.Row="0"/>
                 <Image Grid.Row="0" Source="neodiary.png" HeightRequest="30" WidthRequest="30" Margin="0,0,0,15"/>
                 <Label Text="Mis Diarios" FontFamily="BreeSerif-Regular.ttf" HorizontalTextAlignment="Center" FontSize="12" TextColor="#FF61666D" Padding="0,50,0,0"></Label>
@@ -192,5 +223,20 @@
                 <Label Text="Ajustes" FontFamily="BreeSerif-Regular.ttf" HorizontalTextAlignment="Center" FontSize="12" TextColor="#FF61666D" Padding="0,50,0,0"></Label>
             </Grid>
         </HorizontalStackLayout>
+
+        <!-- Overlay de carga -->
+        <Grid x:Name="LoadingOverlay"
+            BackgroundColor="#FFF3F3FF"   
+            IsVisible="{Binding IsBusy}"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutFlags="All"
+            VerticalOptions="Fill"
+            HorizontalOptions="Fill"
+            ZIndex="99">
+            <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                <ActivityIndicator IsRunning="True" Color="#FF071A1E" WidthRequest="50" HeightRequest="50"/>
+                <Label Text="Cargando..." TextColor="#FF191919" FontSize="16" HorizontalOptions="Center" FontFamily="BreeSerif-Regular.ttf"/>
+            </StackLayout>
+        </Grid>
     </Grid>
 </ContentPage>
