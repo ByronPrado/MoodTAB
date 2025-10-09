@@ -1,4 +1,7 @@
 //using Foundation;
+using System;
+using System.Collections.Generic;
+
 
 namespace MoodTAB
 {
@@ -11,9 +14,10 @@ namespace MoodTAB
         public static bool cuestionario_pendiente { get; set; } = false;
         public static bool respondido { get; set; } = false;
         public static bool esFamiliar { get; set; } = false;
-        public static string? id_usuario_externo_DB { get; set;}
-        public static string direccion_local = "http://10.0.2.2:5051/";
-        public static string direccion_ngrok = "https://ed2fa62ed89e.ngrok-free.app/";
+        public static string? id_usuario_externo_DB { get; set; }
+
+        public static string direccion_ngrok = "http://10.0.2.2:5051/";
+        //public static string direccion_ngrok = "https://ed2fa62ed89e.ngrok-free.app/";
 
         public static bool toBool(string? boole)
         {
@@ -57,5 +61,32 @@ namespace MoodTAB
             { "Angustia", "😰" },
             { "Ansioso", "🫨" },
         };
+
+        public static Dictionary<string, ConsejoInfo> consejos = new Dictionary<string, ConsejoInfo>
+        {
+            { "1", new ConsejoInfo("Monitorea tus horas de sueño", "Cualquier cambio en la rutina de sueño puede estar ligada a cambios de -----", true) },
+            { "2", new ConsejoInfo("Monitorea tu estado de animo", "Mantener un registro te ayudará a notar tus cambios --------", true) },
+            { "3", new ConsejoInfo("Monitorea tus estado de animo", "Puedes escribir más de un diario al día", true)},
+            { "4", new ConsejoInfo("titulo_4", "Contenido_4", true) },
+            { "5", new ConsejoInfo("titulo_5", "Contenido_4", true) },
+            { "6", new ConsejoInfo("titulo_6", "Contenido_4", true) },
+            { "7", new ConsejoInfo("titulo_false", "Contenido_false", false) },
+
+        };
+        // Clase para representar los consejos (no estática, con constructor y propiedades)
+        public class ConsejoInfo
+        {
+            public string Titulo { get; set; }
+            public string Contenido { get; set; }
+            public bool Util { get; set; }
+
+            public ConsejoInfo(string titulo, string contenido, bool util)
+            {
+                Titulo = titulo;
+                Contenido = contenido;
+                Util = util;
+            }
+
+        }
     }
 }

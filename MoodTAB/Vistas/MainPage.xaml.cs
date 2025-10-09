@@ -34,6 +34,8 @@ public partial class MainPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+        viewModel.getCuestionario();
+        //NotificationIdle();
         if (Globals.respondido)
         {
             notificationManager.DeleteNotification(1001);
@@ -73,13 +75,31 @@ public partial class MainPage : ContentPage
         notificationManager.SendNotification(title, message, DateTime.Now.AddSeconds(1), 1);
     }
 
+    void NotificationIdle()
+    {
+        //viewModel.ActualizarDatosUsuario();
+
+        string title = LabelTituloConsejo.Text ?? "MoodTAB";
+        string message = LabelContenidoConsejo.Text ?? "Prueba Consejos";
+        notificationManager.SendNotification(title, message, DateTime.Now.AddSeconds(5), 1);
+    }
+
     public async void OnOpinionComentario(object sender, EventArgs e)
     {
         if (sender is Button button)
         {
-            string mensaje = button.Text == "Es util "
-                ? "Se marcó como útil"
-                : "Se marcó como no relevante";
+            bool util = button.Text?.Trim().StartsWith("Es util", StringComparison.OrdinalIgnoreCase) ?? false;
+            string mensaje = util ? "Se marcó como útil" : "Se marcó como no relevante";
+
+            // persistir la opinión y solicitar siguiente consejo desde el ViewModel
+            try
+            {
+                await viewModel.MarcarConsejoUtilAsync(util);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error marcando opinión: {ex.Message}");
+            }
 
             await Toast.Make(mensaje, ToastDuration.Short, 14).Show();
         }

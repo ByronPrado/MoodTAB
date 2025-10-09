@@ -30,7 +30,7 @@ public partial class App : Application
     {
         InitializeComponent();
         //Register Syncfusion<sup>®</sup> license
-	    Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1JFaF5cXGRCf1NpQnxbf1x1ZFBMZFpbRXFPIiBoS35Rc0VqWn9fd3BTR2dYVUZ3VEFc");
+	    Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1JFaF5cXGRCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdmWH9ed3VTRGhfUkN2XkNWYEg=");
         // Verificar si el usuario ya tiene sesión guardada
         var userId = SecureStorage.GetAsync("user_id").Result;
         var userNombre = SecureStorage.GetAsync("user_nombre").Result;

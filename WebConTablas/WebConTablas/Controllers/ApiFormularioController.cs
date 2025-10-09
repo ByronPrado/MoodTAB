@@ -26,6 +26,7 @@ public class ApiFormularioController : ControllerBase
                     fa.Formulario.ID_Formulario,
                     fa.Formulario.Titulo,
                     fa.Formulario.Descripcion,
+                    fa.Formulario.Grupo,
                     Preguntas = fa.Formulario.Preguntas.Select(fp => new
                     {
                         fp.Pregunta.ID_Pregunta,

@@ -22,20 +22,49 @@
                         RowSpacing="10"
                         HorizontalOptions="Fill"
                         VerticalOptions="Center"
-                        RowDefinitions="Auto,Auto,Auto">
+                        RowDefinitions="Auto,Auto,Auto,Auto">
                         <Label Text="{Binding Title}"
                                Grid.Row="0"
                                FontSize="20"
                                FontFamily="BreeSerif-Regular.ttf"
                                FontAttributes="Bold"
                                TextColor="#FF141414"/>
-                        <Label Text="¿Cómo te sientes hoy?"
+                        <Label x:Name="LabelTituloConsejo"
+                                Text="{Binding TextoTituloConsejo}"
                                FontSize="14"
                                FontFamily="BreeSerif-Regular.ttf"
                                TextColor="#FF9B9B9B"
                                Grid.Row="1"/>
-                        <Label Text="{Binding TitleApi}"
-                               Grid.Row="2"/>
+                        <Label
+                            x:Name="LabelContenidoConsejo"
+                            Text="{Binding TextoContenidoConsejo}"
+                            FontFamily="BreeSerif-Regular.ttf"
+                            TextColor="#FF9B9B9B"
+                            Grid.Row="2"/>
+                        <HorizontalStackLayout
+                                HeightRequest="40"
+                                Padding="5"
+                                Spacing ="10"
+                                HorizontalOptions="End"
+                                Grid.Row="3"
+                                >
+                                <Label Text="Te resultó util el consejo?"
+                                    FontFamily="BreeSerif-Regular.ttf"
+                                    FontSize="8"
+                                    TextColor="#FF9B9B9B"
+                                    HorizontalOptions="Start"/>
+
+                                <Button Text="Es util "
+                                    FontSize ="8"
+                                    FontFamily="BreeSerif-Regular.ttf"
+                                    Clicked="OnOpinionComentario"
+                                    />
+                                <Button Text="No relevante"
+                                    FontSize ="8"
+                                    FontFamily="BreeSerif-Regular.ttf"
+                                    Clicked="OnOpinionComentario"
+                                    />
+                        </HorizontalStackLayout>
                     </Grid>
                 </Frame>
 
@@ -74,7 +103,7 @@
                             </Frame>
                             <VerticalStackLayout Grid.Column="1" Padding="10,0,0,0" HorizontalOptions="Start">
                                 <Label Text="Cuestionario Disponible" FontFamily="BreeSerif-Regular.ttf" FontSize="16" TextColor="White" FontAttributes="Bold" HorizontalOptions="Start"/>
-                                <Label Text="Responder a la brevedad" FontFamily="BreeSerif-Regular.ttf" FontSize="12" TextColor="White" HorizontalOptions="Start"/>
+                                <Label Text="{Binding TextoActividadCuestionario}" FontFamily="BreeSerif-Regular.ttf" FontSize="12" TextColor="White" HorizontalOptions="Start"/>
                             </VerticalStackLayout>
                         </Grid>
                     </Frame>
@@ -109,52 +138,23 @@
                             </VerticalStackLayout>
                         </Grid>
                     </Frame>
-                    <Frame  BackgroundColor="#C31EBBB0"
-                            BorderColor="Transparent"
-                            CornerRadius="15"
-                            Padding="10"
-                            Margin="5"
-                            HasShadow="False"
-                            IsClippedToBounds="False">
-                            <VerticalStackLayout Padding="10,0,0,0">
-                                <Label Text="Titulo Consejo" FontFamily="BreeSerif-Regular.ttf" FontSize="16" TextColor="White" FontAttributes="Bold" HorizontalOptions="Start"/>
-                                <Label Text="Texto Consejo" FontFamily="BreeSerif-Regular.ttf" FontSize="12" TextColor="White" HorizontalOptions="Start"/>
-                                <HorizontalStackLayout
-                                    HeightRequest="40"
-                                    Padding="5"
-                                    Spacing ="10"
-                                    HorizontalOptions="End"
-                                    >
-                                    <Label Text="Te resultó util el consejo?" FontFamily="BreeSerif-Regular.ttf" FontSize="8" TextColor="White" HorizontalOptions="Start"/>
-
-                                    <Button Text="Es util "
-                                        FontSize ="8"
-                                        FontFamily="BreeSerif-Regular.ttf"
-                                        Clicked="OnOpinionComentario"
-                                        />
-                                    <Button Text="No relevante"
-                                        FontSize ="8"
-                                        FontFamily="BreeSerif-Regular.ttf"
-                                        Clicked="OnOpinionComentario"
-                                        />
-                                </HorizontalStackLayout>
-                            </VerticalStackLayout>
-                    </Frame>
                 </VerticalStackLayout>
-
                 <!-- Sección Debug -->
                 <Label Text="Debug"
                        FontSize="20"
                        FontAttributes="Bold"
                        TextColor="Gray"
-                       Margin="0,20,0,0"/>
+                       Margin="0,20,0,0"
+                        IsVisible="false"/>
                 <Button Text="Test"
                         Command="{Binding MovetoPageCommand}"
                         CommandParameter="TestPage"
-                        BackgroundColor="Red"/>
+                        BackgroundColor="Red"
+                         IsVisible="false"/>
                 <Button Text="Probar Notificación"
                         Clicked="NotificationClick"
-                        BackgroundColor="#68ACD5"/>
+                        BackgroundColor="#68ACD5"
+                         IsVisible="false"/>
             </VerticalStackLayout>
         </ScrollView>
 
