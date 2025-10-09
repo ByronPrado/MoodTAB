@@ -7,9 +7,8 @@
         <VerticalStackLayout>
 
             <CollectionView x:Name="PreguntasColl"
-                ItemsSource="{Binding PreguntasConRespuesta}"
-                Margin="0,0,0,20"
-                IsVisible="{Binding Pendiente}">
+                ItemsSource="{Binding PreguntasPaginadas}"
+                Margin="0,10,0,0">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         
@@ -83,38 +82,25 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <Button Text="💾 Enviar respuestas"
-                Command="{Binding GuardarRespuestasCommand}"> 
-                <Button.Triggers> 
-                    <DataTrigger TargetType="Button"
-                        Binding="{Binding PreguntasConRespuesta.Count}" 
-                        Value="0">
-                        <Setter Property="IsVisible"
-                            Value="False"/>
-                    </DataTrigger>
-                </Button.Triggers>
-                <Button.Background>
-                    <LinearGradientBrush StartPoint="0,0"
-                        EndPoint="1,0">
-                    <GradientStop Color="#3B82F6"
-                        Offset="0.0"/> 
-                    <GradientStop Color="#10B981"
-                        Offset="1.0"/> 
-                    </LinearGradientBrush> 
-                </Button.Background> 
-            </Button> 
-            <Button Text="DUMP DB"
-                BackgroundColor="Red"
-                Command="{Binding BorrarBaseDatosCommand}">
-                <Button.Triggers>
-                    <DataTrigger TargetType="Button"
-                        Binding="{Binding PreguntasConRespuesta.Count}"
-                        Value="0">
-                        <Setter Property="IsVisible"
-                            Value="False"/>
-                    </DataTrigger>
-                </Button.Triggers>
-            </Button>
+            <HorizontalStackLayout HorizontalOptions="Center" Margin="0,15,0,15" Spacing="20">
+                <Button Text="⬅️ Anterior"
+                        Command="{Binding PaginaAnteriorCommand}"
+                        IsEnabled="{Binding PuedeRetroceder}" />
+
+                <Label Text="{Binding PaginaActual, StringFormat='Página {0}'}"
+                    VerticalOptions="Center" />
+
+                <Button Text="Siguiente ➡️"
+                        Command="{Binding SiguientePaginaCommand}"
+                        IsEnabled="{Binding PuedeAvanzar}" />
+            </HorizontalStackLayout>
+
+            <Label Text="{Binding ErrorLabel}"/>
+
+            <Button Text="Enviar respuestas"
+                    Command="{Binding GuardarRespuestasCommand}"
+                    IsVisible="{Binding EsUltimaPagina}" />
+
         </VerticalStackLayout>
     </ScrollView>     
 </ContentPage>

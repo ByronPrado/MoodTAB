@@ -22,6 +22,43 @@ namespace MoodTAB.ViewModel
 
         [ObservableProperty]
         ObservableCollection<Respuestas> respuestasLista = new();
+        [ObservableProperty]
+        string errorLabel = "";
+        [ObservableProperty]
+        int paginaActual = 0;
+
+        private const int TAMANIO_PAGINA = 5;
+        public IEnumerable<PreguntaConRespuesta> PreguntasPaginadas
+        {
+            get
+            {
+                if (PreguntasConRespuesta == null) return Enumerable.Empty<PreguntaConRespuesta>();
+                return PreguntasConRespuesta
+                    .Skip(PaginaActual * TAMANIO_PAGINA)
+                    .Take(TAMANIO_PAGINA);
+            }
+        }
+
+        public bool PuedeRetroceder => PaginaActual > 0;
+        public bool PuedeAvanzar => (PaginaActual + 1) * TAMANIO_PAGINA < PreguntasConRespuesta?.Count;
+
+        public bool EsUltimaPagina => !PuedeAvanzar;
+
+        partial void OnPaginaActualChanged(int value)
+        {
+            OnPropertyChanged(nameof(PreguntasPaginadas));
+            OnPropertyChanged(nameof(PuedeRetroceder));
+            OnPropertyChanged(nameof(PuedeAvanzar));
+            OnPropertyChanged(nameof(EsUltimaPagina));
+        }
+
+        partial void OnPreguntasConRespuestaChanged(ObservableCollection<PreguntaConRespuesta> value)
+        {
+            OnPropertyChanged(nameof(PreguntasPaginadas));
+            OnPropertyChanged(nameof(PuedeRetroceder));
+            OnPropertyChanged(nameof(PuedeAvanzar));
+            OnPropertyChanged(nameof(EsUltimaPagina));
+        }
         private int idAsignacion;
         public void SetPreguntas(ObservableCollection<PreguntaConRespuesta> preguntas, int idAsignacion)
         {
@@ -100,6 +137,7 @@ namespace MoodTAB.ViewModel
             }
             catch (Exception ex)
             {
+                ErrorLabel = ex.Message;
                 await Microsoft.Maui.Controls.Application.Current.MainPage.DisplayAlert("Excepción", ex.ToString(), "OK");
             }
         }
@@ -126,6 +164,37 @@ namespace MoodTAB.ViewModel
                 await App.Database.DeleteAnswersAsync(res);
             }
             await CargarRespuestas();
+        }
+
+        
+        [RelayCommand]
+        private async Task SiguientePagina()
+        {
+            // Validar que todas las visibles estén respondidas
+            var incompletas = PreguntasPaginadas
+                .Where(x => string.IsNullOrWhiteSpace(x.RespuestaUsuario))
+                .ToList();
+
+            if (incompletas.Any())
+            {
+                var faltante = incompletas.First().Pregunta?.Contenido ?? "Pregunta sin texto";
+                await Application.Current.MainPage.DisplayAlert(
+                    "Falta responder",
+                    $"Por favor responde todas las preguntas antes de continuar.\nFalta: '{faltante}'",
+                    "OK"
+                );
+                return;
+            }
+
+            if (PuedeAvanzar)
+                PaginaActual++;
+        }
+
+        [RelayCommand]
+        private void PaginaAnterior()
+        {
+            if (PuedeRetroceder)
+                PaginaActual--;
         }
 
     }

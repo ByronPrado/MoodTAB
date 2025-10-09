@@ -128,6 +128,7 @@ namespace MoodTAB.ViewModel
         }
         public async Task SepararCuestionarios()
         {
+            ListaCuestionarios.Clear();
             using var doc = JsonDocument.Parse(Globals.cuestionario);
             var root = doc.RootElement;
            //Log_test = len.ToString();

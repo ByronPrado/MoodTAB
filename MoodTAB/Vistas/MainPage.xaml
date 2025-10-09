@@ -97,7 +97,7 @@
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer
                                         Command="{Binding MovetoPageCommand}"
-                                        CommandParameter="CalendarioPage" />
+                                        CommandParameter="CuestionarioPage" />
                                 </Frame.GestureRecognizers>
                                     <Image Source="neosurveywhite.png" WidthRequest="20" HeightRequest="20"/>
                             </Frame>
@@ -137,6 +137,34 @@
                                 <Label Text="Registra tu estado de ánimo" FontFamily="BreeSerif-Regular.ttf" FontSize="12" TextColor="White" HorizontalOptions="Start"/>
                             </VerticalStackLayout>
                         </Grid>
+                    </Frame>
+                </VerticalStackLayout>
+                <Label Text="Plan Seguro"
+                       FontSize="20"
+                       FontFamily="BreeSerif-Regular.ttf"
+                       TextColor="#FF141414"
+                       Margin="0,10,0,0"/>
+                <Label Text="En caso de emergencia o que te sientas muy mal entra acá"
+                       FontSize="16"
+                       FontFamily="BreeSerif-Regular.ttf"
+                       TextColor="#FF5C5C5C"
+                       Margin="0,10,0,0"/>
+
+                <VerticalStackLayout Spacing="0">
+                    <Frame  BackgroundColor="#FFD35656"
+                            BorderColor="Transparent"
+                            CornerRadius="15"
+                            Padding="10"
+                            Margin="5"
+                            WidthRequest="120"
+                            HasShadow="False"
+                            IsClippedToBounds="False">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding MovetoPageCommand}"
+                                CommandParameter="PlanSeguroPage" />
+                        </Frame.GestureRecognizers>
+                        <Label Text="Plan Seguro" FontFamily="BreeSerif-Regular.ttf" FontSize="16" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center"/>
                     </Frame>
                 </VerticalStackLayout>
                 <!-- Sección Debug -->
