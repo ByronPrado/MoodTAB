@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:MoodTAB.Converters"
              x:Class="MoodTAB.Vistas.DiarioPage"
             >
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <NavigationPage.TitleView>
         <Grid>
@@ -141,7 +148,8 @@
                 <Frame CornerRadius="15" 
                        Padding="10" 
                        BackgroundColor="#FEE2E2" 
-                       BorderColor="#EF4444">
+                       BorderColor="#EF4444"
+                       IsVisible="{Binding HealthDataManual, Converter={StaticResource InverseBooleanConverter}}">
                     <VerticalStackLayout Spacing="5">
                         <Label Text="❤️ Ritmo Cardiaco (BPM)" 
                                FontAttributes="Bold" 
@@ -168,7 +176,8 @@
                 <Frame CornerRadius="15" 
                        Padding="10" 
                        BackgroundColor="#E0E7FF" 
-                       BorderColor="#6366F1">
+                       BorderColor="#6366F1"
+                       IsVisible="{Binding HealthDataManual, Converter={StaticResource InverseBooleanConverter}}">
                     <VerticalStackLayout Spacing="5">
                         <Label Text="💓 Variabilidad Frecuencia Cardiaca (ms)" 
                                FontAttributes="Bold" 

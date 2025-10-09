@@ -10,6 +10,7 @@ using MoodTAB.Services;
 using System.Linq;
 using System.Text.Json;
 using Microsoft.Maui.Controls;
+using Microsoft.Maui.Storage;
 
 
 namespace MoodTAB.ViewModel
@@ -77,6 +78,9 @@ namespace MoodTAB.ViewModel
         private bool isManualHorasSueno = true;
 
         [ObservableProperty]
+        private bool healthDataManual;
+
+        [ObservableProperty]
         string error;
 
         [ObservableProperty]
@@ -134,6 +138,10 @@ namespace MoodTAB.ViewModel
                 listaEmociones.Add(item);
 
             }
+
+            // Cargar el valor almacenado de healthdata_manual
+            var storedValue = SecureStorage.GetAsync("healthdata_manual").Result ?? "false";
+            HealthDataManual = bool.Parse(storedValue);
 
 
             _ = LoadDiariosAsync();

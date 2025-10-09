@@ -8,6 +8,11 @@
             Text="Probemos los servicios aquiiiiiii"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+            <HorizontalStackLayout>
+                <Label Text="Ingreso manual de datos de salud" VerticalOptions="Center" />
+                <Switch IsToggled="{Binding HealthDataManual}" VerticalOptions="Center" />
+            </HorizontalStackLayout>
+            
 
         <!-- TestPage.xaml -->
         <Label x:Name="NombreLabel" Text="Test Page" />
