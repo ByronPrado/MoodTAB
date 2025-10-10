@@ -38,7 +38,17 @@ namespace MoodTAB.ViewModel
         double horasRedes;
 
         [ObservableProperty]
-        double horasYT;
+        int animo = 0;
+        [ObservableProperty]
+        int apetito = 0;
+        [ObservableProperty]
+        int energia = 0;
+        [ObservableProperty]
+        int calidadSueno = 0;
+        [ObservableProperty]
+        int bateriaSocial = 0;
+        [ObservableProperty]
+        string prueba;
 
         [ObservableProperty]
         public int ritmoCardiaco;
@@ -117,7 +127,6 @@ namespace MoodTAB.ViewModel
             DescDia = "";
             HorasCelular = 0;
             HorasRedes = 0;
-            HorasYT = 0;
             CantidadPasos = (int)stepService.TotalSteps;
             HorasSueno = "0";
             Error = "";
@@ -271,7 +280,6 @@ namespace MoodTAB.ViewModel
 
             HorasRedes = redesociales / 60.0;
             HorasCelular = horast / 60.0;
-            HorasYT = horasyutu / 60.0;
 
 #endif
         }
@@ -306,7 +314,6 @@ namespace MoodTAB.ViewModel
                     Descripcion = DescDia,
                     Horas_Celular = HorasCelular,
                     Horas_Redes = HorasRedes,
-                    Horas_Yt = HorasYT,
                     Horas_Sueno = HorasSueno,
                     Ritmo_Cardiaco = RitmoCardiaco,
                     Variabilidad_Frecuencia_Cardiaca = VariabilidadFrecuenciaCardiaca,
@@ -329,7 +336,6 @@ namespace MoodTAB.ViewModel
                     Pasos = CantidadPasos,
                     Horas_celular = (int)HorasCelular,
                     Horas_redes = (int)HorasRedes,
-                    Horas_Yt = (int)HorasYT,
                     Hora_dormida = HorasSueno,
                     RitmoCardiaco,
                     VariabilidadFrecuenciaCardiaca,
@@ -378,6 +384,12 @@ namespace MoodTAB.ViewModel
             {
                 Error = e.Message;
             }
+        }
+
+        [RelayCommand]
+        private void Probando()
+        {
+            Prueba = Apetito.ToString() + "," + Animo.ToString() + "," + Energia.ToString() + "," + CalidadSueno.ToString() + "," + BateriaSocial.ToString();
         }
         
         [RelayCommand]

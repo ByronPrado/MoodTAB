@@ -34,12 +34,10 @@
                     </LinearGradientBrush>
                 </Frame.Background>
                 <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
-                    <Label Text="¿Cómo te sentiste hoy?" 
-                           FontSize="18" 
+                    <Label Text="Puedes seleccionar varias emociones" 
                            FontFamily="BreeSerif-Regular.ttf" 
-                           HorizontalTextAlignment="Center" 
-                           FontAttributes="Bold" 
-                           TextColor="#0F172A"/>
+                           FontSize="12" 
+                           TextColor="#64748B"/>
 
                     <Label Text="Puedes seleccionar varias emociones" 
                            FontFamily="BreeSerif-Regular.ttf" 
@@ -47,6 +45,55 @@
                            TextColor="#64748B"/>
                 </VerticalStackLayout>
             </Frame>
+            <Label Text="Animo" 
+                    FontFamily="BreeSerif-Regular.ttf" 
+                    FontSize="12" 
+                    TextColor="Black" 
+                    HorizontalOptions="Center"/>
+            <Slider Minimum="0" Maximum="10" ValueChanged="OnSliderValueChanged"                                           
+                    Value="{Binding Animo, Mode=TwoWay}"/>
+            <Label Text="Apetito" 
+                    FontFamily="BreeSerif-Regular.ttf" 
+                    FontSize="12" 
+                    TextColor="Black" 
+                    HorizontalOptions="Center"/>
+            <Slider Minimum="0" Maximum="10" ValueChanged="OnSliderValueChanged"                                           
+                    Value="{Binding Apetito, Mode=TwoWay}"/>
+            <Label Text="Energia" 
+                    FontFamily="BreeSerif-Regular.ttf" 
+                    FontSize="12" 
+                    TextColor="Black" 
+                    HorizontalOptions="Center"/>
+            <Slider Minimum="0" Maximum="10" ValueChanged="OnSliderValueChanged"                                           
+                    Value="{Binding Energia, Mode=TwoWay}"/>
+            <Label Text="Calidad Sueño" 
+                    FontFamily="BreeSerif-Regular.ttf" 
+                    FontSize="12" 
+                    TextColor="Black" 
+                    HorizontalOptions="Center"/>
+            <Slider Minimum="0" Maximum="10" ValueChanged="OnSliderValueChanged"                                            
+                    Value="{Binding CalidadSueno, Mode=TwoWay}"/>
+            <Label Text="Batería Social" 
+                    FontFamily="BreeSerif-Regular.ttf" 
+                    FontSize="12" 
+                    TextColor="Black" 
+                    HorizontalOptions="Center"/>
+            <Slider Minimum="0" Maximum="10" ValueChanged="OnSliderValueChanged"                                           
+                    Value="{Binding BateriaSocial, Mode=TwoWay}"/>
+
+            <Label Text="{Binding Prueba}" 
+                    FontFamily="BreeSerif-Regular.ttf" 
+                    FontSize="12" 
+                    TextColor="Black" 
+                    HorizontalOptions="Center"/>
+            <Button Text="prueba"
+                    FontSize="16"
+                    FontFamily="BreeSerif-Regular.ttf"
+                    HorizontalOptions="Center"
+                    HeightRequest="50"
+                    Command="{Binding ProbandoCommand}">
+            </Button>
+            
 
             <CollectionView ItemsSource="{Binding ListaEmociones}"
                             ItemsLayout="VerticalGrid, 3"
