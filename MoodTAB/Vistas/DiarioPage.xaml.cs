@@ -48,5 +48,16 @@ public partial class DiarioPage : ContentPage
 		await Task.CompletedTask;
 #endif
 	}
+	private void OnSliderValueChanged(object sender, ValueChangedEventArgs e)
+	{
+		var slider = (Slider)sender;
+
+		// Redondea al entero más cercano
+		int roundedValue = (int)Math.Round(e.NewValue);
+
+		// Solo actualiza si realmente cambió (evita bucles visuales)
+		if (slider.Value != roundedValue)
+			slider.Value = roundedValue;
+	}
 
 }

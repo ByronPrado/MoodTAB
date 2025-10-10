@@ -1,6 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MoodTAB.Vistas;
+using Microsoft.Maui.Controls;
+
 
 namespace MoodTAB.ViewModel
 {
@@ -24,7 +26,7 @@ namespace MoodTAB.ViewModel
 
         [RelayCommand]
         public void Editar()
-        {   
+        {
             if (!IsEditing)
             {
                 IsEditing = true;
@@ -38,7 +40,7 @@ namespace MoodTAB.ViewModel
                 IsEditing = false;
                 BotonEditar = "Editar";
             }
-            
+
         }
 
 
@@ -58,9 +60,9 @@ namespace MoodTAB.ViewModel
             var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
             var response = await httpClient.PatchAsync(url, content);
-            var main = Application.Current?.MainPage;
-                if (main == null) return; 
-                
+            var main = Microsoft.Maui.Controls.Application.Current?.MainPage;
+            if (main == null) return;
+
             if (response.IsSuccessStatusCode)
             {
                 //Globals.nombre_Usuario = Nombre;
@@ -76,7 +78,7 @@ namespace MoodTAB.ViewModel
             }
 
             IsEditing = false;
-            BotonEditar = "Editar"; 
+            BotonEditar = "Editar";
         }
     }
 }

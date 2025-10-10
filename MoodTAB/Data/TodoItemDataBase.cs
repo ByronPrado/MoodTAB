@@ -56,7 +56,7 @@ public class TodoItemDataBase
 
     public Task<List<Pregunta>> GetQuestionsByUserIdAsync(int id)
     {
-    return _database.Table<Pregunta>().Where(p => p.Usuario_dirigido == id).ToListAsync();
+        return _database.Table<Pregunta>().Where(p => p.Usuario_dirigido == id).ToListAsync();
     }
 
 
@@ -73,7 +73,40 @@ public class TodoItemDataBase
     {
         return _database.Table<Diario>().Where(i => i.Id == id).FirstOrDefaultAsync();
     }
-    
+    //nuevo
+        // Devuelve todos los diarios que caen exactamente en 'date' (00:00:00 .. 23:59:59)
+    public Task<List<Diario>> GetDiariosByDateAsync(DateTime date)
+    {
+        var start = date.Date;
+        var end = start.AddDays(1);
+        return _database.Table<Diario>()
+                        .Where(d => d.CreatedAt >= start && d.CreatedAt < end)
+                        .OrderByDescending(d => d.CreatedAt)
+                        .ToListAsync();
+    }
 
+    // Devuelve diarios en el rango inclusive [start.Date, end.Date]
+    public Task<List<Diario>> GetDiariosBetweenAsync(DateTime start, DateTime end)
+    {
+        var s = start.Date;
+        var e = end.Date.AddDays(1);
+        return _database.Table<Diario>()
+                        .Where(d => d.CreatedAt >= s && d.CreatedAt < e)
+                        .OrderByDescending(d => d.CreatedAt)
+                        .ToListAsync();
+    }
+    public Task<List<Diario>> GetDiariosMesActualAsync()
+    {
+        var now = DateTime.Now;
+        var start = new DateTime(now.Year, now.Month, 1);
+        var end = start.AddMonths(1).AddDays(-1);
+        return GetDiariosBetweenAsync(start, end);
+    }
+    public Task<List<Diario>> GetDiariosDiasAnterioresAsync(int dias)
+    {
+        var end = DateTime.Now.Date;
+        var start = end.AddDays(-dias);
+        return GetDiariosBetweenAsync(start, end);
+    }
 
 }

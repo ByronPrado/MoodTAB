@@ -22,20 +22,49 @@
                         RowSpacing="10"
                         HorizontalOptions="Fill"
                         VerticalOptions="Center"
-                        RowDefinitions="Auto,Auto,Auto">
+                        RowDefinitions="Auto,Auto,Auto,Auto">
                         <Label Text="{Binding Title}"
                                Grid.Row="0"
                                FontSize="20"
                                FontFamily="BreeSerif-Regular.ttf"
                                FontAttributes="Bold"
                                TextColor="#FF141414"/>
-                        <Label Text="¿Cómo te sientes hoy?"
+                        <Label x:Name="LabelTituloConsejo"
+                                Text="{Binding TextoTituloConsejo}"
                                FontSize="14"
                                FontFamily="BreeSerif-Regular.ttf"
                                TextColor="#FF9B9B9B"
                                Grid.Row="1"/>
-                        <Label Text="{Binding TitleApi}"
-                               Grid.Row="2"/>
+                        <Label
+                            x:Name="LabelContenidoConsejo"
+                            Text="{Binding TextoContenidoConsejo}"
+                            FontFamily="BreeSerif-Regular.ttf"
+                            TextColor="#FF9B9B9B"
+                            Grid.Row="2"/>
+                        <HorizontalStackLayout
+                                HeightRequest="40"
+                                Padding="5"
+                                Spacing ="10"
+                                HorizontalOptions="End"
+                                Grid.Row="3"
+                                >
+                                <Label Text="Te resultó util el consejo?"
+                                    FontFamily="BreeSerif-Regular.ttf"
+                                    FontSize="8"
+                                    TextColor="#FF9B9B9B"
+                                    HorizontalOptions="Start"/>
+
+                                <Button Text="Es util "
+                                    FontSize ="8"
+                                    FontFamily="BreeSerif-Regular.ttf"
+                                    Clicked="OnOpinionComentario"
+                                    />
+                                <Button Text="No relevante"
+                                    FontSize ="8"
+                                    FontFamily="BreeSerif-Regular.ttf"
+                                    Clicked="OnOpinionComentario"
+                                    />
+                        </HorizontalStackLayout>
                     </Grid>
                 </Frame>
 
@@ -68,13 +97,13 @@
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer
                                         Command="{Binding MovetoPageCommand}"
-                                        CommandParameter="ListaDiaroPage" />
+                                        CommandParameter="CuestionarioPage" />
                                 </Frame.GestureRecognizers>
                                     <Image Source="neosurveywhite.png" WidthRequest="20" HeightRequest="20"/>
                             </Frame>
                             <VerticalStackLayout Grid.Column="1" Padding="10,0,0,0" HorizontalOptions="Start">
                                 <Label Text="Cuestionario Disponible" FontFamily="BreeSerif-Regular.ttf" FontSize="16" TextColor="White" FontAttributes="Bold" HorizontalOptions="Start"/>
-                                <Label Text="Responder a la brevedad" FontFamily="BreeSerif-Regular.ttf" FontSize="12" TextColor="White" HorizontalOptions="Start"/>
+                                <Label Text="{Binding TextoActividadCuestionario}" FontFamily="BreeSerif-Regular.ttf" FontSize="12" TextColor="White" HorizontalOptions="Start"/>
                             </VerticalStackLayout>
                         </Grid>
                     </Frame>
@@ -89,7 +118,7 @@
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer
                                 Command="{Binding MovetoPageCommand}"
-                                CommandParameter="ListaDiaroPage" />
+                                CommandParameter="DiarioPage" />
                         </Frame.GestureRecognizers>
                         <Grid ColumnDefinitions="40,*"
                                 RowDefinitions="40">
@@ -99,7 +128,7 @@
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer
                                         Command="{Binding MovetoPageCommand}"
-                                        CommandParameter="ListaDiaroPage" />
+                                        CommandParameter="DiarioPage" />
                                 </Frame.GestureRecognizers>
                                     <Image Source="neodiarywhite.png" WidthRequest="20" HeightRequest="20"/>
                             </Frame>
@@ -110,20 +139,50 @@
                         </Grid>
                     </Frame>
                 </VerticalStackLayout>
+                <Label Text="Plan Seguro"
+                       FontSize="20"
+                       FontFamily="BreeSerif-Regular.ttf"
+                       TextColor="#FF141414"
+                       Margin="0,10,0,0"/>
+                <Label Text="En caso de emergencia o que te sientas muy mal entra acá"
+                       FontSize="16"
+                       FontFamily="BreeSerif-Regular.ttf"
+                       TextColor="#FF5C5C5C"
+                       Margin="0,10,0,0"/>
 
+                <VerticalStackLayout Spacing="0">
+                    <Frame  BackgroundColor="#FFD35656"
+                            BorderColor="Transparent"
+                            CornerRadius="15"
+                            Padding="10"
+                            Margin="5"
+                            WidthRequest="120"
+                            HasShadow="False"
+                            IsClippedToBounds="False">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding MovetoPageCommand}"
+                                CommandParameter="PlanSeguroPage" />
+                        </Frame.GestureRecognizers>
+                        <Label Text="Plan Seguro" FontFamily="BreeSerif-Regular.ttf" FontSize="16" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    </Frame>
+                </VerticalStackLayout>
                 <!-- Sección Debug -->
                 <Label Text="Debug"
                        FontSize="20"
                        FontAttributes="Bold"
                        TextColor="Gray"
-                       Margin="0,20,0,0"/>
+                       Margin="0,20,0,0"
+                        IsVisible="false"/>
                 <Button Text="Test"
                         Command="{Binding MovetoPageCommand}"
                         CommandParameter="TestPage"
-                        BackgroundColor="Red"/>
+                        BackgroundColor="Red"
+                         IsVisible="false"/>
                 <Button Text="Probar Notificación"
                         Clicked="NotificationClick"
-                        BackgroundColor="#68ACD5"/>
+                        BackgroundColor="#68ACD5"
+                         IsVisible="false"/>
             </VerticalStackLayout>
         </ScrollView>
 
@@ -158,7 +217,7 @@
                         VerticalOptions="Center"
                         BackgroundColor="Transparent"
                         Command="{Binding MovetoPageCommand}"
-                        CommandParameter="ListaDiaroPage"
+                        CommandParameter="CalendarioPage"
                         Grid.Row="0"/>
                 <Image Grid.Row="0" Source="neodiary.png" HeightRequest="30" WidthRequest="30" Margin="0,0,0,15"/>
                 <Label Text="Mis Diarios" FontFamily="BreeSerif-Regular.ttf" HorizontalTextAlignment="Center" FontSize="12" TextColor="#FF61666D" Padding="0,50,0,0"></Label>
@@ -192,5 +251,20 @@
                 <Label Text="Ajustes" FontFamily="BreeSerif-Regular.ttf" HorizontalTextAlignment="Center" FontSize="12" TextColor="#FF61666D" Padding="0,50,0,0"></Label>
             </Grid>
         </HorizontalStackLayout>
+
+        <!-- Overlay de carga -->
+        <Grid x:Name="LoadingOverlay"
+            BackgroundColor="#FFF3F3FF"   
+            IsVisible="{Binding IsBusy}"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutFlags="All"
+            VerticalOptions="Fill"
+            HorizontalOptions="Fill"
+            ZIndex="99">
+            <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                <ActivityIndicator IsRunning="True" Color="#FF071A1E" WidthRequest="50" HeightRequest="50"/>
+                <Label Text="Cargando..." TextColor="#FF191919" FontSize="16" HorizontalOptions="Center" FontFamily="BreeSerif-Regular.ttf"/>
+            </StackLayout>
+        </Grid>
     </Grid>
 </ContentPage>

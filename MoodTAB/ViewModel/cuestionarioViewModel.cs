@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using MoodTAB.Services;
 using MoodTAB.Vistas;
+using Microsoft.Maui.Controls;
 
 namespace MoodTAB.ViewModel
 {
@@ -109,8 +110,8 @@ namespace MoodTAB.ViewModel
             }
             catch (Exception ex)
             {
-                Log_test = ex.Message;
-                // opcional: también puedes Debug.WriteLine(ex.ToString());
+                Log_test = "fallosepararcuestionarios: " + ex.Message;
+
             }
         }
 
@@ -127,17 +128,19 @@ namespace MoodTAB.ViewModel
         }
         public async Task SepararCuestionarios()
         {
+            ListaCuestionarios.Clear();
             using var doc = JsonDocument.Parse(Globals.cuestionario);
             var root = doc.RootElement;
-            var len = doc.RootElement.GetArrayLength();
-            //Log_test = len.ToString();
+           //Log_test = len.ToString();
             if (root.ValueKind != JsonValueKind.Array)
             {
                 Log_test = "El JSON recibido no es una lista de cuestionarios.";
                 return;
             }
+
+            var len = doc.RootElement.GetArrayLength();
             if (len == 0)
-            { 
+            {
                 Log_test = $" largo = {len}\t";
 
             }
@@ -195,6 +198,7 @@ namespace MoodTAB.ViewModel
                     var cuestionario = new CuestionarioData();
                     cuestionario.IdAsignacion = idAsignacion;
                     cuestionario.Titulo = $"Cuestionario {idAsignacion}";
+                    //cuestionario.Grupo = "null";
                     cuestionario.PreguntasConRespuesta = new ObservableCollection<PreguntaConRespuesta>(lista);
 
                     //una colección en memoria de los cuestionarios
@@ -266,7 +270,7 @@ namespace MoodTAB.ViewModel
                 }
                 catch (Exception ex)
                 {
-                    Log_test = ex.ToString();
+                    Log_test = "catch: "+ex.ToString();
                 }
             });
         }

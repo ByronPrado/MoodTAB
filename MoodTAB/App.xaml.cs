@@ -4,6 +4,7 @@ using MoodTAB.Data;
 using MoodTAB.Vistas;
 using MoodTAB.Services;
 using MoodTAB.Platforms.Android;
+using Microsoft.Maui.Controls;
 
 public partial class App : Application
 {
@@ -22,10 +23,14 @@ public partial class App : Application
             return database;
         }
     }
+    
+    
+	
     public App()
     {
         InitializeComponent();
-
+        //Register Syncfusion<sup>®</sup> license
+	    Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1JFaF5cXGRCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdmWH9ed3VTRGhfUkN2XkNWYEg=");
         // Verificar si el usuario ya tiene sesión guardada
         var userId = SecureStorage.GetAsync("user_id").Result;
         var userNombre = SecureStorage.GetAsync("user_nombre").Result;
@@ -51,7 +56,7 @@ public partial class App : Application
             }
             else
             {
-                MainPage = new NavigationPage(new UsuarioExternoPage(notificationManager,dictationService));
+                MainPage = new NavigationPage(new UsuarioExternoPage(notificationManager, dictationService));
             }
         }
         else

@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using MoodTAB.Services;
 using System.Linq;
 using System.Text.Json;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Storage;
+
 
 namespace MoodTAB.ViewModel
 
@@ -35,13 +38,57 @@ namespace MoodTAB.ViewModel
         double horasRedes;
 
         [ObservableProperty]
-        double horasYT;
+        int animo = 0;
+        [ObservableProperty]
+        int apetito = 0;
+        [ObservableProperty]
+        int energia = 0;
+        [ObservableProperty]
+        int calidadSueno = 0;
+        [ObservableProperty]
+        int bateriaSocial = 0;
+        [ObservableProperty]
+        string prueba;
+
+        [ObservableProperty]
+        public int ritmoCardiaco;
+
+        [ObservableProperty]
+        public int variabilidadFrecuenciaCardiaca;
 
         [ObservableProperty]
         int cantidadPasos;
 
         [ObservableProperty]
         string horasSueno;
+
+        [ObservableProperty]
+        public TimeSpan horaDurmio;
+
+        [ObservableProperty]
+        public TimeSpan horaDesperto;
+
+        // Switches: true = manual, false = smartwatch
+        [ObservableProperty]
+        private bool isManualRitmoCardiaco = true; // Nuevo, default manual
+
+        [ObservableProperty]
+        private bool isManualVariabilidad = true;
+
+        [ObservableProperty]
+        private bool isManualPasos = true;
+
+        [ObservableProperty]
+        private bool isManualHoraDurmio = true;
+
+        [ObservableProperty]
+        private bool isManualHoraDesperto = true;
+
+        [ObservableProperty]
+        private bool isManualHorasSueno = true;
+
+        [ObservableProperty]
+        private bool healthDataManual;
 
         [ObservableProperty]
         string error;
@@ -80,10 +127,13 @@ namespace MoodTAB.ViewModel
             DescDia = "";
             HorasCelular = 0;
             HorasRedes = 0;
-            HorasYT = 0;
             CantidadPasos = (int)stepService.TotalSteps;
             HorasSueno = "0";
             Error = "";
+            RitmoCardiaco = 0;
+            VariabilidadFrecuenciaCardiaca = 0;
+            HoraDurmio = TimeSpan.Zero;
+            HoraDesperto = TimeSpan.Zero;
             test = "veamos";
 
             foreach (var key in Globals.colores.Keys)
@@ -97,6 +147,10 @@ namespace MoodTAB.ViewModel
                 listaEmociones.Add(item);
 
             }
+
+            // Cargar el valor almacenado de healthdata_manual
+            var storedValue = SecureStorage.GetAsync("healthdata_manual").Result ?? "false";
+            HealthDataManual = bool.Parse(storedValue);
 
 
             _ = LoadDiariosAsync();
@@ -143,6 +197,63 @@ namespace MoodTAB.ViewModel
             }
         }
 
+        // Manejo de cambios en switches (usando partial void para setters)
+        partial void OnIsManualRitmoCardiacoChanged(bool value)
+        {
+            HandleSwitchChange(value, nameof(RitmoCardiaco));
+        }
+
+        partial void OnIsManualVariabilidadChanged(bool value)
+        {
+            HandleSwitchChange(value, nameof(VariabilidadFrecuenciaCardiaca));
+        }
+
+        partial void OnIsManualPasosChanged(bool value)
+        {
+            HandleSwitchChange(value, nameof(CantidadPasos));
+            if (value) CantidadPasos = (int)stepService.TotalSteps; // Si manual, carga actual, pero permite editar
+        }
+
+        partial void OnIsManualHoraDurmioChanged(bool value)
+        {
+            HandleSwitchChange(value, nameof(HoraDurmio));
+        }
+
+        partial void OnIsManualHoraDespertoChanged(bool value)
+        {
+            HandleSwitchChange(value, nameof(HoraDesperto));
+        }
+
+        partial void OnIsManualHorasSuenoChanged(bool value)
+        {
+            HandleSwitchChange(value, nameof(HorasSueno));
+        }
+
+        private async void HandleSwitchChange(bool isManual, string propertyName)
+        {
+            if (!isManual)
+            {
+                // Smartwatch seleccionado
+                await Application.Current.MainPage.DisplayAlert("Característica Futura", "La integración con smartwatch no está disponible aún.", "OK");
+                // Resetear valor a default (puedes personalizar)
+                SetPropertyByName(propertyName, propertyName.Contains("Hora") ? TimeSpan.Zero : (object)0);
+            }
+        }
+
+        private void SetPropertyByName(string propertyName, object value)
+        {
+            // Helper para setear propiedades dinámicamente
+            switch (propertyName)
+            {
+                case nameof(RitmoCardiaco): RitmoCardiaco = (int)value; break;
+                case nameof(VariabilidadFrecuenciaCardiaca): VariabilidadFrecuenciaCardiaca = (int)value; break;
+                case nameof(CantidadPasos): CantidadPasos = (int)value; break;
+                case nameof(HoraDurmio): HoraDurmio = (TimeSpan)value; break;
+                case nameof(HoraDesperto): HoraDesperto = (TimeSpan)value; break;
+                case nameof(HorasSueno): HorasSueno = value.ToString(); break;
+            }
+        }
+
         private async Task LoadDiariosAsync()
         {
             var items = await App.Database.GetDiarioAsync();
@@ -169,7 +280,6 @@ namespace MoodTAB.ViewModel
 
             HorasRedes = redesociales / 60.0;
             HorasCelular = horast / 60.0;
-            HorasYT = horasyutu / 60.0;
 
 #endif
         }
@@ -179,24 +289,38 @@ namespace MoodTAB.ViewModel
         {
             try
             {
-                var main = Application.Current?.MainPage;
+                var main = Microsoft.Maui.Controls.Application.Current?.MainPage;
                 if (main == null) return;
-                if (EmocionDiaria.Count == 0 || string.IsNullOrWhiteSpace(DescDia))
+
+                if (string.IsNullOrWhiteSpace(DescDia))
                 {
                     await main.DisplayAlert("Campos en blanco", "No se puede dejar los campos en blanco", "OK");
                     return;
                 }
+
+                // Mostrar confirmación antes de enviar
+                bool confirmacion = await main.DisplayAlert(
+                    "Confirmar envío",
+                    "¿Estás seguro de que quieres enviar el diario emocional?",
+                    "Sí", "Cancelar"
+                );
+
+                if (!confirmacion)
+                    return; // el usuario canceló
+
                 var diario = new Diario
                 {
-                    Emocion_Diaria = UnirConComas(EmocionDiaria),
+                    Emocion_Diaria = Prueba,
                     Descripcion = DescDia,
                     Horas_Celular = HorasCelular,
                     Horas_Redes = HorasRedes,
-                    Horas_Yt = HorasYT,
                     Horas_Sueno = HorasSueno,
+                    Ritmo_Cardiaco = RitmoCardiaco,
+                    Variabilidad_Frecuencia_Cardiaca = VariabilidadFrecuenciaCardiaca,
+                    Hora_Durmio = HoraDurmio,
+                    Hora_Desperto = HoraDesperto,
                     Cantidad_Pasos = CantidadPasos,
                     CreatedAt = DateTime.UtcNow,
-
                 };
 
                 await App.Database.SaveDiarioAsync(diario);
@@ -204,16 +328,17 @@ namespace MoodTAB.ViewModel
 
                 var payload = new
                 {
-                    ID_Paciente = Globals.id_paciente_DB, // Usa el id del paciente logueado
-                    Emociones = JsonSerializer.Serialize(
-                        EmocionDiaria.ToDictionary(e => e, e => 1) // Puedes ajustar el valor según intensidad si lo tienes
-                    ),
+                    ID_Paciente = Globals.id_paciente_DB,
+                    Emociones = Prueba,
                     Descripcion = DescDia,
                     Pasos = CantidadPasos,
                     Horas_celular = (int)HorasCelular,
                     Horas_redes = (int)HorasRedes,
-                    Horas_Yt = (int)HorasYT,
                     Hora_dormida = HorasSueno,
+                    RitmoCardiaco,
+                    VariabilidadFrecuenciaCardiaca,
+                    Hora_durmio = HoraDurmio.ToString(),
+                    Hora_desperto = HoraDesperto.ToString(),
                     Fecha = DateTime.UtcNow
                 };
 
@@ -239,7 +364,6 @@ namespace MoodTAB.ViewModel
                 Error = e.Message;
                 DescDia = Error;
             }
-
         }
 
         [RelayCommand]
@@ -258,6 +382,12 @@ namespace MoodTAB.ViewModel
             {
                 Error = e.Message;
             }
+        }
+
+        [RelayCommand]
+        private void Probando()
+        {
+            Prueba = Animo.ToString() + "," + Apetito.ToString() + "," + Energia.ToString() + "," + CalidadSueno.ToString() + "," + BateriaSocial.ToString();
         }
         
         [RelayCommand]

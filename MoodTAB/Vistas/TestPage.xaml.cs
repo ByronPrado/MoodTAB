@@ -1,7 +1,9 @@
 namespace MoodTAB.Vistas;
 
-using Microsoft.Maui.ApplicationModel; 
+using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.ApplicationModel.DataTransfer;
+using MoodTAB.ViewModel;
+using MoodTAB.ViewModels;
 
 
 
@@ -12,6 +14,8 @@ public partial class TestPage : ContentPage
 	public TestPage()
 	{
 		InitializeComponent();
+		BindingContext = new TestViewModel();
+
 		NombreLabel.Text = Nombre; // Muestra el valor inicial
 		connectivity = Connectivity.Current;
 	}
@@ -26,7 +30,12 @@ public partial class TestPage : ContentPage
 	}
 	public void OnEditarUsuarioClicked(object sender, EventArgs e)
 	{ //NAVEGACION A DATOS DEL USUARIO
-		Shell.Current.GoToAsync("UserPage");
+		Navigation.PushAsync(new UserPage());
+	}
+
+	public void OnHealthConnect(object sender, EventArgs e)
+	{ //NAVEGACION A DATOS DEL USUARIO
+		Navigation.PushAsync(new HealthDataPage());
 	}
 	public void OnButtonClicked(object sender, EventArgs e)
 	{

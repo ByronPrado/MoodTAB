@@ -5,19 +5,15 @@
              Title="HealthData">
     
     <ScrollView>
-    <VerticalStackLayout>      
+        <VerticalStackLayout>      
             <Label Text="Health Connect Demo" FontSize="24" />
-            <Button Text="Verificar Health Connect" Command="{Binding CheckClickedCommand}"/>
-            <Button Text="Pedir Permisos" Command="{Binding RequestPermissionsClickedCommand}"/>
-            <Button Text="Leer Pasos de Hoy" Command="{Binding ReadStepsClickedCommand}"/>
-            <Label Text="{Binding StepsText}" FontSize="18" />
-            <CollectionView ItemsSource="{Binding AppUsageStats}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Label Text="{Binding}" FontSize="16" />
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+            <Label Text="Pasos:" />
+            <Label Text="{Binding StepsText}" />
+
+            <Label Text="Sueño:" />
+            <Label Text="{Binding SleepText}" />
+
+            <Button Text="Cargar Datos de Salud" Command="{Binding LoadHealthDataCommand}" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

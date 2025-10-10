@@ -2,11 +2,12 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MoodTAB.Vistas.ListaDiarioPage"
+             x:Name="ThisPage"
              BackgroundColor="#FFF3F3FF">
-
+        <!-- Título de navegación -->
     <NavigationPage.TitleView>
         <Grid>
-            <Label Text="     📚 Mis Diarios"
+            <Label Text="📚 Mis Diarios"
                    HorizontalOptions="Start"
                    VerticalOptions="Center"
                    FontSize="20"
@@ -14,72 +15,76 @@
                    TextColor="#FF191919"/>
         </Grid>
     </NavigationPage.TitleView>
+    <ScrollView>
+        <VerticalStackLayout Spacing="10" Padding="5">
 
-    <VerticalStackLayout Spacing="15" Margin="5">
-        <Button Text="➕ Ingresar nuevo diario"
-                Clicked="OnNewSeleccionado"
-                
-                HeightRequest="50">
+            <!-- Botón para nuevo diario -->
+            <Button Text="➕ Ingresar nuevo diario"
+                    Clicked="OnNewSeleccionado"
+                    HeightRequest="50">
                 <Button.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                         <GradientStop Color="#3B82F6" Offset="0.0" />
                         <GradientStop Color="#10B981" Offset="1.0" />
                     </LinearGradientBrush>
                 </Button.Background>
-        </Button>
-        <Label x:Name="ErrorLabel"
-        TextColor="Red"
-        FontSize="14"
-        IsVisible="False" />
+            </Button>
 
-        <CollectionView ItemsSource="{Binding ListaDiarios}"
-                        SelectionMode="Single"
-                        SelectionChanged="OnDiarioSeleccionado"
-                        HeightRequest="400">
+            <!-- Label de error -->
+            <Label x:Name="ErrorLabel"
+                TextColor="Red"
+                FontSize="14"
+                IsVisible="False" />
 
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Frame BackgroundColor="#FFD6E8FF" BorderColor="#FFC7DFFF" Padding="10" Margin="5" IsClippedToBounds="False" InputTransparent="True">
-                        <VerticalStackLayout>
-                            <Label Text="Titulo"
-                                   FontAttributes="Bold"
-                                   FontFamily="BreeSerif-Regular.ttf" 
-                                   FontSize="20"
-                                   TextColor="#DD000000" />
+            <!-- CollectionView opcional de diarios (oculto) -->
+            <CollectionView ItemsSource="{Binding ListaDiarios}"
+                            SelectionMode="Single"
+                            SelectionChanged="OnDiarioSeleccionado"
+                            HeightRequest="400"
+                            IsVisible="true">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BackgroundColor="#FFD6E8FF"
+                            BorderColor="#FFC7DFFF"
+                            Padding="10"
+                            Margin="5"
+                            IsClippedToBounds="False"
+                            InputTransparent="True">
+                            <VerticalStackLayout>
+                                <Label Text="{Binding Titulo}"
+                                    FontAttributes="Bold"
+                                    FontFamily="BreeSerif-Regular.ttf"
+                                    FontSize="20"
+                                    TextColor="#DD000000" />
 
-                            <Label Text="{Binding Emocion_Diaria}"
-                                   FontSize="14" 
-                                   FontFamily="BreeSerif-Regular.ttf"
-                                   TextColor="#DD000000" />
+                                <Label Text="{Binding Emocion_Diaria}"
+                                    FontSize="14"
+                                    FontFamily="BreeSerif-Regular.ttf"
+                                    TextColor="#DD000000" />
 
-                            <Grid RowDefinitions="10,*,*"
-                                  ColumnDefinitions="*,*">
-
-                                <Label Text="Fecha:" Grid.Row="1" Grid.Column="0" 
-                                       FontAttributes="Bold"
-                                       FontFamily="BreeSerif-Regular.ttf"
-                                       TextColor="#DD000000"/>
-
-                                <Label Text="{Binding CreatedAt, StringFormat='{0:dd/MM}'}" Grid.Row="2" Grid.Column="0"
-                                       FontSize="16"
-                                       FontFamily="BreeSerif-Regular.ttf"
-                                       TextColor="#DD000000"/>
-
-                                <Label Text="Hora:" Grid.Row="1" Grid.Column="1"
-                                       FontAttributes="Bold"
-                                       FontFamily="BreeSerif-Regular.ttf"
-                                       TextColor="#DD000000"/>
-
-                                <Label Text="{Binding CreatedAt, StringFormat='{0:HH:mm}'}" Grid.Row="2" Grid.Column="1"
-                                       FontSize="16"
-                                       FontFamily="BreeSerif-Regular.ttf"
-                                       TextColor="#DD000000"/>
-                            </Grid>
-                        </VerticalStackLayout>
-                    </Frame>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-
-    </VerticalStackLayout>
+                                <Grid RowDefinitions="10,*,*" ColumnDefinitions="*,*">
+                                    <Label Text="Fecha:" Grid.Row="1" Grid.Column="0"
+                                        FontAttributes="Bold"
+                                        FontFamily="BreeSerif-Regular.ttf"
+                                        TextColor="#DD000000"/>
+                                    <Label Text="{Binding CreatedAt, StringFormat='{0:dd/MM}'}" Grid.Row="2" Grid.Column="0"
+                                        FontSize="16"
+                                        FontFamily="BreeSerif-Regular.ttf"
+                                        TextColor="#DD000000"/>
+                                    <Label Text="Hora:" Grid.Row="1" Grid.Column="1"
+                                        FontAttributes="Bold"
+                                        FontFamily="BreeSerif-Regular.ttf"
+                                        TextColor="#DD000000"/>
+                                    <Label Text="{Binding CreatedAt, StringFormat='{0:HH:mm}'}" Grid.Row="2" Grid.Column="1"
+                                        FontSize="16"
+                                        FontFamily="BreeSerif-Regular.ttf"
+                                        TextColor="#DD000000"/>
+                                </Grid>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

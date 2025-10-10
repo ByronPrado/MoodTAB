@@ -7,6 +7,7 @@ public partial class ListaDiarioPage : ContentPage
 {
     private ListaDiarioViewModel viewModel;
     private IStepCounterService stepService;
+    private DateTime fecha;
 
     public ListaDiarioPage(IStepCounterService stepService)
     {
@@ -16,12 +17,21 @@ public partial class ListaDiarioPage : ContentPage
         BindingContext = viewModel;
     }
 
+    public ListaDiarioPage(IStepCounterService stepService,DateTime fecha)
+    {
+        InitializeComponent();
+        this.stepService = stepService;
+        this.fecha = fecha;
+        viewModel = new ListaDiarioViewModel();
+        BindingContext = viewModel;
+    }
+
     protected override async void OnAppearing()
     {
         base.OnAppearing();
         try
         {
-            await viewModel.CargarListaDiarios();
+            await viewModel.CargarListaDiarios(this.fecha);
         }
         catch (Exception ex)
         {
@@ -29,6 +39,7 @@ public partial class ListaDiarioPage : ContentPage
         }
     }
 
+    
     private async void OnDiarioSeleccionado(object sender, SelectionChangedEventArgs e)
     {
         if (e.CurrentSelection.FirstOrDefault() is Diario diarioSeleccionado)
