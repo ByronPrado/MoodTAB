@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Syncfusion.Maui.Core.Hosting;
 using MoodTAB.Vistas;
 using MoodTAB.Services;
 using CommunityToolkit.Maui;
@@ -17,6 +18,7 @@ public static class MauiProgram
 		builder
 			.UseMauiApp<App>()
 			.UseMauiCommunityToolkit()
+			.ConfigureSyncfusionCore()
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -40,7 +42,6 @@ public static class MauiProgram
 		builder.Services.AddTransient<DiarioPage>();
 		builder.Services.AddTransient<ListaDiarioPage>();
 		builder.Services.AddSingleton<INotificationManagerService, NotificationManagerService>();
-
 		//builder.Services.AddSingleton<IHealthBridgeService>(provider =>{var context = Android.App.Application.Context; return new HealthBridgeService(context);       });
 #endif
 

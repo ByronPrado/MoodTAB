@@ -9,13 +9,29 @@ using Syncfusion.Pdf;
 using Syncfusion.Pdf.Graphics;
 using Syncfusion.Drawing;
 using Syncfusion.Pdf.Grid;
+using System.Collections.ObjectModel;
 using System.IO;
+using Microsoft.Maui.Graphics.Text;
 
 
 
 
 namespace MoodTAB.ViewModel
 {
+    public class Model
+    {
+        public string Month { get; set; }
+
+        public double Target { get; set; }
+
+        public Model(string xValue, double yValue)
+        {
+            Month = xValue;
+            Target = yValue;
+        }
+        
+    }
+    
     public partial class CalendarioViewModel : ObservableObject
     {
         [ObservableProperty]
@@ -32,6 +48,17 @@ namespace MoodTAB.ViewModel
         public IRelayCommand<string> CambiarMesCommand { get; }
         private int setCalendarioLayout = 0;
 
+
+        private ObservableCollection<Model> _data;
+        public ObservableCollection<Model> Data
+        {
+            get => _data;
+            set
+            {
+                _data = value;
+                OnPropertyChanged(nameof(Data)); // o RaisePropertyChanged("Data")
+            }
+        }
         public CalendarioViewModel()
         {
             CargarEventos();
@@ -42,8 +69,83 @@ namespace MoodTAB.ViewModel
             {
                 if (int.TryParse(delta, out var d)) ShownDate = ShownDate.AddMonths(d);
             });
+
+            Task.Run(async () => await InicializarDatosGraficoAsync());
+
         }
 
+        private async Task InicializarDatosGraficoAsync()
+        {
+            var data = await CrearDatosGraficoSemanaAsync();
+            MainThread.BeginInvokeOnMainThread(() => Data = data);
+        }
+        public async Task<ObservableCollection<Model>> CrearDatosGraficoSemanaAsync()
+        {
+            try
+            {
+                DateTime hoy = DateTime.Today;
+
+                // Calcular lunes de la semana actual
+                int diff = hoy.DayOfWeek - DayOfWeek.Monday;
+                if (diff < 0) diff += 7;
+                DateTime lunes = hoy.AddDays(-diff);
+
+                // Generar los 7 días (lunes a domingo)
+                var semana = Enumerable.Range(0, 7)
+                                       .Select(i => lunes.AddDays(i))
+                                       .ToList();
+
+                if (App.Database == null)
+                {
+                    System.Diagnostics.Debug.WriteLine(" App.Database no inicializado");
+                    return new ObservableCollection<Model>();
+                }
+
+                // Obtener registros
+                var diarios = await App.Database.GetDiariosDiasAnterioresAsync(7) ?? new List<Diario>();
+                System.Diagnostics.Debug.WriteLine($"Se obtuvieron {diarios.Count} registros");
+
+                foreach (var d in diarios)
+                    System.Diagnostics.Debug.WriteLine($"→ {d.CreatedAt} | {d.Horas_Sueno}");
+
+                // Agrupar registros por día
+                var agrupado = diarios
+                    .Where(d => d.CreatedAt != default)
+                    .GroupBy(d => d.CreatedAt.Date)
+                    .ToDictionary(
+                        g => g.Key,
+                        g => g.Average(d =>
+                        {
+                            if (double.TryParse(d.Horas_Sueno, out double valor))
+                                return valor;
+                            return 0;
+                        })
+                    );
+
+                System.Diagnostics.Debug.WriteLine(" Agrupado por día:");
+                foreach (var kv in agrupado)
+                    System.Diagnostics.Debug.WriteLine($"{kv.Key:dd/MM/yyyy} → {kv.Value}");
+
+                // Crear datos para gráfico
+                var data = new ObservableCollection<Model>();
+
+                foreach (var dia in semana)
+                {
+                    double valor = agrupado.ContainsKey(dia) ? agrupado[dia] : 0;
+                    string etiqueta = dia.ToString("dd/MM");
+                    data.Add(new Model(etiqueta, valor));
+
+                    System.Diagnostics.Debug.WriteLine($"📊 {etiqueta} = {valor}\n {data.Last().Month},{data.Last().Target}");
+                }
+
+                return data;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error creando datos: {ex}");
+                return new ObservableCollection<Model>();
+            }
+        }
         private async void OnDiaTocado(DateTime fecha)
         {
             // Primero intentar leer desde Events (si existe)
@@ -73,7 +175,8 @@ namespace MoodTAB.ViewModel
 
         private async void CargarEventos()
         {
-            var diarios = await App.Database.GetDiarioAsync();
+            //var diarios = await App.Database.GetDiarioAsync();
+            var diarios = await App.Database.GetDiariosMesActualAsync();
 
             // Limpio primero
             Events.Clear();
@@ -126,7 +229,7 @@ namespace MoodTAB.ViewModel
                 // Dimensiones deseadas
                 logoHeight = 40f;
                 logoWidth = logo.Width * (logoHeight / logo.Height);
-                            
+
             }
             catch (Exception ex)
             {
@@ -152,6 +255,76 @@ namespace MoodTAB.ViewModel
             var emoFont = new PdfStandardFont(PdfFontFamily.Helvetica, 11, PdfFontStyle.Bold);
             var descFont = new PdfStandardFont(PdfFontFamily.Helvetica, 11);
             var grayBrush = new PdfSolidBrush(new PdfColor(90, 90, 90));
+
+            g.DrawString("Horas de Sueño semana", titleFont, PdfBrushes.Black, new Syncfusion.Drawing.PointF(x, y));
+            y += 30;
+
+// Insertar el gráfico de barras generado a partir de los datos
+// -------------------------------------------------------------
+try
+{
+    if (Data != null && Data.Any())
+    {
+        float chartHeight = 200f; // altura deseada del gráfico
+        float chartWidth = cardWidth;
+        float barSpacing = 10f;
+        float barWidth = (chartWidth - (Data.Count - 1) * barSpacing) / Data.Count;
+        float maxY = (float)Data.Max(d => d.Target); // límite Y basado en el valor máximo
+        float scaleFactor = chartHeight / (maxY > 0 ? maxY : 1); // escalar alturas
+
+        float margin = 10f;
+        float chartX = x + margin;
+        float chartY = y + margin;
+
+        // Dibujar marco
+        g.DrawRectangle(new PdfPen(PdfBrushes.Gray, 1f), new RectangleF(x, y, chartWidth, chartHeight + 2 * margin + 40));
+
+        // Líneas de grilla horizontal y valores Y
+        int gridLines = 5;
+        for (int i = 0; i <= gridLines; i++)
+        {
+            float yPos = chartY + chartHeight - (i * chartHeight / gridLines);
+            g.DrawLine(new PdfPen(new PdfColor(200, 200, 200), 0.5f),
+                new Syncfusion.Drawing.PointF(chartX, yPos),
+                new Syncfusion.Drawing.PointF(chartX + chartWidth - 2 * margin, yPos));
+
+            float yValue = i * maxY / gridLines;
+            g.DrawString(yValue.ToString("0.##"), descFont, PdfBrushes.Black, new Syncfusion.Drawing.PointF(x, yPos - 7));
+        }
+
+        // Dibujar cada barra y etiquetas rotadas
+        float currentX = chartX;
+        float labelAngle = -45f; // rotar etiquetas 45° hacia la izquierda
+        foreach (var punto in Data)
+        {
+            float barHeight = (float)punto.Target * scaleFactor;
+            g.DrawRectangle(new PdfSolidBrush(new PdfColor(59, 130, 246)),
+                new RectangleF(currentX, chartY + chartHeight - barHeight, barWidth, barHeight));
+
+            // Etiqueta de eje X con rotación
+            g.Save();
+            g.TranslateTransform(currentX + barWidth / 2, chartY + chartHeight + 25); // punto de rotación
+            g.RotateTransform(labelAngle);
+            g.DrawString(punto.Month, descFont, PdfBrushes.Black, new Syncfusion.Drawing.PointF(0, 0));
+            g.Restore();
+
+            currentX += barWidth + barSpacing;
+        }
+
+        // Leyenda
+        float legendX = chartX + chartWidth - 100;
+        float legendY = chartY + chartHeight + 25;
+        g.DrawRectangle(new PdfSolidBrush(new PdfColor(59, 130, 246)), new RectangleF(legendX, legendY, 12, 12));
+        g.DrawString("Horas de sueño", descFont, PdfBrushes.Black, new Syncfusion.Drawing.PointF(legendX + 18, legendY - 2));
+
+        y += chartHeight + 70; // actualizar y después del gráfico
+    }
+}
+catch (Exception ex)
+{
+    System.Diagnostics.Debug.WriteLine($"Error generando gráfico en PDF: {ex}");
+}
+
 
             g.DrawString("Mis Diarios Emocionales", titleFont, PdfBrushes.Black, new Syncfusion.Drawing.PointF(x, y));
             y += 30;

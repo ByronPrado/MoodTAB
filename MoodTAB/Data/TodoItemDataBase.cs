@@ -95,6 +95,18 @@ public class TodoItemDataBase
                         .OrderByDescending(d => d.CreatedAt)
                         .ToListAsync();
     }
-
+    public Task<List<Diario>> GetDiariosMesActualAsync()
+    {
+        var now = DateTime.Now;
+        var start = new DateTime(now.Year, now.Month, 1);
+        var end = start.AddMonths(1).AddDays(-1);
+        return GetDiariosBetweenAsync(start, end);
+    }
+    public Task<List<Diario>> GetDiariosDiasAnterioresAsync(int dias)
+    {
+        var end = DateTime.Now.Date;
+        var start = end.AddDays(-dias);
+        return GetDiariosBetweenAsync(start, end);
+    }
 
 }

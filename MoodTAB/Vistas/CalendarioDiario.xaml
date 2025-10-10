@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controls="clr-namespace:Plugin.Maui.Calendar.Controls;assembly=Plugin.Maui.Calendar" 
+             xmlns:controls="clr-namespace:Plugin.Maui.Calendar.Controls;assembly=Plugin.Maui.Calendar"
+             xmlns:chart="clr-namespace:Syncfusion.Maui.Charts;assembly=Syncfusion.Maui.Charts" 
+             xmlns:local="clr-namespace:MoodTAB.ViewModel"
              x:Class="MoodTAB.Vistas.CalendarioDiario"
              Title="CalendarioDiario">
     <NavigationPage.TitleView>
@@ -86,6 +88,41 @@
                             <Button Text="Exportar a PDF"
                                  Clicked="OnExportarPDFClicked"
                                  Grid.Row="2"/>
+                        </Grid>
+                    </Frame>
+                    <Frame>
+                        <Grid RowDefinitions="auto,auto" RowSpacing="10" >
+                    <Label
+                        Text ="Horas de sueño semana"
+                        FontFamily="BreeSerif-Regular.ttf" Grid.Row="0"/>
+                            <chart:SfCartesianChart
+                                Grid.Row="1"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Fill"
+                                 >
+                   
+                                <!--Initialize the horizontal axis for the .NET MAUI Cartesian Chart-->
+                                <chart:SfCartesianChart.XAxes>
+                                    <chart:CategoryAxis LabelPlacement="BetweenTicks"
+                                    LabelRotation="0"
+                                    ShowMajorGridLines="False"/>
+                                </chart:SfCartesianChart.XAxes>
+                    
+                                <!--Initialize the vertical axis for the .NET MAUI Cartesian Chart-->
+                                <chart:SfCartesianChart.YAxes>
+                                    <chart:NumericalAxis ShowMajorGridLines="True" Minimum="0" Maximum="24" Interval="4"/>
+                                </chart:SfCartesianChart.YAxes>
+                            
+                                <chart:ColumnSeries
+                                            ItemsSource="{Binding Data,Mode=OneWay}" 
+                                            XBindingPath="Month"
+                                            YBindingPath="Target"
+                                            Width="0.6"
+                                            Fill="#3B82F6"
+                                            Label="Horas de Sueño"
+                                            >
+                                </chart:ColumnSeries>   
+                            </chart:SfCartesianChart>
                         </Grid>
                     </Frame>
                 </VerticalStackLayout>    
