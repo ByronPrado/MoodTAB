@@ -10,6 +10,7 @@ using MoodTAB.Services;
 using System.Linq;
 using System.Text.Json;
 using Microsoft.Maui.Controls;
+using Microsoft.Maui.Storage;
 
 
 namespace MoodTAB.ViewModel
@@ -77,6 +78,9 @@ namespace MoodTAB.ViewModel
         private bool isManualHorasSueno = true;
 
         [ObservableProperty]
+        private bool healthDataManual;
+
+        [ObservableProperty]
         string error;
 
         [ObservableProperty]
@@ -134,6 +138,10 @@ namespace MoodTAB.ViewModel
                 listaEmociones.Add(item);
 
             }
+
+            // Cargar el valor almacenado de healthdata_manual
+            var storedValue = SecureStorage.GetAsync("healthdata_manual").Result ?? "false";
+            HealthDataManual = bool.Parse(storedValue);
 
 
             _ = LoadDiariosAsync();
@@ -275,11 +283,23 @@ namespace MoodTAB.ViewModel
             {
                 var main = Microsoft.Maui.Controls.Application.Current?.MainPage;
                 if (main == null) return;
+
                 if (EmocionDiaria.Count == 0 || string.IsNullOrWhiteSpace(DescDia))
                 {
                     await main.DisplayAlert("Campos en blanco", "No se puede dejar los campos en blanco", "OK");
                     return;
                 }
+
+                // Mostrar confirmación antes de enviar
+                bool confirmacion = await main.DisplayAlert(
+                    "Confirmar envío",
+                    "¿Estás seguro de que quieres enviar el diario emocional?",
+                    "Sí", "Cancelar"
+                );
+
+                if (!confirmacion)
+                    return; // el usuario canceló
+
                 var diario = new Diario
                 {
                     Emocion_Diaria = UnirConComas(EmocionDiaria),
@@ -294,7 +314,6 @@ namespace MoodTAB.ViewModel
                     Hora_Desperto = HoraDesperto,
                     Cantidad_Pasos = CantidadPasos,
                     CreatedAt = DateTime.UtcNow,
-
                 };
 
                 await App.Database.SaveDiarioAsync(diario);
@@ -302,9 +321,9 @@ namespace MoodTAB.ViewModel
 
                 var payload = new
                 {
-                    ID_Paciente = Globals.id_paciente_DB, // Usa el id del paciente logueado
+                    ID_Paciente = Globals.id_paciente_DB,
                     Emociones = JsonSerializer.Serialize(
-                        EmocionDiaria.ToDictionary(e => e, e => 1) // Puedes ajustar el valor según intensidad si lo tienes
+                        EmocionDiaria.ToDictionary(e => e, e => 1)
                     ),
                     Descripcion = DescDia,
                     Pasos = CantidadPasos,
@@ -341,7 +360,6 @@ namespace MoodTAB.ViewModel
                 Error = e.Message;
                 DescDia = Error;
             }
-
         }
 
         [RelayCommand]
