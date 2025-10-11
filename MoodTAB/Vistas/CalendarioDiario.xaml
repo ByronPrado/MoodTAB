@@ -8,7 +8,7 @@
              Title="CalendarioDiario">
     <NavigationPage.TitleView>
         <Grid>
-            <Label Text="Mis Diarios"
+            <Label Text="Historial"
                    VerticalOptions="Center"
                    HorizontalTextAlignment="Start"
                    FontSize="20"
@@ -26,13 +26,64 @@
                     Padding ="10"
                     Spacing ="10"
                     >
-                    <Label
-                        Text ="Empty"
-                        FontFamily="BreeSerif-Regular.ttf"/>
-        
+                    <Grid ColumnDefinitions="auto,*"
+                        Margin="5">
+                        <Label
+                            Grid.Column="0"
+                            Text ="Mis Diarios"
+                            FontSize="Title"
+                            FontAttributes="Bold"
+                            FontFamily="BreeSerif-Regular.ttf"
+                            HorizontalOptions="Start"/>  
+                        <Button
+                            Grid.Column="1"
+                            Text="Exportar Datos"                            
+                            FontSize="Small"
+                            FontAttributes="Bold"
+                            FontFamily="BreeSerif-Regular.ttf"
+                            Clicked="OnExportarPDFClicked"
+                            HorizontalOptions="End">
+                            <Button.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Color="#3B82F6" Offset="0.0" />
+                                    <GradientStop Color="#10B981" Offset="1.0" />
+                                </LinearGradientBrush>
+                            </Button.Background>                            
+                        </Button> 
+                    </Grid>
+
                     <Frame Padding="10" BorderColor="#7B000000"
                         x:Name="FrameCalendario">
-                        <Grid RowDefinitions ="auto,auto,auto">
+                        <Grid RowDefinitions ="auto,auto">
+                            <Grid 
+                                Grid.Row="0"
+                                ColumnDefinitions="Auto,*"
+                                Padding="10,0,10,5">
+                                <Label
+                                    Grid.Column="0"
+                                    x:Name="CambiarVistaCalendarioLabel"
+                                    Text ="Semana Actual"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Start"
+                                    FontSize="Subtitle"
+                                    FontAttributes="Bold"
+                                    FontFamily="BreeSerif-Regular.ttf"/> 
+                                <Button 
+                                    x:Name="CambiarVistaCalendarioButton"                                                                        
+                                    Text="Ver 15 Días" 
+                                    Clicked="OnCambiarVista"
+                                    HorizontalOptions="End"  
+                                    FontAttributes="Bold"
+                                    FontFamily="BreeSerif-Regular.ttf"                                                              
+                                    Grid.Column="1">
+                                    <Button.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <GradientStop Color="#3B82F6" Offset="0.0" />
+                                            <GradientStop Color="#10B981" Offset="1.0" />
+                                        </LinearGradientBrush>
+                                    </Button.Background>
+                                </Button> 
+                            </Grid> 
                             <controls:Calendar
                                 x:Name="MiCalendario"
                                 CalendarLayout = "Week"
@@ -59,7 +110,7 @@
                                 ArrowsSymbolNext =">"
                                 ArrowsSymbolPrev ="&lt;"
                                 ArrowsBackgroundColor="#3B82F6"
-                                Grid.Row="0"
+                                Grid.Row="1"
                                 >
                                 <!-- Pie personalizado -->
                                 <controls:Calendar.FooterSectionTemplate>
@@ -72,59 +123,90 @@
                                     </DataTemplate>
                                 </controls:Calendar.FooterSectionTemplate>
                             </controls:Calendar> 
-
-                            <Button 
-                                x:Name ="CambiarVistaCalendarioButton"
-                                Text="Ver Ultimos 15 Días" 
-                                Clicked="OnCambiarVista"
-                                Grid.Row="1">
-                                    <Button.Background>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                        <GradientStop Color="#3B82F6" Offset="0.0" />
-                                        <GradientStop Color="#10B981" Offset="1.0" />
-                                    </LinearGradientBrush>
-                                </Button.Background>
-                            </Button> 
-                            <Button Text="Exportar a PDF"
-                                 Clicked="OnExportarPDFClicked"
-                                 Grid.Row="2"/>
                         </Grid>
                     </Frame>
                     <Frame>
-                        <Grid RowDefinitions="auto,auto" RowSpacing="10" >
-                    <Label
-                        Text ="Horas de sueño semana"
-                        FontFamily="BreeSerif-Regular.ttf" Grid.Row="0"/>
+                        <Grid RowDefinitions="auto,auto,auto" RowSpacing="2" >
+                            <Label 
+                                Grid.Row="0"
+                                Text="Horas Dormidas Semana actual"
+                                FontSize="Subtitle"
+                                FontAttributes="Bold"                                
+                                FontFamily="BreeSerif-Regular.ttf"
+                                Padding="10,0,0,20" />
+
+                            <Frame   Grid.Row="1" >  
+                            
                             <chart:SfCartesianChart
-                                Grid.Row="1"
+                                           
                                 HorizontalOptions="Fill"
                                 VerticalOptions="Fill"
                                  >
-                   
-                                <!--Initialize the horizontal axis for the .NET MAUI Cartesian Chart-->
+
                                 <chart:SfCartesianChart.XAxes>
-                                    <chart:CategoryAxis LabelPlacement="BetweenTicks"
-                                    LabelRotation="0"
-                                    ShowMajorGridLines="False"/>
+                                    <chart:CategoryAxis 
+                                        
+                                        LabelPlacement="BetweenTicks"
+                                        LabelRotation="-70"
+                                        ShowMajorGridLines="False"
+                                        >
+                                    </chart:CategoryAxis>
+                                    
                                 </chart:SfCartesianChart.XAxes>
-                    
-                                <!--Initialize the vertical axis for the .NET MAUI Cartesian Chart-->
+                                
                                 <chart:SfCartesianChart.YAxes>
-                                    <chart:NumericalAxis ShowMajorGridLines="True" Minimum="0" Maximum="24" Interval="4"/>
+                                    <chart:NumericalAxis 
+                                        ShowMajorGridLines="True"
+                                        Minimum="0"
+                                        Maximum="24"
+                                        Interval="4"
+                                        >                                       
+                                    </chart:NumericalAxis>
                                 </chart:SfCartesianChart.YAxes>
                             
                                 <chart:ColumnSeries
                                             ItemsSource="{Binding Data,Mode=OneWay}" 
                                             XBindingPath="Month"
                                             YBindingPath="Target"
-                                            Width="0.6"
+                                            Width="0.7"
                                             Fill="#3B82F6"
                                             Label="Horas de Sueño"
+                                            EnableTooltip="True"                                             
                                             >
-                                </chart:ColumnSeries>   
+                                </chart:ColumnSeries> 
+                                <chart:SfCartesianChart.Legend>
+                                    <chart:ChartLegend 
+                                        Placement="Bottom"
+                                        IsVisible="False" >
+                                        <chart:ChartLegend.LabelStyle>
+                                            <chart:ChartLegendLabelStyle TextColor="Blue"
+                                                Margin="5"
+                                                FontSize="11"
+                                                FontAttributes="Bold"
+                                                FontFamily="BreeSerif-Regular.ttf"
+                                                />
+                                        </chart:ChartLegend.LabelStyle>
+                                    </chart:ChartLegend>
+                                </chart:SfCartesianChart.Legend>  
                             </chart:SfCartesianChart>
+                            </Frame>  
                         </Grid>
                     </Frame>
+                    <Button
+                            Grid.Column="1"
+                            Text="Exportar Datos"                            
+                            FontSize="Small"
+                            FontAttributes="Bold"
+                            FontFamily="BreeSerif-Regular.ttf"
+                            Clicked="OnExportarPDFClicked"
+                            HorizontalOptions="End">
+                            <Button.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Color="#3B82F6" Offset="0.0" />
+                                    <GradientStop Color="#10B981" Offset="1.0" />
+                                </LinearGradientBrush>
+                            </Button.Background>                            
+                        </Button> 
                 </VerticalStackLayout>    
         </ScrollView>
         <!-- Overlay de carga -->

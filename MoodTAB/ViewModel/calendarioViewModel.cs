@@ -132,7 +132,9 @@ namespace MoodTAB.ViewModel
                 foreach (var dia in semana)
                 {
                     double valor = agrupado.ContainsKey(dia) ? agrupado[dia] : 0;
-                    string etiqueta = dia.ToString("dd/MM");
+                    //string etiqueta = dia.ToString("dd/MM");
+                    string etiqueta = dia.ToString("ddd",cultura);
+
                     data.Add(new Model(etiqueta, valor));
 
                     System.Diagnostics.Debug.WriteLine($"📊 {etiqueta} = {valor}\n {data.Last().Month},{data.Last().Target}");
@@ -172,7 +174,6 @@ namespace MoodTAB.ViewModel
                 return;
             }
         }
-
         private async void CargarEventos()
         {
             //var diarios = await App.Database.GetDiarioAsync();
@@ -259,71 +260,109 @@ namespace MoodTAB.ViewModel
             g.DrawString("Horas de Sueño semana", titleFont, PdfBrushes.Black, new Syncfusion.Drawing.PointF(x, y));
             y += 30;
 
-// Insertar el gráfico de barras generado a partir de los datos
-// -------------------------------------------------------------
-try
-{
-    if (Data != null && Data.Any())
-    {
-        float chartHeight = 200f; // altura deseada del gráfico
-        float chartWidth = cardWidth;
-        float barSpacing = 10f;
-        float barWidth = (chartWidth - (Data.Count - 1) * barSpacing) / Data.Count;
-        float maxY = (float)Data.Max(d => d.Target); // límite Y basado en el valor máximo
-        float scaleFactor = chartHeight / (maxY > 0 ? maxY : 1); // escalar alturas
+            // Insertar el gráfico de barras generado a partir de los datos
+            // -------------------------------------------------------------
+            try
+            {
+                if (Data != null && Data.Any())
+                {
+                    // Tamaños base
+                    float chartWidth = cardWidth;
+                    float chartHeight = 200f;
 
-        float margin = 10f;
-        float chartX = x + margin;
-        float chartY = y + margin;
+                    // Márgenes externos (marco)
+                    float outerMargin = 10f;
 
-        // Dibujar marco
-        g.DrawRectangle(new PdfPen(PdfBrushes.Gray, 1f), new RectangleF(x, y, chartWidth, chartHeight + 2 * margin + 40));
+                    // Márgenes internos (espacio entre borde del marco y el gráfico real)
+                    float innerMargin = 20f;
 
-        // Líneas de grilla horizontal y valores Y
-        int gridLines = 5;
-        for (int i = 0; i <= gridLines; i++)
-        {
-            float yPos = chartY + chartHeight - (i * chartHeight / gridLines);
-            g.DrawLine(new PdfPen(new PdfColor(200, 200, 200), 0.5f),
-                new Syncfusion.Drawing.PointF(chartX, yPos),
-                new Syncfusion.Drawing.PointF(chartX + chartWidth - 2 * margin, yPos));
+                    float barSpacing = 10f;
+                    float barWidth = (chartWidth - (Data.Count - 1) * barSpacing - 2 * innerMargin) / Data.Count;
 
-            float yValue = i * maxY / gridLines;
-            g.DrawString(yValue.ToString("0.##"), descFont, PdfBrushes.Black, new Syncfusion.Drawing.PointF(x, yPos - 7));
-        }
+                    float maxY = (float)Data.Max(d => d.Target);
+                    float scaleFactor = chartHeight / (maxY > 0 ? maxY : 1);
 
-        // Dibujar cada barra y etiquetas rotadas
-        float currentX = chartX;
-        float labelAngle = -45f; // rotar etiquetas 45° hacia la izquierda
-        foreach (var punto in Data)
-        {
-            float barHeight = (float)punto.Target * scaleFactor;
-            g.DrawRectangle(new PdfSolidBrush(new PdfColor(59, 130, 246)),
-                new RectangleF(currentX, chartY + chartHeight - barHeight, barWidth, barHeight));
+                    // Coordenadas
+                    float frameX = x+ outerMargin*2;
+                    float frameY = y + outerMargin;
+                    float chartX = frameX + innerMargin;
+                    float chartY = frameY + innerMargin;
 
-            // Etiqueta de eje X con rotación
-            g.Save();
-            g.TranslateTransform(currentX + barWidth / 2, chartY + chartHeight + 25); // punto de rotación
-            g.RotateTransform(labelAngle);
-            g.DrawString(punto.Month, descFont, PdfBrushes.Black, new Syncfusion.Drawing.PointF(0, 0));
-            g.Restore();
+                    // Marco general
+                    float frameHeight = chartHeight + innerMargin * 2 + 50; // espacio extra abajo para etiquetas
+                    g.DrawRectangle(new PdfPen(PdfBrushes.Gray, 1f), new RectangleF(frameX, frameY, chartWidth, frameHeight));
 
-            currentX += barWidth + barSpacing;
-        }
+                    // Líneas de grilla horizontal y valores del eje Y
+                    int gridLines = 5;
+                    for (int i = 0; i <= gridLines; i++)
+                    {
+                        float yPos = chartY + chartHeight - (i * chartHeight / gridLines);
+                        g.DrawLine(new PdfPen(new PdfColor(220, 220, 220), 0.5f),
+                            new Syncfusion.Drawing.PointF(chartX, yPos),
+                            new Syncfusion.Drawing.PointF(chartX + chartWidth - 2 * innerMargin, yPos));
 
-        // Leyenda
-        float legendX = chartX + chartWidth - 100;
-        float legendY = chartY + chartHeight + 25;
-        g.DrawRectangle(new PdfSolidBrush(new PdfColor(59, 130, 246)), new RectangleF(legendX, legendY, 12, 12));
-        g.DrawString("Horas de sueño", descFont, PdfBrushes.Black, new Syncfusion.Drawing.PointF(legendX + 18, legendY - 2));
+                        float yValue = i * maxY / gridLines;
+                        g.DrawString(yValue.ToString("0.##"), descFont, PdfBrushes.Black,
+                            new Syncfusion.Drawing.PointF(frameX + 2, yPos - 7));
+                    }
 
-        y += chartHeight + 70; // actualizar y después del gráfico
-    }
-}
-catch (Exception ex)
-{
-    System.Diagnostics.Debug.WriteLine($"Error generando gráfico en PDF: {ex}");
-}
+                    // Barras y etiquetas del eje X
+                    float currentX = chartX;
+                    float labelAngle = -45f;
+                    foreach (var punto in Data)
+                    {
+                        float barHeight = (float)punto.Target * scaleFactor;
+                        g.DrawRectangle(new PdfSolidBrush(new PdfColor(59, 130, 246)),
+                            new RectangleF(currentX, chartY + chartHeight - barHeight, barWidth, barHeight));
+
+                        // Etiqueta X rotada
+                        float labelOffset = 18 + descFont.Size;
+                        g.Save();
+                        g.TranslateTransform(currentX + barWidth / 2, chartY + chartHeight + labelOffset);
+                        g.RotateTransform(labelAngle);
+                        g.DrawString(punto.Month, descFont, PdfBrushes.Black, new Syncfusion.Drawing.PointF(0, 0));
+                        g.Restore();
+
+                        currentX += barWidth + barSpacing;
+                    }
+
+                    
+                    // Eje Y: “Horas de sueño”
+                    g.Save();
+                    g.TranslateTransform(frameX + 5, chartY + chartHeight / 2);
+                    g.RotateTransform(-90);
+                    g.DrawString("Horas de sueño", descFont, PdfBrushes.Black,
+                        new Syncfusion.Drawing.PointF(0, -descFont.Size / 2));
+                    g.Restore();
+
+                    // Eje X: “Días de la semana”
+                    float ejeXTextY = chartY + chartHeight + 60;
+                    g.DrawString("Días de la semana", descFont, PdfBrushes.Black,
+                        new Syncfusion.Drawing.PointF(chartX + (chartWidth / 2) - 60, ejeXTextY));
+
+
+                    // Leyenda
+                    float legendBoxSize = 12f;
+                    float legendSpacing = 5f;
+                    float legendMarginTop = 45f;
+
+                    float legendX = chartX + chartWidth - 140;
+                    float legendY = chartY + chartHeight + legendMarginTop;
+
+                    g.DrawRectangle(new PdfSolidBrush(new PdfColor(59, 130, 246)),
+                        new RectangleF(legendX, legendY, legendBoxSize, legendBoxSize));
+
+                    g.DrawString("Horas de sueño", descFont, PdfBrushes.Black,
+                        new Syncfusion.Drawing.PointF(legendX + legendBoxSize + legendSpacing, legendY - 1));
+
+                    // Actualiza posición vertical para lo siguiente
+                    y += frameHeight + 40;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error generando gráfico en PDF: {ex}");
+            }
 
 
             g.DrawString("Mis Diarios Emocionales", titleFont, PdfBrushes.Black, new Syncfusion.Drawing.PointF(x, y));

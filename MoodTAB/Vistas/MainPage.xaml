@@ -220,7 +220,7 @@
                         CommandParameter="CalendarioPage"
                         Grid.Row="0"/>
                 <Image Grid.Row="0" Source="neodiary.png" HeightRequest="30" WidthRequest="30" Margin="0,0,0,15"/>
-                <Label Text="Mis Diarios" FontFamily="BreeSerif-Regular.ttf" HorizontalTextAlignment="Center" FontSize="12" TextColor="#FF61666D" Padding="0,50,0,0"></Label>
+                <Label Text="Historial" FontFamily="BreeSerif-Regular.ttf" HorizontalTextAlignment="Center" FontSize="12" TextColor="#FF61666D" Padding="0,50,0,0"></Label>
             </Grid>
             <Grid RowDefinitions="*" ColumnDefinitions="79" HorizontalOptions="Center" Margin="0,0,0,0">
                 <Button Text=" "

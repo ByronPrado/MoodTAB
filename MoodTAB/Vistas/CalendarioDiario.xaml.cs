@@ -50,12 +50,21 @@ public partial class CalendarioDiario : ContentPage
 			};
 
 			// Cambiar el texto del botón
+			CambiarVistaCalendarioLabel.Text = CambiarVistaCalendarioLabel.Text switch
+			{
+				"Semana Actual" => "Ultimos 15 Días",
+				"Ultimos 15 Días" => "Mes en Curso",
+				"Mes en Curso" => "Semana Actual",
+				_ => "Semana Actual"
+			};
+
+						// Cambiar el texto del botón
 			CambiarVistaCalendarioButton.Text = CambiarVistaCalendarioButton.Text switch
 			{
-				"Ver Ultima Semana" => "Ver Ultimos 15 Días",
-				"Ver Ultimos 15 Días" => "Ver Mes Completo",
-				"Ver Mes Completo" => "Ver Ultima Semana",
-				_ => "Ver Ultimos 15 Días"
+				"Ver 15 Días" => "Ver Mes",
+				"Ver Mes" => "Ver Semana",
+				"Ver Semana" => "Ver 15 Días",
+				_ => "Ver 15 Días"
 			};
 			// Pequeño delay opcional para que el cambio se note suave
 			FrameCalendario.IsVisible = true;
