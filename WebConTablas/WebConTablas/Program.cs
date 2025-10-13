@@ -4,10 +4,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration; // Necesario para Configuration
 using System; // Necesario para Environment y Exception
 using WebConTablas.Models; // Asumo que AppDbContext y Models están aquí
+using WebConTablas.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // --- Configuración de Servicios ---
+
+builder.Services.AddScoped<EmotionalPredictionService>();
 
 // Agregar contexto con conexión PostgreSQL
 builder.Services.AddDbContext<AppDbContext>(options =>
