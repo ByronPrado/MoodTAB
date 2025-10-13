@@ -176,26 +176,9 @@
                 const diariosOrdenados = [...patient.DiariosEmocionales].sort((a, b) => 
                     new Date(b.Fecha) - new Date(a.Fecha)
                 );
-                diariosHTML = diariosOrdenados.slice(0, 3).map(diario => {
-                    let emocionesHTML = '';
-                    try {
-                        const emociones = JSON.parse(diario.Emociones);
-                        emocionesHTML = Object.keys(emociones).map(emocion => {
-                            const emoji = emocion === 'feliz' ? '😊' : 
-                                          emocion === 'emocionado' ? '😃' : 
-                                          emocion === 'cansado' ? '😪' : 
-                                          emocion === 'triste' ? '😢' : 
-                                          emocion === 'frustrado' ? '😖' :
-                                          emocion === 'enojado' ? '😠' : 
-                                          emocion === 'neutro' ? '😑' : 
-                                          emocion === 'angustia' ? '😰' : 
-                                          emocion === 'ansioso' ? '🫨' : '😑';
-                            const capitalizedEmocion = emocion.charAt(0).toUpperCase() + emocion.slice(1);
-                            return `<span class="emotion-badge emotion-${emocion.toLowerCase()}">${emoji} ${capitalizedEmocion}</span>`;
-                        }).join('');
-                    } catch (e) {
-                        emocionesHTML = '<span class="emotion-badge">Sin emociones</span>';
-                    }
+                diariosHTML = diariosOrdenados.slice(0, 2).map(diario => {
+                    const emociones = diario.Emociones.split(',');
+                    const respuestas = diario.Descripcion.split('/');
                     
                     const fecha = new Date(diario.Fecha).toLocaleDateString('es-ES');
                     return `
@@ -203,8 +186,34 @@
                             <div class="d-flex justify-content-between align-items-start mb-2">
                                 <span class="fw-medium">${fecha}</span>
                             </div>
-                            <div class="emotion-badges">${emocionesHTML}</div>
-                            <p class="mb-2 text-muted">"${diario.Descripcion || 'Sin descripción'}"</p>
+                            <p class="mb-2">¿Cómo han estado tus pensamientos?</p>
+                            <p class="mb-2 text-muted">"${respuestas[0]}"</p>
+                            <p class="mb-2">¿Algo que consideres importante de tu día?</p>
+                            <p class="mb-2 text-muted">"${respuestas[1]}"</p>
+                            <p class="mb-2">¿Algo más que quieras contar?</p>
+                            <p class="mb-2 text-muted">"${respuestas[2]}"</p>
+                            <div class="metrics-grid">
+                                <div class="metric-item">
+                                    <i class="fas fa-face-smile text-success"></i>
+                                    <span>Animo: ${emociones[0]}/10</span>
+                                </div>
+                                <div class="metric-item">
+                                    <i class="fas fa-face-smile text-success"></i>
+                                    <span>Apetito: ${emociones[1]}/10</span>
+                                </div>
+                                <div class="metric-item">
+                                    <i class="fas fa-face-smile text-success"></i>
+                                    <span>Energía: ${emociones[2]}/10</span>
+                                </div>
+                                <div class="metric-item">
+                                    <i class="fas fa-face-smile text-success"></i>
+                                    <span>Calidad Sueño: ${emociones[3]}/10</span>
+                                </div>
+                                <div class="metric-item">
+                                    <i class="fas fa-face-smile text-success"></i>
+                                    <span>Batería Social: ${emociones[4]}/10</span>
+                                </div>
+                            </div>
                             <div class="metrics-grid">
                                 <div class="metric-item">
                                     <i class="fas fa-walking text-success"></i>

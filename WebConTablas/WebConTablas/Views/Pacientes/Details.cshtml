@@ -11,7 +11,9 @@
         .OrderBy(d => d.Fecha.Date)
         .ToList();
 }
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="@Url.Content("~/css/paciente.css")" />
+<link rel="stylesheet" href="@Url.Content("~/css/paginas.css")" />
 
 <div class="container">
     <a href="@Url.Action("Index", "Pacientes")" class="back-button">
@@ -108,13 +110,11 @@
                 {
                     foreach (var d in Model.DiariosEmocionales.OrderByDescending(d => d.Fecha))
                     {
-                        var emocionesStr = "N/A";
+                        string[] emociones = new string[5];
+                        string[] respuestas = new string[3];
                         try {
-                            if (!string.IsNullOrEmpty(d.Emociones))
-                            {
-                                var emocionesDict = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, int>>(d.Emociones);
-                                emocionesStr = string.Join(", ", emocionesDict.Keys);
-                            }
+                            emociones = d.Emociones?.Split(',') ?? Array.Empty<string>();
+                            respuestas = d.Descripcion?.Split('/') ?? Array.Empty<string>();
                         } catch {}
 
                         var collapseId = $"collapse-{d.ID_Diario}";
@@ -131,14 +131,54 @@
                             <div id="@collapseId" class="accordion-collapse collapse"
                                 aria-labelledby="@headingId" data-bs-parent="#accordionDiarios">
                                 <div class="accordion-body">
-                                    <p class="fw-medium"><strong>Emociones:</strong> @emocionesStr</p>
-                                    <p class="text-muted">@d.Descripcion</p>
-                                    <ul class="list-group list-group-flush mb-2">
-                                        <li class="list-group-item"><strong>Pasos:</strong> @(d.Pasos ?? 0)</li>
-                                        <li class="list-group-item"><strong>Horas de celular:</strong> @(d.Horas_celular ?? 0)</li>
-                                        <li class="list-group-item"><strong>Horas en redes sociales:</strong> @(d.Horas_redes ?? 0)</li>
-                                        <li class="list-group-item"><strong>Hora dormida:</strong> @(d.Hora_dormida ?? "No registrada")</li>
-                                    </ul>
+                                    <div class="emotion-entry">
+                                        <p class="mb-2">¿Cómo han estado tus pensamientos?</p>
+                                        <p class="mb-2 text-muted">"@(respuestas[0])"</p>
+                                        <p class="mb-2">¿Algo que consideres importante de tu día?</p>
+                                        <p class="mb-2 text-muted">"@(respuestas[1])"</p>
+                                        <p class="mb-2">¿Algo más que quieras contar?</p>
+                                        <p class="mb-2 text-muted">"@(respuestas[2])"</p>
+                                        <div class="metrics-grid">
+                                            <div class="metric-item">
+                                                <i class="fas fa-face-smile text-success"></i>
+                                                <span>Animo: @(emociones[0])/10</span>
+                                            </div>
+                                            <div class="metric-item">
+                                                <i class="fas fa-face-smile text-success"></i>
+                                                <span>Apetito: @(emociones[1])/10</span>
+                                            </div>
+                                            <div class="metric-item">
+                                                <i class="fas fa-face-smile text-success"></i>
+                                                <span>Energía: @(emociones[2])/10</span>
+                                            </div>
+                                            <div class="metric-item">
+                                                <i class="fas fa-face-smile text-success"></i>
+                                                <span>Calidad Sueño: @(emociones[3])/10</span>
+                                            </div>
+                                            <div class="metric-item">
+                                                <i class="fas fa-face-smile text-success"></i>
+                                                <span>Batería Social: @(emociones[4])/10</span>
+                                            </div>
+                                        </div>
+                                        <div class="metrics-grid">
+                                            <div class="metric-item">
+                                                <i class="fas fa-walking text-success"></i>
+                                                <span>@d.Pasos pasos</span>
+                                            </div>
+                                            <div class="metric-item">
+                                                <i class="fas fa-mobile-alt text-primary"></i>
+                                                <span>@d.Horas_celular hrs celular</span>
+                                            </div>
+                                            <div class="metric-item">
+                                                <i class="fas fa-share-alt text-info"></i>
+                                                <span>@d.Horas_redes hrs redes</span>
+                                            </div>
+                                            <div class="metric-item">
+                                                <i class="fas fa-moon text-warning"></i>
+                                                <span>@d.Hora_dormida sueño</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
