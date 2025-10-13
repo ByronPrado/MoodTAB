@@ -52,12 +52,26 @@ public partial class DiarioPage : ContentPage
 	{
 		var slider = (Slider)sender;
 
-		// Redondea al entero más cercano
-		int roundedValue = (int)Math.Round(e.NewValue);
+		int valor = (int)Math.Round(e.NewValue);
 
-		// Solo actualiza si realmente cambió (evita bucles visuales)
-		if (slider.Value != roundedValue)
-			slider.Value = roundedValue;
+		if (slider.Value != valor)
+			slider.Value = valor;
+
+		if (valor <= 3)
+		{
+			slider.ThumbColor = Colors.Red;
+			slider.MinimumTrackColor = Colors.Red;
+		}
+		else if (valor <= 5)
+		{
+			slider.ThumbColor = Colors.Orange;
+			slider.MinimumTrackColor = Colors.Orange;
+		}
+		else
+		{
+			slider.ThumbColor = Colors.Green;
+			slider.MinimumTrackColor = Colors.Green;
+		}
 	}
 
 }

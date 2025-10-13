@@ -15,6 +15,7 @@ namespace MoodTAB
         public static bool respondido { get; set; } = false;
         public static bool esFamiliar { get; set; } = false;
         public static string? id_usuario_externo_DB { get; set; }
+        public static bool OptionSueno { get; set; } = false;
 
         public static string direccion_ngrok = "http://10.0.2.2:5051/";
         //public static string direccion_ngrok = "https://ed2fa62ed89e.ngrok-free.app/";

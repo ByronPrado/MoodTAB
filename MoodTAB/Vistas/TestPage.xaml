@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MoodTAB.Vistas.TestPage"
              Title="Test">
-    <VerticalStackLayout>
+
+    <ScrollView BackgroundColor="#FFF3F3FF">
+        <VerticalStackLayout  Spacing="10">
         <Label 
             Text="Probemos los servicios aquiiiiiii"
             VerticalOptions="Center" 
@@ -18,5 +20,63 @@
         <Button Text="Mostrar ruta" Clicked="OnButtonClicked"/>
         <Button Text="Editar Usuario" Clicked="OnEditarUsuarioClicked"/>
         <Button Text="HealthConnect" Clicked="OnHealthConnect"/>
+        <Label Text=""/>
+
+        <!-- Opciones SmarthWatch-->
+        <Label Text="SmartWatch (ajustar switches con los del diario)" FontSize="18" FontFamily="BreeSerif-Regular.ttf" TextColor="Black"/>
+        <Label Text="seleccionar que datos puede ingresar desde smarthwatch" FontSize="14" FontFamily="BreeSerif-Regular.ttf" TextColor="gray"/>
+        <HorizontalStackLayout Spacing="100" VerticalOptions="Center">
+            <Label  Text="Ritmo Cardiaco"  
+                    FontSize="18"
+                    VerticalOptions="Center"
+                    FontAttributes="Bold" 
+                    TextColor="black"/>
+            <Switch IsToggled="False"/>
+        </HorizontalStackLayout>
+        <HorizontalStackLayout Spacing="30" VerticalOptions="Center">
+            <Label  Text="Variabilidad Frecuencia Cardiaca (ms)"
+                    WidthRequest="200"
+                    FontSize="18"
+                    VerticalOptions="Center"
+                    FontAttributes="Bold" 
+                    TextColor="black"/>
+            <Switch IsToggled="False" />
+        </HorizontalStackLayout>
+        <HorizontalStackLayout Spacing="180" VerticalOptions="Center">
+            <Label  Text="Pasos"  
+                    FontSize="18"
+                    VerticalOptions="Center"
+                    FontAttributes="Bold" 
+                    TextColor="black"/>
+            <Switch IsToggled="False" />
+        </HorizontalStackLayout>
+        <HorizontalStackLayout Spacing="100" VerticalOptions="Center">
+            <Label  Text="Horas de sueño"  
+                    FontSize="18"
+                    VerticalOptions="Center"
+                    FontAttributes="Bold" 
+                    TextColor="black"/>
+            <Switch IsToggled="False" />
+        </HorizontalStackLayout>
+        <Label Text=""/>
+
+        <!-- Opciones sueño-->
+        <HorizontalStackLayout Spacing="100" VerticalOptions="Center">
+            <Label Text="Registro del Sueño" 
+                   FontSize="18" 
+                   FontFamily="BreeSerif-Regular.ttf"
+                   VerticalOptions="Center"
+                   TextColor="Black"/>
+            <Switch IsToggled="{Binding optionSueno}" 
+                    Toggled="OnSuenoValueChanged"/>
+        </HorizontalStackLayout>
+        
+        <Label Text="Ingresar las horas de sueño por horas totales"
+                FontSize="14"
+                FontFamily="BreeSerif-Regular.ttf"
+                TextColor="gray"/>
+        
     </VerticalStackLayout>
+    </ScrollView>
+    
 </ContentPage>

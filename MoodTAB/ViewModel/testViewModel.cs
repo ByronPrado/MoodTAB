@@ -11,6 +11,7 @@ namespace MoodTAB.ViewModel
     {
         [ObservableProperty] string texto;
         [ObservableProperty] private bool healthDataManual;
+        [ObservableProperty] private bool optionSueno = Globals.OptionSueno;
         public TestViewModel()
         {
             //constructor

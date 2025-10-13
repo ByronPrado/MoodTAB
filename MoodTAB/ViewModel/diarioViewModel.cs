@@ -19,84 +19,51 @@ namespace MoodTAB.ViewModel
 
     public partial class DiarioViewModel : ObservableObject
     {
-        [ObservableProperty]
-        ObservableCollection<Diario> diarios = new();
+        [ObservableProperty] ObservableCollection<Diario> diarios = new();
 
-        [ObservableProperty]
-        ObservableCollection<string> emocionDiaria = new();
+        // Pregutas de Rutina
+        [ObservableProperty] string pregunta1 = "";
+        [ObservableProperty] string pregunta2 = "";
+        [ObservableProperty] string pregunta3 = "";
 
-        [ObservableProperty]
-        ObservableCollection<EmocionItem> listaEmociones = new ObservableCollection<EmocionItem>();
+        // Horas registradas
+        [ObservableProperty] double horasCelular;
+        [ObservableProperty] double horasRedes;
 
-        [ObservableProperty]
-        string descDia;
+        // Sliders
+        [ObservableProperty] int animo = 0;
+        [ObservableProperty] int apetito = 0;
+        [ObservableProperty] int energia = 0;
+        [ObservableProperty] int calidadSueno = 0;
+        [ObservableProperty] int bateriaSocial = 0;
+        [ObservableProperty] string sliders = "";
 
-        [ObservableProperty]
-        double horasCelular;
 
-        [ObservableProperty]
-        double horasRedes;
+        // SmartWatch
+        [ObservableProperty] public int ritmoCardiaco;
+        [ObservableProperty] public int variabilidadFrecuenciaCardiaca;
 
-        [ObservableProperty]
-        int animo = 0;
-        [ObservableProperty]
-        int apetito = 0;
-        [ObservableProperty]
-        int energia = 0;
-        [ObservableProperty]
-        int calidadSueno = 0;
-        [ObservableProperty]
-        int bateriaSocial = 0;
-        [ObservableProperty]
-        string prueba;
+        // Pasos
+        [ObservableProperty] int cantidadPasos;
 
-        [ObservableProperty]
-        public int ritmoCardiaco;
-
-        [ObservableProperty]
-        public int variabilidadFrecuenciaCardiaca;
-
-        [ObservableProperty]
-        int cantidadPasos;
-
-        [ObservableProperty]
-        string horasSueno;
-
-        [ObservableProperty]
-        public TimeSpan horaDurmio;
-
-        [ObservableProperty]
-        public TimeSpan horaDesperto;
+        // Calidad Sueño
+        [ObservableProperty] string horasSueno;
+        [ObservableProperty] public TimeSpan horaDurmio;
+        [ObservableProperty] public TimeSpan horaDesperto;
 
         // Switches: true = manual, false = smartwatch
-        [ObservableProperty]
-        private bool isManualRitmoCardiaco = true; // Nuevo, default manual
+        [ObservableProperty] private bool isManualRitmoCardiaco = true; // Nuevo, default manual
+        [ObservableProperty] private bool isManualVariabilidad = true;
+        [ObservableProperty] private bool isManualPasos = true;
+        [ObservableProperty] private bool isManualHoraDurmio = true;
+        [ObservableProperty] private bool isManualHoraDesperto = true;
+        [ObservableProperty] private bool isManualHorasSueno = true;
+        [ObservableProperty] private bool healthDataManual;
 
-        [ObservableProperty]
-        private bool isManualVariabilidad = true;
-
-        [ObservableProperty]
-        private bool isManualPasos = true;
-
-        [ObservableProperty]
-        private bool isManualHoraDurmio = true;
-
-        [ObservableProperty]
-        private bool isManualHoraDesperto = true;
-
-        [ObservableProperty]
-        private bool isManualHorasSueno = true;
-
-        [ObservableProperty]
-        private bool healthDataManual;
-
-        [ObservableProperty]
-        string error;
-
-        [ObservableProperty]
-        double intensidadEmocion = 0.0;
-        [ObservableProperty]
-        ObservableCollection<string> emocionesSeleccionadas = [];
+        // Otros
+        [ObservableProperty] string error;
+        [ObservableProperty] bool optionSuenoTrue = Globals.OptionSueno;
+        [ObservableProperty] bool optionSuenoFalse = !Globals.OptionSueno;
         public List<string> redes =
     [
         "com.whatsapp",                 //whatsapp
@@ -109,13 +76,10 @@ namespace MoodTAB.ViewModel
     ];
         public long redesociales = 0;
         public long horast = 0;
-        public long horasyutu = 0;
+
+        // Servicios
         private readonly IStepCounterService stepService;
-
         private readonly IDictationService dictationService;
-
-        [ObservableProperty]
-        string test;
 
         public DiarioViewModel(IStepCounterService stepService, IDictationService dictationService)
         {
@@ -124,7 +88,6 @@ namespace MoodTAB.ViewModel
 
             stepService.Start();
 
-            DescDia = "";
             HorasCelular = 0;
             HorasRedes = 0;
             CantidadPasos = (int)stepService.TotalSteps;
@@ -134,19 +97,6 @@ namespace MoodTAB.ViewModel
             VariabilidadFrecuenciaCardiaca = 0;
             HoraDurmio = TimeSpan.Zero;
             HoraDesperto = TimeSpan.Zero;
-            test = "veamos";
-
-            foreach (var key in Globals.colores.Keys)
-            {
-                var item = new EmocionItem(
-                    texto: key,
-                    emoticon: Globals.emoticonos[key],
-                    color: "White",
-                    colorBorde: "gray"
-                );
-                listaEmociones.Add(item);
-
-            }
 
             // Cargar el valor almacenado de healthdata_manual
             var storedValue = SecureStorage.GetAsync("healthdata_manual").Result ?? "false";
@@ -156,35 +106,7 @@ namespace MoodTAB.ViewModel
             _ = LoadDiariosAsync();
         }
 
-        public string UnirConComas(ObservableCollection<string> lista)
-        {
-            return string.Join(",", lista);
-        }
-
-        [RelayCommand]
-        private void SeleccionarEmocion(string emocion)
-        {
-            var item = ListaEmociones.FirstOrDefault(e => e.Texto == emocion);
-            if (item == null) return;
-            var index = ListaEmociones.IndexOf(item);
-            if (EmocionDiaria.Contains(emocion))
-            {
-                EmocionDiaria.Remove(emocion);
-                item.Color = "White";
-                item.ColorBorde = "Gray";
-            }
-            else
-            {
-                EmocionDiaria.Add(emocion);
-                item.Color = Globals.colores[emocion];
-                item.ColorBorde = Globals.bordes[emocion];
-            }
-            if (index >= 0)
-            {
-                ListaEmociones[index] = item;
-            }
-        }
-
+        // Ajuste de valores sueño (24 horas)
         partial void OnHorasSuenoChanged(string value)
         {
             if (!string.IsNullOrEmpty(value))
@@ -202,33 +124,27 @@ namespace MoodTAB.ViewModel
         {
             HandleSwitchChange(value, nameof(RitmoCardiaco));
         }
-
         partial void OnIsManualVariabilidadChanged(bool value)
         {
             HandleSwitchChange(value, nameof(VariabilidadFrecuenciaCardiaca));
         }
-
         partial void OnIsManualPasosChanged(bool value)
         {
             HandleSwitchChange(value, nameof(CantidadPasos));
             if (value) CantidadPasos = (int)stepService.TotalSteps; // Si manual, carga actual, pero permite editar
         }
-
         partial void OnIsManualHoraDurmioChanged(bool value)
         {
             HandleSwitchChange(value, nameof(HoraDurmio));
         }
-
         partial void OnIsManualHoraDespertoChanged(bool value)
         {
             HandleSwitchChange(value, nameof(HoraDesperto));
         }
-
         partial void OnIsManualHorasSuenoChanged(bool value)
         {
             HandleSwitchChange(value, nameof(HorasSueno));
         }
-
         private async void HandleSwitchChange(bool isManual, string propertyName)
         {
             if (!isManual)
@@ -239,7 +155,6 @@ namespace MoodTAB.ViewModel
                 SetPropertyByName(propertyName, propertyName.Contains("Hora") ? TimeSpan.Zero : (object)0);
             }
         }
-
         private void SetPropertyByName(string propertyName, object value)
         {
             // Helper para setear propiedades dinámicamente
@@ -254,6 +169,8 @@ namespace MoodTAB.ViewModel
             }
         }
 
+
+        // Cargar y guardar
         private async Task LoadDiariosAsync()
         {
             var items = await App.Database.GetDiarioAsync();
@@ -262,7 +179,6 @@ namespace MoodTAB.ViewModel
             var stats = UsageStatsHelper.GetAppUsageStats() ?? new Dictionary<string, long>();
             redesociales = 0;
             horast = 0;
-            horasyutu = 0;
             foreach (var stat in stats.OrderByDescending(x => x.Value).Take(20)) // Top 20 apps
             {
                 var appName = stat.Key;
@@ -270,10 +186,6 @@ namespace MoodTAB.ViewModel
                 if (redes.Contains(appName))
                 {
                     redesociales += timeMinutes;
-                }
-                if (appName == "com.google.android.youtube")
-                {
-                    horasyutu += timeMinutes;
                 }
                 horast += timeMinutes;
             }
@@ -292,7 +204,7 @@ namespace MoodTAB.ViewModel
                 var main = Microsoft.Maui.Controls.Application.Current?.MainPage;
                 if (main == null) return;
 
-                if (string.IsNullOrWhiteSpace(DescDia))
+                if (string.IsNullOrWhiteSpace(Pregunta1))
                 {
                     await main.DisplayAlert("Campos en blanco", "No se puede dejar los campos en blanco", "OK");
                     return;
@@ -310,8 +222,8 @@ namespace MoodTAB.ViewModel
 
                 var diario = new Diario
                 {
-                    Emocion_Diaria = Prueba,
-                    Descripcion = DescDia,
+                    Emocion_Diaria = Sliders,
+                    Descripcion = Pregunta1+"/"+Pregunta2+"/"+Pregunta3,
                     Horas_Celular = HorasCelular,
                     Horas_Redes = HorasRedes,
                     Horas_Sueno = HorasSueno,
@@ -329,8 +241,8 @@ namespace MoodTAB.ViewModel
                 var payload = new
                 {
                     ID_Paciente = Globals.id_paciente_DB,
-                    Emociones = Prueba,
-                    Descripcion = DescDia,
+                    Emociones = Sliders,
+                    Descripcion = Pregunta1+"/"+Pregunta2+"/"+Pregunta3,
                     Pasos = CantidadPasos,
                     Horas_celular = (int)HorasCelular,
                     Horas_redes = (int)HorasRedes,
@@ -362,10 +274,12 @@ namespace MoodTAB.ViewModel
             catch (Exception e)
             {
                 Error = e.Message;
-                DescDia = Error;
+                Pregunta1 = Error;
             }
         }
 
+
+        // Debug
         [RelayCommand]
         private async Task BorrarDiario()
         {
@@ -384,16 +298,22 @@ namespace MoodTAB.ViewModel
             }
         }
 
+
+        // Dictar preguntas
         [RelayCommand]
-        private void Probando()
+        public async Task DictarDiario1()
         {
-            Prueba = Animo.ToString() + "," + Apetito.ToString() + "," + Energia.ToString() + "," + CalidadSueno.ToString() + "," + BateriaSocial.ToString();
+            Pregunta1 = await dictationService.StartDictationAsync();
         }
-        
         [RelayCommand]
-        public async Task DictarDiario()
+        public async Task DictarDiario2()
         {
-            DescDia = await dictationService.StartDictationAsync();
+            Pregunta2 = await dictationService.StartDictationAsync();
+        }
+        [RelayCommand]
+        public async Task DictarDiario3()
+        {
+            Pregunta3 = await dictationService.StartDictationAsync();
         }
     }
 }

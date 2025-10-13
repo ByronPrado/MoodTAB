@@ -67,6 +67,10 @@ public partial class TestPage : ContentPage
 			DisplayAlert("Error", $"No se pudo compartir el archivo: {ex.Message}", "OK");
 		}
 	}
+	public void OnSuenoValueChanged(object sender, ToggledEventArgs  e)
+    {
+		Globals.OptionSueno = e.Value ? true : false;
+    }
 }
 
 
