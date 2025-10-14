@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration; // Necesario para Configuration
 using System; // Necesario para Environment y Exception
 using WebConTablas.Models; // Asumo que AppDbContext y Models están aquí
 using WebConTablas.Services;
+using WebConTablas.Common; // <-- Agrega este using
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +22,7 @@ builder.Services.AddSession();
 builder.Services.AddControllers();
 
 // 1. Configuración del mapeo de opciones
-builder.Services.Configure<AnalysisSettings>(
+builder.Services.Configure<WebConTablas.Common.AnalysisSettings>(
     builder.Configuration.GetSection("AnalysisSettings"));
 
 // 2. Registro de servicios dependientes

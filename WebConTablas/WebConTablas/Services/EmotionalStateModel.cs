@@ -12,9 +12,12 @@ public class EmotionalStateData
     [LoadColumn(4)] public float Horas_celular { get; set; } // Solo una vez
     [LoadColumn(5)] public float Horas_redes { get; set; }
     [LoadColumn(6)] public string Emociones { get; set; }
-    [LoadColumn(7)] public float Coherencia { get; set; }
-    [LoadColumn(8)] public float Errores_gramaticales { get; set; }
-    [LoadColumn(9)] public string EstadoEmocional { get; set; }
+    [LoadColumn(7)] public string Zona1_Actividades { get; set; } 
+    [LoadColumn(8)] public string Zona2_Personas { get; set; }   
+    [LoadColumn(9)] public string Zona3_Pensamientos { get; set; } 
+    [LoadColumn(10)] public float Coherencia { get; set; }
+    [LoadColumn(11)] public float Errores_gramaticales { get; set; }
+    [LoadColumn(12)] public string EstadoEmocional { get; set; }
 }
 
     public class EmotionalStatePrediction

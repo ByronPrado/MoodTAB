@@ -2,20 +2,22 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebConTablas.Common; // <--- ¡Añadir este using es crucial para MessageAnalysisResult!
+using WebConTablas.Controllers; 
+// Nota: Si el controlador está en el mismo namespace que ChatService, se puede omitir el using WebConTablas.Controllers, pero lo mantendremos por seguridad.
 
 namespace WebConTablas.Controllers
 {
-    // Usamos [Controller] ya que estás devolviendo una View, pero la inyección es la clave.
+    // Usamos [Controller] ya que estás devolviendo una View.
     public class ChatController : Controller 
     {
         // 1. Campo de servicio READONLY inyectado
         private readonly ChatService _chatService;
         
-        // ⚠️ El campo estático _lastAnalysis se mantiene para simplificar la depuración.
+        // ⚠️ El campo estático _lastAnalysis usa el tipo de WebConTablas.Common
         private static MessageAnalysisResult _lastAnalysis = new MessageAnalysisResult();
 
         // 🎯 CORRECCIÓN: Usamos la Inyección de Dependencias.
-        // ASP.NET Core buscará el ChatService registrado en Program.cs y lo inyectará.
         public ChatController(ChatService chatService)
         {
             // Asigna la instancia del servicio inyectado.
@@ -26,8 +28,6 @@ namespace WebConTablas.Controllers
         [HttpGet("/ChatPage/Index")]
         public IActionResult Index()
         {
-            // Puedes pasar el último análisis a la vista para la tabla de debug si es necesario.
-            // return View("~/Views/ChatPage/Index.cshtml", _lastAnalysis); 
             return View("~/Views/ChatPage/Index.cshtml");
         }
 
@@ -55,7 +55,7 @@ namespace WebConTablas.Controllers
             return Json(analysisResult);
         }
 
-        // Nuevo DTO para recibir el mensaje y el tiempo transcurrido
+        // Nuevo DTO para recibir el mensaje y el tiempo transcurrido (se mantiene localmente si solo se usa aquí)
         public class UserMessageWithTime
         {
             public string Text { get; set; }
@@ -63,24 +63,9 @@ namespace WebConTablas.Controllers
         }
     }
 
-    // Usamos el DTO de resultados que definimos anteriormente (debería estar accesible)
-    // public class MessageAnalysisResult { ... }
-    // Dentro del namespace WebConTablas.Controllers
-    public class UserMessage
-    {
-        public string Text { get; set; }
-    }
-
-    public class MessageAnalysisResult
-    {
-        public string Reply { get; set; }
-        public List<string> SensitiveWords { get; set; } = new List<string>();
-        
-        // Nuevos campos de análisis
-        public List<string> Keywords { get; set; } = new List<string>(); // 1) Palabras clave
-        public int GrammaticalErrors { get; set; } = 0; // 2) Cantidad de errores gramaticales
-        public string CoherenceScore { get; set; } = "Alto"; // 3) Medidores de Coherencia
-        public double TypingSpeed_WPM { get; set; } = 0.0; // 4) Velocidad de escritura (palabras por minuto)
-        public Dictionary<string, int> FillerWords { get; set; } = new Dictionary<string, int>(); // 5) Muletillas (Diccionario: Muletilla, Cantidad)
-    }
+    // ***************************************************************
+    // *** CLASES DUPLICADAS ELIMINADAS ***
+    // MessageAnalysisResult y UserMessage (innecesario) han sido ELIMINADAS
+    // de este archivo para evitar conflictos con WebConTablas.Common
+    // ***************************************************************
 }

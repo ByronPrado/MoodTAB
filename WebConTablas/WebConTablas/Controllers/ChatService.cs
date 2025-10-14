@@ -3,13 +3,22 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq; 
 using System;
-using Microsoft.Extensions.Options; // Necesario si quieres inyectar opciones aquí, aunque mejor en Program.cs.
+using Microsoft.Extensions.Options;
+using System.Globalization; 
+// Nota: 'FuzzySharp' no es necesario aquí si solo se usa en SensitiveWordDetector
+// pero no afecta si lo dejas.
+
+using WebConTablas.Common; // <-- ¡CLAVE! Esto da acceso a MessageAnalyzer, SensitiveWordDetector, y MessageAnalysisResult.
 
 namespace WebConTablas.Controllers
 {
+    // =========================================================================
+    // === CHAT SERVICE (Solo Lógica del Chat) =================================
+    // =========================================================================
     public class ChatService
     {
-       private readonly ChatClient _client;
+        private readonly ChatClient _client;
+        // Estas clases se inyectan y provienen de WebConTablas.Common
         private readonly MessageAnalyzer _analyzer;
         private readonly SensitiveWordDetector _detector; 
         private string _conversationHistory;
@@ -21,53 +30,41 @@ namespace WebConTablas.Controllers
         {
             _client = new ChatClient(model: "gpt-4o-mini", apiKey: apiKey);
             _conversationHistory = "Eres un asistente amigable en español. Mantén las respuestas breves.\n";
-            
-            // Asignamos los servicios inyectados
             _analyzer = analyzer;
             _detector = detector; 
         }
 
         public async Task<MessageAnalysisResult> SendMessageAsync(string userMessage, double timeElapsedSeconds)
         {
-            // 1. Tarea de Detección de Palabras Sensibles (FuzzySharp)
             var detectedWords = _detector.Detect(userMessage);
-
-            // 2. Tarea de Análisis Gramatical (IA)
             var grammarTask = GetGrammarErrorCountAsync(userMessage);
-
-            // 3. Tarea de Respuesta del Bot (IA)
+            
             _conversationHistory += $"Usuario: {userMessage}\n";
             var chatTask = _client.CompleteChatAsync(_conversationHistory);
 
-            // 4. Esperamos todas las tareas
             await Task.WhenAll(grammarTask, chatTask);
             
-            // 5. Obtenemos los resultados
             int actualGrammarErrors = grammarTask.Result;
             string botResponse = chatTask.Result.Value.Content[0].Text;
             
-            // 6. Análisis General del Mensaje (WPM, Keywords, Coherence)
+            // MessageAnalyzer y MessageAnalysisResult son de WebConTablas.Common
             var analysisResult = _analyzer.Analyze(userMessage, timeElapsedSeconds, actualGrammarErrors); 
             
-            // 7. Finalizamos el historial de conversación (solo para la respuesta del bot)
             _conversationHistory += $"Asistente: {botResponse}\n";
 
-            // 8. Añadimos las palabras sensibles REALES al resultado
             analysisResult.SensitiveWords.AddRange(detectedWords);
-
-            // 9. Devolvemos el resultado
             analysisResult.Reply = botResponse;
             return analysisResult;
         }
 
-        /// <summary>
-        /// Solicita al modelo de IA que evalúe el texto en busca de errores gramaticales.
-        /// </summary>
-        private async Task<int> GetGrammarErrorCountAsync(string text)
+        // --- MÉTODOS DE APOYO DE IA ---
+
+        public async Task<int> GetGrammarErrorCountAsync(string text)
         {
-            var systemInstruction = "Eres un corrector de gramática. Analiza el siguiente texto. Tu única respuesta debe ser un número entero: la cantidad total de errores gramaticales detectados. Si no hay errores, responde 0.";
+            if (string.IsNullOrWhiteSpace(text)) return 0;
             
-            // ❌ CORREGIDO: Se reemplaza ChatRequestMessage/System/User por ChatMessage/System/UserChatMessage 
+            var systemInstruction = "Eres un corrector de gramática y ortografía EXTREMADAMENTE estricto. Revisa el texto e incluye errores leves como faltas de tilde o concordancia. Tu única respuesta DEBE SER SOLO el número entero de errores gramaticales y ortográficos detectados. Si no hay errores, el único valor es 0.";
+            
             var analysisHistory = new List<ChatMessage>
             {
                 new SystemChatMessage(systemInstruction),
@@ -86,83 +83,41 @@ namespace WebConTablas.Controllers
             }
             catch (Exception ex)
             {
-                // Log el error (opcional)
                 Console.WriteLine($"Error al obtener el conteo de errores gramaticales: {ex.Message}");
             }
-
             return 0; 
         }
-    }
-    
-    // --- CLASE SIMULADA PARA ANÁLISIS ---
-    public class MessageAnalyzer
-    {
-        // 🎯 CORRECCIÓN: Se reemplazan las listas codificadas por campos readonly sin inicialización.
-        private readonly List<string> _sampleKeywords;
-        private readonly List<string> _sampleFillerWords;
 
-        // 🎯 CORRECCIÓN: El constructor recibe la configuración.
-        public MessageAnalyzer(IOptions<AnalysisSettings> settings)
+        public async Task<float> GetSemanticCoherenceAsync(string text)
         {
-            // Inicializa las listas usando la configuración inyectada
-            _sampleKeywords = settings.Value.Keywords;
-            _sampleFillerWords = settings.Value.FillerWords;
-        }
-
-        public MessageAnalysisResult Analyze(string message, double timeElapsedSeconds, int grammarErrorCount)
-        {
-            var result = new MessageAnalysisResult();
-            string normalizedMessage = message.ToLowerInvariant();
-
-            // 1) Palabras clave (Simulación: búsqueda simple)
-            foreach (var keyword in _sampleKeywords) // 🎯 Ahora usa la lista inyectada
+            if (string.IsNullOrWhiteSpace(text)) return 1.0f;
+            
+            var systemInstruction = "Eres un evaluador de la coherencia del discurso. Analiza si el texto fluye lógicamente y se mantiene en un tema central, ignorando la gramática. Tu única respuesta DEBE SER SOLO un número flotante entre 0.0 y 2.0. Donde 2.0 es totalmente coherente (ideas bien conectadas) y 0.0 es totalmente incoherente (ideas que saltan sin relación).";
+            
+            var analysisHistory = new List<ChatMessage>
             {
-                if (normalizedMessage.Contains(keyword))
+                new SystemChatMessage(systemInstruction),
+                new UserChatMessage(text)
+            };
+
+            try
+            {
+                var completion = await _client.CompleteChatAsync(analysisHistory);
+                string resultText = completion.Value.Content[0].Text.Trim();
+
+                if (float.TryParse(resultText.Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out float coherenceScore))
                 {
-                    result.Keywords.Add(keyword);
+                    return Math.Clamp(coherenceScore, 0.0f, 2.0f);
                 }
             }
-
-            // 2) Errores gramaticales (del resultado de la IA)
-            result.GrammaticalErrors = grammarErrorCount;
-
-            // 3) Coherencia 
-            result.CoherenceScore = grammarErrorCount == 0 ? "Alta" : (grammarErrorCount == 1 ? "Media" : "Baja");
-
-            // 4) Velocidad de escritura (Calculado por WPM)
-            int wordCount = message.Split(new char[] { ' ', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Length;
-            if (timeElapsedSeconds > 0)
+            catch (Exception ex)
             {
-                double timeMinutes = timeElapsedSeconds / 60.0;
-                result.TypingSpeed_WPM = Math.Round(wordCount / timeMinutes, 2);
+                Console.WriteLine($"Error al obtener la puntuación de coherencia: {ex.Message}");
             }
-
-            // 5) Identificar y contabilizar muletillas 
-            var fillerCount = new Dictionary<string, int>();
-            // 🎯 CORRECCIÓN: _sampleFillerWords es ahora una lista, no un diccionario.
-            foreach (var filler in _sampleFillerWords) 
-            {
-                int count = 0;
-                int index = normalizedMessage.IndexOf(filler);
-                while (index != -1)
-                {
-                    // Contar solo si la muletilla es una palabra completa (o al menos un token)
-                    // Este es un refinamiento de la lógica simple de IndexOf.
-                    // Para ser más preciso, se podría verificar si antes y después hay espacios o puntuación.
-                    count++;
-                    index = normalizedMessage.IndexOf(filler, index + filler.Length);
-                }
-                if (count > 0)
-                {
-                    fillerCount.Add(filler, count);
-                }
-            }
-            result.FillerWords = fillerCount;
-
-            return result;
+            return 1.0f; 
         }
     }
-    
-    // Nota: MessageAnalysisResult y SensitiveWordDetector deben estar definidos en otra parte
-    // o en este mismo archivo si deseas que compile.
 }
+// *** IMPORTANTE ***: Asegúrate de que NO haya ninguna definición de MessageAnalyzer, 
+// MessageAnalysisResult, AnalysisSettings, o SensitiveWordDetector después de esta línea
+// o dentro del namespace WebConTablas.Controllers.
