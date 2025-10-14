@@ -105,14 +105,9 @@ namespace MoodTAB.ViewModel
             {
                 DateTime hoy = DateTime.Today;
 
-                // Calcular lunes de la semana actual
-                int diff = hoy.DayOfWeek - DayOfWeek.Monday;
-                if (diff < 0) diff += 7;
-                DateTime lunes = hoy.AddDays(-diff);
-
                 // Generar los 7 días (lunes a domingo)
-                var semana = Enumerable.Range(0, 7)
-                                       .Select(i => lunes.AddDays(i))
+                var ultimos7Dias = Enumerable.Range(0, 7)
+                                       .Select(i => hoy.AddDays(-6+i))
                                        .ToList();
 
                 if (App.Database == null)
@@ -125,8 +120,7 @@ namespace MoodTAB.ViewModel
                 var diarios = await App.Database.GetDiariosDiasAnterioresAsync(7) ?? new List<Diario>();
                 System.Diagnostics.Debug.WriteLine($"Se obtuvieron {diarios.Count} registros");
 
-                foreach (var d in diarios)
-                    System.Diagnostics.Debug.WriteLine($"→ {d.CreatedAt} | {d.Horas_Sueno}");
+                foreach (var d in diarios) System.Diagnostics.Debug.WriteLine($"→ {d.CreatedAt} | {d.Horas_Sueno}");
 
                 // Agrupar registros por día
                 var agrupado = diarios
@@ -149,7 +143,7 @@ namespace MoodTAB.ViewModel
                 // Crear datos para gráfico
                 var data = new ObservableCollection<Model>();
 
-                foreach (var dia in semana)
+                foreach (var dia in ultimos7Dias)
                 {
                     double valor = agrupado.ContainsKey(dia) ? agrupado[dia] : 0;
                     //string etiqueta = dia.ToString("dd/MM");
@@ -174,12 +168,9 @@ namespace MoodTAB.ViewModel
             try
             {
                 DateTime hoy = DateTime.Today;
-                int diff = hoy.DayOfWeek - DayOfWeek.Monday;
-                if (diff < 0) diff += 7;
-                DateTime lunes = hoy.AddDays(-diff);
 
-                var semana = Enumerable.Range(0, 7)
-                                    .Select(i => lunes.AddDays(i))
+                var ultimos7Dias = Enumerable.Range(0, 7)
+                                    .Select(i => hoy.AddDays(-6+i))
                                     .ToList();
 
                 if (App.Database == null)
@@ -206,7 +197,7 @@ namespace MoodTAB.ViewModel
                 
                 var data = new ObservableCollection<Model>();
 
-                foreach (var dia in semana)
+                foreach (var dia in ultimos7Dias)
                 {
                     double valor = agrupado.ContainsKey(dia) ? agrupado[dia] : 0;
                     string etiqueta = dia.ToString("ddd", cultura);
@@ -585,13 +576,13 @@ namespace MoodTAB.ViewModel
 
                 foreach (var d in grupo.OrderBy(e => e.CreatedAt))
                 {
-                    PdfColor emoColor = d.Emocion_Diaria?.ToLower() switch
+                    var sliderCalidad = ObtenerValorSlider(d.Emocion_Diaria, 4);
+                    PdfColor emoColor = sliderCalidad switch
                     {
-                        "feliz" => new PdfColor(46, 204, 113),
-                        "triste" => new PdfColor(52, 152, 219),
-                        "enojado" => new PdfColor(231, 76, 60),
-                        "ansioso" => new PdfColor(241, 196, 15),
-                        _ => new PdfColor(149, 165, 166)
+                        < 3 => new PdfColor(231, 76, 60),   // rojo calidad baja
+                        < 5 => new PdfColor(241, 196, 15),  // amarillo 
+                        < 7 => new PdfColor(52, 152, 219),  // azul 
+                        _   => new PdfColor(46, 204, 113)   // verde para valores altos
                     };
 
                     // Hora y emoción
