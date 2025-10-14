@@ -1,396 +1,707 @@
 :root {
-    --primary-color: #6366f1;
-    --secondary-color: #8b5cf6;
-    --success-color: #10b981;
-    --warning-color: #f59e0b;
-    --danger-color: #ef4444;
-    --light-bg: #f8fafc;
-    --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  /* Enhanced color palette with better contrast and modern colors */
+  --primary-color: #4f46e5;
+  --primary-hover: #4338ca;
+  --secondary-color: #8b5cf6;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --danger-color: #ef4444;
+  --light-bg: #f8fafc;
+  --card-bg: #ffffff;
+  --border-color: #e2e8f0;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+  --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --card-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
+/* Improved button styling with better hover states */
 .btn-primary {
-    background: linear-gradient(135deg, #5588b4 0%, #42719a 100%);
-    border: none;
-    border-radius: 8px;
-    padding: 0.75rem 1.5rem;
-    font-weight: 600;
+  background: var(--primary-color);
+  border: none;
+  border-radius: 8px;
+  padding: 0.625rem 1.25rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
 }
 
 .btn-outline-danger {
-    border-radius: 8px;
-    padding: 0.5rem 1rem;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  border: 1.5px solid var(--danger-color);
+  color: var(--danger-color);
+  transition: all 0.2s ease;
 }
 
-body{
-    background-color: #F8FAFC;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+.btn-outline-danger:hover {
+  background: var(--danger-color);
+  color: white;
+}
+
+body {
+  background-color: var(--light-bg);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--text-primary);
+  line-height: 1.6;
 }
 
 .main-container {
-    display: flex;
-    height: 92vh;
-    overflow: hidden;
+  display: flex;
+  height: 92vh;
+  overflow: hidden;
+  gap: 1.5rem;
+  padding: 1.5rem;
 }
 
 .main-container2 {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
 }
 
+/* Enhanced sidebar with better spacing and visual hierarchy */
 .sidebar {
-    width: 400px;
-    overflow-y: hidden;
-    padding: 1.5rem;
-    height: 90vh;
+  width: 380px;
+  overflow-y: hidden;
+  padding: 1.5rem;
+  height: 90vh;
+  background: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: var(--card-shadow);
 }
 
 @media (max-width: 768px) {
-    .main-container {
-        flex-direction: column;
-    }
-    
-    .sidebar {
-        width: 100%;
-        border-right: none;
-        border-bottom: 1px solid #e9ecef;
-    }
-}
-
-.card-list-pacientes{
-    max-height: 53vh;
-    overflow-y: scroll;
-    padding: 5px 0 0 0;
-
-}
-
-.card-list-formularios{
-    max-height: 53vh;
-    overflow-y: scroll;
-    padding: 5px 0 0 0;
-}
-
-.card-list-preguntas{
-    max-height: 66vh;
-    overflow-y: scroll;
-    padding: 5px 0 0 0;
-}
-
-.white-card {
-    z-index: 9;
-    background: white;
-    border-radius: 12px;
+  .main-container {
+    flex-direction: column;
     padding: 1rem;
-    margin-bottom: 1rem;
-    box-shadow: var(--card-shadow);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    border: 2px solid transparent;
+    gap: 1rem;
+  }
+
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    height: auto;
+    max-height: 50vh;
+  }
+}
+
+.card-list-pacientes {
+  max-height: 53vh;
+  overflow-y: auto;
+  padding: 0.5rem 0;
+  /* Custom scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) transparent;
+}
+
+.card-list-pacientes::-webkit-scrollbar {
+  width: 6px;
+}
+
+.card-list-pacientes::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.card-list-pacientes::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+.card-list-pacientes::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+.card-list-formularios {
+  max-height: 53vh;
+  overflow-y: auto;
+  padding: 0.5rem 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) transparent;
+}
+
+.card-list-preguntas {
+  max-height: 66vh;
+  overflow-y: auto;
+  padding: 0.5rem 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) transparent;
+}
+
+/* Completely redesigned card with modern styling */
+.white-card {
+  z-index: 9;
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 0.75rem;
+  box-shadow: var(--card-shadow);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
 }
 
 .white-card:hover {
-    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.15);
-    transform: translateY(-1px);
+  box-shadow: var(--card-shadow-hover);
+  transform: translateY(-2px);
+  border-color: var(--border-color);
 }
 
 .white-card.active {
-    border-color: var(--primary-color);
-    box-shadow: 0 4px 12px 0 rgba(99, 102, 241, 0.15);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  background: linear-gradient(to right, rgba(79, 70, 229, 0.02), transparent);
 }
 
+/* Enhanced content panel with better background */
 .content-panel {
-    flex: 1;
-    background: var(--light-bg);
-    overflow-y: scroll;
-    padding: 1.5rem;
+  flex: 1;
+  background: transparent;
+  overflow-y: auto;
+  padding: 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) transparent;
+}
+
+.content-panel::-webkit-scrollbar {
+  width: 8px;
+}
+
+.content-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.content-panel::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
 }
 
 .hidden {
-    display: none !important;
+  display: none !important;
 }
 
+/* Improved search box with better visual feedback */
 .search-box {
-    position: relative;
-    margin-bottom: 1.5rem;
+  position: relative;
+  margin-bottom: 1.25rem;
 }
 
 .search-box input {
-    border-radius: 25px;
-    padding-left: 2.5rem;
-    border: 1px solid #e9ecef;
+  border-radius: 10px;
+  padding: 0.75rem 1rem 0.75rem 2.75rem;
+  border: 1.5px solid var(--border-color);
+  background: var(--light-bg);
+  transition: all 0.2s ease;
+  width: 100%;
+  font-size: 0.875rem;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
 }
 
 .search-box i {
-    position: absolute;
-    left: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #6c757d;
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
 }
 
+/* Enhanced detail cards with better spacing and hierarchy */
 .detail-card {
-    background: white;
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    box-shadow: var(--card-shadow);
-    border: 1px solid #e9ecef;
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 1.75rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border-color);
 }
 
 .detail-card summary {
   list-style: none;
   cursor: pointer;
   position: relative;
+  padding: 0.5rem 0;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .detail-card summary::before {
   content: "▶";
-  font-size: 1rem;
+  font-size: 0.75rem;
   transition: transform 0.2s ease;
+  color: var(--text-secondary);
 }
 
 .detail-card[open] summary::before {
-  content: "▼";
+  transform: rotate(90deg);
+}
+
+.detail-card summary:hover {
+  color: var(--primary-color);
 }
 
 .no-data-state {
-    text-align: center;
-    padding: 3rem;
-    color: #6b7280;
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-muted);
 }
 
 .no-data-state i {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    opacity: 0.5;
+  font-size: 3.5rem;
+  margin-bottom: 1.25rem;
+  opacity: 0.3;
+  color: var(--text-muted);
 }
 
-.hidden{
-     display: none;
+.no-data-state h5 {
+  color: var(--text-secondary);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
 }
 
+.no-data-state p {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Better header styling with improved alignment */
 .other-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border-color);
 }
 
 .info-icon {
-    width: 16px;
-    height: 16px;
-    align-self: center;
-    color: #6b7280;
+  width: 18px;
+  height: 18px;
+  align-self: center;
+  color: var(--text-secondary);
 }
 
+/* Improved info grid with better visual separation */
 .info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-    margin-bottom: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .info-item {
-    padding: 1rem;
-    background: var(--light-bg);
-    border-radius: 8px;
+  padding: 1.25rem;
+  background: var(--light-bg);
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+}
+
+.info-item:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.05);
 }
 
 .info-label {
-    font-size: 0.875rem;
-    color: #6b7280;
-    font-weight: 600;
-    margin-bottom: 0.25rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
 }
 
 .info-value {
-    font-size: 1rem;
-    font-weight: 500;
-    color: #212529;
-}
-
-.no-data-state i {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    color: #dee2e6;
-}
-
-.no-data-state {
-    text-align: center;
-    padding: 3rem 2rem;
-    color: #6c757d;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
 }
 
 /* ------------- Pacientes ------------- */
 
+/* Enhanced patient data display with better icons */
 .datos-paciente {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: background 0.2s ease;
 }
 
+.datos-paciente:hover {
+  background: var(--light-bg);
+}
 
-.info-paciente    { grid-area: 1 / 1 / 4 / 4; }
-.info-diagnostico { grid-area: 1 / 4 / 4 / 6; }
+.info-paciente {
+  grid-area: 1 / 1 / 4 / 4;
+}
+
+.info-diagnostico {
+  grid-area: 1 / 4 / 4 / 6;
+}
 
 .chart-card {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    height: 400px;
+  background: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: var(--card-shadow);
+  padding: 1.75rem;
+  margin-bottom: 1.5rem;
+  height: 400px;
+  border: 1px solid var(--border-color);
 }
 
 .back-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: #374151;
-    text-decoration: none;
-    margin-bottom: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  margin-bottom: 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
 .back-button:hover {
-    color: #667eea;
-    text-decoration: none;
+  color: var(--primary-color);
+  text-decoration: none;
+  transform: translateX(-4px);
 }
 
-
+/* Improved patient header with better visual hierarchy */
 .paciente-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid var(--border-color);
 }
 
 .paciente-header .big-img {
-    width: 80px;
-    height: 80px;
-    font-size: 2rem;
+  width: 80px;
+  height: 80px;
+  font-size: 2rem;
 }
 
+/* Enhanced emotion entry cards with better spacing */
 .emotion-entry {
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    padding: 1rem;
-    margin-bottom: 1rem;
+  background: var(--card-bg);
+  border: 1.5px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+  transition: all 0.2s ease;
+}
+
+.emotion-entry:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.05);
 }
 
 .emotion-entry.highlight {
-    border: 2px solid #007bff;
-    background: #eaf4ff;
-    transition: background 0.5s;
+  border: 2px solid var(--primary-color);
+  background: rgba(79, 70, 229, 0.03);
+  transition: background 0.5s;
 }
 
+/* Better emotion badges with improved colors and spacing */
 .emotion-badges {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin-bottom: 0.75rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
 }
 
 .emotion-badge {
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 500;
-    background-color: #fff692; 
-    color: #A3960A;
+  padding: 0.375rem 0.875rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background-color: #fff692;
+  color: #a3960a;
+  border: 1px solid rgba(163, 150, 10, 0.2);
 }
 
-.emotion-feliz { background-color: #fff692; color: #A3960A; }
-.emotion-emocionado { background-color: #ffd195; color: #A3610A; }
-.emotion-cansado { background-color: #cb9bff; color: #540AA3; }
-.emotion-triste { background-color: #99c5fe; color: #0A4CA3; }
-.emotion-frustrado { background-color: #e5fb96; color: #82A30A; }
-.emotion-enojado { background-color: #ff8787; color: #A30A0A; }
-.emotion-neutro { background-color: #bababa; color: #818181; }
-.emotion-angustia { background-color: #9baffd; color: #6470A3; }
-.emotion-ansioso { background-color: #9bffe9; color: #64A395; }
+.emotion-feliz {
+  background-color: #fff692;
+  color: #a3960a;
+  border-color: rgba(163, 150, 10, 0.2);
+}
 
+.emotion-emocionado {
+  background-color: #ffd195;
+  color: #a3610a;
+  border-color: rgba(163, 97, 10, 0.2);
+}
+
+.emotion-cansado {
+  background-color: #cb9bff;
+  color: #540aa3;
+  border-color: rgba(84, 10, 163, 0.2);
+}
+
+.emotion-triste {
+  background-color: #99c5fe;
+  color: #0a4ca3;
+  border-color: rgba(10, 76, 163, 0.2);
+}
+
+.emotion-frustrado {
+  background-color: #e5fb96;
+  color: #82a30a;
+  border-color: rgba(130, 163, 10, 0.2);
+}
+
+.emotion-enojado {
+  background-color: #ff8787;
+  color: #a30a0a;
+  border-color: rgba(163, 10, 10, 0.2);
+}
+
+.emotion-neutro {
+  background-color: #e2e8f0;
+  color: #64748b;
+  border-color: rgba(100, 116, 139, 0.2);
+}
+
+.emotion-angustia {
+  background-color: #9baffd;
+  color: #6470a3;
+  border-color: rgba(100, 112, 163, 0.2);
+}
+
+.emotion-ansioso {
+  background-color: #9bffe9;
+  color: #64a395;
+  border-color: rgba(100, 163, 149, 0.2);
+}
+
+/* Enhanced metrics grid with better visual design */
 .metrics-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 1rem;
-    margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.75rem;
+  margin-top: 1.25rem;
 }
 
 .metric-item {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem;
-    background: var(--light-bg);
-    border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: var(--light-bg);
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+  font-weight: 500;
 }
 
+.metric-item:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+.metric-item i {
+  font-size: 1.25rem;
+}
+
+/* Improved form status cards with better visual indicators */
 .form-status-card {
-    border-left: 4px solid;
-    padding: 1rem;
-    margin-bottom: 0.75rem;
-    border-radius: 0 8px 8px 0;
+  border-left: 4px solid;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  border-radius: 0 12px 12px 0;
+  transition: all 0.2s ease;
+}
+
+.form-status-card:hover {
+  box-shadow: var(--card-shadow);
 }
 
 .form-pendiente {
-    border-left-color: var(--warning-color);
-    background-color: #fffbeb;
+  border-left-color: var(--warning-color);
+  background-color: #fffbeb;
 }
 
 .form-completado {
-    border-left-color: var(--success-color);
-    background-color: #f0fdf4;
+  border-left-color: var(--success-color);
+  background-color: #f0fdf4;
 }
 
+/* Enhanced external user cards */
 .external-user-card {
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    padding: 1rem;
-    margin-bottom: 1rem;
+  background: var(--card-bg);
+  border: 1.5px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  transition: all 0.2s ease;
 }
 
+.external-user-card:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.05);
+}
+
+/* Better condition badges with improved styling */
 .condition-badge {
-    font-size: 0.75rem;
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-weight: 500;
-    background-color: #fef3c7; 
-    color: #92400e;
+  font-size: 0.75rem;
+  padding: 0.375rem 0.875rem;
+  border-radius: 20px;
+  font-weight: 600;
+  background-color: #fef3c7;
+  color: #92400e;
+  border: 1px solid rgba(146, 64, 14, 0.2);
 }
 
-.condition-ansiedad { background-color: #fef3c7; color: #92400e; }
-.condition-depresion { background-color: #dbeafe; color: #1e40af; }
-.condition-estres { background-color: #fce7f3; color: #be185d; }
-.condition-tda { background-color: #fce7f3; color: #be185d; }
+.condition-ansiedad {
+  background-color: #fef3c7;
+  color: #92400e;
+  border-color: rgba(146, 64, 14, 0.2);
+}
 
+.condition-depresion {
+  background-color: #dbeafe;
+  color: #1e40af;
+  border-color: rgba(30, 64, 175, 0.2);
+}
 
-/* ------------- Pacientes ------------- */
+.condition-estres {
+  background-color: #fce7f3;
+  color: #be185d;
+  border-color: rgba(190, 24, 93, 0.2);
+}
+
+.condition-tda {
+  background-color: #e9d5ff;
+  color: #7e22ce;
+  border-color: rgba(126, 34, 206, 0.2);
+}
 
 /* ------------- Formularios ------------- */
 
+/* Enhanced question cards */
 .question-card {
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    padding: 1rem;
-    margin-bottom: 1rem;
+  background: var(--card-bg);
+  border: 1.5px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  transition: all 0.2s ease;
 }
 
-/* ------------- Formularios ------------- */
+.question-card:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.05);
+}
 
 /* ------------- Preguntas ------------- */
+
+/* Improved type badges with better colors */
 .tipo-badge {
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 600;
+  padding: 0.375rem 0.875rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid;
 }
 
-.tipo-abierta { background-color: #e3f2fd; color: #1976d2; }
-.tipo-seleccion { background-color: #f3e5f5; color: #7b1fa2; }
-.tipo-escala { background-color: #e8f5e8; color: #388e3c; }
-.tipo-fecha { background-color: #fff3e0; color: #f57c00; }
-/* ------------- Preguntas ------------- */
+.tipo-abierta {
+  background-color: #e3f2fd;
+  color: #1976d2;
+  border-color: rgba(25, 118, 210, 0.2);
+}
+
+.tipo-seleccion {
+  background-color: #f3e5f5;
+  color: #7b1fa2;
+  border-color: rgba(123, 31, 162, 0.2);
+}
+
+.tipo-escala {
+  background-color: #e8f5e8;
+  color: #388e3c;
+  border-color: rgba(56, 142, 60, 0.2);
+}
+
+.tipo-fecha {
+  background-color: #fff3e0;
+  color: #f57c00;
+  border-color: rgba(245, 124, 0, 0.2);
+}
+
+/* Additional utility classes for better UI */
+.text-balance {
+  text-wrap: balance;
+}
+
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.text-muted {
+  color: var(--text-muted) !important;
+}
+
+.small {
+  font-size: 0.875rem;
+}
+
+/* Improved select and checkbox styling */
+select {
+  padding: 0.625rem 1rem;
+  border-radius: 8px;
+  border: 1.5px solid var(--border-color);
+  background: var(--card-bg);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--primary-color);
+}
+
+label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}

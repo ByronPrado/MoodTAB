@@ -16,53 +16,65 @@
     <div class="main-container">
         
         <div class="sidebar">
+            
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h4 class="mb-0">Lista de Pacientes</h4>
+                <h4 class="mb-0 fw-bold">Lista de Pacientes</h4>
                 <a href="/Pacientes/Create" class="btn btn-primary btn-sm">
-                    <i class="fas fa-plus"></i> Agregar Paciente
+                    <i class="fas fa-plus me-1"></i> Agregar
                 </a>
             </div>
 
             <div class="search-box">
-                <input type="text" class="form-control" placeholder="Buscar preguntas..." id="searchInput" onkeyup="filtrar()">
+                <input type="text" class="form-control" placeholder="Buscar pacientes..." id="searchInput" onkeyup="filtrar()">
                 <i class="fas fa-search"></i>
             </div>
 
-            <label for="diagnostico">Diagnostico</label>
-            <select name="diagnostico" id="filtro-diagnostico">
-                <option value="none">Seleccionar un diagnostico</option>
-                <option value="Ansiedad">Ansiedad</option>
-                <option value="TDA">TDA</option>
-                <option value="Depresión">Depresión</option>
-                <option value="Manía">Manía</option>
-            </select>
-            <div style="height: 1rem;"></div>
-            <input type="checkbox" name="alerta" id="filtro-alerta"/>
-            <label for="alerta">Alerta</label><br>
-
-            <div style="height: 2rem;"></div>
+            
+            <div class="mb-3">
+                <label for="diagnostico" class="form-label">Diagnóstico</label>
+                <select name="diagnostico" id="filtro-diagnostico" class="form-select">
+                    <option value="none">Todos los diagnósticos</option>
+                    <option value="Ansiedad">Ansiedad</option>
+                    <option value="TDA">TDA</option>
+                    <option value="Depresión">Depresión</option>
+                    <option value="Manía">Manía</option>
+                </select>
+            </div>
+            
+            <div class="form-check mb-4">
+                <input type="checkbox" name="alerta" id="filtro-alerta" class="form-check-input"/>
+                <label for="alerta" class="form-check-label">Mostrar solo alertas</label>
+            </div>
 
             <div class="card-list-pacientes">
             @foreach (var paciente in Model)
             {
+                
                 <div class="white-card" data-patient-id="@paciente.ID_Paciente" onclick="showPatientDetails(@paciente.ID_Paciente)">
-                    <div class="d-flex align-items-center mb-2">
-                        <div class="d-flex flex-grow-1 justify-content-between align-items-center">
-                            <h6 class="mb-1" id="paciente-nombre">@paciente.Nombre</h6>
+                    <div class="d-flex align-items-start mb-2">
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1 fw-semibold" id="paciente-nombre">@paciente.Nombre</h6>
+                            <span id="paciente-diagnostico" class="condition-badge condition-@paciente.Diagnostico?.ToLower()">
+                                @paciente.Diagnostico
+                            </span>
+                        </div>
                         @if (ViewBag.AlertasA != null && ((List<string>)ViewBag.AlertasA).Any())
                         {
                             if (((List<string>)ViewBag.AlertasA).Contains(paciente.Nombre))
                             {
-                                <span class="condition-badge condition-ansiedad" id="alerta">Desvio</span>
+                                <span class="badge bg-warning" id="alerta">
+                                    <i class="fas fa-exclamation-triangle me-1"></i>Desvio
+                                </span>
                             }
                         }
-                        </div>
                     </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span id="paciente-diagnostico" class="condition-badge condition-@paciente.Diagnostico?.ToLower()">@paciente.Diagnostico</span>
-                        <div class="d-flex gap-2">
-                            <span class="text-muted small">Cuestionarios: @(paciente.FormulariosAsignados?.Count() ?? 0) Diarios: @(paciente.DiariosEmocionales?.Count() ?? 0)</span>
-                        </div>
+                    <div class="d-flex justify-content-between align-items-center mt-2 pt-2" style="border-top: 1px solid var(--border-color);">
+                        <span class="text-muted small">
+                            <i class="fas fa-clipboard-list me-1"></i>@(paciente.FormulariosAsignados?.Count() ?? 0) Cuestionarios
+                        </span>
+                        <span class="text-muted small">
+                            <i class="fas fa-heart me-1"></i>@(paciente.DiariosEmocionales?.Count() ?? 0) Diarios
+                        </span>
                     </div>
                 </div>
             }
@@ -74,9 +86,9 @@
             <div id="patient-details">
                 <div class="detail-card">
                     <div class="no-data-state">
-                        <i class="fas fa-user"></i>
+                        <i class="fas fa-user-circle"></i>
                         <h5>Selecciona un paciente</h5>
-                        <p>Haz clic en un paciente de la lista para ver sus detalles</p>
+                        <p>Haz clic en un paciente de la lista para ver sus detalles completos</p>
                     </div>
                 </div>
             </div>
@@ -168,7 +180,6 @@
         }
 
         function generatePatientDetailsHTML(patient) {
-            const initials = "MT";
             const diagnosticoClass = patient.Diagnostico ? patient.Diagnostico.toLowerCase() : '';
             
             let diariosHTML = '';
@@ -176,60 +187,77 @@
                 const diariosOrdenados = [...patient.DiariosEmocionales].sort((a, b) => 
                     new Date(b.Fecha) - new Date(a.Fecha)
                 );
-                diariosHTML = diariosOrdenados.slice(0, 2).map(diario => {
+                diariosHTML = diariosOrdenados.slice(0, 1).map(diario => {
                     const emociones = diario.Emociones.split(',');
                     const respuestas = diario.Descripcion.split('/');
                     
-                    const fecha = new Date(diario.Fecha).toLocaleDateString('es-ES');
+                    const fecha = new Date(diario.Fecha).toLocaleDateString('es-ES', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                    });
                     return `
                         <div class="emotion-entry">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <span class="fw-medium">${fecha}</span>
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <span class="fw-semibold text-primary">
+                                    <i class="fas fa-calendar-day me-2"></i>${fecha}
+                                </span>
                             </div>
-                            <p class="mb-2">¿Cómo han estado tus pensamientos?</p>
-                            <p class="mb-2 text-muted">"${respuestas[0]}"</p>
-                            <p class="mb-2">¿Algo que consideres importante de tu día?</p>
-                            <p class="mb-2 text-muted">"${respuestas[1]}"</p>
-                            <p class="mb-2">¿Algo más que quieras contar?</p>
-                            <p class="mb-2 text-muted">"${respuestas[2]}"</p>
+                            
+                            <div class="mb-3">
+                                <p class="fw-medium mb-2 text-secondary">¿Cómo han estado tus pensamientos?</p>
+                                <p class="mb-0 ps-3 border-start border-3 border-primary">"${respuestas[0]}"</p>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <p class="fw-medium mb-2 text-secondary">¿Algo que consideres importante de tu día?</p>
+                                <p class="mb-0 ps-3 border-start border-3 border-primary">"${respuestas[1]}"</p>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <p class="fw-medium mb-2 text-secondary">¿Algo más que quieras contar?</p>
+                                <p class="mb-0 ps-3 border-start border-3 border-primary">"${respuestas[2]}"</p>
+                            </div>
+                            
                             <div class="metrics-grid">
                                 <div class="metric-item">
-                                    <i class="fas fa-face-smile text-success"></i>
-                                    <span>Animo: ${emociones[0]}/10</span>
+                                    <i class="fas fa-smile text-success"></i>
+                                    <span>Ánimo: <strong>${emociones[0]}/10</strong></span>
                                 </div>
                                 <div class="metric-item">
-                                    <i class="fas fa-face-smile text-success"></i>
-                                    <span>Apetito: ${emociones[1]}/10</span>
+                                    <i class="fas fa-utensils text-warning"></i>
+                                    <span>Apetito: <strong>${emociones[1]}/10</strong></span>
                                 </div>
                                 <div class="metric-item">
-                                    <i class="fas fa-face-smile text-success"></i>
-                                    <span>Energía: ${emociones[2]}/10</span>
+                                    <i class="fas fa-bolt text-danger"></i>
+                                    <span>Energía: <strong>${emociones[2]}/10</strong></span>
                                 </div>
                                 <div class="metric-item">
-                                    <i class="fas fa-face-smile text-success"></i>
-                                    <span>Calidad Sueño: ${emociones[3]}/10</span>
+                                    <i class="fas fa-bed text-info"></i>
+                                    <span>Sueño: <strong>${emociones[3]}/10</strong></span>
                                 </div>
                                 <div class="metric-item">
-                                    <i class="fas fa-face-smile text-success"></i>
-                                    <span>Batería Social: ${emociones[4]}/10</span>
+                                    <i class="fas fa-users text-primary"></i>
+                                    <span>Social: <strong>${emociones[4]}/10</strong></span>
                                 </div>
                             </div>
-                            <div class="metrics-grid">
+                            
+                            <div class="metrics-grid mt-3">
                                 <div class="metric-item">
                                     <i class="fas fa-walking text-success"></i>
-                                    <span>${diario.Pasos || 0} pasos</span>
+                                    <span><strong>${diario.Pasos || 0}</strong> pasos</span>
                                 </div>
                                 <div class="metric-item">
                                     <i class="fas fa-mobile-alt text-primary"></i>
-                                    <span>${diario.Horas_celular || 0}h celular</span>
+                                    <span><strong>${diario.Horas_celular || 0}h</strong> celular</span>
                                 </div>
                                 <div class="metric-item">
                                     <i class="fas fa-share-alt text-info"></i>
-                                    <span>${diario.Horas_redes || 0}h redes</span>
+                                    <span><strong>${diario.Horas_redes || 0}h</strong> redes</span>
                                 </div>
                                 <div class="metric-item">
                                     <i class="fas fa-moon text-warning"></i>
-                                    <span>${diario.Hora_dormida || 'N/A'} sueño</span>
+                                    <span><strong>${diario.Hora_dormida || 'N/A'}</strong> dormido</span>
                                 </div>
                             </div>
                         </div>
@@ -248,19 +276,24 @@
             if (patient.FormulariosAsignados && patient.FormulariosAsignados.length > 0) {
                 formulariosHTML = patient.FormulariosAsignados.map(formulario => {
                     const isCompleted = formulario.Estado === 'Listo';
-                    const fecha = new Date(formulario.Fecha_Asignacion).toLocaleDateString('es-ES');
+                    const fecha = new Date(formulario.Fecha_Asignacion).toLocaleDateString('es-ES', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                    });
                     
-                    // Generate answers HTML if form is completed and has answers
                     let respuestasHTML = '';
                     if (isCompleted && formulario.Respuestas && formulario.Respuestas.length > 0) {
                         respuestasHTML = `
-                            <div class="mt-3">
-                                <h6 class="text-muted mb-2">Respuestas:</h6>
+                            <div class="mt-3 pt-3" style="border-top: 1px solid var(--border-color);">
+                                <h6 class="text-secondary mb-3 fw-semibold">
+                                    <i class="fas fa-clipboard-check me-2"></i>Respuestas:
+                                </h6>
                                 <ul class="list-unstyled ms-3">
                                     ${formulario.Respuestas.map(respuesta => `
-                                        <li class="mb-2">
-                                            <strong class="text-dark">${respuesta.PreguntaContenido}:</strong>
-                                            <div class="text-muted ms-2">${respuesta.Contenido}</div>
+                                        <li class="mb-3">
+                                            <strong class="text-dark d-block mb-1">${respuesta.PreguntaContenido}</strong>
+                                            <div class="text-muted ps-3 border-start border-2 border-primary">${respuesta.Contenido}</div>
                                         </li>
                                     `).join('')}
                                 </ul>
@@ -272,21 +305,23 @@
                         <div class="form-status-card ${isCompleted ? 'form-completado' : 'form-pendiente'}">
                             <div class="d-flex justify-content-between align-items-start">
                                 <div class="flex-grow-1">
-                                    <i class="fas ${isCompleted ? 'fa-check-circle text-success' : 'fa-exclamation-triangle text-warning'} me-2"></i>
-                                    <strong>${formulario.Titulo}</strong>
-                                    <div class="text-muted small mt-1">
-                                       Creado: ${fecha}
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="fas ${isCompleted ? 'fa-check-circle text-success' : 'fa-clock text-warning'} me-2"></i>
+                                        <strong class="fs-6">${formulario.Titulo}</strong>
+                                    </div>
+                                    <div class="text-muted small mb-2">
+                                        <i class="fas fa-calendar me-1"></i>Creado: ${fecha}
                                     </div>
                                     <form action="/FormulariosAsignados/Delete" method="post" style="display:inline;" onsubmit="return confirm('¿Seguro que deseas eliminar esta asignación?');">
                                         <input type="hidden" name="__RequestVerificationToken" value="${antiForgeryToken}" />
                                         <input type="hidden" name="id" value="${formulario.IdForm}" />
-                                        <button type="submit" class="btn btn-link text-danger text-decoration-none p-0 border-0 bg-transparent">
-                                            <i class="fas fa-trash-alt me-1"></i>Eliminar
+                                        <button type="submit" class="btn btn-link text-danger text-decoration-none p-0 border-0 bg-transparent small">
+                                            <i class="fas fa-trash-alt me-1"></i>Eliminar asignación
                                         </button>
                                     </form>
                                     ${respuestasHTML}
                                 </div>
-                                <span class="badge ${isCompleted ? 'bg-success' : 'bg-warning'}">
+                                <span class="badge ${isCompleted ? 'bg-success' : 'bg-warning'} ms-2">
                                     ${isCompleted ? 'Completado' : 'Pendiente'}
                                 </span>
                             </div>
@@ -305,37 +340,48 @@
             let usuariosHTML = '';
             if (patient.UsuariosExternos && patient.UsuariosExternos.length > 0) {
                 usuariosHTML = patient.UsuariosExternos.map(usuario => {
-                    const userInitials = usuario.Nombre.substring(0, 2).toUpperCase();
                     const collapseId = `collapseComentarios_${usuario.IdUsuarioExterno}`;
                     const ultimoComentario = usuario.UltimoComentario ? 
-                        `<div class="mt-2"><small class="text-muted">Último comentario: ${new Date(usuario.UltimoComentario).toLocaleDateString('es-ES')}</small></div>` : '';
+                        `<div class="mt-2"><small class="text-muted">
+                            <i class="fas fa-comment-dots me-1"></i>Último comentario: ${new Date(usuario.UltimoComentario).toLocaleDateString('es-ES')}
+                        </small></div>` : '';
                     
                     let comentariosHTML = '';
                     if (usuario.Comentarios && usuario.Comentarios.length > 0) {
                         comentariosHTML = usuario.Comentarios.map(comentario => `
-                            <li class="list-group-item">
-                                <strong>${comentario.Fecha}:</strong> ${comentario.Comentario}
+                            <li class="list-group-item border-0 bg-light mb-2 rounded">
+                                <div class="d-flex align-items-start gap-2">
+                                    <i class="fas fa-comment text-primary mt-1"></i>
+                                    <div class="flex-grow-1">
+                                        <strong class="d-block mb-1">${comentario.Fecha}</strong>
+                                        <p class="mb-0">${comentario.Comentario}</p>
+                                    </div>
+                                </div>
                             </li>
                         `).join('');
                         comentariosHTML = `<ul class="list-group">${comentariosHTML}</ul>`;
                     } else {
-                        comentariosHTML = '<span class="text-muted">No hay comentarios registrados.</span>';
+                        comentariosHTML = '<div class="text-center py-3"><span class="text-muted">No hay comentarios registrados.</span></div>';
                     }
                     
                     return `
                         <div class="external-user-card">
                             <div class="d-flex align-items-center justify-content-between mb-2">
-                                <div class="d-flex align-items-center">
+                                <div class="d-flex align-items-center gap-3">
                                     <div>
-                                        <h6 class="mb-0">${usuario.Nombre}</h6>
-                                        <small class="text-muted">${usuario.Parentezco}</small>
+                                        <h6 class="mb-0 fw-semibold">${usuario.Nombre}</h6>
+                                        <small class="text-muted">
+                                            <i class="fas fa-user-tag me-1"></i>${usuario.Parentezco}
+                                        </small>
+                                        ${ultimoComentario}
                                     </div>
                                 </div>
-                                <button class="btn btn-link btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="false" aria-controls="${collapseId}">
-                                    Ver comentarios
+                                <button class="btn btn-outline-primary btn-sm" type="button" data-bs-toggle="collapse" 
+                                        data-bs-target="#${collapseId}" aria-expanded="false" aria-controls="${collapseId}">
+                                    <i class="fas fa-comments me-1"></i>Ver comentarios
                                 </button>
                             </div>
-                            <div class="collapse mt-2" id="${collapseId}">
+                            <div class="collapse mt-3" id="${collapseId}">
                                 ${comentariosHTML}
                             </div>
                         </div>
@@ -350,123 +396,80 @@
                 `;
             }
 
+            
             return `
                 <div class="detail-card">
-                    <div class="flex-grow-1">
-                        <h3 class="mb-1">${patient.Nombre}</h3>
-                        <p class="mb-0"> 
-                            <span class="condition-badge condition-${diagnosticoClass} ms-2">
-                                ${patient.Diagnostico || 'Sin diagnóstico'}
+                    <div class="d-flex align-items-start justify-content-between mb-4">
+                        <div class="flex-grow-1">
+                            <h2 class="mb-2 fw-bold">${patient.Nombre}</h2>
+                            <span class="condition-badge condition-${diagnosticoClass}">
+                                <i class="fas fa- stethoscope me-1"></i>${patient.Diagnostico || 'Sin diagnóstico'}
                             </span>
-                        </p>
-                        
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="datos-paciente">
-                                    <span class="info-icon">📅</span>
-                                    <span>${patient.Edad} años</span>
-                                </div>
-                                <div class="datos-paciente">
-                                    <span class="info-icon">👤</span>
-                                    <span>${patient.Sexo}</span>
-                                </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="datos-paciente">
+                                <i class="fas fa-birthday-cake text-primary"></i>
+                                <span><strong>${patient.Edad}</strong> años</span>
                             </div>
-                            <div class="col-md-6">
-                                <div class="datos-paciente">
-                                    <span class="info-icon">✉️</span>
-                                    <span>${patient.Email}</span>
-                                </div>
-                                <div class="datos-paciente">
-                                    <span class="info-icon">📞</span>
-                                    <span>${patient.Telefono}</span>
-                                </div>
+                            <div class="datos-paciente">
+                                <i class="fas fa-venus-mars text-primary"></i>
+                                <span>${patient.Sexo}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="datos-paciente">
+                                <i class="fas fa-envelope text-primary"></i>
+                                <span>${patient.Email}</span>
+                            </div>
+                            <div class="datos-paciente">
+                                <i class="fas fa-phone text-primary"></i>
+                                <span>${patient.Telefono}</span>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-
                 <details class="detail-card" data-section="diarios-${patient.ID_Paciente}">
-                    <summary class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="mb-0">Diarios emocionales recientes</h5>
-                        <a href="/Pacientes/Details/${patient.ID_Paciente.toString()}" class="text-primary text-decoration-none">Ver Detalles</a>
+                    <summary class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="fas fa-book-heart me-2 text-primary"></i>Diarios emocionales recientes
+                        </h5>
+                        <a href="/Pacientes/Details/${patient.ID_Paciente.toString()}" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-external-link-alt me-1"></i>Ver todos
+                        </a>
                     </summary>
-                    ${diariosHTML}
+                    <div class="mt-3">
+                        ${diariosHTML}
+                    </div>
                 </details>
 
                 <details class="detail-card" data-section="formularios-${patient.ID_Paciente}">
-                    <summary class="d-flex justify-content-between align-items-center mb-4">
-                        <h5 class="mb-0">Formularios</h4>
-                        <a href="/FormulariosAsignados/Asignar" class="text-primary text-decoration-none">
-                            <i class="fas fa-plus"></i> Asignar otro Formulario
+                    <summary class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="fas fa-clipboard-list me-2 text-primary"></i>Formularios asignados
+                        </h5>
+                        <a href="/FormulariosAsignados/Asignar" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-plus me-1"></i>Asignar formulario
                         </a>
                     </summary>
-                    ${formulariosHTML}
+                    <div class="mt-3">
+                        ${formulariosHTML}
+                    </div>
                 </details>
 
                 <details class="detail-card" data-section="comentarios-${patient.ID_Paciente}">
-                    <summary class="mb-3">Usuarios Externos</summary>
-                    ${usuariosHTML}
+                    <summary>
+                        <i class="fas fa-user-friends me-2 text-primary"></i>Usuarios externos
+                    </summary>
+                    <div class="mt-3">
+                        ${usuariosHTML}
+                    </div>
                 </details>
             `;
         }
-        
-        
-        /*
-        function filterPacientes() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            
-            
-            questionCards.forEach(card => {
-                const content = card.querySelector("#paciente-nombre");
-                if (content.textContent.toLowerCase().includes(searchTerm)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-
-        const selectDiagnostico = document.getElementById("diagnostico");
-
-        selectDiagnostico.addEventListener("change", function() {
-            if (this.value == "none"){
-                questionCards.forEach(card => {
-                    card.style.display = 'block';
-                });
-            }
-            else {
-                questionCards.forEach(card => {
-                    const content = card.querySelector("#paciente-diagnostico");
-                    if (content.textContent == this.value) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            }
-            
-        });
-
-        var checkboxalerta = document.querySelector("input[name=alerta]");
-
-        checkboxalerta.addEventListener('change', function() {
-            if (!this.checked){
-                questionCards.forEach(card => {
-                    card.style.display = 'block';
-                });
-            }
-            else {
-                questionCards.forEach(card => {
-                    const content = card.querySelector("#alerta");
-                    if (content != null) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            }
-        }); */
 
         function filtrar(){
             const questionCards = document.querySelectorAll('.white-card');
@@ -474,25 +477,27 @@
             const diagnostico = document.getElementById('filtro-diagnostico').value;
             const alerta = document.getElementById('filtro-alerta').checked;
             questionCards.forEach(card => {
-                if(diagnostico == "none"){
-                    card.style.display = 'block';
+                let shouldShow = true;
+                
+                const nombreElement = card.querySelector("#paciente-nombre");
+                if (nombreElement && !nombreElement.textContent.toLowerCase().includes(searchTerm)) {
+                    shouldShow = false;
                 }
-                else{
-                    if (card.querySelector("#paciente-diagnostico").textContent == diagnostico){
-                        card.style.display = 'block';
-                    }
-                    else{
-                        card.style.display = 'none';
-                    }
-                }
-                if(alerta){
-                    if(card.querySelector("#alerta") == null){
-                        card.style.display = 'none';
+                if (diagnostico !== "none") {
+                    const diagnosticoElement = card.querySelector("#paciente-diagnostico");
+                    if (diagnosticoElement && diagnosticoElement.textContent.trim() !== diagnostico) {
+                        shouldShow = false;
                     }
                 }
-                if (!(card.querySelector("#paciente-nombre").textContent.toLowerCase().includes(searchTerm))){
-                    card.style.display = 'none';
+                if (alerta) {
+                    const alertaElement = card.querySelector("#alerta");
+                    if (!alertaElement) {
+                        shouldShow = false;
+                    }
                 }
+                
+                // Apply visibility
+                card.style.display = shouldShow ? 'block' : 'none';
             });
         }
 
