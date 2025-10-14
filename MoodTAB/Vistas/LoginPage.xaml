@@ -5,6 +5,7 @@
              Title="LoginPage">
     <ScrollView>
         <VerticalStackLayout Padding="30" Spacing="15">
+            <Image Source="moodtablogo_color.png"/>
             <Label Text="MoodTAB - Iniciar Sesión" FontSize="24" HorizontalOptions="Center"/>
 
             <Label Text="{Binding LogsMessage}" TextColor="Blue" FontSize="14" HorizontalOptions="Center"/>

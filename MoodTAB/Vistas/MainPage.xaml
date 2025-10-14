@@ -11,8 +11,10 @@
         <ScrollView BackgroundColor="#FFF3F3FF">
             <VerticalStackLayout Padding="20,20,20,90" Spacing="15">
 
+                <!-- ... existing code ... -->
+
                 <!-- Frame con título de la API -->
-                <Image Source="moodtablogo.png"/>
+                <Image Source="moodtablogo_color.png"/>
                 <Frame CornerRadius="12"
                        Padding="15"
                        BackgroundColor="#FFFCFCFC"
@@ -217,71 +219,139 @@
             </VerticalStackLayout>
         </ScrollView>
 
-        <!-- Bottom Bar -->
-        <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="End" HeightRequest="70" BackgroundColor="#FFF3F3FF">
-            <HorizontalStackLayout.Shadow>
+        <!-- <CHANGE> Responsive Bottom Navigation Bar - uses Grid with equal columns and auto-sizing -->
+        <Grid HorizontalOptions="Fill" 
+              VerticalOptions="End" 
+              BackgroundColor="#FFF3F3FF"
+              Padding="0,10,0,10"
+              ColumnDefinitions="*,*,*,*">
+            <Grid.Shadow>
                 <Shadow Brush="Black"
                         Opacity="0.8"
                         Offset="5,5"
                         Radius="10"/>
-            </HorizontalStackLayout.Shadow>
-            <Grid RowDefinitions="*" ColumnDefinitions="80" HorizontalOptions="Center">
+            </Grid.Shadow>
+            
+            <!-- Cuestionarios Button -->
+            <Grid Grid.Column="0" 
+                  RowDefinitions="Auto,Auto" 
+                  HorizontalOptions="Center"
+                  VerticalOptions="Center">
                 <Button Text=" "
-                        HeightRequest="70"
-                        WidthRequest="80"
-                        CornerRadius="0"
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center"
+                        Grid.Row="0"
+                        Grid.RowSpan="2"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Fill"
                         BackgroundColor="Transparent"
                         Command="{Binding MovetoPageCommand}"
-                        CommandParameter="CuestionarioPage"
-                        Grid.Row="0"/>
-                <Image Grid.Row="0" Source="neosurvey.png" HeightRequest="30" WidthRequest="30" Margin="0,0,0,15"/>
-                <Label Text="Cuestionarios" FontFamily="BreeSerif-Regular.ttf" HorizontalTextAlignment="Center" FontSize="12" TextColor="#FF61666D" Padding="0,50,0,0"></Label>
+                        CommandParameter="CuestionarioPage"/>
+                <Image Grid.Row="0" 
+                       Source="neosurvey.png" 
+                       HeightRequest="30" 
+                       WidthRequest="30"
+                       HorizontalOptions="Center"
+                       VerticalOptions="End"
+                       Margin="0,0,0,5"/>
+                <Label Grid.Row="1"
+                       Text="Cuestionarios" 
+                       FontFamily="BreeSerif-Regular.ttf" 
+                       HorizontalTextAlignment="Center" 
+                       FontSize="12" 
+                       TextColor="#FF61666D"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Start"/>
             </Grid>
-            <Grid RowDefinitions="*" ColumnDefinitions="79" HorizontalOptions="Center" Margin="0,0,0,0">
+            
+            <!-- Historial Button -->
+            <Grid Grid.Column="1" 
+                  RowDefinitions="Auto,Auto" 
+                  HorizontalOptions="Center"
+                  VerticalOptions="Center">
                 <Button Text=" "
-                        HeightRequest="70"
-                        WidthRequest="79"
-                        CornerRadius="0"
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center"
+                        Grid.Row="0"
+                        Grid.RowSpan="2"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Fill"
                         BackgroundColor="Transparent"
                         Command="{Binding MovetoPageCommand}"
-                        CommandParameter="CalendarioPage"
-                        Grid.Row="0"/>
-                <Image Grid.Row="0" Source="neodiary.png" HeightRequest="30" WidthRequest="30" Margin="0,0,0,15"/>
-                <Label Text="Historial" FontFamily="BreeSerif-Regular.ttf" HorizontalTextAlignment="Center" FontSize="12" TextColor="#FF61666D" Padding="0,50,0,0"></Label>
+                        CommandParameter="CalendarioPage"/>
+                <Image Grid.Row="0" 
+                       Source="neodiary.png" 
+                       HeightRequest="30" 
+                       WidthRequest="30"
+                       HorizontalOptions="Center"
+                       VerticalOptions="End"
+                       Margin="0,0,0,5"/>
+                <Label Grid.Row="1"
+                       Text="Historial" 
+                       FontFamily="BreeSerif-Regular.ttf" 
+                       HorizontalTextAlignment="Center" 
+                       FontSize="12" 
+                       TextColor="#FF61666D"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Start"/>
             </Grid>
-            <Grid RowDefinitions="*" ColumnDefinitions="79" HorizontalOptions="Center" Margin="0,0,0,0">
+            
+            <!-- Usuario Button -->
+            <Grid Grid.Column="2" 
+                  RowDefinitions="Auto,Auto" 
+                  HorizontalOptions="Center"
+                  VerticalOptions="Center">
                 <Button Text=" "
-                        HeightRequest="70"
-                        WidthRequest="79"
-                        CornerRadius="0"
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center"
+                        Grid.Row="0"
+                        Grid.RowSpan="2"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Fill"
                         BackgroundColor="Transparent"
                         Command="{Binding MovetoPageCommand}"
-                        CommandParameter="UserPage"
-                        Grid.Row="0"/>
-                <Image Grid.Row="0" Source="neouser.png" HeightRequest="30" WidthRequest="30" Margin="0,0,0,15"/>
-                <Label Text="Usuario" FontFamily="BreeSerif-Regular.ttf" HorizontalTextAlignment="Center" FontSize="12" TextColor="#FF61666D" Padding="0,50,0,0"></Label>
+                        CommandParameter="UserPage"/>
+                <Image Grid.Row="0" 
+                       Source="neouser.png" 
+                       HeightRequest="30" 
+                       WidthRequest="30"
+                       HorizontalOptions="Center"
+                       VerticalOptions="End"
+                       Margin="0,0,0,5"/>
+                <Label Grid.Row="1"
+                       Text="Usuario" 
+                       FontFamily="BreeSerif-Regular.ttf" 
+                       HorizontalTextAlignment="Center" 
+                       FontSize="12" 
+                       TextColor="#FF61666D"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Start"/>
             </Grid>
-            <Grid RowDefinitions="*" ColumnDefinitions="80" HorizontalOptions="Center" Margin="0,0,0,0">
+            
+            <!-- Ajustes Button -->
+            <Grid Grid.Column="3" 
+                  RowDefinitions="Auto,Auto" 
+                  HorizontalOptions="Center"
+                  VerticalOptions="Center">
                 <Button Text=" "
-                        HeightRequest="70"
-                        WidthRequest="80"
-                        CornerRadius="0"
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center"
+                        Grid.Row="0"
+                        Grid.RowSpan="2"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Fill"
                         BackgroundColor="Transparent"
                         Command="{Binding MovetoPageCommand}"
-                        CommandParameter="TestPage"
-                        Grid.Row="0"/>
-                <Image Grid.Row="0" Source="neoconfig.png" HeightRequest="30" WidthRequest="30" Margin="0,0,0,15"/>
-                <Label Text="Ajustes" FontFamily="BreeSerif-Regular.ttf" HorizontalTextAlignment="Center" FontSize="12" TextColor="#FF61666D" Padding="0,50,0,0"></Label>
+                        CommandParameter="TestPage"/>
+                <Image Grid.Row="0" 
+                       Source="neoconfig.png" 
+                       HeightRequest="30" 
+                       WidthRequest="30"
+                       HorizontalOptions="Center"
+                       VerticalOptions="End"
+                       Margin="0,0,0,5"/>
+                <Label Grid.Row="1"
+                       Text="Ajustes" 
+                       FontFamily="BreeSerif-Regular.ttf" 
+                       HorizontalTextAlignment="Center" 
+                       FontSize="12" 
+                       TextColor="#FF61666D"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Start"/>
             </Grid>
-        </HorizontalStackLayout>
+        </Grid>
 
         <!-- Overlay de carga -->
         <Grid x:Name="LoadingOverlay"
