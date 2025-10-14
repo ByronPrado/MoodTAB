@@ -1,0 +1,69 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Plugin.Maui.Calendar.Controls;assembly=Plugin.Maui.Calendar"
+             xmlns:local="clr-namespace:MoodTAB.ViewModel"
+             x:Class="MoodTAB.Vistas.PastilleroPage"
+             Title="Pastillero">
+
+    <ContentPage.BindingContext>
+        <local:PastilleroViewModel/>
+    </ContentPage.BindingContext>
+
+    <Grid BackgroundColor="#FFF3F3FF">
+        <ScrollView>
+            <VerticalStackLayout Padding="10" Spacing="10">
+
+                <!-- 🗓️ CALENDARIO -->
+                <controls:Calendar
+                    x:Name="MiCalendario"
+                    CalendarLayout="Month"
+                    Culture="{Binding Cultura}"
+                    Events="{Binding Events}"
+                    DayTappedCommand="{Binding DiaTocadoCommand}"
+                    SelectedDayBackgroundColor="#3B82F6"
+                    EventIndicatorColor="#3B82F6"
+                    TodayOutlineColor="#10B981"
+                    EventIndicatorType="BottomDot"
+                    FirstDayOfWeek="Monday"
+                    />
+
+                <!-- 📋 LISTA DE MEDICAMENTOS DEL DÍA -->
+                <Frame BorderColor="#10B981" Padding="10" CornerRadius="15" BackgroundColor="White">
+                    <VerticalStackLayout>
+                        <Label Text="Medicamentos del día" FontAttributes="Bold" FontSize="18"/>
+                        <CollectionView ItemsSource="{Binding MedicamentosDiaSeleccionado}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame BorderColor="#E0E0E0" Padding="5" CornerRadius="10">
+                                        <VerticalStackLayout>
+                                            <Label Text="{Binding Nombre}" FontAttributes="Bold"/>
+                                            <Label Text="{Binding Dosis}" FontSize="12"/>
+                                            <Label Text="{Binding CreatedAt, StringFormat= a las {0:hh:mm}}" FontSize="12" TextColor="Gray"/>
+                                        </VerticalStackLayout>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- 💊 FORMULARIO DE REGISTRO -->
+                <Frame IsVisible="{Binding ShownDate}"
+                       x:Name="FrameRegistro"
+                       BorderColor="#3B82F6"
+                       Padding="10" CornerRadius="15" BackgroundColor="White">
+                    <VerticalStackLayout>
+                        <Label Text="Registrar Medicamento Hoy" FontAttributes="Bold" FontSize="18" HorizontalOptions="Center"/>
+                        <Entry Placeholder="Nombre" Text="{Binding NombreMed}"/>
+                        <Entry Placeholder="Dosis" Text="{Binding DosisMed}"/>
+                        <Button Text="💾 Guardar"
+                                Command="{Binding RegistrarMedicamentoCommand}"
+                                BackgroundColor="#3B82F6" TextColor="White"
+                                CornerRadius="10"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

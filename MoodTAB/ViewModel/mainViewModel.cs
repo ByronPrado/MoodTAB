@@ -4,7 +4,6 @@ using MoodTAB.Models;
 using MoodTAB.Vistas;
 using MoodTAB.Services;
 using System.Text.Json;
-using MoodTAB.Platforms.Android;
 using System;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
@@ -152,6 +151,7 @@ namespace MoodTAB.ViewModel
                     "CalendarioPage" => new CalendarioDiario(),
                     "UserPage" => new UserPage(),
                     "PlanSeguroPage" => new PlanSeguroPage(),
+                    "PastilleroPage" => new PastilleroPage(),
                     _ => null
                 };
 

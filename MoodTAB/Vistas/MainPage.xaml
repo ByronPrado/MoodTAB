@@ -138,17 +138,48 @@
                             </VerticalStackLayout>
                         </Grid>
                     </Frame>
+
+                    <Frame  BackgroundColor="#FFD6A46B"
+                            BorderColor="Transparent"
+                            CornerRadius="15"
+                            Padding="10"
+                            Margin="5"
+                            HasShadow="False"
+                            IsClippedToBounds="False">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding MovetoPageCommand}"
+                                CommandParameter="PastilleroPage" />
+                        </Frame.GestureRecognizers>
+                        <Grid ColumnDefinitions="40,*"
+                                RowDefinitions="40">
+                            <Frame Grid.Column="0"
+                                    BackgroundColor="#FFDEBB89"
+                                    BorderColor="Transparent">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding MovetoPageCommand}"
+                                        CommandParameter="PastilleroPage" />
+                                </Frame.GestureRecognizers>
+                                    <Image Source="neosurveywhite.png" WidthRequest="20" HeightRequest="20"/>
+                            </Frame>
+                            <VerticalStackLayout Grid.Column="1" Padding="10,0,0,0" HorizontalOptions="Start">
+                                <Label Text="Medicamento" FontFamily="BreeSerif-Regular.ttf" FontSize="16" TextColor="White" FontAttributes="Bold" HorizontalOptions="Start"/>
+                                <Label Text="Recordatorio de medicamento" FontFamily="BreeSerif-Regular.ttf" FontSize="12" TextColor="White" HorizontalOptions="Start"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Frame>
                 </VerticalStackLayout>
-                <Label Text="Plan Seguro"
+                <Label Text="Plan de Seguridad"
                        FontSize="20"
                        FontFamily="BreeSerif-Regular.ttf"
                        TextColor="#FF141414"
                        Margin="0,10,0,0"/>
-                <Label Text="En caso de emergencia o que te sientas muy mal entra acá"
+                <Label Text="Acceder a plan de seguridad personal."
                        FontSize="16"
                        FontFamily="BreeSerif-Regular.ttf"
                        TextColor="#FF5C5C5C"
-                       Margin="0,10,0,0"/>
+                       Margin="0,0,0,0"/>
 
                 <VerticalStackLayout Spacing="0">
                     <Frame  BackgroundColor="#FFD35656"

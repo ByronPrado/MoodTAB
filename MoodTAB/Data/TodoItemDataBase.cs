@@ -15,6 +15,7 @@ public class TodoItemDataBase
         _database.CreateTableAsync<Pregunta>().Wait();
         _database.CreateTableAsync<Respuestas>().Wait();
         _database.CreateTableAsync<Diario>().Wait();
+        _database.CreateTableAsync<Medicamento>().Wait();
         //agregar + tablas
     }
 
@@ -107,6 +108,53 @@ public class TodoItemDataBase
         var end = DateTime.Now.Date;
         var start = end.AddDays(-dias);
         return GetDiariosBetweenAsync(start, end);
+    }
+
+    public Task<int> SaveMedAsync(Medicamento m) => _database.InsertAsync(m);
+    public Task<List<Medicamento>> GetMedsAsync() => _database.Table<Medicamento>().ToListAsync();
+    public Task<int> DeleteMedAsync(Medicamento m) => _database.DeleteAsync(m);
+
+    public Task<Medicamento> GetMedByIdAsync(int id)
+    {
+        return _database.Table<Medicamento>().Where(i => i.ID_Medicamento == id).FirstOrDefaultAsync();
+    }
+
+    public Task<List<Medicamento>> GetMedsByUserIdAsync(int id)
+    {
+        return _database.Table<Medicamento>().Where(m => m.Usuario_dirigido == id).ToListAsync();
+    }
+
+    public Task<List<Medicamento>> GetMedsByDateAsync(DateTime date)
+    {
+        var start = date.Date;
+        var end = start.AddDays(1);
+        return _database.Table<Medicamento>()
+                        .Where(m => m.CreatedAt >= start && m.CreatedAt < end)
+                        .OrderByDescending(d => d.CreatedAt)
+                        .ToListAsync();
+    }
+
+    public Task<List<Medicamento>> GetMedsBetweenAsync(DateTime start, DateTime end)
+    {
+        var s = start.Date;
+        var e = end.Date.AddDays(1);
+        return _database.Table<Medicamento>()
+                        .Where(m => m.CreatedAt >= s && m.CreatedAt < e)
+                        .OrderByDescending(d => d.CreatedAt)
+                        .ToListAsync();
+    }
+    public Task<List<Medicamento>> GetMedsMesActualAsync()
+    {
+        var now = DateTime.Now;
+        var start = new DateTime(now.Year, now.Month, 1);
+        var end = start.AddMonths(1).AddDays(-1);
+        return GetMedsBetweenAsync(start, end);
+    }
+    public Task<List<Medicamento>> GetMedsDiasAnterioresAsync(int dias)
+    {
+        var end = DateTime.Now.Date;
+        var start = end.AddDays(-dias);
+        return GetMedsBetweenAsync(start, end);
     }
 
 }
