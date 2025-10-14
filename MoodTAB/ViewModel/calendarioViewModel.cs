@@ -29,16 +29,17 @@ namespace MoodTAB.ViewModel
             Month = xValue;
             Target = yValue;
         }
-        
+
     }
+    
     
     public partial class CalendarioViewModel : ObservableObject
     {
+        //Calendario
         [ObservableProperty]
         public EventCollection events = new EventCollection();
         [ObservableProperty]
         private CultureInfo cultura = new("es-ES");
-        public string logtext = "";
         //"Week"
         [ObservableProperty]
         private DateTime shownDate = DateTime.Today;
@@ -48,7 +49,7 @@ namespace MoodTAB.ViewModel
         public IRelayCommand<string> CambiarMesCommand { get; }
         private int setCalendarioLayout = 0;
 
-
+        //Horas Sueño
         private ObservableCollection<Model> _data;
         public ObservableCollection<Model> Data
         {
@@ -59,6 +60,20 @@ namespace MoodTAB.ViewModel
                 OnPropertyChanged(nameof(Data)); // o RaisePropertyChanged("Data")
             }
         }
+        //calidad Sueño
+        private ObservableCollection<Model> _calidadSueno;
+        public ObservableCollection<Model> CalidadSueno
+        {
+            get => _calidadSueno;
+            set
+            {
+                _calidadSueno = value;
+                OnPropertyChanged(nameof(CalidadSueno)); // o RaisePropertyChanged("Data")
+            }
+        }
+        
+        public string logtext = "";
+
         public CalendarioViewModel()
         {
             CargarEventos();
@@ -77,8 +92,13 @@ namespace MoodTAB.ViewModel
         private async Task InicializarDatosGraficoAsync()
         {
             var data = await CrearDatosGraficoSemanaAsync();
-            MainThread.BeginInvokeOnMainThread(() => Data = data);
+            var calidadSleep = await CrearDatosGraficoSuenoAsync();
+            MainThread.BeginInvokeOnMainThread(() => {
+                Data = data;
+                CalidadSueno = calidadSleep;});
         }
+
+
         public async Task<ObservableCollection<Model>> CrearDatosGraficoSemanaAsync()
         {
             try
@@ -148,6 +168,78 @@ namespace MoodTAB.ViewModel
                 return new ObservableCollection<Model>();
             }
         }
+        
+        public async Task<ObservableCollection<Model>>CrearDatosGraficoSuenoAsync()
+        {
+            try
+            {
+                DateTime hoy = DateTime.Today;
+                int diff = hoy.DayOfWeek - DayOfWeek.Monday;
+                if (diff < 0) diff += 7;
+                DateTime lunes = hoy.AddDays(-diff);
+
+                var semana = Enumerable.Range(0, 7)
+                                    .Select(i => lunes.AddDays(i))
+                                    .ToList();
+
+                if (App.Database == null)
+                    return new ObservableCollection<Model>();
+
+                var diarios = await App.Database.GetDiariosDiasAnterioresAsync(7) ?? new List<Diario>();
+
+                // Agrupar emociones por día → promedio de todos los valores del string
+                var agrupado = diarios
+                    .Where(d => d.CreatedAt != default && !string.IsNullOrWhiteSpace(d.Emocion_Diaria))
+                    .GroupBy(d => d.CreatedAt.Date)
+                    .ToDictionary(
+                        g => g.Key,
+                        g => g.Average(d =>
+                        {
+                            try
+                            {
+                                return ObtenerValorSlider(d.Emocion_Diaria, 4);
+                            }
+                            catch { return 0; }
+                        })
+                    );
+
+                var data = new ObservableCollection<Model>();
+
+                foreach (var dia in semana)
+                {
+                    double valor = agrupado.ContainsKey(dia) ? agrupado[dia] : 0;
+                    string etiqueta = dia.ToString("ddd", cultura);
+
+                    data.Add(new Model(etiqueta, valor));
+                    System.Diagnostics.Debug.WriteLine($"📊 calidadsueño {etiqueta} = {valor}");
+                }
+
+                return data;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error creando datos sueño: {ex}");
+                return new ObservableCollection<Model>();
+            }
+        }
+
+
+        //con esto sacamos los valores de los sliders pa hacer mas graficos a futuro.
+        public static int ObtenerValorSlider(string numeros, int posicion)
+        {
+            if (string.IsNullOrWhiteSpace(numeros))
+                return 0;
+
+            var partes = numeros.Split(',', StringSplitOptions.RemoveEmptyEntries);
+
+            // Validar que la posición exista (1‑based)
+            if (posicion <= 0 || posicion > partes.Length)
+                return 0;
+
+            return int.TryParse(partes[posicion - 1], out int valor) ? valor : 0;
+        }
+
+        //funcion para calendario, logica de tocar un dia y cambiar vista en funcion de # diarios
         private async void OnDiaTocado(DateTime fecha)
         {
             // Primero intentar leer desde Events (si existe)
@@ -174,6 +266,8 @@ namespace MoodTAB.ViewModel
                 return;
             }
         }
+
+        //funcion para mostrar los diarios en el calendario
         private async void CargarEventos()
         {
             //var diarios = await App.Database.GetDiarioAsync();
@@ -192,6 +286,8 @@ namespace MoodTAB.ViewModel
                 (Events[fecha] as List<Diario>)!.Add(diario);
             }
         }
+
+        //funcion Para crear el pdf en funcion de los datos.
         public async Task ExportarPDF()
         {
             var diarios = await App.Database.GetDiarioAsync();

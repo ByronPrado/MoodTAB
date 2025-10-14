@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text.Json;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Storage;
+using Microsoft.Maui.Platform;
 
 
 namespace MoodTAB.ViewModel
@@ -201,7 +202,7 @@ namespace MoodTAB.ViewModel
         {
             try
             {
-                var main = Microsoft.Maui.Controls.Application.Current?.MainPage;
+                var main = Application.Current?.MainPage;
                 if (main == null) return;
 
                 if (string.IsNullOrWhiteSpace(Pregunta1))
@@ -219,14 +220,25 @@ namespace MoodTAB.ViewModel
 
                 if (!confirmacion)
                     return; // el usuario canceló
+                //horas_dormidas
+                if (HoraDesperto <= HoraDurmio)
+                {
+                    HoraDesperto = HoraDesperto.Add(new TimeSpan(1, 0, 0, 0)); // +1 día
+                }
 
+                var aux_horas_sueno = HoraDesperto - HoraDurmio;
+                int integer_horas = aux_horas_sueno.Hours;
+                System.Diagnostics.Debug.WriteLine($"Horas de sueño: {aux_horas_sueno.TotalHours}; integer_horas:{integer_horas}");
+                
+                //Sliders
+                Sliders = Animo.ToString() + "," + Apetito.ToString() + "," + Energia.ToString() + "," + BateriaSocial.ToString() + "," + CalidadSueno.ToString();
                 var diario = new Diario
                 {
                     Emocion_Diaria = Sliders,
                     Descripcion = Pregunta1+"/"+Pregunta2+"/"+Pregunta3,
                     Horas_Celular = HorasCelular,
                     Horas_Redes = HorasRedes,
-                    Horas_Sueno = HorasSueno,
+                    Horas_Sueno = integer_horas.ToString(),
                     Ritmo_Cardiaco = RitmoCardiaco,
                     Variabilidad_Frecuencia_Cardiaca = VariabilidadFrecuenciaCardiaca,
                     Hora_Durmio = HoraDurmio,
@@ -246,7 +258,7 @@ namespace MoodTAB.ViewModel
                     Pasos = CantidadPasos,
                     Horas_celular = (int)HorasCelular,
                     Horas_redes = (int)HorasRedes,
-                    Hora_dormida = HorasSueno,
+                    Hora_dormida = integer_horas,
                     RitmoCardiaco,
                     VariabilidadFrecuenciaCardiaca,
                     Hora_durmio = HoraDurmio.ToString(),

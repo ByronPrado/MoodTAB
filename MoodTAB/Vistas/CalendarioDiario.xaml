@@ -125,6 +125,7 @@
                             </controls:Calendar> 
                         </Grid>
                     </Frame>
+
                     <Frame>
                         <Grid RowDefinitions="auto,auto,auto" RowSpacing="2" >
                             <Label 
@@ -180,6 +181,73 @@
                                         IsVisible="False" >
                                         <chart:ChartLegend.LabelStyle>
                                             <chart:ChartLegendLabelStyle TextColor="Blue"
+                                                Margin="5"
+                                                FontSize="11"
+                                                FontAttributes="Bold"
+                                                FontFamily="BreeSerif-Regular.ttf"
+                                                />
+                                        </chart:ChartLegend.LabelStyle>
+                                    </chart:ChartLegend>
+                                </chart:SfCartesianChart.Legend>  
+                            </chart:SfCartesianChart>
+                            </Frame>  
+                        </Grid>
+                    </Frame>
+
+                    <Frame>
+                        <Grid RowDefinitions="auto,auto,auto" RowSpacing="2" >
+                            <Label 
+                                Grid.Row="0"
+                                Text="Calidad De Sueño "
+                                FontSize="Subtitle"
+                                FontAttributes="Bold"                                
+                                FontFamily="BreeSerif-Regular.ttf"
+                                Padding="10,0,0,20" />
+
+                            <Frame   Grid.Row="1" >  
+                            
+                            <chart:SfCartesianChart
+                                           
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Fill"
+                                 >
+
+                                <chart:SfCartesianChart.XAxes>
+                                    <chart:CategoryAxis 
+                                        
+                                        LabelPlacement="BetweenTicks"
+                                        LabelRotation="-70"
+                                        ShowMajorGridLines="False"
+                                        >
+                                    </chart:CategoryAxis>
+                                    
+                                </chart:SfCartesianChart.XAxes>
+                                
+                                <chart:SfCartesianChart.YAxes>
+                                    <chart:NumericalAxis 
+                                        ShowMajorGridLines="True"
+                                        Minimum="0"
+                                        Maximum="10"
+                                        >                                       
+                                    </chart:NumericalAxis>
+                                </chart:SfCartesianChart.YAxes>
+                            
+                                <chart:LineSeries
+                                            ItemsSource="{Binding CalidadSueno,Mode=OneWay}" 
+                                            XBindingPath="Month"
+                                            YBindingPath="Target"
+                                            Fill="#793bf6ff"
+                                            Label="Calidad de Sueño"
+                                            EnableTooltip="True"                                             
+                                            >
+                                </chart:LineSeries> 
+
+                                <chart:SfCartesianChart.Legend>
+                                    <chart:ChartLegend 
+                                        Placement="Bottom"
+                                        IsVisible="False" >
+                                        <chart:ChartLegend.LabelStyle>
+                                            <chart:ChartLegendLabelStyle TextColor="Red"
                                                 Margin="5"
                                                 FontSize="11"
                                                 FontAttributes="Bold"
