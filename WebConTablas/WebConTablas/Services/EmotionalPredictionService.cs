@@ -187,11 +187,11 @@ namespace WebConTablas.Services
                 data.Add(new EmotionalStateData
                 {
                     HR_RitmoCardiaco = random.Next(60, 75) + (float)random.NextDouble(),
-                    HRV_VariabilidadFrecuencia = random.Next(70, 100) + (float)random.NextDouble(),
-                    PasosDiarios = random.Next(4000, 6500),
-                    Hora_dormida = random.Next(7, 9) + (float)random.NextDouble(),
-                    Horas_celular = random.Next(2, 4),
-                    Horas_redes = random.Next(1, 3), 
+                    HRV_VariabilidadFrecuencia = random.Next(20, 40) + (float)random.NextDouble(),
+                    PasosDiarios = random.Next(4000, 10000),
+                    Hora_dormida = random.Next(5, 9) + (float)random.NextDouble(),
+                    Horas_celular = random.Next(0, 5),
+                    Horas_redes = random.Next(0, 3),
 
                     Emociones = $"{random.Next(4, 7)},{random.Next(4, 7)},{random.Next(4, 7)},{random.Next(4, 7)},{random.Next(4, 7)}",
                     
@@ -200,7 +200,7 @@ namespace WebConTablas.Services
                     Zona2_Personas = text.Item2,
                     Zona3_Pensamientos = text.Item3,
 
-                    Coherencia = random.Next(2, 4),
+                    Coherencia = random.Next(1, 2),
                     Errores_gramaticales = (float)(random.NextDouble() * 1.5 + 0.5),
                     EstadoEmocional = "basal"
                 });
@@ -213,11 +213,11 @@ namespace WebConTablas.Services
                 data.Add(new EmotionalStateData
                 {
                     HR_RitmoCardiaco = random.Next(90, 120) + (float)random.NextDouble(),
-                    HRV_VariabilidadFrecuencia = random.Next(20, 45) + (float)random.NextDouble(),
-                    PasosDiarios = random.Next(10000, 20000),
-                    Hora_dormida = random.Next(3, 6) + (float)random.NextDouble(),
-                    Horas_celular = random.Next(5, 10),
-                    Horas_redes = random.Next(3, 7),
+                    HRV_VariabilidadFrecuencia = random.Next(45, 60) + (float)random.NextDouble(),
+                    PasosDiarios = random.Next(10001, 50000),
+                    Hora_dormida = random.Next(0, 4) + (float)random.NextDouble(),
+                    Horas_celular = random.Next(5, 12),
+                    Horas_redes = random.Next(4, 10),
 
                     Emociones = $"{random.Next(8, 11)},{random.Next(8, 11)},{random.Next(8, 11)},{random.Next(8, 11)},{random.Next(8, 11)}",
                     
@@ -226,7 +226,7 @@ namespace WebConTablas.Services
                     Zona2_Personas = text.Item2,
                     Zona3_Pensamientos = text.Item3,
 
-                    Coherencia = random.Next(6, 10),
+                    Coherencia = random.Next(0, 1),
                     Errores_gramaticales = (float)(random.NextDouble() * 0.5),
                     EstadoEmocional = "exaltado"
                 });
@@ -239,11 +239,11 @@ namespace WebConTablas.Services
                 data.Add(new EmotionalStateData
                 {
                     HR_RitmoCardiaco = random.Next(50, 60) + (float)random.NextDouble(),
-                    HRV_VariabilidadFrecuencia = random.Next(90, 120) + (float)random.NextDouble(),
-                    PasosDiarios = random.Next(500, 3000),
+                    HRV_VariabilidadFrecuencia = random.Next(10,20) + (float)random.NextDouble(),
+                    PasosDiarios = random.Next(0, 4000),
                     Hora_dormida = random.Next(8, 11) + (float)random.NextDouble(),
-                    Horas_celular = random.Next(0, 2),
-                    Horas_redes = random.Next(0, 1),
+                    Horas_celular = random.Next(5, 9),
+                    Horas_redes = random.Next(4, 8),
 
                     Emociones = $"{random.Next(0, 4)},{random.Next(0, 4)},{random.Next(0, 4)},{random.Next(0, 4)},{random.Next(0, 4)}",
                     
@@ -252,7 +252,7 @@ namespace WebConTablas.Services
                     Zona2_Personas = text.Item2,
                     Zona3_Pensamientos = text.Item3,
 
-                    Coherencia = random.Next(0, 2),
+                    Coherencia = random.Next(0, 1),
                     Errores_gramaticales = (float)(random.NextDouble() * 3.0 + 2.0),
                     EstadoEmocional = "inhibido"
                 });
