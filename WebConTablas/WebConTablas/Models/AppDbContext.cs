@@ -186,6 +186,7 @@ public class AppDbContext : DbContext
         );
 
         // DiarioEmocional
+        // Corrección para AppDbContext.cs (Línea 200)
         modelBuilder.Entity<DiarioEmocional>().HasData(
             new DiarioEmocional
             {
@@ -197,8 +198,11 @@ public class AppDbContext : DbContext
                 Pasos = 3000,
                 Horas_celular = 4,
                 Horas_redes = 2,
-                Hora_dormida = "23:00",
-                Estado = "inhibido" // <-- NUEVO, pon el valor que corresponda
+                
+                // ✅ CORRECCIÓN: Cantidad de horas de sueño, como float
+                Hora_dormida = 7.5f, // Ejemplo: 7 horas y media
+                
+                Estado = "inhibido"
             }
         );
     }

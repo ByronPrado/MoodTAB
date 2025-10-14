@@ -1,0 +1,332 @@
+@{
+    ViewData["Title"] = "Nuevo Registro Emocional";
+}
+
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+    .inter-font {
+        font-family: 'Inter', sans-serif;
+    }
+    .page-bg {
+        background-color: #f7f9fb;
+    }
+    /* Estilo para el slider (barra de progreso) */
+    input[type=range]::-webkit-slider-runnable-track {
+        background: #e5e7eb; /* Gris claro */
+    }
+    input[type=range]::-moz-range-track {
+        background: #e5e7eb; /* Gris claro */
+    }
+</style>
+
+<div class="page-bg p-4 sm:p-8 inter-font">
+
+    <div class="max-w-4xl mx-auto bg-white p-6 md:p-10 rounded-2xl shadow-xl">
+        <h1 class="text-3xl font-extrabold text-gray-900 mb-2">Registro de Diario Emocional 🧠</h1>
+        <p class="text-gray-500 mb-8">Ingresa tus **niveles subjetivos (0-10)**, datos biométricos y la descripción del día.</p>
+
+        <div id="resultMessage" class="hidden" role="alert"></div>
+
+        <form id="diarioForm" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <div class="space-y-6">
+                    <h2 class="text-xl font-semibold text-indigo-700 border-b pb-2 mb-4">Niveles Subjetivos (0 - 10)</h2>
+
+                    @await Html.PartialAsync("_RangeInput", new ViewDataDictionary(ViewData)
+                    {
+                        { "Id", "Animo" },
+                        { "Label", "Ánimo" },
+                        { "Min", "0" },
+                        { "Max", "10" },
+                        { "Step", "1" },
+                        { "Value", "5" },
+                        { "HelperTextLeft", "Triste (0)" },
+                        { "HelperTextRight", "Feliz (10)" }
+                    })
+
+                    @await Html.PartialAsync("_RangeInput", new ViewDataDictionary(ViewData)
+                    {
+                        { "Id", "Apetito" },
+                        { "Label", "Apetito" },
+                        { "Min", "0" },
+                        { "Max", "10" },
+                        { "Step", "1" },
+                        { "Value", "5" },
+                        { "HelperTextLeft", "Nada (0)" },
+                        { "HelperTextRight", "Mucho (10)" }
+                    })
+
+                    @await Html.PartialAsync("_RangeInput", new ViewDataDictionary(ViewData)
+                    {
+                        { "Id", "Energia" },
+                        { "Label", "Energía" },
+                        { "Min", "0" },
+                        { "Max", "10" },
+                        { "Step", "1" },
+                        { "Value", "5" },
+                        { "HelperTextLeft", "Agotado (0)" },
+                        { "HelperTextRight", "Vital (10)" }
+                    })
+
+                    @await Html.PartialAsync("_RangeInput", new ViewDataDictionary(ViewData)
+                    {
+                        { "Id", "Sueño" },
+                        { "Label", "Sueño (Calidad)" },
+                        { "Min", "0" },
+                        { "Max", "10" },
+                        { "Step", "1" },
+                        { "Value", "5" },
+                        { "HelperTextLeft", "Muy Mal (0)" },
+                        { "HelperTextRight", "Espectacular (10)" }
+                    })
+
+                    @await Html.PartialAsync("_RangeInput", new ViewDataDictionary(ViewData)
+                    {
+                        { "Id", "BateriaSocial" },
+                        { "Label", "Batería Social" },
+                        { "Min", "0" },
+                        { "Max", "10" },
+                        { "Step", "1" },
+                        { "Value", "5" },
+                        { "HelperTextLeft", "Quiero estar solo (0)" },
+                        { "HelperTextRight", "Quiero estar con gente (10)" }
+                    })
+                    
+                    <h2 class="text-xl font-semibold text-indigo-700 border-b pb-2 mb-4 mt-8">Diario de Texto</h2>
+
+                    <div>
+                        <label for="Descripcion" class="block text-sm font-medium text-gray-700 mb-1">Descripción del Día (Texto del Diario)</label>
+                        <textarea id="Descripcion" name="Descripcion" rows="5" 
+                                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 shadow-sm"
+                                  placeholder="Escribe sobre lo que hiciste, qué emociones sentiste, y cómo te fue. Este texto ayuda a entrenar el modelo."></textarea>
+                    </div>
+
+                </div>
+
+                <div class="space-y-6">
+                    <h2 class="text-xl font-semibold text-indigo-700 border-b pb-2 mb-4">Datos del Paciente y Biometría</h2>
+
+                    <div>
+                        <label for="ID_Paciente" class="block text-sm font-medium text-gray-700 mb-1">ID Paciente <span class="text-red-500">*</span></label>
+                        <input type="number" id="ID_Paciente" name="ID_Paciente" required min="1" value="1"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 shadow-sm"
+                               placeholder="Ej: 1">
+                    </div>
+
+                    <div>
+                        <label for="Fecha" class="block text-sm font-medium text-gray-700 mb-1">Fecha</label>
+                        <input type="date" id="Fecha" name="Fecha"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 shadow-sm">
+                    </div>
+
+                    <div>
+                        <label for="HR_RitmoCardiaco" class="block text-sm font-medium text-gray-700 mb-1">Ritmo Cardíaco (BPM)</label>
+                        <input type="number" step="0.1" id="HR_RitmoCardiaco" name="HR_RitmoCardiaco" value=""
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 shadow-sm"
+                               placeholder="Ej: 75.5">
+                    </div>
+
+                    <div>
+                        <label for="HRV_VariabilidadFrecuencia" class="block text-sm font-medium text-gray-700 mb-1">Variabilidad Frecuencia (HRV)</label>
+                        <input type="number" step="0.1" id="HRV_VariabilidadFrecuencia" name="HRV_VariabilidadFrecuencia" value=""
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 shadow-sm"
+                               placeholder="Ej: 50.0">
+                    </div>
+
+                    <div>
+                        <label for="Pasos" class="block text-sm font-medium text-gray-700 mb-1">Pasos Diarios</label>
+                        <input type="number" id="Pasos" name="Pasos" value=""
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 shadow-sm"
+                               placeholder="Ej: 8000">
+                    </div>
+
+                    <div>
+                        <label for="Hora_dormida" class="block text-sm font-medium text-gray-700 mb-1">Horas de Sueño (Cantidad)</label>
+                        <input type="number" step="0.1" id="Hora_dormida" name="Hora_dormida" value=""
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 shadow-sm"
+                               placeholder="Ej: 7.5">
+                    </div>
+
+                    <div class="pt-4">
+                        <label for="HorasCelular" class="block text-sm font-medium text-gray-700 mb-1">Horas de Uso del Celular (Total)</label>
+                        <input type="number" id="HorasCelular" name="HorasCelular" value=""
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 shadow-sm"
+                               placeholder="Ej: 4">
+                    </div>
+                    
+                    <div>
+                        <label for="HorasRedes" class="block text-sm font-medium text-gray-700 mb-1">Horas de Uso de Redes Sociales</label>
+                        <input type="number" id="HorasRedes" name="HorasRedes" value=""
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 shadow-sm"
+                               placeholder="Ej: 2">
+                    </div>
+                    </div>
+            </div>
+
+            <div class="pt-6">
+                <button type="submit" id="submitButton"
+                        class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-lg text-lg font-bold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
+                    Enviar Diario
+                </button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+@section Scripts {
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('diarioForm');
+        const resultDiv = document.getElementById('resultMessage');
+        const submitButton = document.getElementById('submitButton');
+        const subjectiveFields = ['Animo', 'Apetito', 'Energia', 'Sueño', 'BateriaSocial'];
+
+        function showMessage(type, message) {
+            resultDiv.className = `p-4 mt-6 rounded-xl border ${type === 'success' ? 'bg-green-100 border-green-400 text-green-700' : 'bg-red-100 border-red-400 text-red-700'} shadow-md`;
+            resultDiv.innerHTML = `<p class="font-semibold">${type === 'success' ? 'Éxito' : 'Error'}:</p><p>${message}</p>`;
+            resultDiv.style.display = 'block';
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        document.getElementById('Fecha').valueAsDate = new Date();
+
+        // Actualizar el valor del slider junto al mismo
+        subjectiveFields.forEach(field => {
+            const input = document.getElementById(field);
+            const valueSpan = document.getElementById(`${field}Value`);
+            if (input && valueSpan) {
+                valueSpan.textContent = input.value;
+                input.addEventListener('input', () => {
+                    valueSpan.textContent = input.value;
+                });
+            }
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            resultDiv.style.display = 'none';
+            submitButton.disabled = true;
+            submitButton.textContent = 'Enviando...';
+            
+            const formData = new FormData(form);
+            const data = {};
+            let isValid = true;
+
+            // 1. Recolectar datos biométricos y de texto
+            formData.forEach((value, key) => {
+                // Excluimos los campos subjetivos de la recolección inicial del FormData
+                if (subjectiveFields.includes(key)) return; 
+                
+                // Conversión de tipos o null si está vacío
+                if (value === "") {
+                    data[key] = null;
+                    return;
+                }
+
+                // 🚨 CORRECCIÓN CLAVE: HorasCelular y HorasRedes ahora se parsean como float (System.Single).
+                if (key === 'ID_Paciente' || key === 'Pasos') {
+                    data[key] = parseInt(value, 10);
+                } 
+                else if (['HR_RitmoCardiaco', 'HRV_VariabilidadFrecuencia', 'Hora_dormida', 'HorasCelular', 'HorasRedes'].includes(key)) {
+                    data[key] = parseFloat(value);
+                } 
+                else {
+                    data[key] = value; // Descripcion, Fecha
+                }
+            });
+            
+            if (!data.ID_Paciente) {
+                showMessage('error', 'El campo ID Paciente es obligatorio.');
+                isValid = false;
+            }
+
+            if (!isValid) {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Enviar Diario';
+                return;
+            }
+
+            // 2. Construir el campo Emociones
+            const subjectiveValues = subjectiveFields.map(field => {
+                const value = document.getElementById(field).value;
+                return value;
+            }).join(','); 
+
+            // Asignamos el campo Emociones al objeto de datos
+            data.Emociones = subjectiveValues;
+
+            // Asegurar Fecha por defecto si no se ingresó
+            if (!data.Fecha) {
+                data.Fecha = new Date().toISOString().split('T')[0];
+            }
+            
+            const apiUrl = '/api/DiarioEmocional'; // Asume que este es tu endpoint
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                let responseData;
+                try {
+                    // Intenta parsear la respuesta JSON
+                    responseData = await response.json();
+                } catch (jsonError) {
+                    // Si no es JSON, usa el estado de la respuesta
+                    responseData = { message: `Respuesta inesperada del servidor (Status: ${response.status}).` };
+                }
+                
+                if (!response.ok) {
+                    const errorDetail = responseData.errors ? JSON.stringify(responseData.errors) : responseData.message || JSON.stringify(responseData);
+                    throw new Error(`Error en el servidor. Código: ${response.status}. Detalles: ${errorDetail}`);
+                }
+
+                showMessage('success', 
+                    `Diario guardado (ID: ${responseData.id_Diario}). Estado Predicho: <span class="font-extrabold">${responseData.estado}</span> (Fuente: ${responseData.predictionSource || 'N/A'}).`
+                );
+                
+                form.reset(); // Limpia el formulario
+                document.getElementById('Fecha').valueAsDate = new Date(); // Restablece la fecha
+                subjectiveFields.forEach(field => { // Restablece el valor de los sliders
+                    document.getElementById(field).value = 5;
+                    document.getElementById(`${field}Value`).textContent = 5;
+                });
+                
+            } catch (error) {
+                console.error("Fetch error:", error);
+                showMessage('error', `No se pudo enviar el diario. Verifica la consola para detalles. Mensaje: ${error.message || 'Error de conexión desconocido.'}`);
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Enviar Diario';
+            }
+        });
+    });
+</script>
+}
+
+@* // Código para el partial _RangeInput (se mantuvo igual ya que usa ViewData)
+<div class="space-y-1">
+    <div class="flex justify-between items-baseline">
+        <label for="@ViewData["Id"]" class="block text-sm font-medium text-gray-700">@ViewData["Label"]</label>
+        <span class="text-lg font-bold text-indigo-600" id="@ViewData["Id"]Value">@ViewData["Value"]</span>
+    </div>
+    <input type="range" 
+           id="@ViewData["Id"]" 
+           name="@ViewData["Id"]"
+           min="@ViewData["Min"]" 
+           max="@ViewData["Max"]" 
+           step="@ViewData["Step"]" 
+           value="@ViewData["Value"]"
+           class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer range-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+    <div class="flex justify-between text-xs text-gray-500">
+        <span>@ViewData["HelperTextLeft"]</span>
+        <span>@ViewData["HelperTextRight"]</span>
+    </div>
+</div>
+*@
