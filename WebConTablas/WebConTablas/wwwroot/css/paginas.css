@@ -1,11 +1,11 @@
 :root {
   /* Enhanced color palette with better contrast and modern colors */
-  --primary-color: #4f46e5;
-  --primary-hover: #4338ca;
+  --primary-color: #5199eb;
+  --primary-hover: #3877ca;
   --secondary-color: #8b5cf6;
   --success-color: #10b981;
-  --warning-color: #f59e0b;
-  --danger-color: #ef4444;
+  --warning-color: #dace4e;
+  --danger-color: #da5151;
   --light-bg: #f8fafc;
   --card-bg: #ffffff;
   --border-color: #e2e8f0;
@@ -14,6 +14,14 @@
   --text-muted: #94a3b8;
   --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   --card-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.tab-pane {
+  display: none !important;
+}
+
+.tab-pane.active.show {
+  display: block !important;
 }
 
 /* Improved button styling with better hover states */
@@ -230,6 +238,14 @@ body {
   border: 1px solid var(--border-color);
 }
 
+.detail-card-p {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 1.75rem;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border-color);
+}
+
 .detail-card summary {
   list-style: none;
   cursor: pointer;
@@ -242,14 +258,21 @@ body {
   gap: 0.75rem;
 }
 
-.detail-card summary::before {
+
+.detail-card summary .summary-title {
+  display: flex;
+  align-items: center;
+}
+
+.detail-card summary .summary-title::before {
   content: "▶";
   font-size: 0.75rem;
+  margin-right: 0.5rem;
   transition: transform 0.2s ease;
   color: var(--text-secondary);
 }
 
-.detail-card[open] summary::before {
+.detail-card[open] summary .summary-title::before {
   transform: rotate(90deg);
 }
 
@@ -601,6 +624,26 @@ body {
   color: #7e22ce;
   border-color: rgba(126, 34, 206, 0.2);
 }
+
+.condition-basal {
+  background-color: #d9d9d9;
+  color: #2f2f2f;
+  border-color: rgba(161, 161, 161, 0.2);
+}
+
+.condition-exaltado {
+  background-color: var(--warning-color);
+  color:  #524d0c;
+  border-color: rgba(206, 169, 34, 0.2);
+}
+
+.condition-inhibido {
+  background-color: var(--warning-color);
+  color:  #524d0c;
+  border-color: rgba(206, 169, 34, 0.2);
+}
+
+
 
 /* ------------- Formularios ------------- */
 

@@ -163,6 +163,24 @@ body {
     box-shadow: var(--card-shadow);
 }
 
+.detail-card-p {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: var(--card-shadow);
+}
+
+#estadosChart {
+    width: 318px !important;
+    height: 318px !important;
+}
+
+#graficosTab .col-md-6:last-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .paciente-header {
     display: flex;
     align-items: center;
