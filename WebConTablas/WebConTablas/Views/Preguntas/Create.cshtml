@@ -1,49 +1,140 @@
 @model WebConTablas.Models.Pregunta
+
+@{
+    ViewData["Title"] = "Crear Pregunta";
+}
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="@Url.Content("~/css/forms.css")" />
+<link rel="stylesheet" href="@Url.Content("~/css/formulario.css")" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
-@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-<h2>Crear Nueva Pregunta</h2>
-
-<form asp-action="Create" method="post">
-    <div class="mb-3">
-        <label asp-for="Contenido" class="form-label">Contenido</label>
-        <input asp-for="Contenido" class="form-control" required />
-        <span asp-validation-for="Contenido" class="text-danger"></span>
-    </div>
-    <div class="mb-3">
-        <label asp-for="Tipo" class="form-label">Tipo</label>
-        <select asp-for="Tipo" class="form-control" id="tipoPregunta" required>
-            <option value="">Seleccione tipo</option>
-            <option value="Abierta">Abierta</option>
-            <option value="Seleccion">Selección</option>
-            <option value="Escala">Escala</option>
-        </select>
-        <span asp-validation-for="Tipo" class="text-danger"></span>
-    </div>
-    <div class="mb-3" id="opcionesSeleccionDiv" style="display:none;">
-        <label asp-for="OpcionesSeleccion" class="form-label">Opciones (separadas por coma)</label>
-        <input asp-for="OpcionesSeleccion" class="form-control" />
-        <span asp-validation-for="OpcionesSeleccion" class="text-danger"></span>
-    </div>
-    <div class="mb-3" id="escalaDiv" style="display:none;">
-        <label class="form-label">Rango de escala</label>
-        <div class="input-group">
-            <span class="input-group-text">Mínimo</span>
-            <input asp-for="EscalaMin" class="form-control" type="number" />
-            <span class="input-group-text">Máximo</span>
-            <input asp-for="EscalaMax" class="form-control" type="number" />
+<div class="main-container2">
+    <div class="header-section">
+        <div class="d-flex align-items-center justify-content-between">
+            <div>
+                <h1 class="mb-2">
+                    <i class="fas fa-question-circle text-primary me-3"></i>
+                    Crear Nueva Pregunta
+                </h1>
+                <p class="text-muted mb-0">Configure una nueva pregunta para sus formularios</p>
+            </div>
+            <div class="text-end">
+                <i class="fas fa-clipboard-question fa-3x text-primary opacity-25"></i>
+            </div>
         </div>
-        <span asp-validation-for="EscalaMin" class="text-danger"></span>
-        <span asp-validation-for="EscalaMax" class="text-danger"></span>
     </div>
-    <div class="mb-3">
-        <label asp-for="Extra" class="form-label">Extra (opcional)</label>
-        <input asp-for="Extra" class="form-control" value="null" type="hidden"/>
-        <span asp-validation-for="Extra" class="text-danger"></span>
+
+    <div class="form-container">
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger alert-custom mb-4">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                <strong>Error:</strong> Por favor corrija los errores en el formulario.
+                @Html.ValidationSummary(true, "", new { @class = "mt-2 mb-0" })
+            </div>
+        }
+
+        <form asp-action="Create" method="post" id="createQuestionForm">
+            @Html.AntiForgeryToken()
+            
+            <div class="form-section">
+                <h5>
+                    <i class="fas fa-edit text-primary"></i>
+                    Contenido de la Pregunta
+                </h5>
+                
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label asp-for="Contenido" class="form-label fw-semibold">
+                            <i class="fas fa-comment-dots me-2"></i>Pregunta
+                        </label>
+                        <textarea asp-for="Contenido" class="form-control" rows="3" placeholder="Escriba el contenido de la pregunta" required></textarea>
+                        <span asp-validation-for="Contenido" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="col-md-12 mb-3">
+                        <label asp-for="Tipo" class="form-label fw-semibold">
+                            <i class="fas fa-list-ul me-2"></i>Tipo de Pregunta
+                        </label>
+                        <select asp-for="Tipo" class="form-select" id="tipoPregunta" required>
+                            <option value="">Seleccione el tipo de pregunta...</option>
+                            <option value="Abierta">Abierta (Respuesta de texto libre)</option>
+                            <option value="Seleccion">Selección (Opciones múltiples)</option>
+                            <option value="Escala">Escala (Rango numérico)</option>
+                        </select>
+                        <span asp-validation-for="Tipo" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section" id="opcionesSeleccionDiv" style="display:none;">
+                <h5>
+                    <i class="fas fa-check-square text-primary"></i>
+                    Opciones de Selección
+                </h5>
+                
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label asp-for="OpcionesSeleccion" class="form-label fw-semibold">
+                            <i class="fas fa-list me-2"></i>Opciones
+                            <span class="text-muted fw-normal">(separadas por coma)</span>
+                        </label>
+                        <input asp-for="OpcionesSeleccion" class="form-control" placeholder="Ejemplo: Opción 1, Opción 2, Opción 3" />
+                        <small class="form-text text-muted">
+                            <i class="fas fa-info-circle me-1"></i>
+                            Ingrese las opciones separadas por comas
+                        </small>
+                        <span asp-validation-for="OpcionesSeleccion" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section" id="escalaDiv" style="display:none;">
+                <h5>
+                    <i class="fas fa-sliders-h text-primary"></i>
+                    Configuración de Escala
+                </h5>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="EscalaMin" class="form-label fw-semibold">
+                            <i class="fas fa-arrow-down me-2"></i>Valor Mínimo
+                        </label>
+                        <input asp-for="EscalaMin" class="form-control" type="number" placeholder="Ej: 0" />
+                        <span asp-validation-for="EscalaMin" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="EscalaMax" class="form-label fw-semibold">
+                            <i class="fas fa-arrow-up me-2"></i>Valor Máximo
+                        </label>
+                        <input asp-for="EscalaMax" class="form-control" type="number" placeholder="Ej: 10" />
+                        <span asp-validation-for="EscalaMax" class="text-danger"></span>
+                    </div>
+                </div>
+                
+                <div class="alert alert-info alert-custom">
+                    <i class="fas fa-lightbulb me-2"></i>
+                    La escala permitirá a los usuarios seleccionar un valor entre el mínimo y máximo especificado.
+                </div>
+            </div>
+
+            <input asp-for="Extra" class="form-control" value="null" type="hidden"/>
+
+            <div class="d-flex gap-3 justify-content-end">
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fas fa-times me-2"></i>Cancelar
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save me-2"></i>Guardar Pregunta
+                </button>
+            </div>
+        </form>
     </div>
-    <button type="submit" class="btn btn-success">Guardar</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
-</form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
@@ -53,9 +144,29 @@
             $('#opcionesSeleccionDiv').toggle(tipo === 'Seleccion');
             $('#escalaDiv').toggle(tipo === 'Escala');
         }
+        
         $(document).ready(function () {
             $('#tipoPregunta').change(mostrarCamposTipo);
             mostrarCamposTipo();
+            
+            // Form validation and styling
+            const form = document.getElementById('createQuestionForm');
+            const inputs = form.querySelectorAll('.form-control, .form-select');
+            
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.classList.add('focused');
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.classList.remove('focused');
+                    if (this.value.trim() !== '') {
+                        this.classList.add('has-value');
+                    } else {
+                        this.classList.remove('has-value');
+                    }
+                });
+            });
         });
     </script>
 }

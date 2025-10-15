@@ -16,46 +16,11 @@
 <link rel="stylesheet" href="@Url.Content("~/css/paginas.css")" />
 
 <div class="container">
+    <br>
     <a href="@Url.Action("Index", "Pacientes")" class="back-button">
         <span>←</span> Volver
     </a>
 
-    <div class="info-grid">
-        <div class="info-paciente info-card">
-            <div class="d-flex align-items-start gap-3">
-                <div class="img-paciente">MT</div>
-                <div class="flex-grow-1">
-                    <h3 class="mb-1">@Model.Nombre</h3>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="datos-paciente">📅 @Model.Edad años</div>
-                            <div class="datos-paciente">👤 @Model.Sexo</div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="datos-paciente">✉️ @Model.Email</div>
-                            <div class="datos-paciente">📞 @Model.Telefono</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="info-diagnostico info-card">
-            <h6>Diagnóstico General</h6>
-            <p class="mb-2" style="color: #b32a2a;">@(Model.Diagnostico ?? "No especificado")</p>
-            <small>Fecha del Diagnóstico</small>
-            <p>@DateTime.Now.ToString("dd 'de' MMMM, yyyy")</p>
-            <small>Severidad</small>
-            <p>⭐⭐ Moderada</p>
-        </div>
-    </div>
-
-    <li class="nav-item" style="list-style: none;">
-        <div class="form-check form-switch ms-3 d-flex align-items-center">
-            <input class="form-check-input" type="checkbox" id="toggleDiarios" style="cursor: pointer;">
-            <label class="form-check-label ms-2" for="toggleDiarios">Mostrar Diarios</label>
-        </div>
-    </li>
     <ul class="nav nav-tabs mt-4" id="pacienteTabs">
         <li class="nav-item">
             <a class="nav-link active" data-bs-toggle="tab" href="#diariosTab">Diarios</a>
@@ -82,10 +47,16 @@
                 <input type="date" id="fechaFin" class="form-control d-inline-block hidden" style="width:auto;">
 
             </div>
+            <li class="nav-item" style="list-style: none;">
+                <div class="form-check form-switch ms-3 d-flex align-items-center">
+                    <input class="form-check-input" type="checkbox" id="toggleDiarios" style="cursor: pointer;">
+                    <label class="form-check-label ms-2" for="toggleDiarios">Mostrar Diarios</label>
+                </div>
+            </li>
             <div id="calendarioDiarios" style="max-width: 900px; margin-bottom: 2rem;"></div>
                 <div class="form-check form-switch mb-3" id="vistaToggleContainer" style="display: none;">
                 <input class="form-check-input" type="checkbox" id="toggleVista">
-                <label class="form-check-label" for="toggleVista">Vista simplificada</label>
+                <label class="form-check-label" for="toggleVista">Ocultar preguntas de rutina</label>
             </div>
 
             <script>
@@ -105,7 +76,7 @@
                 });
             });
             </script>
-            <div class="accordion" id="accordionDiarios">
+            <div class="accordion" id="accordionDiarios" style="display : none;">
                 @if (Model.DiariosEmocionales != null && Model.DiariosEmocionales.Any())
                 {
                     foreach (var d in Model.DiariosEmocionales.OrderByDescending(d => d.Fecha))
@@ -122,7 +93,7 @@
 
                         <div class="accordion-item emotion-entry" id="diario-@d.ID_Diario">
                             <h2 class="accordion-header" id="@headingId">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                <button class="accordion-button collapsed fw-semibold text-primary" type="button" data-bs-toggle="collapse" 
                                         data-bs-target="#@collapseId" aria-expanded="false"
                                         aria-controls="@collapseId">
                                         @d.Fecha.ToShortDateString() - @d.Estado
@@ -132,32 +103,38 @@
                                 aria-labelledby="@headingId" data-bs-parent="#accordionDiarios">
                                 <div class="accordion-body">
                                     <div class="emotion-entry">
-                                        <p class="mb-2">¿Cómo han estado tus pensamientos?</p>
-                                        <p class="mb-2 text-muted">"@(respuestas[0])"</p>
-                                        <p class="mb-2">¿Algo que consideres importante de tu día?</p>
-                                        <p class="mb-2 text-muted">"@(respuestas[1])"</p>
-                                        <p class="mb-2">¿Algo más que quieras contar?</p>
-                                        <p class="mb-2 text-muted">"@(respuestas[2])"</p>
+                                        <div class="mb-3">
+                                            <p class="fw-medium mb-2 text-secondary">¿Cómo han estado tus pensamientos?</p>
+                                            <p class="mb-0 ps-3 border-start border-3 border-primary">"@(respuestas[0])"</p>
+                                        </div>
+                                        <div class="mb-3">
+                                            <p class="fw-medium mb-2 text-secondary">¿Algo que consideres importante de tu día?</p>
+                                            <p class="mb-0 ps-3 border-start border-3 border-primary">"@(respuestas[1])"</p>
+                                        </div>
+                                        <div class="mb-3">
+                                            <p class="fw-medium mb-2 text-secondary">¿Algo más que quieras contar?</p>
+                                            <p class="mb-0 ps-3 border-start border-3 border-primary">"@(respuestas[2])"</p>
+                                        </div>
                                         <div class="metrics-grid">
                                             <div class="metric-item">
                                                 <i class="fas fa-face-smile text-success"></i>
-                                                <span>Animo: @(emociones[0])/10</span>
+                                                <span>Animo: <strong>@(emociones[0])/10</strong></span>
                                             </div>
                                             <div class="metric-item">
-                                                <i class="fas fa-face-smile text-success"></i>
-                                                <span>Apetito: @(emociones[1])/10</span>
+                                                <i class="fas fa-utensils text-warning"></i>
+                                                <span>Apetito: <strong>@(emociones[1])/10</strong></span>
                                             </div>
                                             <div class="metric-item">
-                                                <i class="fas fa-face-smile text-success"></i>
-                                                <span>Energía: @(emociones[2])/10</span>
+                                                <i class="fas fa-bolt text-danger"></i>
+                                                <span>Energía: <strong>@(emociones[2])/10</strong></span>
                                             </div>
                                             <div class="metric-item">
-                                                <i class="fas fa-face-smile text-success"></i>
-                                                <span>Calidad Sueño: @(emociones[3])/10</span>
+                                                <i class="fas fa-bed text-info"></i>
+                                                <span>Calidad Sueño: <strong>@(emociones[3])/10</strong></span>
                                             </div>
                                             <div class="metric-item">
-                                                <i class="fas fa-face-smile text-success"></i>
-                                                <span>Batería Social: @(emociones[4])/10</span>
+                                                <i class="fas fa-users text-primary"></i>
+                                                <span>Batería Social: <strong>@(emociones[4])/10</strong></span>
                                             </div>
                                         </div>
                                         <div class="metrics-grid">
@@ -175,7 +152,7 @@
                                             </div>
                                             <div class="metric-item">
                                                 <i class="fas fa-moon text-warning"></i>
-                                                <span>@d.Hora_dormida sueño</span>
+                                                <span>@d.Hora_dormida hrs sueño</span>
                                             </div>
                                         </div>
                                     </div>
@@ -233,14 +210,10 @@
             // Add event listener to the toggle switch
             toggleDiarios.addEventListener('change', function () {
                 if (this.checked) {
-                    // Show the daily journal content if the switch is ON
                     diariosContent.style.display = 'block';
-                    // Show the view toggle as well
                     vistaToggleContainer.style.display = 'block';
                 } else {
-                    // Hide the daily journal content if the switch is OFF
                     diariosContent.style.display = 'none';
-                    // Hide the view toggle
                     vistaToggleContainer.style.display = 'none';
                 }
             });
