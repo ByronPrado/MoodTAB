@@ -2,81 +2,242 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MoodTAB.Vistas.TestPage"
-             Title="Test">
+             Title="Ajustes"
+             BackgroundColor="#F8F9FA">
 
-    <ScrollView BackgroundColor="#FFF3F3FF">
-        <VerticalStackLayout  Spacing="10">
-        <Label 
-            Text="Probemos los servicios aquiiiiiii"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-            <HorizontalStackLayout>
-                <Label Text="Ingreso manual de datos de salud" VerticalOptions="Center" />
-                <Switch IsToggled="{Binding HealthDataManual}" VerticalOptions="Center" />
-            </HorizontalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="16,20">
+            
+            <Frame BackgroundColor="White"
+                   CornerRadius="16"
+                   HasShadow="True"
+                   Padding="0"
+                   Margin="0,0,0,12">
+                <VerticalStackLayout Spacing="0">
+                    
+                    <Label Text="SmarthWatch Data" 
+                           FontSize="14" 
+                           FontAttributes="Bold"
+                           TextColor="#6B7280"
+                           Margin="16,16,16,12"
+                           TextTransform="Uppercase"/>
+                    
+                    <Grid Padding="16,12" ColumnDefinitions="Auto,*,Auto">
+                        <Frame Grid.Column="0"
+                               BackgroundColor="#EEF2FF"
+                               CornerRadius="10"
+                               Padding="0"
+                               HasShadow="False"
+                               WidthRequest="40"
+                               HeightRequest="40"
+                               VerticalOptions="Center">
+                            <Label Text="✍️" 
+                                   FontSize="20"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </Frame>
+                        
+                        <VerticalStackLayout Grid.Column="1" 
+                                           Spacing="2" 
+                                           Margin="12,0,0,0"
+                                           VerticalOptions="Center">
+                            <Label Text="Ingreso de datos manual" 
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#1A1A1A"/>
 
-        <!-- TestPage.xaml -->
-        <Label x:Name="NombreLabel" Text="Test Page" />
-        <Button Text="Mostrar ruta" Clicked="OnButtonClicked"/>
-        <Button Text="Editar Usuario" Clicked="OnEditarUsuarioClicked"/>
-        <Button Text="HealthConnect" Clicked="OnHealthConnect"/>
-        <Label Text=""/>
+                        </VerticalStackLayout>
+                        
+                        <Switch Grid.Column="2" 
+                                IsToggled="{Binding HealthDataManual}"
+                                VerticalOptions="Center"
+                                OnColor="#4F46E5"/>
+                    </Grid>
+                    
+                </VerticalStackLayout>
+            </Frame>
 
-        <!-- Opciones SmarthWatch-->
-        <Label Text="SmartWatch (ajustar switches con los del diario)" FontSize="18" FontFamily="BreeSerif-Regular.ttf" TextColor="Black"/>
-        <Label Text="seleccionar que datos puede ingresar desde smarthwatch" FontSize="14" FontFamily="BreeSerif-Regular.ttf" TextColor="gray"/>
-        <HorizontalStackLayout Spacing="100" VerticalOptions="Center">
-            <Label  Text="Ritmo Cardiaco"  
-                    FontSize="18"
-                    VerticalOptions="Center"
-                    FontAttributes="Bold" 
-                    TextColor="black"/>
-            <Switch IsToggled="False"/>
-        </HorizontalStackLayout>
-        <HorizontalStackLayout Spacing="30" VerticalOptions="Center">
-            <Label  Text="Variabilidad Frecuencia Cardiaca (ms)"
-                    WidthRequest="200"
-                    FontSize="18"
-                    VerticalOptions="Center"
-                    FontAttributes="Bold" 
-                    TextColor="black"/>
-            <Switch IsToggled="False" />
-        </HorizontalStackLayout>
-        <HorizontalStackLayout Spacing="180" VerticalOptions="Center">
-            <Label  Text="Pasos"  
-                    FontSize="18"
-                    VerticalOptions="Center"
-                    FontAttributes="Bold" 
-                    TextColor="black"/>
-            <Switch IsToggled="False" />
-        </HorizontalStackLayout>
-        <HorizontalStackLayout Spacing="100" VerticalOptions="Center">
-            <Label  Text="Horas de sueño"  
-                    FontSize="18"
-                    VerticalOptions="Center"
-                    FontAttributes="Bold" 
-                    TextColor="black"/>
-            <Switch IsToggled="False" />
-        </HorizontalStackLayout>
-        <Label Text=""/>
+            <Frame BackgroundColor="White"
+                   CornerRadius="16"
+                   HasShadow="True"
+                   Padding="0"
+                   Margin="0,0,0,12">
+                <VerticalStackLayout Spacing="0">
+                    
+                    <VerticalStackLayout Spacing="4" Margin="16,16,16,12">
+                        <Label Text="Toma de datos" 
+                               FontSize="14" 
+                               FontAttributes="Bold"
+                               TextColor="#6B7280"
+                               TextTransform="Uppercase"/>
+                        <Label Text="Datos que se ingresaran en los diarios emocionales" 
+                               FontSize="13"
+                               TextColor="#9CA3AF"
+                               LineBreakMode="WordWrap"/>
+                    </VerticalStackLayout>
 
-        <!-- Opciones sueño-->
-        <HorizontalStackLayout Spacing="100" VerticalOptions="Center">
-            <Label Text="Registro del Sueño" 
-                   FontSize="18" 
-                   FontFamily="BreeSerif-Regular.ttf"
-                   VerticalOptions="Center"
-                   TextColor="Black"/>
-            <Switch IsToggled="{Binding optionSueno}" 
-                    Toggled="OnSuenoValueChanged"/>
-        </HorizontalStackLayout>
-        
-        <Label Text="Ingresar las horas de sueño por horas totales"
-                FontSize="14"
-                FontFamily="BreeSerif-Regular.ttf"
-                TextColor="gray"/>
-        
-    </VerticalStackLayout>
+                    <BoxView HeightRequest="1" 
+                             BackgroundColor="#E5E7EB" 
+                             Margin="16,0"/>
+                    
+                    <Grid Padding="16,12" ColumnDefinitions="Auto,*,Auto">
+                        <Frame Grid.Column="0"
+                               BackgroundColor="#FEE2E2"
+                               CornerRadius="10"
+                               Padding="0"
+                               HasShadow="False"
+                               WidthRequest="40"
+                               HeightRequest="40"
+                               VerticalOptions="Center">
+                            <Label Text="❤️" 
+                                   FontSize="20"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </Frame>
+                        
+                        <Label Grid.Column="1" 
+                               Text="Frecuencia cardíaca" 
+                               FontSize="16"
+                               TextColor="#1A1A1A"
+                               VerticalOptions="Center"
+                               Margin="12,0,0,0"/>
+                        
+                        <Switch Grid.Column="2" 
+                                IsToggled="{Binding OptionHR}"
+                                VerticalOptions="Center"
+                                OnColor="#4F46E5"/>
+                    </Grid>
+                    
+                    <BoxView HeightRequest="1" 
+                             BackgroundColor="#E5E7EB" 
+                             Margin="16,0"/>
+                    
+                    <Grid Padding="16,12" ColumnDefinitions="Auto,*,Auto">
+                        <Frame Grid.Column="0"
+                               BackgroundColor="#DBEAFE"
+                               CornerRadius="10"
+                               Padding="0"
+                               HasShadow="False"
+                               WidthRequest="40"
+                               HeightRequest="40"
+                               VerticalOptions="Center">
+                            <Label Text="📊" 
+                                   FontSize="20"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </Frame>
+                        
+                        <VerticalStackLayout Grid.Column="1" 
+                                           Spacing="2" 
+                                           Margin="12,0,0,0"
+                                           VerticalOptions="Center">
+                            <Label Text="Variabilidad de la Frecuencia cardíaca" 
+                                   FontSize="16"
+                                   TextColor="#1A1A1A"/>
+                            <Label Text="HRV en millisegundos" 
+                                   FontSize="12"
+                                   TextColor="#6B7280"/>
+                        </VerticalStackLayout>
+                        
+                        <Switch Grid.Column="2" 
+                                IsToggled="{Binding OptionHRV}"
+                                VerticalOptions="Center"
+                                OnColor="#4F46E5"/>
+                    </Grid>
+                    
+                    <BoxView HeightRequest="1" 
+                             BackgroundColor="#E5E7EB" 
+                             Margin="16,0"/>
+                    
+                    <Grid Padding="16,12" ColumnDefinitions="Auto,*,Auto">
+                        <Frame Grid.Column="0"
+                               BackgroundColor="#D1FAE5"
+                               CornerRadius="10"
+                               Padding="0"
+                               HasShadow="False"
+                               WidthRequest="40"
+                               HeightRequest="40"
+                               VerticalOptions="Center">
+                            <Label Text="👟" 
+                                   FontSize="20"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </Frame>
+                        
+                        <Label Grid.Column="1" 
+                               Text="Pasos" 
+                               FontSize="16"
+                               TextColor="#1A1A1A"
+                               VerticalOptions="Center"
+                               Margin="12,0,0,0"/>
+                        
+                        <Switch Grid.Column="2"
+                                IsToggled="{Binding OptionPasos}"
+                                VerticalOptions="Center"
+                                OnColor="#4F46E5"/>
+                    </Grid>
+                    
+                    <BoxView HeightRequest="1" 
+                             BackgroundColor="#E5E7EB" 
+                             Margin="16,0"/>
+                    
+                </VerticalStackLayout>
+            </Frame>
+
+            <Frame BackgroundColor="White"
+                   CornerRadius="16"
+                   HasShadow="True"
+                   Padding="0"
+                   Margin="0,0,0,12">
+                <VerticalStackLayout Spacing="0">
+                    
+                    <Label Text="Seguimiento del sueño" 
+                           FontSize="14" 
+                           FontAttributes="Bold"
+                           TextColor="#6B7280"
+                           Margin="16,16,16,12"
+                           TextTransform="Uppercase"/>
+                    
+                    <Grid Padding="16,12" ColumnDefinitions="Auto,*,Auto">
+                        <Frame Grid.Column="0"
+                               BackgroundColor="#FEF3C7"
+                               CornerRadius="10"
+                               Padding="0"
+                               HasShadow="False"
+                               WidthRequest="40"
+                               HeightRequest="40"
+                               VerticalOptions="Center">
+                            <Label Text="🌙" 
+                                   FontSize="20"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </Frame>
+                        
+                        <VerticalStackLayout Grid.Column="1" 
+                                           Spacing="2" 
+                                           Margin="12,0,0,0"
+                                           VerticalOptions="Center">
+                            <Label Text="Registro de sueño" 
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#1A1A1A"/>
+                            <Label Text="Ingresar horas totales" 
+                                   FontSize="13"
+                                   TextColor="#6B7280"/>
+                        </VerticalStackLayout>
+                        
+                        <Switch Grid.Column="2" 
+                                IsToggled="{Binding OptionSueno}"
+                                VerticalOptions="Center"
+                                OnColor="#4F46E5"/>
+                    </Grid>
+                    
+                </VerticalStackLayout>
+            </Frame>
+
+            <BoxView HeightRequest="20" BackgroundColor="Transparent"/>
+            
+        </VerticalStackLayout>
     </ScrollView>
     
 </ContentPage>

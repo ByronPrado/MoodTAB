@@ -16,7 +16,6 @@ public partial class TestPage : ContentPage
 		InitializeComponent();
 		BindingContext = new TestViewModel();
 
-		NombreLabel.Text = Nombre; // Muestra el valor inicial
 		connectivity = Connectivity.Current;
 	}
 
@@ -44,8 +43,6 @@ public partial class TestPage : ContentPage
 			DisplayAlert("Error", "No hay conexión a Internet.", "OK");
 			return;
 		}
-		NombreLabel.Text = DatabasePath; // Cambia el texto al presionar el botón
-		Clipboard.SetTextAsync(NombreLabel.Text); // Copia al portapapeles
 		DisplayAlert("Copiado", "La dirección se copió al portapapeles.", "OK");
 		try
 		{
@@ -67,10 +64,6 @@ public partial class TestPage : ContentPage
 			DisplayAlert("Error", $"No se pudo compartir el archivo: {ex.Message}", "OK");
 		}
 	}
-	public void OnSuenoValueChanged(object sender, ToggledEventArgs  e)
-    {
-		Globals.OptionSueno = e.Value ? true : false;
-    }
 }
 
 

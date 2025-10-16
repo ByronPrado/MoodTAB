@@ -15,7 +15,6 @@ namespace MoodTAB
         public static bool respondido { get; set; } = false;
         public static bool esFamiliar { get; set; } = false;
         public static string? id_usuario_externo_DB { get; set; }
-        public static bool OptionSueno { get; set; } = false;
 
         public static string direccion_ngrok = "http://10.0.2.2:5051/";
         //public static string direccion_ngrok = "https://059d58cb709b.ngrok-free.app/";
@@ -25,43 +24,6 @@ namespace MoodTAB
             return !string.IsNullOrEmpty(boole) && bool.TryParse(boole, out var result) && result;
 
         }
-
-        public static Dictionary<string, string> colores = new Dictionary<string, string>
-        {
-            { "Feliz", "#fff692"},
-            { "Emocionado", "#ffd195" },
-            { "Cansado", "#cb9bff" },
-            { "Triste", "#99c5fe" },
-            { "Frustrado", "#e5fb96" },
-            { "Enojado", "#ff8787" },
-            { "Neutro", "#bababa" },
-            { "Angustia", "#9baffd" },
-            { "Ansioso", "#9bffe9" },
-        };
-        public static Dictionary<string, string> bordes = new Dictionary<string, string>
-        {
-            { "Feliz", "#e0d269"},
-            { "Emocionado", "#d8a366" },
-            { "Cansado", "#9866d1" },
-            { "Triste", "#6a99d2" },
-            { "Frustrado", "#a0cf62" },
-            { "Enojado", "#cb6464" },
-            { "Neutro", "#888888" },
-            { "Angustia", "#6991cd" },
-            { "Ansioso", "#5bbfab" },
-        };
-        public static Dictionary<string, string> emoticonos = new Dictionary<string, string>
-        {
-            { "Feliz", "😊"},
-            { "Emocionado", "😃" },
-            { "Cansado", "😪" },
-            { "Triste", "😢" },
-            { "Frustrado", "😖" },
-            { "Enojado", "😠" },
-            { "Neutro", "😑" },
-            { "Angustia", "😰" },
-            { "Ansioso", "🫨" },
-        };
 
         public static Dictionary<string, ConsejoInfo> consejos = new Dictionary<string, ConsejoInfo>
         {
@@ -141,5 +103,11 @@ namespace MoodTAB
             }
 
         }
+
+        public static bool OptionSueno { get; set; } = false;
+        public static bool OptionHR { get; set; } = false;
+        public static bool OptionHVR { get; set; } = false;
+        public static bool OptionPasos { get; set; } = false;
+        public static bool OptionManual { get; set; } = false;
     }
 }

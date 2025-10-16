@@ -14,23 +14,34 @@ namespace MoodTAB.ViewModel
 {
     public partial class DetalleDiarioViewModel : ObservableObject
     {
-        [ObservableProperty]
-        public Diario diarioDetallado;
-        [ObservableProperty]
-        public ObservableCollection<EmocionItem> listaEmociones;
+        [ObservableProperty] public Diario diarioDetallado;
+        [ObservableProperty] public string animo;
+        [ObservableProperty] public string apetito;
+        [ObservableProperty] public string energia;
+        [ObservableProperty] public string calidadSueno;
+        [ObservableProperty] public string bateriaSocial;
+        [ObservableProperty] public string pregunta1;
+        [ObservableProperty] public string pregunta2;
+        [ObservableProperty] public string pregunta3;
+        [ObservableProperty] bool optionSuenoTrue = Globals.OptionSueno;
+        [ObservableProperty] bool optionSuenoFalse = !Globals.OptionSueno;
+        public string[] listaSliders;
+        public string[] preguntas;
+        
         public DetalleDiarioViewModel(Diario diario)
         {
             diarioDetallado = diario;
-            listaEmociones = new ObservableCollection<EmocionItem>();
-            
-            foreach (var emocion in (diario.Emocion_Diaria ?? string.Empty).Split(','))
-            {
-                var texto = emocion.Trim();
-                var color = Globals.colores.ContainsKey(texto) ? Globals.colores[texto] : "#FFE3FF67";
-                var colorborde = Globals.bordes.ContainsKey(texto) ? Globals.bordes[texto] : "#FFE3FF67";
-                var emoji = Globals.emoticonos.ContainsKey(texto) ? Globals.emoticonos[texto] : "🤡";
-                listaEmociones.Add(new EmocionItem(texto, emoji, color, colorborde));
-            }
+            listaSliders = diario.Emocion_Diaria.Split(',');
+            Animo = listaSliders[0];
+            Apetito = listaSliders[1];
+            Energia = listaSliders[2];
+            CalidadSueno = listaSliders[3];
+            BateriaSocial = listaSliders[4];
+
+            preguntas = diario.Descripcion.Split('/');
+            Pregunta1 = preguntas[0];
+            Pregunta2 = preguntas[1];
+            Pregunta3 = preguntas[2];
         }
     }
     

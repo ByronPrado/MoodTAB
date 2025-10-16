@@ -70,6 +70,17 @@ namespace MoodTAB.ViewModel
             {
                 TitleApi = "No se pudo conectar a la web " + e.Message;
             }
+
+            var storedValue = SecureStorage.GetAsync("healthdata_manual").Result ?? "false";
+            Globals.OptionManual = bool.Parse(storedValue);
+            storedValue = SecureStorage.GetAsync("ingreso_sueno").Result ?? "false";
+            Globals.OptionSueno = bool.Parse(storedValue);
+            storedValue = SecureStorage.GetAsync("ingreso_hr").Result ?? "false";
+            Globals.OptionHR = bool.Parse(storedValue);
+            storedValue = SecureStorage.GetAsync("ingreso_hrv").Result ?? "false";
+            Globals.OptionHVR = bool.Parse(storedValue);
+            storedValue = SecureStorage.GetAsync("ingreso_pasos").Result ?? "false";
+            Globals.OptionPasos = bool.Parse(storedValue);
             // iniciar carga del cache de overrides en background y luego cargar el consejo
             _ = InitializeOverridesAndLoadConsejoAsync();
 

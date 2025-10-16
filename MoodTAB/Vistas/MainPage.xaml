@@ -184,7 +184,7 @@
                        Margin="0,0,0,0"/>
 
                 <VerticalStackLayout Spacing="0">
-                    <Frame  BackgroundColor="#FFD35656"
+                    <Frame  BackgroundColor="#FF567ED3"
                             BorderColor="Transparent"
                             CornerRadius="15"
                             Padding="10"

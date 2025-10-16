@@ -53,18 +53,17 @@ namespace MoodTAB.ViewModel
         [ObservableProperty] public TimeSpan horaDesperto;
 
         // Switches: true = manual, false = smartwatch
-        [ObservableProperty] private bool isManualRitmoCardiaco = true; // Nuevo, default manual
-        [ObservableProperty] private bool isManualVariabilidad = true;
-        [ObservableProperty] private bool isManualPasos = true;
-        [ObservableProperty] private bool isManualHoraDurmio = true;
-        [ObservableProperty] private bool isManualHoraDesperto = true;
-        [ObservableProperty] private bool isManualHorasSueno = true;
-        [ObservableProperty] private bool healthDataManual;
+        [ObservableProperty] private bool healthDataManual = Globals.OptionManual;
+        
 
         // Otros
         [ObservableProperty] string error;
         [ObservableProperty] bool optionSuenoTrue = Globals.OptionSueno;
         [ObservableProperty] bool optionSuenoFalse = !Globals.OptionSueno;
+        [ObservableProperty] bool optionHR = Globals.OptionHR;
+        [ObservableProperty] bool optionHRV = Globals.OptionHVR;
+        [ObservableProperty] bool optionPasos = Globals.OptionPasos;
+        [ObservableProperty] bool actividadDiaria = Globals.OptionHR || Globals.OptionHVR || Globals.OptionPasos;
         public List<string> redes =
     [
         "com.whatsapp",                 //whatsapp
@@ -99,10 +98,6 @@ namespace MoodTAB.ViewModel
             HoraDurmio = TimeSpan.Zero;
             HoraDesperto = TimeSpan.Zero;
 
-            // Cargar el valor almacenado de healthdata_manual
-            var storedValue = SecureStorage.GetAsync("healthdata_manual").Result ?? "false";
-            HealthDataManual = bool.Parse(storedValue);
-
 
             _ = LoadDiariosAsync();
         }
@@ -117,56 +112,6 @@ namespace MoodTAB.ViewModel
             if (int.TryParse(value, out int intValue) && intValue > 24)
             {
                 HorasSueno = "24";
-            }
-        }
-
-        // Manejo de cambios en switches (usando partial void para setters)
-        partial void OnIsManualRitmoCardiacoChanged(bool value)
-        {
-            HandleSwitchChange(value, nameof(RitmoCardiaco));
-        }
-        partial void OnIsManualVariabilidadChanged(bool value)
-        {
-            HandleSwitchChange(value, nameof(VariabilidadFrecuenciaCardiaca));
-        }
-        partial void OnIsManualPasosChanged(bool value)
-        {
-            HandleSwitchChange(value, nameof(CantidadPasos));
-            if (value) CantidadPasos = (int)stepService.TotalSteps; // Si manual, carga actual, pero permite editar
-        }
-        partial void OnIsManualHoraDurmioChanged(bool value)
-        {
-            HandleSwitchChange(value, nameof(HoraDurmio));
-        }
-        partial void OnIsManualHoraDespertoChanged(bool value)
-        {
-            HandleSwitchChange(value, nameof(HoraDesperto));
-        }
-        partial void OnIsManualHorasSuenoChanged(bool value)
-        {
-            HandleSwitchChange(value, nameof(HorasSueno));
-        }
-        private async void HandleSwitchChange(bool isManual, string propertyName)
-        {
-            if (!isManual)
-            {
-                // Smartwatch seleccionado
-                await Application.Current.MainPage.DisplayAlert("Característica Futura", "La integración con smartwatch no está disponible aún.", "OK");
-                // Resetear valor a default (puedes personalizar)
-                SetPropertyByName(propertyName, propertyName.Contains("Hora") ? TimeSpan.Zero : (object)0);
-            }
-        }
-        private void SetPropertyByName(string propertyName, object value)
-        {
-            // Helper para setear propiedades dinámicamente
-            switch (propertyName)
-            {
-                case nameof(RitmoCardiaco): RitmoCardiaco = (int)value; break;
-                case nameof(VariabilidadFrecuenciaCardiaca): VariabilidadFrecuenciaCardiaca = (int)value; break;
-                case nameof(CantidadPasos): CantidadPasos = (int)value; break;
-                case nameof(HoraDurmio): HoraDurmio = (TimeSpan)value; break;
-                case nameof(HoraDesperto): HoraDesperto = (TimeSpan)value; break;
-                case nameof(HorasSueno): HorasSueno = value.ToString(); break;
             }
         }
 
@@ -239,8 +184,8 @@ namespace MoodTAB.ViewModel
                     Horas_Celular = HorasCelular,
                     Horas_Redes = HorasRedes,
                     Horas_Sueno = integer_horas.ToString(),
-                    Ritmo_Cardiaco = RitmoCardiaco,
-                    Variabilidad_Frecuencia_Cardiaca = VariabilidadFrecuenciaCardiaca,
+                    HR_RitmoCardiaco = RitmoCardiaco,
+                    HRV_VariabilidadFrecuencia = VariabilidadFrecuenciaCardiaca,
                     Hora_Durmio = HoraDurmio,
                     Hora_Desperto = HoraDesperto,
                     Cantidad_Pasos = CantidadPasos,
@@ -250,6 +195,15 @@ namespace MoodTAB.ViewModel
                 await App.Database.SaveDiarioAsync(diario);
                 await LoadDiariosAsync();
 
+                var payload_sueno = 0;
+                if (Globals.OptionSueno)
+                {
+                    int.TryParse(HorasSueno, out payload_sueno);
+                }
+                else
+                {
+                    payload_sueno = integer_horas;
+                }
                 var payload = new
                 {
                     ID_Paciente = Globals.id_paciente_DB,
@@ -258,9 +212,9 @@ namespace MoodTAB.ViewModel
                     Pasos = CantidadPasos,
                     Horas_celular = (int)HorasCelular,
                     Horas_redes = (int)HorasRedes,
-                    Hora_dormida = integer_horas,
-                    RitmoCardiaco,
-                    VariabilidadFrecuenciaCardiaca,
+                    Hora_dormida = payload_sueno,
+                    HR_RitmoCardiaco = RitmoCardiaco,
+                    HRV_VariabilidadFrecuencia = VariabilidadFrecuenciaCardiaca,
                     Hora_durmio = HoraDurmio.ToString(),
                     Hora_desperto = HoraDesperto.ToString(),
                     Fecha = DateTime.UtcNow
