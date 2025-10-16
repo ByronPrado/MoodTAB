@@ -155,14 +155,38 @@ namespace WebConTablas.Services
             // Log para mostrar qué datos se están utilizando
             Console.WriteLine("-----------------------------------------------------");
             Console.WriteLine($"⚙️ INICIO DEL ENTRENAMIENTO");
-            Console.WriteLine($"Semana de Adaptación: {GetPersonalizedWeight((int)(X_SEMANAS_INICIALES + (personalizedWeight/100 * SEMANAS_DE_TRANSICION)))} (Simulado)");
             Console.WriteLine($"Peso General: {generalWeight:F2}% | Peso Personalizado: {personalizedWeight:F2}%");
-
             if (generalWeight > 0)
             {
-                int numGeneralSamples = (int)System.Math.Round(GeneralData.Count * (generalWeight / 100.0));
-                trainingData.AddRange(GeneralData.Take(numGeneralSamples));
-                Console.WriteLine($"Se usaron {numGeneralSamples} muestras de datos GENERALES (Total: {GeneralData.Count}).");
+                // 1. Calcular el número de muestras a tomar de CADA CLASE
+                // Se asume que GeneralData tiene una distribución equilibrada (100 por clase).
+                // Si tienes N clases y M total, toma (M/N) * (PesoGeneral/100)
+                
+                // Obtener todas las clases únicas (en el contexto real, "basal", "exaltado", "inhibido")
+                var distinctStates = GeneralData.Select(d => d.EstadoEmocional).Distinct().ToList();
+                int numClasses = distinctStates.Count; // Debería ser 3
+                
+                // Calcular la porción a tomar de cada clase (ej: 300 / 3 = 100. 100 * 0.6667 = 67)
+                int totalGeneralSamples = GeneralData.Count;
+                int maxSamplesPerClass = totalGeneralSamples / numClasses; // 100
+                
+                int samplesToTakePerClass = (int)Math.Round(maxSamplesPerClass * (generalWeight / 100.0));
+                
+                int totalGeneralSamplesUsed = 0;
+
+                foreach (var state in distinctStates)
+                {
+                    var samplesForState = GeneralData
+                        .Where(d => d.EstadoEmocional == state)
+                        .Take(samplesToTakePerClass) // Tomar solo la porción calculada
+                        .ToList();
+                        
+                    trainingData.AddRange(samplesForState);
+                    totalGeneralSamplesUsed += samplesForState.Count;
+                    Console.WriteLine($"-> {samplesForState.Count} muestras de GENERAL '{state}'");
+                }
+                
+                Console.WriteLine($"Se usaron {totalGeneralSamplesUsed} muestras de datos GENERALES (Total: {totalGeneralSamples}).");
             }
             if (personalizedWeight > 0)
             {
@@ -172,7 +196,6 @@ namespace WebConTablas.Services
             
             Console.WriteLine($"TOTAL de muestras para entrenamiento: {trainingData.Count}");
             Console.WriteLine("-----------------------------------------------------");
-
             var random = new System.Random();
             return trainingData.OrderBy(x => random.Next()).ToList();
         }
