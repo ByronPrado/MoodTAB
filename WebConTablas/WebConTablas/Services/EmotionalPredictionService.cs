@@ -90,6 +90,9 @@ namespace WebConTablas.Services
         private const int X_SEMANAS_INICIALES = 3;
         private const int SEMANAS_DE_TRANSICION = 3; 
 
+        // 🎯 Nueva constante: Fecha de inicio manual. Se establece 25 días atrás.
+        private static readonly DateTime START_DATE = DateTime.Now.AddDays(-25);
+
         // 🎯 Constructor modificado para recibir AppDbContext 🎯
         public EmotionalPredictionService(AppDbContext context)
         {
@@ -104,10 +107,19 @@ namespace WebConTablas.Services
         private void LoadAndTrainModel()
         {
             // 1. Cargar los datos personalizados de la BD
-            PersonalizedData = LoadPersonalizedData(); 
+            PersonalizedData = LoadPersonalizedData();
+            
+            TimeSpan timeSinceStart = DateTime.Now - START_DATE;
 
-            // 2. Determinar la semana actual (SIMULACIÓN)
-            int currentWeek = 1; 
+            // La semana 1 es la primera semana. Si han pasado 0-6 días, es la semana 1.
+            // Math.Ceiling(días / 7.0) nos da la semana actual.
+            int currentWeek = (int)Math.Floor(timeSinceStart.TotalDays / 7.0) + 1;
+
+            // Asegurar que la semana sea al menos 1
+            if (currentWeek < 1) currentWeek = 1; 
+
+            Console.WriteLine($"✅ Cálculo de Semana: Fecha Inicio (Manual) = {START_DATE:yyyy-MM-dd}. Semana Actual = {currentWeek}");
+            // --------------------------------------------------------
             
             // 3. Entrenar el modelo
             float personalizedWeight = GetPersonalizedWeight(currentWeek);
