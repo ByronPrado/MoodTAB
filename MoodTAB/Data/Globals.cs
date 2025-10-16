@@ -18,7 +18,7 @@ namespace MoodTAB
         public static bool OptionSueno { get; set; } = false;
 
         public static string direccion_ngrok = "http://10.0.2.2:5051/";
-        //public static string direccion_ngrok = "https://ed2fa62ed89e.ngrok-free.app/";
+        //public static string direccion_ngrok = "https://059d58cb709b.ngrok-free.app/";
 
         public static bool toBool(string? boole)
         {
@@ -65,13 +65,65 @@ namespace MoodTAB
 
         public static Dictionary<string, ConsejoInfo> consejos = new Dictionary<string, ConsejoInfo>
         {
-            { "1", new ConsejoInfo("Monitorea tus horas de sueño", "Cualquier cambio en la rutina de sueño puede estar ligada a cambios de -----", true) },
-            { "2", new ConsejoInfo("Monitorea tu estado de animo", "Mantener un registro te ayudará a notar tus cambios --------", true) },
-            { "3", new ConsejoInfo("Monitorea tus estado de animo", "Puedes escribir más de un diario al día", true)},
-            { "4", new ConsejoInfo("titulo_4", "Contenido_4", true) },
-            { "5", new ConsejoInfo("titulo_5", "Contenido_4", true) },
-            { "6", new ConsejoInfo("titulo_6", "Contenido_4", true) },
-            { "7", new ConsejoInfo("titulo_false", "Contenido_false", false) },
+            { "1", new ConsejoInfo("Monitorea tus horas de sueño", 
+                "Cualquier cambio en la rutina de sueño puede estar ligado a cambios emocionales o físicos.", true) },
+
+            { "2", new ConsejoInfo("Ponle nombre a lo que sientes", 
+                "Decir 'estoy frustrado' o 'estoy triste' te ayuda a entenderte mejor.", true) },
+
+            { "3", new ConsejoInfo("Recuerda que las emociones son pasajeras", 
+                "No duran para siempre, aunque parezcan intensas en el momento.", true) },
+
+            { "4", new ConsejoInfo("Evita juzgarte", 
+                "Sentir demasiado o muy poco no te hace débil; te hace humano.", true) },
+
+            { "5", new ConsejoInfo("Cuida tu cuerpo", 
+                "Dormir, comer bien y moverte mejora tu regulación emocional.", true) },
+
+            { "6", new ConsejoInfo("Respira antes de reaccionar", 
+                "Tómate unos segundos para responder; no actúes en automático.", true) },
+
+            { "7", new ConsejoInfo("Detente un minuto si sientes rabia", 
+                "Aléjate o guarda silencio antes de actuar para evitar impulsividad.", true) },
+
+            { "8", new ConsejoInfo("Pon paños fríos", 
+                "Habla de temas neutros o respira hasta calmarte.", true) },
+
+            { "9", new ConsejoInfo("Usa tu energía para crear", 
+                "Canaliza la intensidad en arte, deporte o tareas concretas.", true) },
+
+            { "10", new ConsejoInfo("Evita tomar decisiones en crisis", 
+                "Espera a sentirte más estable antes de decidir.", true) },
+
+            { "11", new ConsejoInfo("Habla en primera persona", 
+                "Explica cómo te sientes sin culpar a otros. Ejemplo: 'Me dolió que…'", true) },
+
+            { "12", new ConsejoInfo("Dale espacio a tus emociones", 
+                "Evitar sentir solo las hace más fuertes después.", true) },
+
+            { "13", new ConsejoInfo("Exprésate aunque cueste", 
+                "Escribe, dibuja o habla con alguien de confianza.", true) },
+
+            { "14", new ConsejoInfo("Reconoce tus logros", 
+                "Aunque sean pequeños, refuerza lo que sí haces bien.", true) },
+
+            { "15", new ConsejoInfo("Busca actividades que te conecten", 
+                "Caminar, tejer, escuchar música o conversar ayudan a salir del bloqueo.", true) },
+
+            { "16", new ConsejoInfo("Evita aislarte", 
+                "Pedir ayuda no es signo de debilidad, sino de autocuidado.", true) },
+
+            { "17", new ConsejoInfo("Valida tus emociones", 
+                "Lo que sientes tiene sentido, aunque no lo entiendas del todo.", true) },
+
+            { "18", new ConsejoInfo("Pide ayuda profesional si lo necesitas", 
+                "Un psicólogo puede enseñarte estrategias para regularte.", true) },
+
+            { "19", new ConsejoInfo("Rodéate de personas queridas", 
+                "La conexión con otros calma y ayuda a regularte.", true) },
+
+            { "20", new ConsejoInfo("Sé paciente contigo mismo", 
+                "Cambiar requiere práctica, no perfección.", true) }
 
         };
         // Clase para representar los consejos (no estática, con constructor y propiedades)
