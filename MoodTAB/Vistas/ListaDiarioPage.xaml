@@ -51,17 +51,6 @@
                             IsClippedToBounds="False"
                             InputTransparent="True">
                             <VerticalStackLayout>
-                                <Label Text="{Binding Titulo}"
-                                    FontAttributes="Bold"
-                                    FontFamily="BreeSerif-Regular.ttf"
-                                    FontSize="20"
-                                    TextColor="#DD000000" />
-
-                                <Label Text="{Binding Emocion_Diaria}"
-                                    FontSize="14"
-                                    FontFamily="BreeSerif-Regular.ttf"
-                                    TextColor="#DD000000" />
-
                                 <Grid RowDefinitions="10,*,*" ColumnDefinitions="*,*">
                                     <Label Text="Fecha:" Grid.Row="1" Grid.Column="0"
                                         FontAttributes="Bold"

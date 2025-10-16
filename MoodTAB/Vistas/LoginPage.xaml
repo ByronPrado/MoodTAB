@@ -2,8 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MoodTAB.Vistas.LoginPage"
-             NavigationPage.HasNavigationBar="False"
-             
+             NavigationPage.HasNavigationBar="False"             
              >
     <ScrollView BackgroundColor="#6493e5">
         <VerticalStackLayout VerticalOptions="Center" BackgroundColor="#6493e5" Padding="10" Spacing="60">
@@ -20,7 +19,7 @@
                 </Grid>
             </Frame>
             <Frame VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-                <Grid RowDefinitions="*,*,*,*,*">
+                <Grid RowDefinitions="*,*,*,*,*,*">
                     <Label Grid.Row="0" Text="Iniciar Sesión" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center"/>
                     <Entry  Grid.Row="1" Placeholder="Nombre" Text="{Binding Nombre}" />
                     <Entry  Grid.Row="2" Placeholder="Email" Text="{Binding Email}" />
@@ -33,6 +32,8 @@
                         Command="{Binding LoginCommand}"
                         BackgroundColor="#eeeeee"
                         TextColor="Black" />
+                    <Label Grid.Row="5" Text="{Binding ErrorMessage}"
+                        TextColor="Red" />
                 </Grid>
             </Frame>
         </VerticalStackLayout>
