@@ -17,6 +17,8 @@ public class MainActivity : MauiAppCompatActivity
         base.OnCreate(savedInstanceState);
         Instance = this;
         CreateNotificationFromIntent(Intent);
+        Window.SetStatusBarColor(Android.Graphics.Color.ParseColor("#6493e5"));
+
     }
 
     protected override void OnNewIntent(Intent? intent)
