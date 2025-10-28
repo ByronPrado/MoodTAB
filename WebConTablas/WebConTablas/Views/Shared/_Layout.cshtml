@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <title>MoodTAB</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="@Url.Content("~/css/navbar.css")" />
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -15,31 +16,71 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav flex-grow-1">
-                    <!--li class="nav-item">
-                        <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" asp-controller="Psiquiatras" asp-action="Index">Psiquiatras</a>
-                    </li-->
                     <li class="nav-item">
                         <a class="nav-link text-light" asp-controller="Pacientes" asp-action="Index">Pacientes</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-light" asp-controller="Formularios" asp-action="Index">Formularios</a>
                     </li>
-                    <li class="nav-item"></li>
+                    <li class="nav-item">
                         <a class="nav-link text-light" asp-controller="Preguntas" asp-action="Index">Preguntas</a>
                     </li>
-                    <!--li class="nav-item"></li>
-                        <a class="nav-link text-light" asp-controller="FormulariosAsignados" asp-action="Index">Asignar</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-success btn-sm text-white ms-2" href="/ChatPage/Index">Chatbot</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" asp-area="" asp-controller="IATesting" asp-action="Crear">IA Testing</a>
-                    </li-->
                 </ul>
+                @{
+                    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+                    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+                }
+
+                @if (currentController == "Pacientes" && currentAction == "Index")
+                {
+                    <div class="ms-auto d-flex align-items-center">
+                        <button id="notifBtn" class="btn position-relative" type="button" data-bs-toggle="modal" data-bs-target="#notifModal">
+                            <img src="@Url.Content("~/notif.svg")" alt="Notificaciones" style="height: 24px;">
+                            @if (ViewBag.AlertasA != null && ((List<string>)ViewBag.AlertasA).Any())
+                            {
+                                <span class="notif-count position-absolute badge rounded-pill bg-danger">
+                                    @(((List<List<string>>)ViewBag.Alertas).Count)
+                                </span>
+                            }
+                        </button>
+                    </div>
+                    <div class="modal fade" id="notifModal" tabindex="-1" aria-labelledby="notifModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header bg-dark text-white">
+                                    <h5 class="modal-title" style="color : white;" id="notifModalLabel">Notificaciones de Alertas</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                </div>
+                                <div class="modal-body">
+                                    @if (ViewBag.AlertasA != null && ((List<string>)ViewBag.AlertasA).Any())
+                                    {
+                                        <ul class="list-group">
+                                            @foreach (var alerta in (List<List<string>>)ViewBag.Alertas)
+                                            {
+                                                var pacienteNombre = alerta[0];
+                                                var color = alerta[1];
+                                                var motivo = alerta[2];
+                                                var idPaciente = alerta[3];
+
+                                                <li class="list-group-item list-group-item-action alerta-item" 
+                                                    data-id="@idPaciente" style="cursor:pointer;">
+                                                    <strong>@pacienteNombre</strong>
+                                                    <span class="badge bg-warning text-dark ms-2">@motivo</span>
+                                                    <br />
+                                                    <small class="text-muted">Alerta @color</small>
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                    else
+                                    {
+                                        <p class="text-center text-muted mb-0">No hay alertas activas</p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
     </nav>
@@ -49,5 +90,42 @@
     @RenderSection("Scripts", required: false)
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const alertItems = document.querySelectorAll(".alerta-item");
+            alertItems.forEach(item => {
+                item.addEventListener("click", function () {
+                    const id = this.getAttribute("data-id");
+                    
+                    const modalElement = document.getElementById('notifModal');
+                    const modal = bootstrap.Modal.getInstance(modalElement);
+                    if (modal) {
+                        modal.hide();
+                    }
+                    
+                    // Remove backdrop and modal-open class manually to ensure cleanup
+                    setTimeout(() => {
+                        const backdrop = document.querySelector('.modal-backdrop');
+                        if (backdrop) {
+                            backdrop.remove();
+                        }
+                        document.body.classList.remove('modal-open');
+                        document.body.style.overflow = '';
+                        document.body.style.paddingRight = '';
+                    }, 300);
+                    
+                    // Call showPatientDetails if it exists (on index page)
+                    if (typeof showPatientDetails === 'function') {
+                        setTimeout(() => {
+                            showPatientDetails(parseInt(id));
+                        }, 350);
+                    } else {
+                        // Fallback: redirect if not on index page (shouldn't happen)
+                        window.location.href = `/Pacientes/Details/${id}`;
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

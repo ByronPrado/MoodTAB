@@ -40,25 +40,19 @@ public class PacientesController : Controller
         // --- Lógica de alerta por estado exaltado/inhibido 3 días o más ---
         var alertas = new List<List<string>>();
         var alertasA = new List<string>();
+
         foreach (var paciente in pacientes)
         {
-            // Toma los últimos 7 diarios emocionales (o los que haya)
             var ultimosDiarios = paciente.DiariosEmocionales
                 .OrderByDescending(d => d.Fecha)
                 .Take(7)
                 .ToList();
 
-            // Cuenta días con estado "exaltado" o "inhibido"
-            int diasAlteradosIn = ultimosDiarios
-                .Count(d => d.Estado == "inhibido");
+            int diasAlteradosIn = ultimosDiarios.Count(d => d.Estado == "inhibido");
+            int diasAlteradosEx = ultimosDiarios.Count(d => d.Estado == "exaltado");
 
-            int diasAlteradosEx = ultimosDiarios
-                .Count(d => d.Estado == "exaltado");
-
-            if (ultimosDiarios.Count() >= 3)
+            if (ultimosDiarios.Count >= 3)
             {
-
-                // Promedios
                 var suma_pasos = 0;
                 var suma_celular = 0;
                 foreach (var diarios in ultimosDiarios.Take(ultimosDiarios.Count - 1))
@@ -66,44 +60,42 @@ public class PacientesController : Controller
                     suma_pasos += diarios.Pasos ?? 0;
                     suma_celular += diarios.Horas_celular ?? 0;
                 }
-                var promedio_pasos = suma_pasos / (ultimosDiarios.Count() - 1);
-                var promedio_celular = suma_celular / (ultimosDiarios.Count() - 1);
-                // margen de diferencia
+
+                var promedio_pasos = suma_pasos / (ultimosDiarios.Count - 1);
+                var promedio_celular = suma_celular / (ultimosDiarios.Count - 1);
+
                 var margen_pasos = 10000;
                 var margen_celular = 10;
 
                 if (margen_pasos + promedio_pasos < ultimosDiarios.Last().Pasos || promedio_pasos - margen_pasos > ultimosDiarios.Last().Pasos)
                 {
-                    alertas.Add([paciente.Nombre, "Amarilla", "Pasos"]);
+                    alertas.Add(new List<string> { paciente.Nombre, "Amarilla", "Pasos", paciente.ID_Paciente.ToString() });
                     alertasA.Add(paciente.Nombre);
                 }
 
                 if (margen_celular + promedio_celular < ultimosDiarios.Last().Horas_celular || promedio_celular - margen_celular > ultimosDiarios.Last().Horas_celular)
                 {
-                    alertas.Add([paciente.Nombre, "Amarilla", "Celular"]);
+                    alertas.Add(new List<string> { paciente.Nombre, "Amarilla", "Celular", paciente.ID_Paciente.ToString() });
                     alertasA.Add(paciente.Nombre);
                 }
             }
 
-
-
-
             if (diasAlteradosIn >= 2)
             {
-                alertas.Add([paciente.Nombre, "Amarilla", "Inhibido"]);
+                alertas.Add(new List<string> { paciente.Nombre, "Amarilla", "Inhibido", paciente.ID_Paciente.ToString() });
                 alertasA.Add(paciente.Nombre);
             }
 
             if (diasAlteradosEx >= 2)
             {
-                alertas.Add([paciente.Nombre, "Amarilla", "Exaltado"]);
+                alertas.Add(new List<string> { paciente.Nombre, "Amarilla", "Exaltado", paciente.ID_Paciente.ToString() });
                 alertasA.Add(paciente.Nombre);
             }
         }
+
         ViewBag.Alertas = alertas;
         ViewBag.AlertasA = alertasA;
 
-        
 
         return View(pacientes);
     }
@@ -234,7 +226,7 @@ public class PacientesController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-        public async Task<IActionResult> Details(int id)
+    public async Task<IActionResult> Details(int id)
     {
         var idPsiquiatra = HttpContext.Session.GetInt32("PsiquiatraId");
 
@@ -259,6 +251,15 @@ public class PacientesController : Controller
 
         // Pasa el objeto paciente a la nueva vista "Details.cshtml"
         return View(paciente);
+    }
+    
+    [HttpPost]
+    public IActionResult EliminarAlerta(int id)
+    {
+        // Aquí podrías guardar las alertas en TempData o Session si las necesitas persistentes.
+        // Por ahora simplemente redirige al detalle del paciente.
+
+        return RedirectToAction("Details", "Pacientes", new { id });
     }
 
 

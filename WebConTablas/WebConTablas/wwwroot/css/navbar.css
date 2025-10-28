@@ -1,0 +1,47 @@
+/* Navbar styles */
+.navbar {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand img {
+  transition: transform 0.2s ease;
+}
+
+.navbar-brand img:hover {
+  transform: scale(1.05);
+}
+
+.nav-link {
+  transition: color 0.2s ease;
+  font-weight: 500;
+}
+
+.nav-link:hover {
+  color: #fff !important;
+  opacity: 0.9;
+}
+
+/* Notification badge positioning */
+.notif-count {
+  transform: translate(-10px, 5px);
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+}
+
+/* Notification button hover effect */
+#notifBtn {
+  transition: transform 0.2s ease;
+}
+
+#notifBtn:hover {
+  transform: scale(1.1);
+}
+
+/* Alert item hover effect */
+.alerta-item {
+  transition: background-color 0.2s ease;
+}
+
+.alerta-item:hover {
+  background-color: #f8f9fa !important;
+}
