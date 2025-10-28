@@ -30,25 +30,29 @@
                                FontSize="20"
                                FontFamily="BreeSerif-Regular.ttf"
                                FontAttributes="Bold"
-                               TextColor="#FF141414"/>
+                               TextColor="#FF141414"
+                               />
                         <Label x:Name="LabelTituloConsejo"
                                 Text="{Binding TextoTituloConsejo}"
                                FontSize="14"
                                FontFamily="BreeSerif-Regular.ttf"
                                TextColor="#FF9B9B9B"
-                               Grid.Row="1"/>
+                               Grid.Row="1"
+                               IsVisible ="{Binding MostrarConsejo}"/>
                         <Label
                             x:Name="LabelContenidoConsejo"
                             Text="{Binding TextoContenidoConsejo}"
                             FontFamily="BreeSerif-Regular.ttf"
                             TextColor="#FF9B9B9B"
-                            Grid.Row="2"/>
+                            Grid.Row="2"
+                            IsVisible ="{Binding MostrarConsejo}"/>
                         <HorizontalStackLayout
                                 HeightRequest="40"
                                 Padding="5"
                                 Spacing ="10"
                                 HorizontalOptions="End"
                                 Grid.Row="3"
+                                IsVisible="{Binding MostrarConsejo}"
                                 >
                                 <Label Text="Te resultó util el consejo?"
                                     FontFamily="BreeSerif-Regular.ttf"
@@ -216,6 +220,19 @@
                         Clicked="NotificationClick"
                         BackgroundColor="#68ACD5"
                          IsVisible="false"/>
+                    <Label 
+                        Text="Llamar al  +56 9 1234 5678"
+                        TextColor="Blue"
+                        FontAttributes="Bold"
+                        TextDecorations="Underline"
+                        HorizontalOptions="Center">
+
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding LlamarCommand}"
+                                CommandParameter="*4141" />
+                        </Label.GestureRecognizers>
+                    </Label>
             </VerticalStackLayout>
         </ScrollView>
 

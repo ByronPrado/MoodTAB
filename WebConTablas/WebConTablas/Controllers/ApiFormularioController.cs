@@ -76,6 +76,49 @@ public class ApiFormularioController : ControllerBase
         return Ok(new { success = true });
     }
 
+    [HttpGet("completados/{pacienteId}")]
+    public IActionResult GetFormulariosCompletados(int pacienteId)
+    {
+        var asignaciones = _context.FormulariosAsignados
+            .Where(fa => fa.ID_Paciente == pacienteId && fa.Estado == "Listo")
+            .OrderByDescending(fa => fa.Fecha_Asignacion)
+            .Select(fa => new
+            {
+                fa.ID_Asignacion,
+                fa.Estado,
+                fa.Fecha_Asignacion,
+                fa.Fecha_Limite,
+                Formulario = new
+                {
+                    fa.Formulario.ID_Formulario,
+                    fa.Formulario.Titulo,
+                    fa.Formulario.Descripcion,
+                    // Incluye también las respuestas del paciente
+                    Preguntas = fa.Formulario.Preguntas.Select(fp => new
+                    {
+                        fp.Pregunta.ID_Pregunta,
+                        fp.Pregunta.Contenido,
+                        fp.Pregunta.Tipo,
+                        fp.Pregunta.Extra,
+                        fp.Pregunta.OpcionesSeleccion,
+                        fp.Pregunta.EscalaMin,
+                        fp.Pregunta.EscalaMax,
+                        // Obtenemos la respuesta si existe
+                        Respuesta = fa.Respuestas
+                            .Where(r => r.ID_Pregunta == fp.Pregunta.ID_Pregunta)
+                            .Select(r => r.Contenido)
+                            .FirstOrDefault()
+                    })
+                }
+            })
+            .ToList();
+
+        if (asignaciones == null || asignaciones.Count == 0)
+            return NotFound(new { message = "No hay formularios completados." });
+
+        return Ok(asignaciones);
+    }
+
     // DTOs
     public class RespuestasFormularioDto
     {

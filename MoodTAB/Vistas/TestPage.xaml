@@ -235,6 +235,54 @@
                 </VerticalStackLayout>
             </Frame>
 
+            <Frame BackgroundColor="White"
+                   CornerRadius="16"
+                   HasShadow="True"
+                   Padding="0"
+                   Margin="0,0,0,12">
+                <VerticalStackLayout Spacing="0">
+                    
+                    <Label Text="Personalización" 
+                           FontSize="14" 
+                           FontAttributes="Bold"
+                           TextColor="#6B7280"
+                           Margin="16,16,16,12"
+                           TextTransform="Uppercase"/>
+                    
+                    <Grid Padding="16,12" ColumnDefinitions="Auto,*,Auto">
+                        <Frame Grid.Column="0"
+                               BackgroundColor="#DCB2D3FF"
+                               CornerRadius="10"
+                               Padding="0"
+                               HasShadow="False"
+                               WidthRequest="40"
+                               HeightRequest="40"
+                               VerticalOptions="Center">
+                            <Label Text="📜" 
+                                   FontSize="20"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </Frame>
+                        
+                        <VerticalStackLayout Grid.Column="1" 
+                                           Spacing="2" 
+                                           Margin="12,0,0,0"
+                                           VerticalOptions="Center">
+                            <Label Text="Mostrar Consejos" 
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#1A1A1A"/>
+                        </VerticalStackLayout>
+                        
+                        <Switch Grid.Column="2" 
+                                IsToggled="{Binding OpcionMostrarConsejos}"
+                                VerticalOptions="Center"
+                                OnColor="#4F46E5"/>
+                    </Grid>
+                    
+                </VerticalStackLayout>
+            </Frame>
+
             <BoxView HeightRequest="20" BackgroundColor="Transparent"/>
             
         </VerticalStackLayout>

@@ -21,7 +21,7 @@ public partial class MainPage : ContentPage
 {
 
     INotificationManagerService notificationManager;
-    private ViewModel.MainViewModel viewModel;
+    private MainViewModel viewModel;
     public MainPage(INotificationManagerService manager)
     {
         InitializeComponent();
@@ -46,6 +46,13 @@ public partial class MainPage : ContentPage
         RequestActivityRecognitionPermission();
         viewModel.ActualizarDatosUsuario();
 #endif
+    // ✅ Actualizar visibilidad del consejo al entrar en la vista
+    var valorGuardado = await SecureStorage.GetAsync("mostrar_comentarios");
+    bool mostrarConsejos = true;
+    if (bool.TryParse(valorGuardado, out bool result))
+        mostrarConsejos = result;
+
+    viewModel.MostrarConsejo = mostrarConsejos;
     }
 
 #if ANDROID
@@ -109,5 +116,15 @@ public partial class MainPage : ContentPage
     {
         LoadingOverlay.IsVisible = show;
     }
-    
+    protected override bool OnBackButtonPressed()
+    {
+        // Ejecuta una acción personalizada
+        if (Navigation.NavigationStack.Count > 1)
+        {
+            Navigation.PopAsync();
+            return true; // evita el cierre de la app
+        }
+
+        return base.OnBackButtonPressed();
+    }
 }

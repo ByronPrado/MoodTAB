@@ -4,6 +4,7 @@ using MoodTAB.Models;
 using MoodTAB.Vistas;
 using MoodTAB.Services;
 using System.Text.Json;
+using Microsoft.Maui.ApplicationModel.Communication;
 using System;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
@@ -40,10 +41,12 @@ namespace MoodTAB.ViewModel
         private string _textoTituloConsejo = "TituloConsejo";
         [ObservableProperty]
         private string _textoContenidoConsejo = "Contenido consejo";
+        [ObservableProperty]
+        private bool _mostrarConsejo = true;
+
 
         private string _consejoKey = string.Empty;
         const string ConsejosOverridesKey = "consejos_overrides_v1";
-        // ...existing fields...
         private Dictionary<string, bool>? _overridesCached; // cache en memoria
         public string NameUser
         {
@@ -55,7 +58,7 @@ namespace MoodTAB.ViewModel
             get => _emailUsuario;
             set => SetProperty(ref _emailUsuario, value);
         }
-
+    
         //constructor
         public MainViewModel(INotificationManagerService notificationManager)
         {
@@ -81,6 +84,9 @@ namespace MoodTAB.ViewModel
             Globals.OptionHVR = bool.Parse(storedValue);
             storedValue = SecureStorage.GetAsync("ingreso_pasos").Result ?? "false";
             Globals.OptionPasos = bool.Parse(storedValue);
+            storedValue = SecureStorage.GetAsync("mostrar_comentarios").Result ?? "true";
+            Globals.OpcionMostrarConsejos = bool.Parse(storedValue);
+            MostrarConsejo = Globals.OpcionMostrarConsejos;
             // iniciar carga del cache de overrides en background y luego cargar el consejo
             _ = InitializeOverridesAndLoadConsejoAsync();
 
@@ -281,96 +287,93 @@ namespace MoodTAB.ViewModel
             }
         }
 
-
-        //consjeos
-
-    // Carga un consejo aleatorio, priorizando los que evalúan Util==true y aplicando overrides desde el cache
-    public async Task CargarConsejoAsync()
-    {
-        try
+        // Carga un consejo aleatorio, priorizando los que evalúan Util==true y aplicando overrides desde el cache
+        public async Task CargarConsejoAsync()
         {
-            var overrides = _overridesCached; // usar cache en memoria (rápido)
-
-            // construir lista efectiva con flag util final (override > definido)
-            var effective = Globals.consejos
-                .Select(kv =>
-                {
-                    bool util = kv.Value.Util;
-                    if (overrides != null && overrides.TryGetValue(kv.Key, out var o)) util = o;
-                    return new { Key = kv.Key, Consejo = kv.Value, Util = util };
-                })
-                .ToList();
-
-            var preferred = effective.Where(e => e.Util).ToList();
-            var pool = preferred.Any() ? preferred : effective;
-
-            if (!pool.Any())
+            try
             {
-                _consejoKey = string.Empty;
-                TextoTituloConsejo = "Sin consejos";
-                TextoContenidoConsejo = "";
-                return;
+                var overrides = _overridesCached; // usar cache en memoria (rápido)
+
+                // construir lista efectiva con flag util final (override > definido)
+                var effective = Globals.consejos
+                    .Select(kv =>
+                    {
+                        bool util = kv.Value.Util;
+                        if (overrides != null && overrides.TryGetValue(kv.Key, out var o)) util = o;
+                        return new { Key = kv.Key, Consejo = kv.Value, Util = util };
+                    })
+                    .ToList();
+
+                var preferred = effective.Where(e => e.Util).ToList();
+                var pool = preferred.Any() ? preferred : effective;
+
+                if (!pool.Any())
+                {
+                    _consejoKey = string.Empty;
+                    TextoTituloConsejo = "Sin consejos";
+                    TextoContenidoConsejo = "";
+                    return;
+                }
+
+                var rnd = new Random();
+                var pick = pool[rnd.Next(pool.Count)];
+
+                _consejoKey = pick.Key;
+
+                // actualizar propiedades en hilo UI
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    TextoTituloConsejo = pick.Consejo.Titulo;
+                    TextoContenidoConsejo = pick.Consejo.Contenido;
+                });
             }
-
-            var rnd = new Random();
-            var pick = pool[rnd.Next(pool.Count)];
-
-            _consejoKey = pick.Key;
-
-            // actualizar propiedades en hilo UI
-            MainThread.BeginInvokeOnMainThread(() =>
+            catch (Exception ex)
             {
-                TextoTituloConsejo = pick.Consejo.Titulo;
-                TextoContenidoConsejo = pick.Consejo.Contenido;
-            });
-        }
-        catch (Exception ex)
-        {
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                TextoTituloConsejo = "Error cargando consejo";
-                TextoContenidoConsejo = ex.Message;
-            });
-        }
-    }
-
-    // Marca el consejo actual como útil/no útil, actualiza cache e inicia persistencia en background; no bloquear UI
-    public async Task MarcarConsejoUtilAsync(bool util)
-    {
-        if (string.IsNullOrEmpty(_consejoKey)) return;
-
-        try
-        {
-            // actualizar cache en memoria inmediatamente
-            if (_overridesCached == null) _overridesCached = new Dictionary<string, bool>();
-            _overridesCached[_consejoKey] = util;
-
-            // actualizar in-memory global para reflejar en comportamiento inmediato
-            if (Globals.consejos.ContainsKey(_consejoKey))
-                Globals.consejos[_consejoKey].Util = util;
-
-            // persistir en background (no await para no bloquear UI)
-            _ = Task.Run(async () =>
-            {
-                try
+                MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    await SaveOverridesAsync(_overridesCached).ConfigureAwait(false);
-                }
-                catch (Exception ex)
-                {
-                    // loguear pero no romper la experiencia
-                    Console.WriteLine($"Error persisting overrides: {ex.Message}");
-                }
-            });
+                    TextoTituloConsejo = "Error cargando consejo";
+                    TextoContenidoConsejo = ex.Message;
+                });
+            }
+        }
 
-            // elegir y mostrar el siguiente consejo inmediatamente (usa cache)
-            await CargarConsejoAsync().ConfigureAwait(false);
-        }
-        catch (Exception ex)
+        // Marca el consejo actual como útil/no útil, actualiza cache e inicia persistencia en background; no bloquear UI
+        public async Task MarcarConsejoUtilAsync(bool util)
         {
-            Console.WriteLine($"Error guardando preferencia consejo: {ex.Message}");
-        }
-    }
+            if (string.IsNullOrEmpty(_consejoKey)) return;
+
+            try
+            {
+                // actualizar cache en memoria inmediatamente
+                if (_overridesCached == null) _overridesCached = new Dictionary<string, bool>();
+                _overridesCached[_consejoKey] = util;
+
+                // actualizar in-memory global para reflejar en comportamiento inmediato
+                if (Globals.consejos.ContainsKey(_consejoKey))
+                    Globals.consejos[_consejoKey].Util = util;
+
+                // persistir en background (no await para no bloquear UI)
+                _ = Task.Run(async () =>
+                {
+                    try
+                    {
+                        await SaveOverridesAsync(_overridesCached).ConfigureAwait(false);
+                    }
+                    catch (Exception ex)
+                    {
+                        // loguear pero no romper la experiencia
+                        Console.WriteLine($"Error persisting overrides: {ex.Message}");
+                    }
+                });
+
+                // elegir y mostrar el siguiente consejo inmediatamente (usa cache)
+                await CargarConsejoAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error guardando preferencia consejo: {ex.Message}");
+            }
+        } 
         async Task<Dictionary<string, bool>?> LoadOverridesAsync()
         {
             try
@@ -412,6 +415,39 @@ namespace MoodTAB.ViewModel
             // cargar consejo usando el cache (asegura que UI se actualice)
             await CargarConsejoAsync().ConfigureAwait(false);
         }
+        [RelayCommand]
+        private async Task Llamar(string phoneNumber)
+        {
+            // Debug: muestra en consola de Visual Studio
+            Console.WriteLine($"[DEBUG] Intentando llamar a: {phoneNumber}");
+
+            try
+            {
+                // Validar número
+                if (string.IsNullOrWhiteSpace(phoneNumber))
+                {
+                    Console.WriteLine("[DEBUG] Número vacío o nulo. No se puede continuar.");
+                    return;
+                }
+
+                // Abrir marcador telefónico
+                var telUrl = $"tel:{phoneNumber}";
+                Console.WriteLine($"[DEBUG] Ejecutando Launcher.OpenAsync con: {telUrl}");
+
+                await Launcher.OpenAsync(telUrl);
+
+                Console.WriteLine("[DEBUG] Llamada ejecutada correctamente (o marcador abierto).");
+            }
+            catch (FeatureNotSupportedException fex)
+            {
+                Console.WriteLine($"[ERROR] Función no soportada en este dispositivo: {fex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[ERROR] Error general al intentar llamar: {ex.Message}");
+            }
+        }
+
     
     }
 }

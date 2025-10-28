@@ -61,7 +61,7 @@ namespace MoodTAB.ViewModels
                 else
                 {
                     Console.WriteLine($"[DEBUG] Obtenido idpaciente={success.user.ID_Paciente}");
-                    Microsoft.Maui.Controls.Application.Current.MainPage = new NavigationPage(new MainPage(notificationManager));
+                    Application.Current.MainPage = new NavigationPage(new MainPage(notificationManager));
                 }
             }
             else

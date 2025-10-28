@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MoodTAB.Vistas.CuestionarioRespondidoPage"
+             Title="Cuestionario Respondido">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+            
+            <!-- Título del formulario -->
+            <Label Text="{Binding Titulo}"
+                FontSize="22"
+                FontAttributes="Bold"
+                HorizontalOptions="Center" />
+            <!-- Descripción opcional -->
+            <Label Text="{Binding Descripcion}"
+                FontSize="14"
+                TextColor="Gray"
+                HorizontalOptions="Center"
+                Margin="0,0,0,20"/>
+            <Button Text="Exportar a PDF"
+                Command="{Binding ExportarPdfCommand}"
+                HorizontalOptions="Center"
+                Margin="0,20,0,0"/>
+            <!-- Lista de preguntas y respuestas -->
+            <CollectionView ItemsSource="{Binding Preguntas}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BorderColor="#DDD" CornerRadius="8" Padding="10" Margin="5">
+                            <VerticalStackLayout>
+                                <Label Text="{Binding Contenido}" 
+                                       FontAttributes="Bold"
+                                       FontSize="16" />
+                                <Label Text="{Binding Respuesta}" 
+                                       FontSize="14"
+                                       TextColor="Gray" />
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Button Text="Exportar a PDF"
+                Command="{Binding ExportarPdfCommand}"
+                HorizontalOptions="Center"
+                Margin="0,20,0,0"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

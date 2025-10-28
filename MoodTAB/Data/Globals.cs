@@ -16,8 +16,8 @@ namespace MoodTAB
         public static bool esFamiliar { get; set; } = false;
         public static string? id_usuario_externo_DB { get; set; }
 
-        //public static string direccion_ngrok = "http://10.0.2.2:5051/";
-        public static string direccion_ngrok = "https://a28e8b3dc6bd.ngrok-free.app/";
+        public static string direccion_ngrok = "http://10.0.2.2:5051/";
+        //public static string direccion_ngrok = "https://a28e8b3dc6bd.ngrok-free.app/";
 
         public static bool toBool(string? boole)
         {
@@ -109,5 +109,28 @@ namespace MoodTAB
         public static bool OptionHVR { get; set; } = false;
         public static bool OptionPasos { get; set; } = false;
         public static bool OptionManual { get; set; } = false;
+        public static bool OpcionMostrarConsejos { get; set; } = false;
+
+        //Diccionario para manejar los consejos del planseguro
+        public static Dictionary<string, ConsejoInfo> planSeguroConsejos = new Dictionary<string, ConsejoInfo>
+        {
+            { "1", new ConsejoInfo("1. Reconoce tus emociones",
+                "Es normal sentirse abrumado. Permítete admitir que ahora tus emociones están muy intensas.", true) },
+
+            { "2", new ConsejoInfo("2. Vuelve al presente con tu respiración",
+                "Inhala contando hasta cuatro, mantén un segundo, exhala contando hasta cuatro y repite tres veces.", true) },
+
+            { "3", new ConsejoInfo("3. Aterriza en el aquí y ahora",
+                "Observa cinco objetos a tu alrededor, toca una superficie cercana y escucha tres sonidos distintos.", true) },
+
+            { "4", new ConsejoInfo("4. Cuida de ti mismo",
+                "Siéntate o recuéstate en un lugar seguro. Hidrátate con agua fresca y abraza algo suave.", true) },
+
+            { "5", new ConsejoInfo("5. No estás solo",
+                "Anota el nombre y número de alguien de confianza o busca apoyo profesional si lo necesitas.", true) },
+
+            { "6", new ConsejoInfo("Prevención del suicidio",
+                "*4141", true) },
+        };
     }
 }

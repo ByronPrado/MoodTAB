@@ -44,4 +44,9 @@ public partial class CuestionarioPage : ContentPage
         // Deseleccionamos el item para que pueda seleccionarse otra vez
         ((CollectionView)sender).SelectedItem = null;
     }
+
+    private async void OnVerCompletadosTapped(object sender, TappedEventArgs e)
+    {
+        await Navigation.PushAsync(new CuestionarioHistorialPage());
+    }
 }

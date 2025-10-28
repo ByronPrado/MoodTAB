@@ -15,6 +15,7 @@ namespace MoodTAB.ViewModel
         [ObservableProperty] private bool optionHR = Globals.OptionHR;
         [ObservableProperty] private bool optionHRV = Globals.OptionHVR;
         [ObservableProperty] private bool optionPasos = Globals.OptionPasos;
+        [ObservableProperty] private bool opcionMostrarConsejos = Globals.OpcionMostrarConsejos;
         public TestViewModel()
         {
             //constructor
@@ -48,6 +49,11 @@ namespace MoodTAB.ViewModel
             Globals.OptionPasos = newValue;
         }
 
+        partial void OnOpcionMostrarConsejosChanged(bool oldValue, bool newValue)
+        {
+            SecureStorage.SetAsync("mostrar_comentarios", newValue.ToString());
+            Globals.OpcionMostrarConsejos = newValue;
+        }
     }
 
 }

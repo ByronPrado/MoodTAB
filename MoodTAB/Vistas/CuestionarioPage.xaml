@@ -19,7 +19,11 @@
         <VerticalStackLayout Padding="5" Spacing="15">
             <!--Entry Text="{Binding Log_test}"/-->
 
-            <Label Text="Selecciona un Cuestionario:" FontAttributes="Bold" FontSize="18" />
+            <Label Text="Selecciona un Cuestionario:"                        
+                FontSize="20"
+                FontFamily="BreeSerif-Regular.ttf"
+                TextColor="#FF141414"
+                Margin="0,10,0,0"/>            
             <CollectionView ItemsSource="{Binding ListaCuestionarios}"
                 SelectionMode="Single"
                 SelectionChanged="CollectionView_SelectionChanged">
@@ -27,8 +31,14 @@
                     <DataTemplate>
                         <Frame Padding="15" Margin="5" CornerRadius="15" BackgroundColor="#E8F0FE" IsClippedToBounds="False" InputTransparent="True">
                             <VerticalStackLayout>
-                                <Label Text="{Binding Titulo}" FontSize="18" FontAttributes="Bold" TextColor="#0F172A"/>
-                                <Label Text="{Binding PreguntasConRespuesta.Count, StringFormat='Preguntas: {0}'}" FontSize="14" TextColor="#333"/>
+                                <Label Text="{Binding Titulo}" 
+                                    FontSize="20"
+                                    FontFamily="BreeSerif-Regular.ttf"
+                                    TextColor="#0F172A"/>
+                                <Label Text="{Binding PreguntasConRespuesta.Count, StringFormat='Preguntas: {0}'}" 
+                                    FontSize="14"
+                                    FontFamily="BreeSerif-Regular.ttf"
+                                    TextColor="#FF5B5B5B"/>
                             </VerticalStackLayout>
                         </Frame>
                     </DataTemplate>
@@ -36,10 +46,23 @@
             </CollectionView>
             
             <Label Text="No hay cuestionario disponibles."
+                FontFamily="BreeSerif-Regular.ttf"
                 FontSize="16"
                 TextColor="Gray"
                 HorizontalOptions="Center"
                 IsVisible="{Binding Nopendiente}"/>
+            
+            <Label Text="Ver formularios completados →"
+                FontFamily="BreeSerif-Regular.ttf"
+                FontSize="16"
+                TextColor="#512BD4"
+                FontAttributes="Bold"
+                HorizontalOptions="Center"
+                Margin="0,10,0,0">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnVerCompletadosTapped" />
+                </Label.GestureRecognizers>
+            </Label>
                 
         </VerticalStackLayout>
     </ScrollView>

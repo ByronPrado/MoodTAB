@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MoodTAB.Vistas.EditarPlanSeguroPage"
+             Title="Editar Plan Seguro">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <Label Text="Editar Plan Seguro"
+                   FontSize="24"
+                   FontFamily="BreeSerif-Regular.ttf"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"/>
+
+<!-- Frame para ingresar un nuevo consejo -->
+            <Frame BackgroundColor="White"
+                   BorderColor="#DDD"
+                   CornerRadius="16"
+                   Padding="20">
+
+                <VerticalStackLayout Spacing="10">
+                    <Entry Text="{Binding NuevoTitulo}"
+                           FontFamily="BreeSerif-Regular.ttf"
+                           FontAttributes="Bold"
+                           Placeholder="Título del consejo"
+                           TextColor="#222"/>
+
+                    <Editor Text="{Binding NuevoContenido}"
+                            FontFamily="BreeSerif-Regular.ttf"
+                            FontSize="14"
+                            Placeholder="Contenido del consejo"
+                            AutoSize="TextChanges"
+                            HeightRequest="80"
+                            TextColor="#444"/>
+
+                    <Button Text="Agregar consejo"
+                            Command="{Binding AgregarConsejoCommand}"
+                            BackgroundColor="#4F46E5"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HeightRequest="45"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Lista de consejos agregados -->
+            <Frame BackgroundColor="White"
+                   BorderColor="#DDD"
+                   CornerRadius="16"
+                   Padding="20"
+                   IsVisible="{Binding ConsejosAgregados.Count, Converter={StaticResource IntToBoolConverter}}">
+
+                <VerticalStackLayout Spacing="10"
+                                     BindableLayout.ItemsSource="{Binding ConsejosAgregados}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BorderColor="#EEE" CornerRadius="10" Padding="10" HasShadow="False">
+                                <VerticalStackLayout Spacing="5">
+                                    <Label Text="{Binding Titulo}"
+                                           FontAttributes="Bold"
+                                           TextColor="#222"/>
+                                    <Label Text="{Binding Contenido}"
+                                           FontSize="14"
+                                           TextColor="#444"/>
+                                </VerticalStackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Botón para guardar todos los consejos agregados -->
+            <Button Text="Guardar todos los consejos"
+                    Command="{Binding GuardarCommand}"
+                    BackgroundColor="#16A34A"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="10"
+                    HeightRequest="45"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

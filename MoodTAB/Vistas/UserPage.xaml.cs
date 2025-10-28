@@ -13,9 +13,9 @@ public partial class UserPage : ContentPage
 		BindingContext = new UserViewModel();
 	}
 
-	private async void onPlanSeguroClicked(object sender, EventArgs e)
+	private async void onEditarPlanSeguroClicked(object sender, EventArgs e)
 	{
-		await Navigation.PushAsync(new PlanSeguroPage());
+		await Navigation.PushAsync(new EditarPlanSeguroPage());
 	}
 
 	private async void onBorrarDatosClicked(object sender, EventArgs e)

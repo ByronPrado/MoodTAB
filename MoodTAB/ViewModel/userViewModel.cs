@@ -13,6 +13,7 @@ namespace MoodTAB.ViewModel
         [ObservableProperty] string telefono;
         [ObservableProperty] bool isEditing;
         [ObservableProperty] string botonEditar;
+        //[ObservableProperty] string botonPlanSeguro;
 
         public UserViewModel()
         {
@@ -22,8 +23,9 @@ namespace MoodTAB.ViewModel
             Telefono = "8888888";
             IsEditing = false;
             BotonEditar = "✏️ Editar";
+            //BotonPlanSeguro = "📝 Editar Plan Seguro";
         }
-
+//📝
         [RelayCommand]
         public void Editar()
         {
@@ -38,7 +40,7 @@ namespace MoodTAB.ViewModel
                 Email = SecureStorage.GetAsync("user_email").Result ?? "email test";
                 Telefono = "8888888";
                 IsEditing = false;
-                BotonEditar = "Editar";
+                BotonEditar = "✏️ Editar";
             }
 
         }
@@ -78,7 +80,7 @@ namespace MoodTAB.ViewModel
             }
 
             IsEditing = false;
-            BotonEditar = "Editar";
+            BotonEditar = " Editar";
         }
     }
 }
