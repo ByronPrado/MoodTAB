@@ -44,9 +44,21 @@
                             </VerticalStackLayout>
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
-
                 </VerticalStackLayout>
             </Frame>
+            <Label 
+                Text="{Binding NumeroEmergencia, StringFormat='Contacto emergencia: {0}'}"
+                TextColor="Blue"
+                FontAttributes="Bold"
+                TextDecorations="Underline"
+                HorizontalOptions="Center">
+
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Command="{Binding LlamarCommand}"
+                        CommandParameter="{Binding NumeroEmergencia}" />
+                </Label.GestureRecognizers>
+            </Label>
     </VerticalStackLayout>
  </ScrollView>
 </ContentPage>

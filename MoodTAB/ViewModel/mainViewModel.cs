@@ -415,39 +415,5 @@ namespace MoodTAB.ViewModel
             // cargar consejo usando el cache (asegura que UI se actualice)
             await CargarConsejoAsync().ConfigureAwait(false);
         }
-        [RelayCommand]
-        private async Task Llamar(string phoneNumber)
-        {
-            // Debug: muestra en consola de Visual Studio
-            Console.WriteLine($"[DEBUG] Intentando llamar a: {phoneNumber}");
-
-            try
-            {
-                // Validar número
-                if (string.IsNullOrWhiteSpace(phoneNumber))
-                {
-                    Console.WriteLine("[DEBUG] Número vacío o nulo. No se puede continuar.");
-                    return;
-                }
-
-                // Abrir marcador telefónico
-                var telUrl = $"tel:{phoneNumber}";
-                Console.WriteLine($"[DEBUG] Ejecutando Launcher.OpenAsync con: {telUrl}");
-
-                await Launcher.OpenAsync(telUrl);
-
-                Console.WriteLine("[DEBUG] Llamada ejecutada correctamente (o marcador abierto).");
-            }
-            catch (FeatureNotSupportedException fex)
-            {
-                Console.WriteLine($"[ERROR] Función no soportada en este dispositivo: {fex.Message}");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"[ERROR] Error general al intentar llamar: {ex.Message}");
-            }
-        }
-
-    
     }
 }

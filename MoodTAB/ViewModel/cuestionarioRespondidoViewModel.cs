@@ -88,8 +88,8 @@ namespace MoodTAB.ViewModel
             y += 28;
 
             // Fecha
-            string fechaTexto = FechaRespondido.ToString("dddd, dd 'de' MMMM 'de' yyyy HH:mm", cultura);
-            g.DrawString($"Respondido el: {fechaTexto}", dateFont, PdfBrushes.Gray, new Syncfusion.Drawing.PointF(x, y));
+            string fechaTexto = FechaRespondido.ToString("dddd, dd 'de' MMMM 'de' yyyy", cultura);
+            g.DrawString($"Asignado el: {fechaTexto}", dateFont, PdfBrushes.Gray, new Syncfusion.Drawing.PointF(x, y));
             y += 30;
 
             // Descripción

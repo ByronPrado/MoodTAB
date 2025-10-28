@@ -7,6 +7,11 @@ public partial class EditarPlanSeguroPage : ContentPage
 	public EditarPlanSeguroPage()
 	{
 		InitializeComponent();
-		BindingContext = new EditarPlanSeguroViewModel();
+		var vm = new EditarPlanSeguroViewModel();
+		BindingContext = vm;
+		vm.GuardadoExitoso += async (s, e) =>
+		{
+			await DisplayAlert("Edicion Completada", "Los cambios se guardaron correctamente.", "OK");
+		};
 	}
 }

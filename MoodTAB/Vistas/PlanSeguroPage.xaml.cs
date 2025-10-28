@@ -11,13 +11,14 @@ public partial class PlanSeguroPage : ContentPage
 		InitializeComponent();
 		viewModel = new PlanSeguroViewModel();
 
-		BindingContext = viewModel;
+		//BindingContext = viewModel;
 	}
 	protected override async void OnAppearing()
     {
 		base.OnAppearing();
 		await viewModel.InicializarConsejosPlanSeguroAsync();
 		await viewModel.CargarAsync();
+		BindingContext = viewModel;
 
     }
 }

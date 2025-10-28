@@ -52,7 +52,7 @@
                 HorizontalOptions="Center"
                 IsVisible="{Binding Nopendiente}"/>
             
-            <Label Text="Ver formularios completados →"
+            <Label Text="Ver Cuestionarios Completados →"
                 FontFamily="BreeSerif-Regular.ttf"
                 FontSize="16"
                 TextColor="#512BD4"

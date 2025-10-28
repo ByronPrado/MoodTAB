@@ -19,6 +19,15 @@ namespace MoodTAB.ViewModel
         [ObservableProperty]
         private string nuevoContenido;
 
+        [ObservableProperty]
+        private string numeroEmergencia;
+
+
+        public EditarPlanSeguroViewModel()
+        {
+            // Cargar número de emergencia guardado
+            NumeroEmergencia = Globals.numeroEmergencia;
+        }
         // Comando para agregar un consejo a la lista
         [RelayCommand]
         private void AgregarConsejo()
@@ -26,8 +35,6 @@ namespace MoodTAB.ViewModel
             if (!string.IsNullOrWhiteSpace(NuevoTitulo) && !string.IsNullOrWhiteSpace(NuevoContenido))
             {
                 consejosAgregados.Add(new Globals.ConsejoInfo(NuevoTitulo, NuevoContenido, true));
-                
-                // Limpiar los campos para poder agregar otro
                 NuevoTitulo = string.Empty;
                 NuevoContenido = string.Empty;
             }
@@ -46,16 +53,26 @@ namespace MoodTAB.ViewModel
             }
 
             Globals.planSeguroConsejos = updatedDict;
+            Globals.numeroEmergencia = NumeroEmergencia; // 👈 Guardamos el número
 
             try
             {
-                var json = JsonSerializer.Serialize(updatedDict);
+                var data = new
+                {
+                    Consejos = updatedDict,
+                    NumeroEmergencia
+                };
+                var json = JsonSerializer.Serialize(data);
                 await SecureStorage.SetAsync("plan_seguro_data", json);
+                // 👇 Notificar a la vista que se guardó
+                GuardadoExitoso?.Invoke(this, EventArgs.Empty);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error guardando Plan Seguro: {ex.Message}");
             }
         }
+        // Evento que la vista puede escuchar
+        public event EventHandler GuardadoExitoso;
     }
 }

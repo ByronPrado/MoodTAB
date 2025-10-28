@@ -220,19 +220,6 @@
                         Clicked="NotificationClick"
                         BackgroundColor="#68ACD5"
                          IsVisible="false"/>
-                    <Label 
-                        Text="Llamar al  +56 9 1234 5678"
-                        TextColor="Blue"
-                        FontAttributes="Bold"
-                        TextDecorations="Underline"
-                        HorizontalOptions="Center">
-
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer
-                                Command="{Binding LlamarCommand}"
-                                CommandParameter="*4141" />
-                        </Label.GestureRecognizers>
-                    </Label>
             </VerticalStackLayout>
         </ScrollView>
 

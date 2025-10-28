@@ -15,6 +15,7 @@ namespace MoodTAB
         public static bool respondido { get; set; } = false;
         public static bool esFamiliar { get; set; } = false;
         public static string? id_usuario_externo_DB { get; set; }
+        public static string numeroEmergencia { get; set; } = "*4141";
 
         public static string direccion_ngrok = "http://10.0.2.2:5051/";
         //public static string direccion_ngrok = "https://a28e8b3dc6bd.ngrok-free.app/";
@@ -129,8 +130,6 @@ namespace MoodTAB
             { "5", new ConsejoInfo("5. No estás solo",
                 "Anota el nombre y número de alguien de confianza o busca apoyo profesional si lo necesitas.", true) },
 
-            { "6", new ConsejoInfo("Prevención del suicidio",
-                "*4141", true) },
         };
     }
 }

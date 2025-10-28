@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:MoodTAB.Converters"
              x:Class="MoodTAB.Vistas.EditarPlanSeguroPage"
              Title="Editar Plan Seguro">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:IntToBoolConverter x:Key="IntToBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="20">
@@ -70,8 +76,16 @@
                 </VerticalStackLayout>
             </Frame>
 
+            <Label Text="Número de emergencia"
+                FontAttributes="Bold"
+                TextColor="#222"/>
+            <Entry Text="{Binding NumeroEmergencia}"
+                Placeholder="Ej: +56 9 1234 5678"
+                Keyboard="Telephone"
+                FontFamily="BreeSerif-Regular.ttf"
+                TextColor="#222"/>
             <!-- Botón para guardar todos los consejos agregados -->
-            <Button Text="Guardar todos los consejos"
+            <Button Text="Guardar Consejos"
                     Command="{Binding GuardarCommand}"
                     BackgroundColor="#16A34A"
                     TextColor="White"
