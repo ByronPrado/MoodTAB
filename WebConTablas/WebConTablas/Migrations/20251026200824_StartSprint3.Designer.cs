@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace WebConTablas.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251026200824_StartSprint3")]
+    partial class StartSprint3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -20,47 +23,6 @@ namespace WebConTablas.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("WebConTablas.Models.Alertas", b =>
-                {
-                    b.Property<int>("ID_Alerta")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID_Alerta"));
-
-                    b.Property<string>("Contenido")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("Created_at")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Estado")
-                        .HasColumnType("text");
-
-                    b.Property<int>("ID_Paciente")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Tipo")
-                        .HasColumnType("text");
-
-                    b.HasKey("ID_Alerta");
-
-                    b.HasIndex("ID_Paciente");
-
-                    b.ToTable("Alertas");
-
-                    b.HasData(
-                        new
-                        {
-                            ID_Alerta = 1,
-                            Contenido = "Desvio diario emocional",
-                            Created_at = new DateTime(2025, 9, 18, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Estado = "No Visto",
-                            ID_Paciente = 1,
-                            Tipo = "Desvio"
-                        });
-                });
 
             modelBuilder.Entity("WebConTablas.Models.ComentariosExternos", b =>
                 {
@@ -268,42 +230,6 @@ namespace WebConTablas.Migrations
                         });
                 });
 
-            modelBuilder.Entity("WebConTablas.Models.Logs", b =>
-                {
-                    b.Property<int>("ID_Log")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID_Log"));
-
-                    b.Property<string>("Actual")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Anterior")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("Fecha")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("ID_Paciente")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ID_Psiquiatra")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("TipoLog")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("ID_Log");
-
-                    b.HasIndex("ID_Paciente");
-
-                    b.HasIndex("ID_Psiquiatra");
-
-                    b.ToTable("Logs");
-                });
-
             modelBuilder.Entity("WebConTablas.Models.Paciente", b =>
                 {
                     b.Property<int>("ID_Paciente")
@@ -311,10 +237,6 @@ namespace WebConTablas.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID_Paciente"));
-
-                    b.Property<string>("Contrasena")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<string>("Diagnostico")
                         .HasColumnType("text");
@@ -348,7 +270,6 @@ namespace WebConTablas.Migrations
                         new
                         {
                             ID_Paciente = 1,
-                            Contrasena = "1234",
                             Diagnostico = "Ansiedad",
                             Edad = 30,
                             Email = "ana@mail.com",
@@ -443,36 +364,6 @@ namespace WebConTablas.Migrations
                         });
                 });
 
-            modelBuilder.Entity("WebConTablas.Models.RecordatoriosPsiquiatra", b =>
-                {
-                    b.Property<int>("ID_RecordatorioPsiquiatra")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID_RecordatorioPsiquiatra"));
-
-                    b.Property<string>("Descripcion")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("Fecha")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Grupo")
-                        .HasColumnType("text");
-
-                    b.Property<int>("ID_Psiquiatra")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Titulo")
-                        .HasColumnType("text");
-
-                    b.HasKey("ID_RecordatorioPsiquiatra");
-
-                    b.HasIndex("ID_Psiquiatra");
-
-                    b.ToTable("RecordatoriosPsiquiatra");
-                });
-
             modelBuilder.Entity("WebConTablas.Models.Respuesta", b =>
                 {
                     b.Property<int>("ID_Respuesta")
@@ -512,10 +403,6 @@ namespace WebConTablas.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IdUsuarioExterno"));
 
-                    b.Property<string>("Contrasena")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("Email")
                         .HasColumnType("text");
 
@@ -547,17 +434,6 @@ namespace WebConTablas.Migrations
                     b.HasIndex("PacienteID_Paciente");
 
                     b.ToTable("UsuariosExternos");
-                });
-
-            modelBuilder.Entity("WebConTablas.Models.Alertas", b =>
-                {
-                    b.HasOne("WebConTablas.Models.Paciente", "Paciente")
-                        .WithMany("Alertas")
-                        .HasForeignKey("ID_Paciente")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Paciente");
                 });
 
             modelBuilder.Entity("WebConTablas.Models.ComentariosExternos", b =>
@@ -631,42 +507,12 @@ namespace WebConTablas.Migrations
                     b.Navigation("Pregunta");
                 });
 
-            modelBuilder.Entity("WebConTablas.Models.Logs", b =>
-                {
-                    b.HasOne("WebConTablas.Models.Paciente", "Paciente")
-                        .WithMany("Logs")
-                        .HasForeignKey("ID_Paciente")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebConTablas.Models.Psiquiatra", "Psiquiatra")
-                        .WithMany("Logs")
-                        .HasForeignKey("ID_Psiquiatra")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Paciente");
-
-                    b.Navigation("Psiquiatra");
-                });
-
             modelBuilder.Entity("WebConTablas.Models.Paciente", b =>
                 {
                     b.HasOne("WebConTablas.Models.Psiquiatra", "Psiquiatra")
                         .WithMany("Pacientes")
                         .HasForeignKey("ID_Psiquiatra")
                         .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Psiquiatra");
-                });
-
-            modelBuilder.Entity("WebConTablas.Models.RecordatoriosPsiquiatra", b =>
-                {
-                    b.HasOne("WebConTablas.Models.Psiquiatra", "Psiquiatra")
-                        .WithMany("RecordatorioPsiquiatra")
-                        .HasForeignKey("ID_Psiquiatra")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.Navigation("Psiquiatra");
                 });
@@ -726,13 +572,9 @@ namespace WebConTablas.Migrations
 
             modelBuilder.Entity("WebConTablas.Models.Paciente", b =>
                 {
-                    b.Navigation("Alertas");
-
                     b.Navigation("DiariosEmocionales");
 
                     b.Navigation("FormulariosAsignados");
-
-                    b.Navigation("Logs");
 
                     b.Navigation("UsuariosExternos");
                 });
@@ -748,11 +590,7 @@ namespace WebConTablas.Migrations
                 {
                     b.Navigation("Formularios");
 
-                    b.Navigation("Logs");
-
                     b.Navigation("Pacientes");
-
-                    b.Navigation("RecordatorioPsiquiatra");
                 });
 
             modelBuilder.Entity("WebConTablas.Models.UsuarioExterno", b =>

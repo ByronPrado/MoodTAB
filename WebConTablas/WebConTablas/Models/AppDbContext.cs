@@ -12,9 +12,11 @@ public class AppDbContext : DbContext
     public DbSet<FormularioAsignado> FormulariosAsignados { get; set; }
     public DbSet<Respuesta> Respuestas { get; set; }
     public DbSet<DiarioEmocional> DiariosEmocionales { get; set; }
-    public DbSet<UsuarioExterno> UsuariosExternos { get; set; } 
+    public DbSet<UsuarioExterno> UsuariosExternos { get; set; }
     public DbSet<ComentariosExternos> ComentariosExternos { get; set; }
     public DbSet<Alertas> Alertas { get; set; }
+    public DbSet<RecordatoriosPsiquiatra> RecordatoriosPsiquiatra { get; set; }
+    public DbSet<Logs> Logs { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
@@ -39,22 +41,21 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<DiarioEmocional>().HasKey(d => d.ID_Diario);
         modelBuilder.Entity<UsuarioExterno>().HasKey(ue => ue.IdUsuarioExterno);
         modelBuilder.Entity<Alertas>().HasKey(a => a.ID_Alerta);
+        modelBuilder.Entity<RecordatoriosPsiquiatra>().HasKey(rps => rps.ID_RecordatorioPsiquiatra);
+        modelBuilder.Entity<Logs>().HasKey(l => l.ID_Log);
 
-        // Relación: Paciente 1 - N UsuarioExterno
         modelBuilder.Entity<UsuarioExterno>()
             .HasOne<Paciente>()
             .WithMany(p => p.UsuariosExternos)
             .HasForeignKey(ue => ue.ID_Paciente)
             .OnDelete(DeleteBehavior.Cascade);
 
-        // Relación: Psiquiatra 1 - N UsuarioExterno
         modelBuilder.Entity<UsuarioExterno>()
             .HasOne(ue => ue.Psiquiatra)
             .WithMany()
             .HasForeignKey(ue => ue.ID_Psiquiatra)
             .OnDelete(DeleteBehavior.Restrict);
 
-        // Relaciones (igual que antes)
         modelBuilder.Entity<Paciente>()
             .HasOne(p => p.Psiquiatra)
             .WithMany(q => q.Pacientes)
@@ -114,6 +115,21 @@ public class AppDbContext : DbContext
             .HasOne(a => a.Paciente)
             .WithMany(p => p.Alertas)
             .HasForeignKey(a => a.ID_Paciente);
+            
+        modelBuilder.Entity<RecordatoriosPsiquiatra>()
+            .HasOne(rps => rps.Psiquiatra)
+            .WithMany(p => p.RecordatorioPsiquiatra)
+            .HasForeignKey(rps => rps.ID_Psiquiatra);
+
+        modelBuilder.Entity<Logs>()
+            .HasOne(l => l.Paciente)
+            .WithMany(p => p.Logs)
+            .HasForeignKey(l => l.ID_Paciente);
+
+        modelBuilder.Entity<Logs>()
+            .HasOne(l => l.Psiquiatra)
+            .WithMany(p => p.Logs)
+            .HasForeignKey(l => l.ID_Psiquiatra);
 
         // ---------------------------
         // SEED DATA (Datos de ejemplo)
@@ -142,7 +158,8 @@ public class AppDbContext : DbContext
                 Sexo = "F",
                 Email = "ana@mail.com",
                 Telefono = "555-5678",
-                ID_Psiquiatra = 1
+                ID_Psiquiatra = 1,
+                Contrasena = "1234"
             }
         );
 
@@ -219,7 +236,6 @@ public class AppDbContext : DbContext
                 Horas_celular = 4,
                 Horas_redes = 2,
                 
-                // ✅ CORRECCIÓN: Cantidad de horas de sueño, como float
                 Hora_dormida = 7.5f, // Ejemplo: 7 horas y media
                 
                 Estado = "inhibido"

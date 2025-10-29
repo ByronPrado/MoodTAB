@@ -12,6 +12,31 @@ public class PsiquiatrasController : Controller
         var lista = await _context.Psiquiatras.ToListAsync();
         return View(lista);
     }
+    public async Task<IActionResult> Details()
+    {
+        // Usamos la Sesión
+        int? psiquiatraId = HttpContext.Session.GetInt32("PsiquiatraId");
+
+        // Si no hay ID en la sesión, lo mandamos al login.
+        if (psiquiatraId == null || psiquiatraId == 0)
+        {
+            return RedirectToAction("Login", "Psiquiatras");
+        }
+
+        // Buscamos al psiquiatra y cargamos SUS recordatorios
+        var psiquiatra = await _context.Psiquiatras 
+            .Include(p => p.RecordatorioPsiquiatra) 
+            .FirstOrDefaultAsync(p => p.ID_Psiquiatra == psiquiatraId);
+
+        if (psiquiatra == null)
+        {
+            return NotFound("No se encontró el perfil del psiquiatra.");
+        }
+
+        // 3. Pasamos el modelo completo a la vista
+        // Esto buscará la vista en /Views/Psiquiatras/Details.cshtml
+        return View(psiquiatra);
+    }
 
     // GET: Psiquiatras/Login
     public IActionResult Login()
@@ -42,7 +67,7 @@ public class PsiquiatrasController : Controller
         if (psiquiatra != null)
         {
             HttpContext.Session.SetInt32("PsiquiatraId", psiquiatra.ID_Psiquiatra);
-            return RedirectToAction("Index", "Pacientes");
+            return RedirectToAction("Details", "Psiquiatras");
         }
         else
         {
@@ -61,7 +86,7 @@ public class PsiquiatrasController : Controller
     {
         _context.Psiquiatras.Add(psiquiatra);
         await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction("Details", "Psiquiatra");
     }
 
     public async Task<IActionResult> Edit(int id)

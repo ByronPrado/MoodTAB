@@ -1,0 +1,313 @@
+@*
+    ASUNCIÓN IMPORTANTE:
+    Asumimos que el modelo es el Psiquiatra y que, de forma similar
+    al modelo Paciente, este objeto CONTIENE su lista de recordatorios.
+    Ej: public class Psiquiatra {
+        ... (datos personales) ...
+        public List<RecordatoriosPsiquiatra> Recordatorios { get; set; }
+    }
+    Si este no es el caso, necesitaríamos un ViewModel.
+*@
+@model WebConTablas.Models.Psiquiatra
+@using System.Text.Json;
+@{
+    ViewData["Title"] = "Mi Perfil y Agenda";
+}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="@Url.Content("~/css/paciente.css")" />
+<link rel="stylesheet" href="@Url.Content("~/css/paginas.css")" />
+
+<div class="container">
+    <br>
+    <h2 class="text-primary">Bienvenido, Dr/a. @(Model.Nombre ?? "Psiquiatra")</h2>
+    <p>Esta es su página principal de gestión.</p>
+
+    <ul class="nav nav-tabs mt-4" id="psiquiatraTabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="tab" href="#calendarioTab">Mi Agenda</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#datosTab">Mis Datos</a>
+        </li>
+    </ul>
+
+    <div class="tab-content mt-3">
+
+        <div class="tab-pane fade show active" id="calendarioTab">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3>Mis Recordatorios</h3>
+                <button id="btnNuevoRecordatorio" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Añadir Recordatorio
+                </button>
+            </div>
+            <div id="calendarioRecordatorios" style="max-width: 900px; margin: auto;"></div>
+        </div>
+
+        <div class="tab-pane fade" id="datosTab">
+            <h3>Mis Datos Personales</h3>
+            <div class="card">
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-3">Nombre Completo:</dt>
+                        <dd class="col-sm-9">@Model.Nombre</dd>
+
+                        <dt class="col-sm-3">Email:</dt>
+                        <dd class="col-sm-9">@(Model.Email ?? "No especificado")</dd>
+
+                        <dt class="col-sm-3">Teléfono:</dt>
+                        <dd class="col-sm-9">@(Model.Telefono ?? "No especificado")</dd>
+                    </dl>
+                    <button class_name="btn btn-outline-secondary">
+                        <i class="fas fa-pencil-alt"></i> Editar mis datos
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalRecordatorio" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Gestionar Recordatorio</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formRecordatorio">
+                    <input type="hidden" id="recordatorioId" value="0" />
+                    <input type="hidden" id="psiquiatraId" value="@Model.ID_Psiquiatra" />
+
+                    <div class="mb-3">
+                        <label for="recordatorioTitulo" class="form-label">Título</label>
+                        <input type="text" class="form-control" id="recordatorioTitulo" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="recordatorioFecha" class="form-label">Fecha</label>
+                        <input type="date" class="form-control" id="recordatorioFecha" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="recordatorioDescripcion" class="form-label">Descripción (Opcional)</label>
+                        <textarea class="form-control" id="recordatorioDescripcion" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="recordatorioGrupo" class="form-label">Grupo (Opcional)</label>
+                        <select class="form-select" id="recordatorioGrupo">
+                            <option value="">Ninguno</option>
+                            <option value="Personal">Personal</option>
+                            <option value="Trabajo">Trabajo</option>
+                            <option value="Importante">Importante</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" id="btnEliminarRecordatorio" style="display: none;">
+                    <i class="fas fa-trash"></i> Eliminar
+                </button>
+                <div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btnGuardarRecordatorio">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js'></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            // --- Preparación de Datos ---
+            const modalElement = document.getElementById('modalRecordatorio');
+            const modal = new bootstrap.Modal(modalElement);
+            const form = document.getElementById('formRecordatorio');
+            const btnGuardar = document.getElementById('btnGuardarRecordatorio');
+            const btnEliminar = document.getElementById('btnEliminarRecordatorio');
+            const modalLabel = document.getElementById('modalLabel');
+            
+            // Inputs del Modal
+            const inputId = document.getElementById('recordatorioId');
+            const inputPsiquiatraId = document.getElementById('psiquiatraId');
+            const inputTitulo = document.getElementById('recordatorioTitulo');
+            const inputFecha = document.getElementById('recordatorioFecha');
+            const inputDescripcion = document.getElementById('recordatorioDescripcion');
+            const inputGrupo = document.getElementById('recordatorioGrupo');
+
+            // Serializamos los recordatorios desde el Modelo C#
+            // Asumimos que Model.Recordatorios existe
+            let recordatorios = @Html.Raw(Json.Serialize(
+                (Model.RecordatorioPsiquiatra ?? new List<WebConTablas.Models.RecordatoriosPsiquiatra>())
+                .Select(r => new {
+                    id = r.ID_RecordatorioPsiquiatra,
+                    title = r.Titulo,
+                    start = r.Fecha?.ToString("yyyy-MM-dd"), // Formato ISO
+                    allDay = true,
+                    // Usamos extendedProps para guardar datos extra
+                    extendedProps = new {
+                        descripcion = r.Descripcion,
+                        grupo = r.Grupo
+                    }
+                })
+            ));
+
+            // --- Inicialización de FullCalendar ---
+            let calendarEl = document.getElementById('calendarioRecordatorios');
+            let calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: 'es', // Español
+                height: 'auto',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,listWeek'
+                },
+                events: recordatorios,
+                editable: true, // Permite arrastrar y soltar (requiere lógica de guardado)
+
+                // --- EVENTO: Clic en un día vacío ---
+                dateClick: function(info) {
+                    // Limpiamos el formulario para un nuevo evento
+                    form.reset();
+                    inputId.value = "0"; // 0 indica que es nuevo
+                    inputFecha.value = info.dateStr; // Asignamos la fecha clickeada
+                    modalLabel.innerText = "Nuevo Recordatorio";
+                    btnEliminar.style.display = "none"; // Ocultamos botón de eliminar
+                    modal.show();
+                },
+
+                // --- EVENTO: Clic en un evento existente ---
+                eventClick: function(info) {
+                    const event = info.event;
+                    
+                    // Llenamos el formulario con los datos del evento
+                    inputId.value = event.id;
+                    inputTitulo.value = event.title;
+                    inputFecha.value = event.start.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+                    inputDescripcion.value = event.extendedProps.descripcion || "";
+                    inputGrupo.value = event.extendedProps.grupo || "";
+
+                    modalLabel.innerText = "Editar Recordatorio";
+                    btnEliminar.style.display = "inline-block"; // Mostramos botón de eliminar
+                    modal.show();
+                },
+
+                // --- EVENTO: Arrastrar y soltar un evento ---
+                // (Opcional, pero muy útil)
+                eventDrop: function(info) {
+                    // TODO: Implementar llamada AJAX para actualizar la fecha
+                    // del evento (info.event) en la base de datos.
+                    console.log(`Evento ${info.event.id} movido a ${info.event.start.toISOString()}`);
+                    // Aquí harías un fetch para actualizar solo la fecha
+                }
+            });
+            calendar.render();
+
+            // --- Lógica de Botones del Modal ---
+
+            // Botón "Añadir Recordatorio" (fuera del modal)
+            document.getElementById('btnNuevoRecordatorio').addEventListener('click', function() {
+                form.reset();
+                inputId.value = "0";
+                inputFecha.valueAsDate = new Date(); // Pone la fecha de hoy
+                modalLabel.innerText = "Nuevo Recordatorio";
+                btnEliminar.style.display = "none";
+                modal.show();
+            });
+
+            // Botón "Guardar" (dentro del modal)
+            btnGuardar.addEventListener('click', async function() {
+                // 1. Recolectar datos del formulario
+                const recordatorioData = {
+                    ID_RecordatorioPsiquiatra: parseInt(inputId.value) || 0,
+                    ID_Psiquiatra: parseInt(inputPsiquiatraId.value),
+                    Titulo: inputTitulo.value,
+                    Fecha: inputFecha.value,
+                    Descripcion: inputDescripcion.value,
+                    Grupo: inputGrupo.value
+                };
+
+                // Validación simple
+                if (!recordatorioData.Titulo || !recordatorioData.Fecha) {
+                    alert("El título y la fecha son obligatorios.");
+                    return;
+                }
+
+                // 2. Enviar datos al Controller (Crear o Actualizar)
+                // TODO: Crearemos este endpoint en el PsiquiatraController
+                try {
+                    const response = await fetch('/RecordatoriosPsiquiatra/GuardarRecordatorio', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            // Añadir token de verificación si usas Antiforgery
+                        },
+                        body: JSON.stringify(recordatorioData)
+                    });
+
+                    if (response.ok) {
+                        const eventoGuardado = await response.json();
+
+                        // 3. Actualizar el calendario (sin recargar la página)
+                        const eventoExistente = calendar.getEventById(eventoGuardado.id);
+                        if (eventoExistente) {
+                            // Actualizar
+                            eventoExistente.setProp('title', eventoGuardado.title);
+                            eventoExistente.setStart(eventoGuardado.start);
+                            eventoExistente.setExtendedProp('descripcion', eventoGuardado.extendedProps.descripcion);
+                            eventoExistente.setExtendedProp('grupo', eventoGuardado.extendedProps.grupo);
+                        } else {
+                            // Añadir nuevo
+                            calendar.addEvent(eventoGuardado);
+                        }
+                        
+                        modal.hide();
+                    } else {
+                        alert("Error al guardar el recordatorio.");
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert("Error de conexión al guardar.");
+                }
+            });
+
+            // Botón "Eliminar" (dentro del modal)
+            btnEliminar.addEventListener('click', async function() {
+                if (!confirm("¿Estás seguro de que deseas eliminar este recordatorio?")) {
+                    return;
+                }
+
+                const id = inputId.value;
+
+                // TODO: Crearemos este endpoint en el PsiquiatraController
+                try {
+                    const response = await fetch(`/RecordatoriosPsiquiatra/EliminarRecordatorio/${id}`, {
+                        method: 'POST', // O 'DELETE'
+                        headers: {
+                            // Añadir token de verificación si usas Antiforgery
+                        }
+                    });
+
+                    if (response.ok) {
+                        // Eliminar del calendario
+                        const evento = calendar.getEventById(id);
+                        if (evento) {
+                            evento.remove();
+                        }
+                        modal.hide();
+                    } else {
+                        alert("Error al eliminar el recordatorio.");
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert("Error de conexión al eliminar.");
+                }
+            });
+
+        });
+    </script>
+}

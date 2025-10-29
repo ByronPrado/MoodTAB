@@ -15,6 +15,7 @@ namespace WebConTablas.Models
         public int? ID_Psiquiatra { get; set; } //Psiquiatra asignado al paciente.
         public Psiquiatra? Psiquiatra { get; set; }
         public Paciente? Paciente { get; set; }
+        public string Contrasena { get; set; }
 
         public ICollection<ComentariosExternos> Comentarios { get; set; } = new List<ComentariosExternos>();
     }

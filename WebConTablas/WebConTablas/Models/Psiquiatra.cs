@@ -12,5 +12,7 @@ namespace WebConTablas.Models
 
         public ICollection<Paciente> Pacientes { get; set; } = new List<Paciente>();
         public ICollection<Formulario> Formularios { get; set; } = new List<Formulario>();
+        public ICollection<RecordatoriosPsiquiatra> RecordatorioPsiquiatra { get; set; } = new List<RecordatoriosPsiquiatra>();
+        public ICollection<Logs> Logs { get; set; } = new List<Logs>();
     }
 }

@@ -13,7 +13,7 @@ namespace WebConTablas.Models
         public string? Sexo { get; set; }
         public string? Email { get; set; }
         public string? Telefono { get; set; }
-
+        public string Contrasena { get; set; }
         public int? ID_Psiquiatra { get; set; }
         public Psiquiatra? Psiquiatra { get; set; }
 
@@ -21,6 +21,7 @@ namespace WebConTablas.Models
         public ICollection<DiarioEmocional> DiariosEmocionales { get; set; } = new List<DiarioEmocional>();
         public ICollection<UsuarioExterno> UsuariosExternos { get; set; } = new List<UsuarioExterno>();
         public ICollection<Alertas> Alertas { get; set; } = new List<Alertas>();
+        public ICollection<Logs> Logs { get; set; } = new List<Logs>();
 
         public static implicit operator Paciente(PacienteDto v)
         {
