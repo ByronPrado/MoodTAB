@@ -50,6 +50,7 @@
             <div class="card-list-pacientes">
             @foreach (var paciente in Model)
             {
+                var tieneAlerta = paciente.Alertas != null && paciente.Alertas.Any(a => a.Estado == "No Visto");
                 
                 <div class="white-card" data-patient-id="@paciente.ID_Paciente" onclick="showPatientDetails(@paciente.ID_Paciente)">
                     <div class="d-flex align-items-start mb-2">
@@ -59,14 +60,11 @@
                                 @paciente.Diagnostico
                             </span>
                         </div>
-                        @if (ViewBag.AlertasA != null && ((List<string>)ViewBag.AlertasA).Any())
+                        @if (tieneAlerta)
                         {
-                            if (((List<string>)ViewBag.AlertasA).Contains(paciente.Nombre))
-                            {
-                                <span class="badge bg-warning" id="alerta">
-                                    <i class="fas fa-exclamation-triangle me-1"></i>Desvio
-                                </span>
-                            }
+                            <span class="badge bg-warning" id="alerta">
+                                <i class="fas fa-exclamation-triangle me-1"></i>Alerta
+                            </span>
                         }
                     </div>
                     <div class="d-flex justify-content-between align-items-center mt-2 pt-2" style="border-top: 1px solid var(--border-color);">
@@ -98,7 +96,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Store all patient data for client-side access
         const patientsData = @Html.Raw(JsonSerializer.Serialize(Model.Select(p => new {
             ID_Paciente = p.ID_Paciente,
             Nombre = p.Nombre,
@@ -107,6 +104,13 @@
             Email = p.Email,
             Telefono = p.Telefono,
             Diagnostico = p.Diagnostico,
+            TieneAlerta = p.Alertas != null && p.Alertas.Any(a => a.Estado == "No Visto"),
+            Alertas = p.Alertas?.Where(a => a.Estado == "No Visto").Select(a => new {
+                ID_Alerta = a.ID_Alerta,
+                Contenido = a.Contenido ?? "Sin descripción",
+                Tipo = a.Tipo ?? "Alerta",
+                Created_at = a.Created_at?.ToString("dd/MM/yyyy HH:mm") ?? "Fecha desconocida"
+            }).ToList(),
             DiariosEmocionales = p.DiariosEmocionales?.Select(d => new {
                 Fecha = d.Fecha.ToString("yyyy-MM-dd"),
                 Emociones = d.Emociones,
@@ -183,6 +187,43 @@
 
         function generatePatientDetailsHTML(patient) {
             const diagnosticoClass = patient.Diagnostico ? patient.Diagnostico.toLowerCase() : '';
+            
+            let alertBannerHTML = '';
+            if (patient.TieneAlerta && patient.Alertas && patient.Alertas.length > 0) {
+                const alertasHTML = patient.Alertas.map(alerta => `
+                    <div class="alert-item" data-alertaP-id="${alerta.ID_Alerta}">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="flex-grow-1">
+                                <span class="badge bg-warning text-dark me-2">${alerta.Tipo}</span>
+                                <span>${alerta.Contenido}</span>
+                                <small class="text-muted ms-2">${alerta.Created_at}</small>
+                            </div>
+                            <div class="alert-actions">
+                                <button class="btn btn-sm btn-success me-2" onclick="handleAlertAction(${alerta.ID_Alerta}, 'Visto', event)">
+                                    <i class="fas fa-check me-1"></i>Ok
+                                </button>
+                                <button class="btn btn-sm btn-secondary" onclick="handleAlertAction(${alerta.ID_Alerta}, 'Ignorado', event)">
+                                    <i class="fas fa-times me-1"></i>Ignorar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+                
+                alertBannerHTML = `
+                    <div class="alert-banner" id="alert-banner-${patient.ID_Paciente}">
+                        <div class="alert-banner-content">
+                            <div class="alert-banner-icon">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="alert-banner-text">
+                                <h6 class="mb-2">Alertas Activas</h6>
+                                ${alertasHTML}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
             
             let diariosHTML = '';
             if (patient.DiariosEmocionales && patient.DiariosEmocionales.length > 0) {
@@ -403,6 +444,7 @@
 
             
             return `
+                ${alertBannerHTML}
                 <div class="info-grid">
                     <div class="detail-card-p info-paciente">
                         <div class="d-flex align-items-start justify-content-between mb-4">
@@ -526,6 +568,97 @@
         selectDiagnostico.addEventListener("change", filtrar);
         checkboxalerta.addEventListener("change", filtrar);
 
+        async function handleAlertAction(alertaId, estado, event) {
+            event.stopPropagation();
+            
+            try {
+                const response = await fetch('/Pacientes/ActualizarEstadoAlerta', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        idAlerta: alertaId, 
+                        estado: estado 
+                    })
+                });
+                
+                if (response.ok) {
+                    
+                    // Remove the alert item from the banner
+                    const alertItem = document.querySelector(`[data-alertaP-id="${alertaId}"]`);
+                    const alertItemnotif = document.querySelector(`[data-alerta-id="${alertaId}"]`);
+                    if (alertItemnotif) {
+                        alertItemnotif.style.transition = 'opacity 0.3s ease';
+                        alertItemnotif.style.opacity = '0';
+                        alertItemnotif.remove();
+                    }
+                    if (alertItem) {
+                        alertItem.style.transition = 'opacity 0.3s ease';
+                        alertItem.style.opacity = '0';
+                        setTimeout(() => {
+                            alertItem.remove();
+                            
+                            // Check if there are any remaining alerts
+                            const remainingAlerts = document.querySelectorAll('.alert-item');
+                            
+                            if (remainingAlerts.length === 0) {
+                                // Hide the entire banner if no alerts remain
+                                const banner = document.querySelector('.alert-banner');
+                                if (banner) {
+                                    banner.style.transition = 'all 0.3s ease';
+                                    banner.style.opacity = '0';
+                                    banner.style.maxHeight = '0';
+                                    setTimeout(() => banner.remove(), 150);
+                                }
+                            }
+                        }, 150);
+                    }
+                    
+                    // Update notification count in navbar
+                    const notifBadge = document.getElementById('notif-count-badge');
+                    if (notifBadge) {
+                        const currentCount = parseInt(notifBadge.textContent);
+                        const newCount = currentCount - 1;
+                        console.log("[v0] Updating notification count:", currentCount, "->", newCount);
+                        
+                        if (newCount > 0) {
+                            notifBadge.textContent = newCount;
+                        } else {
+                            notifBadge.remove();
+                        }
+                    }
+                    
+                    // Update the patient data
+                    const patient = patientsData.find(p => p.Alertas && p.Alertas.some(a => a.ID_Alerta === alertaId));
+                    if (patient) {
+                        patient.Alertas = patient.Alertas.filter(a => a.ID_Alerta !== alertaId);
+                        patient.TieneAlerta = patient.Alertas.length > 0;
+                        
+                        console.log("[v0] Updated patient data:", { 
+                            patientId: patient.ID_Paciente, 
+                            remainingAlerts: patient.Alertas.length 
+                        });
+                        
+                        // Update the alert badge in the sidebar
+                        const patientCard = document.querySelector(`[data-patient-id="${patient.ID_Paciente}"]`);
+                        if (patientCard && !patient.TieneAlerta) {
+                            const alertBadge = patientCard.querySelector('#alerta');
+                            if (alertBadge) {
+                                alertBadge.remove();
+                            }
+                        }
+
+                    }
+                } else {
+                    console.error("[v0] Failed to update alert. Status:", response.status);
+                    const errorData = await response.json();
+                    console.error("[v0] Error details:", errorData);
+                }
+            } catch (error) {
+                console.error('[v0] Error updating alert status:', error);
+            }
+        }
     </script>
     @Html.AntiForgeryToken()
 </body>

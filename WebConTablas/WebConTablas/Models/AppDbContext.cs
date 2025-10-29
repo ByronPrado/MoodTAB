@@ -14,6 +14,7 @@ public class AppDbContext : DbContext
     public DbSet<DiarioEmocional> DiariosEmocionales { get; set; }
     public DbSet<UsuarioExterno> UsuariosExternos { get; set; } 
     public DbSet<ComentariosExternos> ComentariosExternos { get; set; }
+    public DbSet<Alertas> Alertas { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
@@ -36,7 +37,8 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<FormularioAsignado>().HasKey(fa => fa.ID_Asignacion);
         modelBuilder.Entity<Respuesta>().HasKey(r => r.ID_Respuesta);
         modelBuilder.Entity<DiarioEmocional>().HasKey(d => d.ID_Diario);
-    modelBuilder.Entity<UsuarioExterno>().HasKey(ue => ue.IdUsuarioExterno);
+        modelBuilder.Entity<UsuarioExterno>().HasKey(ue => ue.IdUsuarioExterno);
+        modelBuilder.Entity<Alertas>().HasKey(a => a.ID_Alerta);
 
         // Relación: Paciente 1 - N UsuarioExterno
         modelBuilder.Entity<UsuarioExterno>()
@@ -107,6 +109,11 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<DiarioEmocional>()
             .HasIndex(d => new { d.ID_Paciente, d.Fecha })
             .IsUnique();
+
+        modelBuilder.Entity<Alertas>()
+            .HasOne(a => a.Paciente)
+            .WithMany(p => p.Alertas)
+            .HasForeignKey(a => a.ID_Paciente);
 
         // ---------------------------
         // SEED DATA (Datos de ejemplo)
@@ -182,6 +189,19 @@ public class AppDbContext : DbContext
                 Fecha_Asignacion = new DateTime(2024, 6, 16, 0, 0, 0, DateTimeKind.Utc),
                 Fecha_Limite = new DateTime(2024, 6, 23, 0, 0, 0, DateTimeKind.Utc),
                 Estado = "pendiente"
+            }
+        );
+
+        // Alerta
+        modelBuilder.Entity<Alertas>().HasData(
+            new Alertas
+            {
+                ID_Alerta = 1,
+                ID_Paciente = 1,
+                Contenido = "Desvio diario emocional",
+                Tipo = "Desvio",
+                Estado = "No Visto", // No Visto / Visto / Ignorado
+                Created_at = new DateTime(2025, 9, 18, 0, 0, 0, DateTimeKind.Utc),
             }
         );
 

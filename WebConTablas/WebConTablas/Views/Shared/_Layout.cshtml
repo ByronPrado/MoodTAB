@@ -36,10 +36,15 @@
                     <div class="ms-auto d-flex align-items-center">
                         <button id="notifBtn" class="btn position-relative" type="button" data-bs-toggle="modal" data-bs-target="#notifModal">
                             <img src="@Url.Content("~/notif.svg")" alt="Notificaciones" style="height: 24px;">
-                            @if (ViewBag.AlertasA != null && ((List<string>)ViewBag.AlertasA).Any())
+                            @* Add null check for alerts count *@
+                            @{
+                                var alertasNoVistas = ViewBag.AlertasNoVistas as List<WebConTablas.Models.Alertas>;
+                                var alertCount = alertasNoVistas?.Count ?? 0;
+                            }
+                            @if (alertCount > 0)
                             {
-                                <span class="notif-count position-absolute badge rounded-pill bg-danger">
-                                    @(((List<List<string>>)ViewBag.Alertas).Count)
+                                <span id="notif-count-badge" class="notif-count position-absolute badge rounded-pill bg-danger">
+                                    @alertCount
                                 </span>
                             }
                         </button>
@@ -52,22 +57,22 @@
                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                                 </div>
                                 <div class="modal-body">
-                                    @if (ViewBag.AlertasA != null && ((List<string>)ViewBag.AlertasA).Any())
+                                    @* Add null check for alerts display *@
+                                    @if (alertasNoVistas != null && alertasNoVistas.Any())
                                     {
                                         <ul class="list-group">
-                                            @foreach (var alerta in (List<List<string>>)ViewBag.Alertas)
+                                            @foreach (var alerta in alertasNoVistas)
                                             {
-                                                var pacienteNombre = alerta[0];
-                                                var color = alerta[1];
-                                                var motivo = alerta[2];
-                                                var idPaciente = alerta[3];
-
                                                 <li class="list-group-item list-group-item-action alerta-item" 
-                                                    data-id="@idPaciente" style="cursor:pointer;">
-                                                    <strong>@pacienteNombre</strong>
-                                                    <span class="badge bg-warning text-dark ms-2">@motivo</span>
+                                                    data-id="@alerta.ID_Paciente"
+                                                    data-alerta-id="@alerta.ID_Alerta"
+                                                    style="cursor:pointer;">
+                                                    <strong>@(alerta.Paciente?.Nombre ?? "Paciente desconocido")</strong>
+                                                    <span class="badge bg-warning text-dark ms-2">@(alerta.Tipo ?? "Alerta")</span>
                                                     <br />
-                                                    <small class="text-muted">Alerta @color</small>
+                                                    <small class="text-muted">@(alerta.Contenido ?? "Sin descripción")</small>
+                                                    <br />
+                                                    <small class="text-muted">@(alerta.Created_at?.ToString("dd/MM/yyyy HH:mm") ?? "Fecha desconocida")</small>
                                                 </li>
                                             }
                                         </ul>
@@ -96,6 +101,17 @@
             alertItems.forEach(item => {
                 item.addEventListener("click", function () {
                     const id = this.getAttribute("data-id");
+                    const alertaId = this.getAttribute("data-alerta-id");
+                    
+                    if (alertaId) {
+                        fetch('/Pacientes/MarcarAlertaVista', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ idAlerta: parseInt(alertaId) })
+                        });
+                    }
                     
                     const modalElement = document.getElementById('notifModal');
                     const modal = bootstrap.Modal.getInstance(modalElement);
@@ -103,7 +119,6 @@
                         modal.hide();
                     }
                     
-                    // Remove backdrop and modal-open class manually to ensure cleanup
                     setTimeout(() => {
                         const backdrop = document.querySelector('.modal-backdrop');
                         if (backdrop) {
@@ -114,13 +129,11 @@
                         document.body.style.paddingRight = '';
                     }, 300);
                     
-                    // Call showPatientDetails if it exists (on index page)
                     if (typeof showPatientDetails === 'function') {
                         setTimeout(() => {
                             showPatientDetails(parseInt(id));
                         }, 350);
                     } else {
-                        // Fallback: redirect if not on index page (shouldn't happen)
                         window.location.href = `/Pacientes/Details/${id}`;
                     }
                 });

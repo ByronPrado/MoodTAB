@@ -258,7 +258,6 @@ body {
   gap: 0.75rem;
 }
 
-
 .detail-card summary .summary-title {
   display: flex;
   align-items: center;
@@ -633,17 +632,135 @@ body {
 
 .condition-exaltado {
   background-color: var(--warning-color);
-  color:  #524d0c;
+  color: #524d0c;
   border-color: rgba(206, 169, 34, 0.2);
 }
 
 .condition-inhibido {
   background-color: var(--warning-color);
-  color:  #524d0c;
+  color: #524d0c;
   border-color: rgba(206, 169, 34, 0.2);
 }
 
+/* Added alert banner styling */
+.alert-banner {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 2px solid #f59e0b;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);
+  animation: slideDown 0.3s ease-out;
+}
 
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.alert-banner-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.alert-banner-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  background: #f59e0b;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.25rem;
+}
+
+.alert-banner-text {
+  flex: 1;
+}
+
+.alert-banner-text h6 {
+  color: #92400e;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.alert-banner-text p {
+  color: #78350f;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* Added styling for individual alert items within the banner */
+.alert-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  transition: all 0.3s ease;
+}
+
+.alert-item:last-child {
+  margin-bottom: 0;
+}
+
+.alert-item:hover {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+/* Added styling for alert action buttons */
+.alert-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.alert-actions .btn {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.alert-actions .btn-success {
+  background: var(--success-color);
+  border: none;
+  color: white;
+}
+
+.alert-actions .btn-success:hover {
+  background: #059669;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.alert-actions .btn-secondary {
+  background: #6b7280;
+  border: none;
+  color: white;
+}
+
+.alert-actions .btn-secondary:hover {
+  background: #4b5563;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(107, 114, 128, 0.3);
+}
 
 /* ------------- Formularios ------------- */
 
