@@ -38,6 +38,59 @@ public class PacientesController : Controller
         .Include(p => p.Alertas)
         .ToListAsync();
 
+        foreach (var paciente in pacientes)
+        {
+            var ultimosDiarios = paciente.DiariosEmocionales
+                .OrderByDescending(d => d.Fecha)
+                .Take(7)
+                .ToList();
+
+            int diasAlteradosIn = ultimosDiarios.Count(d => d.Estado == "inhibido");
+            int diasAlteradosEx = ultimosDiarios.Count(d => d.Estado == "exaltado");
+
+            if (ultimosDiarios.Count >= 3)
+            {
+                var suma_pasos = 0;
+                var suma_celular = 0;
+                foreach (var diarios in ultimosDiarios.Take(ultimosDiarios.Count - 1))
+                {
+                    suma_pasos += diarios.Pasos ?? 0;
+                    suma_celular += diarios.Horas_celular ?? 0;
+                }
+                var promedio_pasos = suma_pasos / (ultimosDiarios.Count - 1);
+                var promedio_celular = suma_celular / (ultimosDiarios.Count - 1);
+
+                var margen_pasos = 10000;
+                var margen_celular = 10;
+
+                // Check for steps deviation alert
+                if (margen_pasos + promedio_pasos < ultimosDiarios.Last().Pasos || promedio_pasos - margen_pasos > ultimosDiarios.Last().Pasos)
+                {
+                    await CrearAlertaSiNoExiste(paciente.ID_Paciente, "Desvio Pasos", 
+                        $"Desviación significativa en pasos detectada. Promedio: {promedio_pasos}, Último registro: {ultimosDiarios.Last().Pasos}");
+                }
+
+                // Check for phone usage deviation alert
+                if (margen_celular + promedio_celular < ultimosDiarios.Last().Horas_celular || promedio_celular - margen_celular > ultimosDiarios.Last().Horas_celular)
+                {
+                    await CrearAlertaSiNoExiste(paciente.ID_Paciente, "Desvio Celular", 
+                        $"Desviación significativa en uso de celular detectada. Promedio: {promedio_celular}h, Último registro: {ultimosDiarios.Last().Horas_celular}h");
+                }
+
+                // Check for inhibited state alert
+                if (diasAlteradosIn >= 2)
+                {
+                    await CrearAlertaSiNoExiste(paciente.ID_Paciente, "Días Inhibido",
+                        $"Estado inhibido detectado en {diasAlteradosIn} de los últimos {ultimosDiarios.Count} días");
+                }
+                if (diasAlteradosEx >= 2)
+                {
+                    await CrearAlertaSiNoExiste(paciente.ID_Paciente, "Días Exaltado", 
+                        $"Estado exaltado detectado en {diasAlteradosEx} de los últimos {ultimosDiarios.Count} días");
+                }
+            }
+        }
+
         var alertasNoVistas = await _context.Alertas
             .Include(a => a.Paciente)
             .Where(a => a.Paciente != null && a.Paciente.ID_Psiquiatra == idPsiquiatra && a.Estado == "No Visto")
@@ -47,6 +100,28 @@ public class PacientesController : Controller
         ViewBag.AlertasNoVistas = alertasNoVistas;
 
         return View(pacientes);
+    }
+
+    private async Task CrearAlertaSiNoExiste(int idPaciente, string tipo, string contenido)
+    {
+        var alertaExistente = await _context.Alertas
+            .FirstOrDefaultAsync(a => a.ID_Paciente == idPaciente && a.Tipo == tipo && a.Estado == "No Visto");
+
+        if (alertaExistente == null)
+        {
+            // Create new alert
+            var nuevaAlerta = new Alertas
+            {
+                ID_Paciente = idPaciente,
+                Contenido = contenido,
+                Tipo = tipo,
+                Estado = "No Visto",
+                Created_at = DateTime.UtcNow
+            };
+
+            _context.Alertas.Add(nuevaAlerta);
+            await _context.SaveChangesAsync();
+        }
     }
 
     [HttpPost]

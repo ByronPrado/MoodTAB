@@ -104,9 +104,11 @@
             Email = p.Email,
             Telefono = p.Telefono,
             Diagnostico = p.Diagnostico,
+            Severidad = p.Severidad,
             TieneAlerta = p.Alertas != null && p.Alertas.Any(a => a.Estado == "No Visto"),
             Alertas = p.Alertas?.Where(a => a.Estado == "No Visto").Select(a => new {
                 ID_Alerta = a.ID_Alerta,
+                ID_Paciente = a.ID_Paciente,
                 Contenido = a.Contenido ?? "Sin descripción",
                 Tipo = a.Tipo ?? "Alerta",
                 Created_at = a.Created_at?.ToString("dd/MM/yyyy HH:mm") ?? "Fecha desconocida"
@@ -196,6 +198,9 @@
                             <div class="flex-grow-1">
                                 <span class="badge bg-warning text-dark me-2">${alerta.Tipo}</span>
                                 <span>${alerta.Contenido}</span>
+                                <a href="/Pacientes/Details/${alerta.ID_Paciente.toString()}" class="btn btn-sm btn-outline-primary">
+                                    Detalles
+                                </a>
                                 <small class="text-muted ms-2">${alerta.Created_at}</small>
                             </div>
                             <div class="alert-actions">
@@ -488,7 +493,7 @@
                         </small>
                         <p>15 / 10 / 2023</p>
                         <small>Severidad</small>
-                        <p>⭐⭐ Moderada</p>
+                        <p>${(patient.Severidad == "Leve") ? "⭐" : (patient.Severidad == "Moderada" ? "⭐⭐" : "⭐⭐⭐")} ${patient.Severidad}</p>
                     </div>
                 </div>
                 
