@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace WebConTablas.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251029213614_AddIsAllDayTablaRecordatoriosPsiq")]
+    partial class AddIsAllDayTablaRecordatoriosPsiq
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -332,9 +335,6 @@ namespace WebConTablas.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("PlanSeguro")
-                        .HasColumnType("text");
-
                     b.Property<string>("Sexo")
                         .HasColumnType("text");
 
@@ -454,9 +454,6 @@ namespace WebConTablas.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID_RecordatorioPsiquiatra"));
 
-                    b.Property<string>("Color")
-                        .HasColumnType("text");
-
                     b.Property<string>("Descripcion")
                         .HasColumnType("text");
 
@@ -468,9 +465,6 @@ namespace WebConTablas.Migrations
 
                     b.Property<int>("ID_Psiquiatra")
                         .HasColumnType("integer");
-
-                    b.Property<bool>("IsAllDay")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("Titulo")
                         .HasColumnType("text");

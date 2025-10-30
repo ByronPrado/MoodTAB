@@ -1,15 +1,23 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebConTablas.Models;
-// using System.Security.Claims; // <-- YA NO LO NECESITAMOS
 
 namespace WebConTablas.Controllers
 {
-    // [Authorize] // <-- 1. ELIMINAMOS ESTO (es la causa de tu error)
     public class RecordatoriosPsiquiatraController : Controller
     {
         private readonly AppDbContext _context;
-
+        private string GetColorFromGroup(string? grupo)
+        {
+            return grupo switch
+            {
+                "Personal" => "#0d6efd",   // Azul (Bootstrap Primary)
+                "Cita" => "#198754",    // Verde (Bootstrap Success)
+                "Importante" => "#dc3545", // Rojo (Bootstrap Danger)
+                "Reunión" => "#ffc107",  // Amarillo (Bootstrap Warning)
+                _ => "#6c757d",           // Gris (Bootstrap Secondary)
+            };
+        }
         public RecordatoriosPsiquiatraController(AppDbContext context)
         {
             _context = context;
@@ -18,17 +26,30 @@ namespace WebConTablas.Controllers
         [HttpPost]
         public async Task<IActionResult> GuardarRecordatorio([FromBody] RecordatoriosPsiquiatra recordatorio)
         {
-            // --- 3. CAMBIAMOS LA FORMA DE OBTENER EL ID ---
+            // GET ID
             int? psiquiatraId = HttpContext.Session.GetInt32("PsiquiatraId");
 
             if (psiquiatraId == null)
             {
-                return Unauthorized(); // No debería pasar si ya está en la página
+                return Unauthorized(); 
+            }
+
+            if (recordatorio.Fecha.HasValue)
+            {
+                if (recordatorio.IsAllDay)
+                {
+                    // Si es "Todo el día", la hora es 00:00. Solo la marcamos como UTC.
+                    recordatorio.Fecha = DateTime.SpecifyKind(recordatorio.Fecha.Value, DateTimeKind.Utc);
+                }
+                else
+                {
+                    // Si tiene hora, asumimos que es LOCAL y la CONVERTIMOS a UTC para guardarla.
+                    recordatorio.Fecha = recordatorio.Fecha.Value.ToUniversalTime();
+                }
             }
 
             // Forzamos que el recordatorio pertenezca al psiquiatra logeado
             recordatorio.ID_Psiquiatra = psiquiatraId.Value;
-            // --- FIN DEL CAMBIO ---
 
             if (ModelState.IsValid)
             {
@@ -36,32 +57,54 @@ namespace WebConTablas.Controllers
                 {
                     if (recordatorio.ID_RecordatorioPsiquiatra == 0)
                     {
+                        // CREAR
+                        // Limpiamos la navegación para evitar problemas
+                        recordatorio.Psiquiatra = null; 
                         _context.RecordatoriosPsiquiatra.Add(recordatorio);
                     }
                     else
                     {
-                        var existe = await _context.RecordatoriosPsiquiatra
-                            .AsNoTracking()
-                            .AnyAsync(r => r.ID_RecordatorioPsiquiatra == recordatorio.ID_RecordatorioPsiquiatra && 
-                                           r.ID_Psiquiatra == psiquiatraId.Value); // Usamos .Value
-                        
-                        if (!existe)
+                        // ACTUALIZAR
+                        // 1. Buscamos el recordatorio ORIGINAL en la BBDD
+                        var recordatorioDB = await _context.RecordatoriosPsiquiatra
+                            .FirstOrDefaultAsync(r => r.ID_RecordatorioPsiquiatra == recordatorio.ID_RecordatorioPsiquiatra);
+
+                        if (recordatorioDB == null)
                         {
-                            return Forbid(); 
+                            return NotFound();
+                        }
+                        
+                        // 2. Verificamos que le pertenece a este psiquiatra
+                        if (recordatorioDB.ID_Psiquiatra != psiquiatraId.Value)
+                        {
+                            return Forbid(); // No tiene permiso
                         }
 
-                        _context.RecordatoriosPsiquiatra.Update(recordatorio);
+                        // 3. Actualizamos SÓLO las propiedades que vienen del modal
+                        recordatorioDB.Titulo = recordatorio.Titulo;
+                        recordatorioDB.Fecha = recordatorio.Fecha;
+                        recordatorioDB.Descripcion = recordatorio.Descripcion;
+                        recordatorioDB.Grupo = recordatorio.Grupo;
+                        recordatorioDB.IsAllDay = recordatorio.IsAllDay;
+                        recordatorioDB.Color = recordatorio.Color;
+                        
                     }
 
                     await _context.SaveChangesAsync();
 
+                    var color = !string.IsNullOrEmpty(recordatorio.Color) 
+                        ? recordatorio.Color 
+                        : GetColorFromGroup(recordatorio.Grupo);
+                    
                     // Devolvemos el objeto en el formato que espera FullCalendar
                     var eventData = new
                     {
                         id = recordatorio.ID_RecordatorioPsiquiatra,
                         title = recordatorio.Titulo,
-                        start = recordatorio.Fecha?.ToString("yyyy-MM-dd"),
-                        allDay = true,
+                        start = recordatorio.Fecha?.ToString("o"),
+                        allDay = recordatorio.IsAllDay,
+                        backgroundColor = color, 
+                        borderColor = color,     
                         extendedProps = new
                         {
                             descripcion = recordatorio.Descripcion,
@@ -80,20 +123,16 @@ namespace WebConTablas.Controllers
             return BadRequest(ModelState);
         }
 
-        /// <summary>
-        /// Elimina un recordatorio.
-        /// </summary>
+
         [HttpPost] 
         public async Task<IActionResult> EliminarRecordatorio(int id)
         {
-            // --- 4. CAMBIAMOS LA FORMA DE OBTENER EL ID ---
             int? psiquiatraId = HttpContext.Session.GetInt32("PsiquiatraId");
 
             if (psiquiatraId == null)
             {
                 return Unauthorized();
             }
-            // --- FIN DEL CAMBIO ---
 
             var recordatorio = await _context.RecordatoriosPsiquiatra
                 .FirstOrDefaultAsync(r => r.ID_RecordatorioPsiquiatra == id);
@@ -104,7 +143,7 @@ namespace WebConTablas.Controllers
             }
 
             // Verificación de seguridad:
-            if (recordatorio.ID_Psiquiatra != psiquiatraId.Value) // Usamos .Value
+            if (recordatorio.ID_Psiquiatra != psiquiatraId.Value) // Con .Value
             {
                 return Forbid(); 
             }

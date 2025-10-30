@@ -96,14 +96,27 @@ public class PsiquiatrasController : Controller
         return View(psiquiatra);
     }
 
-    [HttpPost]
+[HttpPost]
     public async Task<IActionResult> Edit(Psiquiatra psiquiatra)
     {
-        _context.Psiquiatras.Update(psiquiatra);
-        await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));
-    }
+        var psiquiatraDB = await _context.Psiquiatras.FindAsync(psiquiatra.ID_Psiquiatra);
 
+        if (psiquiatraDB == null)
+        {
+            return NotFound();
+        }
+
+        // Actualizamos SOLO los campos que vienen del formulario
+        //    (Dejamos la contraseña intacta)
+        psiquiatraDB.Nombre = psiquiatra.Nombre;
+        psiquiatraDB.Email = psiquiatra.Email;
+        psiquiatraDB.Telefono = psiquiatra.Telefono;
+
+        _context.Psiquiatras.Update(psiquiatraDB);
+        await _context.SaveChangesAsync();
+        
+        return RedirectToAction(nameof(Details));
+    }
     public async Task<IActionResult> Delete(int id)
     {
         var psiquiatra = await _context.Psiquiatras.FindAsync(id);

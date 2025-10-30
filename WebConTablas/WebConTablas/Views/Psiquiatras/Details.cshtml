@@ -58,9 +58,12 @@
                         <dt class="col-sm-3">Teléfono:</dt>
                         <dd class="col-sm-9">@(Model.Telefono ?? "No especificado")</dd>
                     </dl>
-                    <button class_name="btn btn-outline-secondary">
+                    <a asp-controller="Psiquiatras" 
+                       asp-action="Edit" 
+                       asp-route-id="@Model.ID_Psiquiatra" 
+                       class="btn btn-outline-secondary">
                         <i class="fas fa-pencil-alt"></i> Editar mis datos
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -78,27 +81,49 @@
                 <form id="formRecordatorio">
                     <input type="hidden" id="recordatorioId" value="0" />
                     <input type="hidden" id="psiquiatraId" value="@Model.ID_Psiquiatra" />
-
                     <div class="mb-3">
                         <label for="recordatorioTitulo" class="form-label">Título</label>
                         <input type="text" class="form-control" id="recordatorioTitulo" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="recordatorioFecha" class="form-label">Fecha</label>
-                        <input type="date" class="form-control" id="recordatorioFecha" required>
+
+                    <div class="row">
+                        <div class="col-md-7 mb-3">
+                            <label for="recordatorioFecha" class="form-label">Fecha</label>
+                            <input type="date" class="form-control" id="recordatorioFecha" required>
+                        </div>
+
+                        <div class="col-md-5 mb-3 d-flex align-items-end">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="recordatorioAllDay" checked>
+                                <label class="form-check-label" for="recordatorioAllDay">
+                                    Todo el día
+                                </label>
+                            </div>
+                        </div>
                     </div>
+
+                    <div class="mb-3" id="contenedorHora" style="display: none;">
+                        <label for="recordatorioHora" class="form-label">Hora</label>
+                        <input type="time" class="form-control" id="recordatorioHora">
+                    </div>
+
                     <div class="mb-3">
                         <label for="recordatorioDescripcion" class="form-label">Descripción (Opcional)</label>
                         <textarea class="form-control" id="recordatorioDescripcion" rows="3"></textarea>
                     </div>
                     <div class="mb-3">
+                        <label for="recordatorioColor" class="form-label">Color (Opcional)</label>
+                        <input type="color" class="form-control form-control-color" id="recordatorioColor" title="Elige un color">
+                    </div>
+                    <div class="mb-3">
                         <label for="recordatorioGrupo" class="form-label">Grupo (Opcional)</label>
                         <select class="form-select" id="recordatorioGrupo">
-                            <option value="">Ninguno</option>
+                            <option value="">Otro</option>
                             <option value="Personal">Personal</option>
-                            <option value="Trabajo">Trabajo</option>
+                            <option value="Cita">Cita</option>
                             <option value="Importante">Importante</option>
-                        </select>
+                            <option value="Reunión">Reunión</option>
+                            </select>
                     </div>
                 </form>
             </div>
@@ -115,6 +140,19 @@
     </div>
 </div>
 
+@functions {
+    private string GetColorFromGroup(string? grupo)
+    {
+        return grupo switch
+        {
+            "Personal" => "#0d6efd",
+            "Cita" => "#198754",
+            "Importante" => "#dc3545",
+            "Reunión" => "#ffc107",
+            _ => "#6c757d",
+        };
+    }
+}
 
 @section Scripts {
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js'></script>
@@ -137,21 +175,41 @@
             const inputFecha = document.getElementById('recordatorioFecha');
             const inputDescripcion = document.getElementById('recordatorioDescripcion');
             const inputGrupo = document.getElementById('recordatorioGrupo');
+            const inputAllDay = document.getElementById('recordatorioAllDay');
+            const inputHora = document.getElementById('recordatorioHora');
+            const contenedorHora = document.getElementById('contenedorHora');
+            const inputColor = document.getElementById('recordatorioColor');
 
+            const groupColors = {
+                "Personal": "#0d6efd",
+                "Cita": "#198754",   
+                "Importante": "#dc3545",
+                "Reunión": "#ffc107",
+                "": "#FFFFFF" 
+            };
+            const defaultColor = "#6c757d"; // Fallback gris
+            const defaultWhite = "#FFFFFF";
             // Serializamos los recordatorios desde el Modelo C#
             // Asumimos que Model.Recordatorios existe
             let recordatorios = @Html.Raw(Json.Serialize(
                 (Model.RecordatorioPsiquiatra ?? new List<WebConTablas.Models.RecordatoriosPsiquiatra>())
-                .Select(r => new {
-                    id = r.ID_RecordatorioPsiquiatra,
-                    title = r.Titulo,
-                    start = r.Fecha?.ToString("yyyy-MM-dd"), // Formato ISO
-                    allDay = true,
-                    // Usamos extendedProps para guardar datos extra
-                    extendedProps = new {
-                        descripcion = r.Descripcion,
-                        grupo = r.Grupo
-                    }
+                .Select(r => {
+                    var color = !string.IsNullOrEmpty(r.Color) 
+                        ? r.Color 
+                        : GetColorFromGroup(r.Grupo);
+                        
+                    return new {
+                        id = r.ID_RecordatorioPsiquiatra,
+                        title = r.Titulo,
+                        start = r.Fecha?.ToString("o"), 
+                        allDay = r.IsAllDay,
+                        backgroundColor = color, 
+                        borderColor = color,     
+                        extendedProps = new {
+                            descripcion = r.Descripcion,
+                            grupo = r.Grupo
+                        }
+                    };
                 })
             ));
 
@@ -171,28 +229,50 @@
 
                 // --- EVENTO: Clic en un día vacío ---
                 dateClick: function(info) {
-                    // Limpiamos el formulario para un nuevo evento
                     form.reset();
-                    inputId.value = "0"; // 0 indica que es nuevo
-                    inputFecha.value = info.dateStr; // Asignamos la fecha clickeada
+                    inputId.value = "0";
+                    inputFecha.value = info.dateStr;
+                    
+                    // Por defecto es "Todo el día"
+                    inputAllDay.checked = true;
+                    contenedorHora.style.display = "none";
+                    inputHora.value = "";
+                    inputColor.value = defaultWhite;
+
                     modalLabel.innerText = "Nuevo Recordatorio";
-                    btnEliminar.style.display = "none"; // Ocultamos botón de eliminar
+                    btnEliminar.style.display = "none";
                     modal.show();
                 },
 
                 // --- EVENTO: Clic en un evento existente ---
                 eventClick: function(info) {
                     const event = info.event;
-                    
-                    // Llenamos el formulario con los datos del evento
                     inputId.value = event.id;
                     inputTitulo.value = event.title;
-                    inputFecha.value = event.start.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+                    
+                    // Lógica para Fecha y Hora
+                    const startDate = event.start;
+                    if(startDate){
+                        // Seteamos la fecha
+                        inputFecha.value = startDate.toISOString().split('T')[0];
+                        
+                        if (event.allDay) {
+                            inputAllDay.checked = true;
+                            contenedorHora.style.display = "none";
+                            inputHora.value = "";
+                        } else {
+                            // Seteamos la hora (formato HH:mm)
+                            inputAllDay.checked = false;
+                            contenedorHora.style.display = "block";
+                            inputHora.value = startDate.toTimeString().split(' ')[0].substring(0, 5);
+                        }
+                    }
+
                     inputDescripcion.value = event.extendedProps.descripcion || "";
                     inputGrupo.value = event.extendedProps.grupo || "";
-
+                    inputColor.value = event.backgroundColor || "#FFFFFF";
                     modalLabel.innerText = "Editar Recordatorio";
-                    btnEliminar.style.display = "inline-block"; // Mostramos botón de eliminar
+                    btnEliminar.style.display = "inline-block";
                     modal.show();
                 },
 
@@ -209,6 +289,11 @@
 
             // --- Lógica de Botones del Modal ---
 
+            inputGrupo.addEventListener('change', function() {
+                const selectedGroup = this.value;
+                inputColor.value = groupColors[selectedGroup] || defaultColor; 
+            });
+
             // Botón "Añadir Recordatorio" (fuera del modal)
             document.getElementById('btnNuevoRecordatorio').addEventListener('click', function() {
                 form.reset();
@@ -216,19 +301,31 @@
                 inputFecha.valueAsDate = new Date(); // Pone la fecha de hoy
                 modalLabel.innerText = "Nuevo Recordatorio";
                 btnEliminar.style.display = "none";
+                inputColor.value = "#FFFFFF"; 
                 modal.show();
             });
 
             // Botón "Guardar" (dentro del modal)
             btnGuardar.addEventListener('click', async function() {
+                const esTodoElDia = inputAllDay.checked;
+                let fechaISO;
+                if (esTodoElDia || !inputHora.value) {
+                    // Si es todo el día o la hora está vacía, manda solo la fecha
+                    fechaISO = inputFecha.value;
+                } else {
+                    // Si tiene hora, combina fecha y hora en formato ISO
+                    fechaISO = `${inputFecha.value}T${inputHora.value}`;
+                }
                 // 1. Recolectar datos del formulario
                 const recordatorioData = {
                     ID_RecordatorioPsiquiatra: parseInt(inputId.value) || 0,
                     ID_Psiquiatra: parseInt(inputPsiquiatraId.value),
                     Titulo: inputTitulo.value,
-                    Fecha: inputFecha.value,
+                    Fecha: fechaISO,
                     Descripcion: inputDescripcion.value,
-                    Grupo: inputGrupo.value
+                    Grupo: inputGrupo.value,
+                    IsAllDay: esTodoElDia,
+                    Color: inputColor.value
                 };
 
                 // Validación simple
@@ -252,18 +349,18 @@
                     if (response.ok) {
                         const eventoGuardado = await response.json();
 
-                        // 3. Actualizar el calendario (sin recargar la página)
+                        // 1. Busca el evento existente
                         const eventoExistente = calendar.getEventById(eventoGuardado.id);
+
+                        // 2. Si existe, elimínalo del calendario
                         if (eventoExistente) {
-                            // Actualizar
-                            eventoExistente.setProp('title', eventoGuardado.title);
-                            eventoExistente.setStart(eventoGuardado.start);
-                            eventoExistente.setExtendedProp('descripcion', eventoGuardado.extendedProps.descripcion);
-                            eventoExistente.setExtendedProp('grupo', eventoGuardado.extendedProps.grupo);
-                        } else {
-                            // Añadir nuevo
-                            calendar.addEvent(eventoGuardado);
+                            eventoExistente.remove(); 
                         }
+
+                        // 3. Añade el evento (ya sea nuevo o actualizado)
+                        // El 'eventoGuardado' que viene del servidor ya tiene
+                        // toda la información correcta (nueva hora, título, etc.)
+                        calendar.addEvent(eventoGuardado); 
                         
                         modal.hide();
                     } else {
@@ -306,6 +403,20 @@
                     console.error('Error:', error);
                     alert("Error de conexión al eliminar.");
                 }
+            });
+            inputAllDay.addEventListener('change', function() {
+                if (this.checked) {
+                    contenedorHora.style.display = "none";
+                    inputHora.value = ""; // Limpia la hora si se marca "Todo el día"
+                } else {
+                    contenedorHora.style.display = "block";
+                    inputHora.value = "09:00"; // Pone una hora por defecto
+                }
+            });
+            inputGrupo.addEventListener('change', function() {
+                const selectedGrupo = this.value;
+                const newColor = jsGetColorFromGroup(selectedGrupo);
+                inputColor.value = newColor; // Actualiza el selector de color
             });
 
         });
