@@ -105,7 +105,7 @@ public class PacientesController : Controller
     private async Task CrearAlertaSiNoExiste(int idPaciente, string tipo, string contenido)
     {
         var alertaExistente = await _context.Alertas
-            .FirstOrDefaultAsync(a => a.ID_Paciente == idPaciente && a.Tipo == tipo && a.Estado == "No Visto");
+            .FirstOrDefaultAsync(a => a.ID_Paciente == idPaciente && a.Tipo == tipo);
 
         if (alertaExistente == null)
         {
