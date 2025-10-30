@@ -67,6 +67,7 @@ public class PsiquiatrasController : Controller
         if (psiquiatra != null)
         {
             HttpContext.Session.SetInt32("PsiquiatraId", psiquiatra.ID_Psiquiatra);
+            HttpContext.Session.SetString("PsiquiatraNombre", psiquiatra.Nombre);
             return RedirectToAction("Details", "Psiquiatras");
         }
         else
@@ -74,6 +75,13 @@ public class PsiquiatrasController : Controller
             ViewBag.Error = "Usuario o contraseña incorrectos.";
             return View();
         }
+    }
+
+    [HttpPost]
+    public IActionResult Logout()
+    {
+        HttpContext.Session.Clear();
+        return RedirectToAction("Login", "Psiquiatras");
     }
 
     public IActionResult Create()
