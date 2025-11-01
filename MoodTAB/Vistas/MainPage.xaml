@@ -213,9 +213,9 @@
                         IsVisible="false"/>
                 <Button Text="Test"
                         Command="{Binding MovetoPageCommand}"
-                        CommandParameter="TestPage"
+                        CommandParameter="Healthconn"
                         BackgroundColor="Red"
-                         IsVisible="false"/>
+                         IsVisible="true"/>
                 <Button Text="Probar Notificación"
                         Clicked="NotificationClick"
                         BackgroundColor="#68ACD5"

@@ -1,8 +1,8 @@
 using Android;
 
 namespace MoodTAB.Platforms.Android;
-
-public class NotificationPermission : Permissions.BasePlatformPermission
+using MauiPermissions = Microsoft.Maui.ApplicationModel.Permissions;
+public class NotificationPermission : MauiPermissions.BasePlatformPermission
 {
     public override (string androidPermission, bool isRuntime)[] RequiredPermissions
     {

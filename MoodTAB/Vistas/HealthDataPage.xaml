@@ -4,16 +4,148 @@
              x:Class="MoodTAB.Vistas.HealthDataPage"
              Title="HealthData">
     
-    <ScrollView>
-        <VerticalStackLayout>      
-            <Label Text="Health Connect Demo" FontSize="24" />
-            <Label Text="Pasos:" />
-            <Label Text="{Binding StepsText}" />
+   <ScrollView>
+        <VerticalStackLayout
+            Padding="20"
+            Spacing="15">
+            
+            <!-- Header -->
+            <Frame BackgroundColor="White" 
+                   CornerRadius="15" 
+                   Padding="20"
+                   HasShadow="True">
+                <VerticalStackLayout Spacing="10">
+                    <Label
+                        Text="Health Connect"
+                        FontSize="28"
+                        FontAttributes="Bold"
+                        TextColor="#2C3E50"
+                        HorizontalOptions="Center" />
+                    
+                    <Label
+                        Text="Monitoreo de Salud y Bienestar"
+                        FontSize="14"
+                        TextColor="#7F8C8D"
+                        HorizontalOptions="Center" />
+                </VerticalStackLayout>
+            </Frame>
 
-            <Label Text="Sueño:" />
-            <Label Text="{Binding SleepText}" />
+            <!-- Botón principal -->
+            <Button
+                x:Name="LoadDataBtn"
+                Text="Cargar Datos de Salud" 
+                BackgroundColor="#3498DB"
+                TextColor="White"
+                FontAttributes="Bold"
+                CornerRadius="10"
+                HeightRequest="50"
+                Clicked="OnLoadDataClicked"
+                HorizontalOptions="Fill" />
 
-            <Button Text="Cargar Datos de Salud" Command="{Binding LoadHealthDataCommand}" />
+            <!-- Pasos -->
+            <Frame BackgroundColor="White" 
+                   CornerRadius="15" 
+                   Padding="20"
+                   HasShadow="True">
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        Text="👣 Pasos"
+                        FontSize="18"
+                        FontAttributes="Bold"
+                        TextColor="#2C3E50" />
+                    <Label
+                        x:Name="StepsLabel"
+                        Text="-- pasos"
+                        FontSize="32"
+                        FontAttributes="Bold"
+                        TextColor="#3498DB" />
+                    <Label
+                        Text="Hoy"
+                        FontSize="12"
+                        TextColor="#7F8C8D" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Sueño -->
+            <Frame BackgroundColor="White" 
+                   CornerRadius="15" 
+                   Padding="20"
+                   HasShadow="True">
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        Text="😴 Sueño"
+                        FontSize="18"
+                        FontAttributes="Bold"
+                        TextColor="#2C3E50" />
+                    <Label
+                        x:Name="SleepLabel"
+                        Text="-- horas"
+                        FontSize="32"
+                        FontAttributes="Bold"
+                        TextColor="#9B59B6" />
+                    <Label
+                        Text="Última noche"
+                        FontSize="12"
+                        TextColor="#7F8C8D" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Ritmo Cardíaco -->
+            <Frame BackgroundColor="White" 
+                   CornerRadius="15" 
+                   Padding="20"
+                   HasShadow="True">
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        Text="❤️ Ritmo Cardíaco"
+                        FontSize="18"
+                        FontAttributes="Bold"
+                        TextColor="#2C3E50" />
+                    <Label
+                        x:Name="HeartRateLabel"
+                        Text="-- bpm"
+                        FontSize="32"
+                        FontAttributes="Bold"
+                        TextColor="#E74C3C" />
+                    <Label
+                        Text="Promedio hoy"
+                        FontSize="12"
+                        TextColor="#7F8C8D" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Distancia -->
+            <Frame BackgroundColor="White" 
+                   CornerRadius="15" 
+                   Padding="20"
+                   HasShadow="True">
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        Text="🏃 Distancia"
+                        FontSize="18"
+                        FontAttributes="Bold"
+                        TextColor="#2C3E50" />
+                    <Label
+                        x:Name="DistanceLabel"
+                        Text="-- km"
+                        FontSize="32"
+                        FontAttributes="Bold"
+                        TextColor="#27AE60" />
+                    <Label
+                        Text="Hoy"
+                        FontSize="12"
+                        TextColor="#7F8C8D" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Estado -->
+            <Label
+                x:Name="StatusLabel"
+                Text="Presiona el botón para cargar datos"
+                FontSize="12"
+                TextColor="#7F8C8D"
+                HorizontalOptions="Center"
+                Margin="0,10,0,0"/>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

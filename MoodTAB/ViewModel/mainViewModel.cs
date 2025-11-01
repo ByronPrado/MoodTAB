@@ -169,6 +169,7 @@ namespace MoodTAB.ViewModel
                     "UserPage" => new UserPage(),
                     "PlanSeguroPage" => new PlanSeguroPage(),
                     "PastilleroPage" => new PastilleroPage(),
+                    "Healthconn" => new HealthDataPage(),
                     _ => null
                 };
 

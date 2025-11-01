@@ -5,11 +5,22 @@ using Android.OS;
 using Android.Speech;
 using MoodTAB.Services;
 
+using AndroidX.Activity.Result;
+using MoodTAB.Platforms.Android.Callbacks;
+using AndroidX.Health.Connect.Client;
+using JObject = Java.Lang.Object;
+
 namespace MoodTAB;
 
+    [IntentFilter(new[] { "androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" })]
+    [IntentFilter(new[] { "android.intent.action.VIEW_PERMISSION_USAGE" },
+        Categories = new[] { "android.intent.category.HEALTH_PERMISSIONS" })]
 [Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true, LaunchMode = LaunchMode.SingleTop, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density)]
 public class MainActivity : MauiAppCompatActivity
 {
+    private ActivityResultLauncher _permissionRequestLauncher = null!;
+    private TaskCompletionSource<JObject?> _permissionRequestCompletedSource;
+    public static readonly TimeSpan MaxPermissionRequestDuration = TimeSpan.FromMinutes(1);
     public static MainActivity? Instance { get; private set; }
 
     protected override void OnCreate(Bundle? savedInstanceState)
@@ -18,6 +29,13 @@ public class MainActivity : MauiAppCompatActivity
         Instance = this;
         CreateNotificationFromIntent(Intent);
         Window.SetStatusBarColor(Android.Graphics.Color.ParseColor("#6493e5"));
+        _permissionRequestLauncher = RegisterForActivityResult(
+            HealthPermissionController.CreateRequestPermissionResultContract(),
+            new AndroidActivityResultCallback(result => {
+                Console.WriteLine($"[v0] Permission result received in MainActivity");
+                _permissionRequestCompletedSource?.TrySetResult(result);
+                _permissionRequestCompletedSource = null;
+            }));
 
     }
 
@@ -52,5 +70,14 @@ public class MainActivity : MauiAppCompatActivity
                 MoodTAB.Platforms.Android.DictationService.Current?.DictationResult?.TrySetResult(matches[0]);
             }
         }
+    }
+
+    public Task RequestPermission(Java.Util.ISet permission, TaskCompletionSource<JObject?> whenCompletedSource)
+    {
+        Console.WriteLine($"[v0] RequestPermission called in MainActivity with{ permission.Size()} permissions");
+        _permissionRequestCompletedSource?.TrySetResult(null);
+        _permissionRequestCompletedSource = whenCompletedSource;
+        _permissionRequestLauncher.Launch((Java.Lang.Object)permission);
+        return whenCompletedSource.Task;
     }
 }
