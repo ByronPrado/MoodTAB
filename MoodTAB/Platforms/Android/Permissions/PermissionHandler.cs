@@ -55,7 +55,7 @@ namespace MoodTAB.Platforms.Android.Permissions
                 void RequestPermission()
                 {
                     Console.WriteLine("[v0] Lanzando solicitud de permisos...");
-                    activity.RequestPermission((Java.Util.ISet)permissions, whenCompletedSource);
+                    activity.RequestPermission(permissions, whenCompletedSource);
                 }
             }
             catch (Exception ex)

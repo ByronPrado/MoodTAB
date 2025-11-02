@@ -29,13 +29,13 @@ public class MainActivity : MauiAppCompatActivity
         Instance = this;
         CreateNotificationFromIntent(Intent);
         Window.SetStatusBarColor(Android.Graphics.Color.ParseColor("#6493e5"));
-        _permissionRequestLauncher = RegisterForActivityResult(
-            HealthPermissionController.CreateRequestPermissionResultContract(),
-            new AndroidActivityResultCallback(result => {
-                Console.WriteLine($"[v0] Permission result received in MainActivity");
-                _permissionRequestCompletedSource?.TrySetResult(result);
-                _permissionRequestCompletedSource = null;
-            }));
+            _permissionRequestLauncher = RegisterForActivityResult(
+        PermissionController.CreateRequestPermissionResultContract(),
+        new AndroidActivityResultCallback(result => {
+            Console.WriteLine($"[v0] Permission result received in MainActivity");
+            _permissionRequestCompletedSource?.TrySetResult(result);
+            _permissionRequestCompletedSource = null;
+        }));
 
     }
 
@@ -72,12 +72,12 @@ public class MainActivity : MauiAppCompatActivity
         }
     }
 
-    public Task RequestPermission(Java.Util.ISet permission, TaskCompletionSource<JObject?> whenCompletedSource)
+    public Task RequestPermission(Java.Lang.Object permission, TaskCompletionSource<JObject?> whenCompletedSource)
     {
-        Console.WriteLine($"[v0] RequestPermission called in MainActivity with{ permission.Size()} permissions");
+        Console.WriteLine($"[v0] RequestPermission called in MainActivity");
         _permissionRequestCompletedSource?.TrySetResult(null);
         _permissionRequestCompletedSource = whenCompletedSource;
-        _permissionRequestLauncher.Launch((Java.Lang.Object)permission);
+        _permissionRequestLauncher.Launch(permission);
         return whenCompletedSource.Task;
     }
 }
