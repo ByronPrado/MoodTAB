@@ -12,13 +12,13 @@ public class AutenticacionLogin : ControllerBase
     [HttpPost("login")]
     public IActionResult Login([FromBody] LoginRequest request)
     {
-        Console.WriteLine($"Request recibido: Nombre={request.Nombre}, Email={request.Email}, EsFamiliar={request.EsFamiliar}");
+        Console.WriteLine($"Request recibido: Email={request.Email}, EsFamiliar={request.EsFamiliar}");
 
         if (request.EsFamiliar)
         {
             // tabla UsuariosExternos
             var familiar = _context.UsuariosExternos
-                .FirstOrDefault(f => f.Nombre == request.Nombre && f.Email == request.Email);
+                .FirstOrDefault(f => f.Contrasena == request.Password && f.Email == request.Email);
 
             if (familiar == null)
             {
@@ -38,7 +38,7 @@ public class AutenticacionLogin : ControllerBase
         {
             //tabla Pacientes
             var user = _context.Pacientes
-                .FirstOrDefault(u => u.Nombre == request.Nombre && u.Email == request.Email);
+                .FirstOrDefault(u => u.Contrasena == request.Password && u.Email == request.Email);
 
             if (user == null)
             {

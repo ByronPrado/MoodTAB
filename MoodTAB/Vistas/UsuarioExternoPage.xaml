@@ -99,7 +99,7 @@
                 </VerticalStackLayout>
             </Frame>
             </VerticalStackLayout>
-
+            <Entry Text ="{Binding Log_txt}"/>
             <Button Text="🚪 Cerrar Sesión"
                 FontSize="16"
                 FontAttributes="Bold"

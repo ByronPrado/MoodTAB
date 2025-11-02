@@ -11,7 +11,7 @@ namespace MoodTAB.ViewModels
 {
     public partial class LoginViewModel : ObservableObject
     {
-        [ObservableProperty] string nombre;
+        [ObservableProperty] string password;
         [ObservableProperty] string email;
         [ObservableProperty] string errorMessage;
         [ObservableProperty] string logsMessage;
@@ -29,11 +29,11 @@ namespace MoodTAB.ViewModels
         [RelayCommand]
         public async Task Login()
         {
-            LogsMessage = $"Intentando login con Nombre={Nombre}, Email={Email}";
+            LogsMessage = $"Intentando login con Email={Email}";
 
             ErrorMessage = string.Empty;
-            Console.WriteLine($"Intentando login con Nombre={Nombre}, Email={Email}");
-            var success = await _authService.LoginAsync(Nombre, Email, EsFamiliar);
+            Console.WriteLine($"Intentando login con Email={Email}");
+            var success = await _authService.LoginAsync(Email,Password, EsFamiliar);
             LogsMessage += $"\nResultado login: {success.log}";
             if (success.success)
             {
