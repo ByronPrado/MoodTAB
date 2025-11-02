@@ -416,5 +416,8 @@ namespace MoodTAB.ViewModel
             // cargar consejo usando el cache (asegura que UI se actualice)
             await CargarConsejoAsync().ConfigureAwait(false);
         }
+
+        public bool DebeMostrarTutorial =>
+            !Preferences.Get("tutorial_shown", false);
     }
 }

@@ -2,8 +2,10 @@
 
 using MoodTAB.ViewModel;
 using MoodTAB.Services;
+using MoodTAB.Popups;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Views;
 
 
 #if ANDROID
@@ -40,13 +42,19 @@ public partial class MainPage : ContentPage
         {
             notificationManager.DeleteNotification(1001);
         }
+       /* if (viewModel.DebeMostrarTutorial)
+        {
+            await Task.Delay(300);
+            this.ShowPopup(new TutorialPopup());
+        }*/
+        this.ShowPopup(new TutorialPopup());
 
 #if ANDROID
         PermissionStatus status = await Permissions.RequestAsync<MoodTAB.Platforms.Android.NotificationPermission>();
         RequestActivityRecognitionPermission();
         viewModel.ActualizarDatosUsuario();
 #endif
-    // ✅ Actualizar visibilidad del consejo al entrar en la vista
+    // Actualizar visibilidad del consejo al entrar en la vista
     var valorGuardado = await SecureStorage.GetAsync("mostrar_comentarios");
     bool mostrarConsejos = true;
     if (bool.TryParse(valorGuardado, out bool result))
