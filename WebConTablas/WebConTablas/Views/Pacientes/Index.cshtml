@@ -96,6 +96,25 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+    @{
+        string jsonEjemplo = @"{
+            ""SenalesAlerta"": [""Sentirme muy ansioso/a"", ""Ganas de llorar sin razón"", ""Pensamientos de que no valgo nada""],
+            ""EstrategiasInternas"": [""Respirar profundo 10 veces"", ""Escuchar música relajante"", ""Salir a caminar 15 minutos""],
+            ""PersonasDistraerme"": [
+                { ""Nombre"": ""Ana (Amiga)"", ""Fono"": ""+56 9 1111 2222"" },
+                { ""Nombre"": ""Mamá"", ""Fono"": ""+56 9 3333 4444"" }
+            ],
+            ""PersonasPedirAyuda"": [
+                { ""Nombre"": ""Dr. Ramírez"", ""Fono"": ""+56 9 5555 6666"" },
+                { ""Nombre"": ""Hermano (Juan)"", ""Fono"": ""+56 9 7777 8888"" }
+            ],
+            ""Profesionales"": [
+                { ""Nombre"": ""Salud Responde"", ""Fono"": ""600 360 7777"" },
+                { ""Nombre"": ""Emergencia Clínica"", ""Fono"": ""2 2999 0000"" }
+            ],
+            ""AmbienteSeguro"": [""Despejar mi velador"", ""Guardar objetos peligrosos bajo llave""]
+        }";
+    }
         const patientsData = @Html.Raw(JsonSerializer.Serialize(Model.Select(p => new {
             ID_Paciente = p.ID_Paciente,
             Nombre = p.Nombre,
@@ -105,6 +124,10 @@
             Telefono = p.Telefono,
             Diagnostico = p.Diagnostico,
             Severidad = p.Severidad,
+            //----------------------Prueba plan seguro---------------------------------------------------
+            //PlanSeguro = p.PlanSeguro,
+            PlanSeguro = p.Nombre == "Ana Gómez" ? jsonEjemplo : p.PlanSeguro,
+            //-------------------------------------------------------------------------------------------
             TieneAlerta = p.Alertas != null && p.Alertas.Any(a => a.Estado == "No Visto"),
             Alertas = p.Alertas?.Where(a => a.Estado == "No Visto").Select(a => new {
                 ID_Alerta = a.ID_Alerta,
@@ -535,9 +558,95 @@
                         ${usuariosHTML}
                     </div>
                 </details>
+
+                //------------------------------
+                <details class="detail-card" data-section="plan-seguridad-${patient.ID_Paciente}">
+                    <summary class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 summary-title">
+                            <i class="fas fa-shield-alt me-2 text-primary"></i>Plan de Seguridad
+                        </h5>
+                        <a href="/Pacientes/EditPlan/${patient.ID_Paciente.toString()}" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-edit me-1"></i>Editar Plan
+                        </a>
+                    </summary>
+                    <div class="mt-3">
+                        ${generateSafetyPlanHTML(patient.PlanSeguro)}
+                    </div>
+                </details>
             `;
         }
 
+        // prueba para plan seguro -----------------------------------
+
+        function generateSafetyPlanHTML(planSeguroJson) {
+            if (!planSeguroJson || planSeguroJson.trim() === "") {
+                return `
+                    <div class="no-data-state">
+                        <i class="fas fa-shield-alt"></i>
+                        <p>No hay un plan de seguridad registrado para este paciente.</p>
+                    </div>
+                `;
+            }
+
+            try {
+                const plan = JSON.parse(planSeguroJson);
+
+                // Funciones auxiliares para crear las listas
+                const createStringList = (items, icono) => {
+                    if (!items || items.length === 0) return '<li>No hay elementos.</li>';
+                    return items.map(item => `<li><i class="${icono} me-2 text-muted"></i>${item || 'N/A'}</li>`).join('');
+                };
+
+                const createContactList = (items, icono) => {
+                    if (!items || items.length === 0) return '<li>No hay elementos.</li>';
+                    return items.map(contacto => `
+                        <li class="d-flex justify-content-between">
+                            <span><i class="${icono} me-2 text-muted"></i>${contacto.Nombre || 'N/A'}</span>
+                            <span class="text-muted">${contacto.Fono || ''}</span>
+                        </li>
+                    `).join('');
+                };
+
+                return `
+                    <div class="safety-plan-container">
+                        <h6 class="text-secondary fw-semibold"><i class="fas fa-exclamation-circle me-2"></i>Paso 1: Señales de alerta</h6>
+                        <ul class="list-unstyled ms-3 mb-4">
+                            ${createStringList(plan.SenalesAlerta, 'fa-solid fa-flag')}
+                        </ul>
+
+                        <h6 class="text-secondary fw-semibold"><i class="fas fa-street-view me-2"></i>Paso 2: Estrategias internas</h6>
+                        <ul class="list-unstyled ms-3 mb-4">
+                            ${createStringList(plan.EstrategiasInternas, 'fa-solid fa-check')}
+                        </ul>
+
+                        <h6 class="text-secondary fw-semibold"><i class="fas fa-users me-2"></i>Paso 3: Personas o situaciones que me ayudan</h6>
+                        <ul class="list-unstyled ms-3 mb-4">
+                            ${createContactList(plan.PersonasDistraerme, 'fa-solid fa-user')}
+                        </ul>
+
+                        <h6 class="text-secondary fw-semibold"><i class="fas fa-phone-alt me-2"></i>Paso 4: Personas a las que puedo pedir ayuda</h6>
+                        <ul class="list-unstyled ms-3 mb-4">
+                            ${createContactList(plan.PersonasPedirAyuda, 'fa-solid fa-user-shield')}
+                        </ul>
+
+                        <h6 class="text-secondary fw-semibold"><i class="fas fa-hospital me-2"></i>Paso 5: Profesionales o instituciones</h6>
+                        <ul class="list-unstyled ms-3 mb-4">
+                            ${createContactList(plan.Profesionales, 'fa-solid fa-user-md')}
+                            </ul>
+
+                        <h6 class="text-secondary fw-semibold"><i class="fas fa-home me-2"></i>Vivir en un ambiente seguro</h6>
+                        <ul class="list-unstyled ms-3 mb-4">
+                            ${createStringList(plan.AmbienteSeguro, 'fa-solid fa-key')}
+                        </ul>
+                    </div>
+                `;
+            } catch (e) {
+                console.error("Error al parsear PlanSeguro JSON:", e, planSeguroJson);
+                return `<div class="alert alert-danger">Error al cargar el plan de seguridad.</div>`;
+            }
+        }
+
+        //------------------------------------------------------------
         function filtrar(){
             const questionCards = document.querySelectorAll('.white-card');
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
