@@ -36,11 +36,13 @@ public partial class App : Application
         var userNombre = SecureStorage.GetAsync("user_nombre").Result;
         var userEmail = SecureStorage.GetAsync("user_email").Result;
         var esFamiliar = SecureStorage.GetAsync("es_familiar").Result;
+        var psiID = SecureStorage.GetAsync("psiquiatra_id").Result;
 
         Globals.nombre_Usuario = userNombre;
         Globals.email_Usuario = userEmail;
         Globals.id_paciente_DB = userId;
         Globals.esFamiliar = Globals.toBool(esFamiliar);
+        Globals.id_psiquiatra_DB = psiID;
 
         var resp = SecureStorage.GetAsync("resp").Result;
         Globals.respondido = resp != null && Globals.toBool(resp);

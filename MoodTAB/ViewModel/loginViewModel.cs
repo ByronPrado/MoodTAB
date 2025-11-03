@@ -40,14 +40,19 @@ namespace MoodTAB.ViewModels
                 // Guarda los datos globales
                 Globals.nombre_Usuario = success.user.Nombre;
                 Globals.email_Usuario = success.user.Email;
+                Globals.id_psiquiatra_DB = success.user.ID_Psiquiatra.ToString();
                 Globals.esFamiliar = EsFamiliar;
                 Globals.id_paciente_DB = success.user.ID_Paciente.ToString();
                 Globals.id_usuario_externo_DB = success.user.IdUsuarioExterno.ToString();
+
+                System.Diagnostics.Debug.WriteLine($"user {success.user.ToString()}");
+                System.Diagnostics.Debug.WriteLine($"user {success.user.ID_Psiquiatra.ToString()}");
                 // Guarda en SecureStorage
                 await SecureStorage.SetAsync("user_id", success.user.ID_Paciente.ToString());
                 await SecureStorage.SetAsync("externo_id", success.user.IdUsuarioExterno.ToString());
                 await SecureStorage.SetAsync("user_nombre", success.user.Nombre);
                 await SecureStorage.SetAsync("user_email", success.user.Email);
+                await SecureStorage.SetAsync("psiquiatra_id", success.user.ID_Psiquiatra.ToString());
                 await SecureStorage.SetAsync("es_familiar", EsFamiliar.ToString());
 
                 var notificationManager = App.ServiceProvider.GetService<INotificationManagerService>();
@@ -81,12 +86,14 @@ namespace MoodTAB.ViewModels
             Globals.email_Usuario = null;
             Globals.id_paciente_DB = "0";
             Globals.id_usuario_externo_DB = "0";
+            Globals.id_psiquiatra_DB = "0";
 
             // Opcional: limpia SecureStorage si lo usas
             SecureStorage.Remove("user_id");
             SecureStorage.Remove("user_nombre");
             SecureStorage.Remove("user_email");
             SecureStorage.Remove("externo_id");
+            SecureStorage.Remove("psiquiatra_id");
 
             // Navega a la página de login
             //Application.Current.MainPage = new LoginPage();

@@ -38,6 +38,7 @@ public class AutenticacionLogin : ControllerBase
         {
             //tabla Pacientes
             var user = _context.Pacientes
+                .Include(p => p.Psiquiatra)
                 .FirstOrDefault(u => u.Contrasena == request.Password && u.Email == request.Email);
 
             if (user == null)
@@ -51,7 +52,13 @@ public class AutenticacionLogin : ControllerBase
             {
                 Success = true,
                 TipoUsuario = "Paciente",
-                User = new { user.ID_Paciente, user.Nombre, user.Email }
+                User = new
+                {
+                    user.ID_Paciente,
+                    user.Nombre,
+                    user.Email,
+                    user.ID_Psiquiatra
+                }
             });
         }
     }

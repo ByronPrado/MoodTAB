@@ -517,6 +517,9 @@
                         <p>15 / 10 / 2023</p>
                         <small>Severidad</small>
                         <p>${(patient.Severidad == "Leve") ? "⭐" : (patient.Severidad == "Moderada" ? "⭐⭐" : "⭐⭐⭐")} ${patient.Severidad}</p>
+                        <a href="/Pacientes/Edit/${patient.ID_Paciente}" class="btn btn-sm btn-outline-primary mt-3">
+                            <i class="fas fa-edit me-1"></i>Editar Información
+                        </a>
                     </div>
                 </div>
                 

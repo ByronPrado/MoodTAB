@@ -49,8 +49,9 @@ namespace MoodTAB.Services
                 if (result != null && result.Success)
                 {
                     await SecureStorage.SetAsync("user_id", result.User.ID_Paciente.ToString());
-                    await SecureStorage.SetAsync("user_nombre", result.User.Nombre); 
+                    await SecureStorage.SetAsync("user_nombre", result.User.Nombre);
                     await SecureStorage.SetAsync("user_email", result.User.Email);
+                    await SecureStorage.SetAsync("psiquiatra_id", result.User.ID_Psiquiatra.ToString());
                     await SecureStorage.SetAsync("es_familiar", esFamiliar.ToString());
 
                     return (true, log, result.User);
@@ -70,6 +71,7 @@ namespace MoodTAB.Services
             SecureStorage.Remove("user_id");
             SecureStorage.Remove("user_nombre");
             SecureStorage.Remove("user_email");
+            SecureStorage.Remove("psiquiatra_id");
             SecureStorage.Remove("es_familiar");
 
             Microsoft.Maui.Controls.Application.Current.MainPage = new NavigationPage(new Vistas.LoginPage());
@@ -87,6 +89,7 @@ namespace MoodTAB.Services
         public int ID_Paciente { get; set; }
         public string Nombre { get; set; }
         public string Email { get; set; }
+        public int ID_Psiquiatra { get; set; }
         public int? IdUsuarioExterno { get; set; } // si aplica
 
     }

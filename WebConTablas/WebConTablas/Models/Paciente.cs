@@ -7,13 +7,13 @@ namespace WebConTablas.Models
     public class Paciente
     {
         public int ID_Paciente { get; set; }
-        public string Nombre { get; set; }
+        public string? Nombre { get; set; }
         public string? Diagnostico { get; set; }
         public int Edad { get; set; }
         public string? Sexo { get; set; }
         public string? Email { get; set; }
         public string? Telefono { get; set; }
-        public string Contrasena { get; set; }
+        public string? Contrasena { get; set; }
         public int? ID_Psiquiatra { get; set; }
         public Psiquiatra? Psiquiatra { get; set; }
         public string? PlanSeguro { get; set; }

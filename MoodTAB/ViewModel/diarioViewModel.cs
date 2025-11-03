@@ -27,6 +27,8 @@ namespace MoodTAB.ViewModel
         [ObservableProperty] string pregunta2 = "";
         [ObservableProperty] string pregunta3 = "";
 
+        [ObservableProperty] string idpsy = Globals.id_psiquiatra_DB;
+
         // Horas registradas
         [ObservableProperty] double horasCelular;
         [ObservableProperty] double horasRedes;
@@ -230,6 +232,48 @@ namespace MoodTAB.ViewModel
                 if (response.IsSuccessStatusCode)
                 {
                     await main.DisplayAlert("¡Listo!", "Diario enviado correctamente.", "OK");
+
+                     try
+                    {
+                        var diarioAnterior = await App.Database.GetDiarioAnteriorAsync(diario.CreatedAt);
+
+                        string anteriorResumen = diarioAnterior != null
+                            ? $"Emociones: {diarioAnterior.Emocion_Diaria}, Descripción: {diarioAnterior.Descripcion}, Fecha: {diarioAnterior.CreatedAt}"
+                            : null;
+                        
+                        
+                        // Crear payload del log
+                        var logPayload = new
+                        {
+                            ID_Paciente = Globals.id_paciente_DB,
+                            ID_Psiquiatra = "1",
+                            TipoLog = "DiarioEmocional",
+                            Actual = $"Emociones: {Sliders}, Descripción: {Pregunta1}/{Pregunta2}/{Pregunta3}",
+                            Anterior = anteriorResumen,
+                            Fecha = DateTime.UtcNow
+                        };
+
+                        var logUrl = $"{Globals.direccion_ngrok}api/Logs";
+                        var logJson = JsonSerializer.Serialize(logPayload);
+                        var logContent = new StringContent(logJson, System.Text.Encoding.UTF8, "application/json");
+
+                        using var logClient = new HttpClient();
+                        var logResponse = await logClient.PostAsync(logUrl, logContent);
+
+                        if (!logResponse.IsSuccessStatusCode)
+                        {
+                            var logError = await logResponse.Content.ReadAsStringAsync();
+                            System.Diagnostics.Debug.WriteLine($"Error al subir el log: {logError}");
+                        }
+                        else
+                        {
+                            System.Diagnostics.Debug.WriteLine("Log subido correctamente.");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Error al enviar el log: {ex.Message}");
+                    }
                 }
                 else
                 {

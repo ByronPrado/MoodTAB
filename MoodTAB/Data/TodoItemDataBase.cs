@@ -103,6 +103,14 @@ public class TodoItemDataBase
         var end = start.AddMonths(1).AddDays(-1);
         return GetDiariosBetweenAsync(start, end);
     }
+
+    public async Task<Diario?> GetDiarioAnteriorAsync(DateTime fechaActual)
+    {
+        return await _database.Table<Diario>()
+            .Where(d => d.CreatedAt < fechaActual)
+            .OrderByDescending(d => d.CreatedAt)
+            .FirstOrDefaultAsync();
+    }
     public Task<List<Diario>> GetDiariosDiasAnterioresAsync(int dias)
     {
         var end = DateTime.Now.Date;

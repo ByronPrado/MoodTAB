@@ -254,16 +254,57 @@ public class PacientesController : Controller
         if (pacienteExistente == null)
             return Unauthorized(); // o NotFound()
 
+        
+
         if (ModelState.IsValid)
         {
+            var estadoAnterior = $"Nombre: {pacienteExistente.Nombre}, " +
+                                $"Edad: {pacienteExistente.Edad}, " +
+                                $"Sexo: {pacienteExistente.Sexo}, " +
+                                $"Email: {pacienteExistente.Email}, " +
+                                $"Teléfono: {paciente.Telefono}" +
+                                $"Diagnóstico: {pacienteExistente.Diagnostico}, " +
+                                $"Severidad: {pacienteExistente.Severidad}";
+
+            var repetido = pacienteExistente.Nombre == paciente.Nombre &&
+                            pacienteExistente.Edad == paciente.Edad &&
+                            pacienteExistente.Sexo == paciente.Sexo &&
+                            pacienteExistente.Email == paciente.Email &&
+                            pacienteExistente.Telefono == paciente.Telefono &&
+                            pacienteExistente.Diagnostico == paciente.Diagnostico &&
+                            pacienteExistente.Severidad == paciente.Severidad;
+                            
             pacienteExistente.Nombre = paciente.Nombre;
             pacienteExistente.Diagnostico = paciente.Diagnostico;
+            pacienteExistente.Severidad = paciente.Severidad;
             pacienteExistente.Edad = paciente.Edad;
             pacienteExistente.Sexo = paciente.Sexo;
             pacienteExistente.Email = paciente.Email;
             pacienteExistente.Telefono = paciente.Telefono;
             _context.Pacientes.Update(pacienteExistente);
             await _context.SaveChangesAsync();
+
+            if (!repetido)
+            {
+                var log = new Logs
+                {
+                    ID_Paciente = pacienteExistente.ID_Paciente,
+                    ID_Psiquiatra = idPsiquiatra ?? 1,
+                    TipoLog = "Edición de Paciente",
+                    Anterior = estadoAnterior,
+                    Actual = $"Nombre: {pacienteExistente.Nombre}, " +
+                            $"Edad: {pacienteExistente.Edad}, " +
+                            $"Sexo: {pacienteExistente.Sexo}, " +
+                            $"Email: {pacienteExistente.Email}, " +
+                            $"Diagnóstico: {pacienteExistente.Diagnostico}, " +
+                            $"Severidad: {pacienteExistente.Severidad}",
+                    Fecha = DateTime.UtcNow
+                };
+
+                _context.Logs.Add(log);
+                await _context.SaveChangesAsync();
+            }
+
             return RedirectToAction(nameof(Index));
         }
 
