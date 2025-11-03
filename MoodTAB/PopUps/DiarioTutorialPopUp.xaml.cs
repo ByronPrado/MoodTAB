@@ -8,18 +8,16 @@ using Microsoft.Maui.Controls;
 
 namespace MoodTAB.Popups
 {
-    public partial class TutorialPopup : Popup
+    public partial class DiarioTutorialPopUp : Popup
     {
-        public TutorialPopup()
+        public DiarioTutorialPopUp()
         {
             InitializeComponent();
             _ = AnimateInAsync();
             TutorialCarousel.ItemsSource = new List<TutorialPage>
             {
-                new() { Title = "Registra tus emociones", Description = "Descripción 1" , Imagen="TutorialDiario.gif"},
-                new() { Title = "Responde cuestionarios", Description = "Descripción 2" , Imagen="TutorialCuestionario.gif"},
-                new() { Title = "Revisa tus respuestas", Description = "Descripción 3" , Imagen="TutorialHistorial.gif"},
-                new() { Title = "Personaliza tus registros", Description = "Descripción 4", Imagen="TutorialAjustes.gif" }
+                new() { Title = "Acepta los permisos", Description = "Descripción 1" , Imagen="tutorialpermisosdiarios.gif"},
+                new() { Title = "Ingreso por voz", Description = "Descripción 2" , Imagen="tutorialingresoporvoz.gif"}
             };
         }
 

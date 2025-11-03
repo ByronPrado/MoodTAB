@@ -15,12 +15,19 @@ public partial class UserPage : ContentPage
 
 	private async void onEditarPlanSeguroClicked(object sender, EventArgs e)
 	{
-		await Navigation.PushAsync(new EditarPlanSeguroPage());
+		 
+		Device.InvokeOnMainThreadAsync(() =>
+		{
+			Navigation.PushAsync(new EditarPlanSeguroPage());
+		});
 	}
 
 	private async void onBorrarDatosClicked(object sender, EventArgs e)
 	{
-		await Navigation.PushAsync(new BorrarDatosPage());
+		Device.InvokeOnMainThreadAsync(() =>
+		{
+		Navigation.PushAsync(new BorrarDatosPage());
+		});
 	}
 	private async void OnLogoutClicked(object sender, EventArgs e)
 	{

@@ -18,8 +18,8 @@ namespace MoodTAB
         public static string? id_usuario_externo_DB { get; set; }
         public static string numeroEmergencia { get; set; } = "*4141";
 
-        public static string direccion_ngrok = "http://10.0.2.2:5051/";
-        //public static string direccion_ngrok = "https://a28e8b3dc6bd.ngrok-free.app/";
+        //public static string direccion_ngrok = "http://10.0.2.2:5051/";
+        public static string direccion_ngrok = "https://741f7f627d1e.ngrok-free.app/";
 
         public static bool toBool(string? boole)
         {

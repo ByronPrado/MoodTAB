@@ -42,12 +42,12 @@ public partial class MainPage : ContentPage
         {
             notificationManager.DeleteNotification(1001);
         }
-       /* if (viewModel.DebeMostrarTutorial)
+        if (viewModel.DebeMostrarTutorial)
         {
             await Task.Delay(300);
             this.ShowPopup(new TutorialPopup());
-        }*/
-        this.ShowPopup(new TutorialPopup());
+        }
+        //this.ShowPopup(new DiarioTutorialPopUp());
 
 #if ANDROID
         PermissionStatus status = await Permissions.RequestAsync<MoodTAB.Platforms.Android.NotificationPermission>();
@@ -123,16 +123,5 @@ public partial class MainPage : ContentPage
     private void ShowLoading(bool show)
     {
         LoadingOverlay.IsVisible = show;
-    }
-    protected override bool OnBackButtonPressed()
-    {
-        // Ejecuta una acción personalizada
-        if (Navigation.NavigationStack.Count > 1)
-        {
-            Navigation.PopAsync();
-            return true; // evita el cierre de la app
-        }
-
-        return base.OnBackButtonPressed();
     }
 }

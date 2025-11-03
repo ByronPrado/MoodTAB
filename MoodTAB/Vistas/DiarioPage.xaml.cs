@@ -1,6 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using MoodTAB.ViewModel;
 using MoodTAB.Services;
+using MoodTAB.Popups;
+using CommunityToolkit.Maui.Views;
 #if ANDROID
 using Android.Content;
 using MoodTAB.Platforms.Android;
@@ -15,7 +17,13 @@ public partial class DiarioPage : ContentPage
     {
         InitializeComponent();
 		viewModel = new DiarioViewModel(stepService, dictationService);
-        BindingContext = viewModel;
+		BindingContext = viewModel;
+		
+		if (viewModel.DebeMostrarTutorial)
+        {
+            this.ShowPopup(new DiarioTutorialPopUp());
+        }
+        //this.ShowPopup(new DiarioTutorialPopUp());
     }
 
 	// Constructor sin parámetros para Shell/XAML

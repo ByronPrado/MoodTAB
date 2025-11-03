@@ -325,5 +325,9 @@ namespace MoodTAB.ViewModel
         {
             Pregunta3 = await dictationService.StartDictationAsync();
         }
-    }
+
+        //popup
+        public bool DebeMostrarTutorial =>
+        !Preferences.Get("tutorialdiario_shown", false);
+        }
 }
