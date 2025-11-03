@@ -26,6 +26,9 @@
             <a class="nav-link active" data-bs-toggle="tab" href="#diariosTab">Diarios</a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#medicamentosTab">Medicamentos</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" data-bs-toggle="tab" href="#graficosTab">Gráficos</a>
         </li>
         <li class="nav-item">
@@ -81,15 +84,26 @@
                 {
                     foreach (var d in Model.DiariosEmocionales.OrderByDescending(d => d.Fecha))
                     {
-                        string[] emociones = new string[5];
-                        string[] respuestas = new string[3];
-                        try {
-                            emociones = d.Emociones?.Split(',') ?? Array.Empty<string>();
-                            respuestas = d.Descripcion?.Split('/') ?? Array.Empty<string>();
-                        } catch {}
+                        // 1. Dividimos los strings, si son nulos, usamos un array vacío.
+                        var emocionesArray = d.Emociones?.Split(',') ?? Array.Empty<string>();
+                        var respuestasArray = d.Descripcion?.Split('/') ?? Array.Empty<string>();
 
+                        // 2. Usamos ElementAtOrDefault para obtener el valor o null si no existe.
+                        //    Luego, ?? "N/A" o "No registrado" para poner un valor por defecto.
+                        string emocionAnimo = emocionesArray.ElementAtOrDefault(0) ?? "N/A";
+                        string emocionApetito = emocionesArray.ElementAtOrDefault(1) ?? "N/A";
+                        string emocionEnergia = emocionesArray.ElementAtOrDefault(2) ?? "N/A";
+                        string emocionSueno = emocionesArray.ElementAtOrDefault(3) ?? "N/A";
+                        string emocionSocial = emocionesArray.ElementAtOrDefault(4) ?? "N/A";
+
+                        string respuestaPensamientos = respuestasArray.ElementAtOrDefault(0) ?? "No registrado";
+                        string respuestaImportante = respuestasArray.ElementAtOrDefault(1) ?? "No registrado";
+                        string respuestaOtro = respuestasArray.ElementAtOrDefault(2) ?? "No registrado";
+
+                            // 3. Variables para el colapso (las que ya tenías)
                         var collapseId = $"collapse-{d.ID_Diario}";
                         var headingId  = $"heading-{d.ID_Diario}";
+                        
 
                         <div class="accordion-item emotion-entry" id="diario-@d.ID_Diario">
                             <h2 class="accordion-header" id="@headingId">
@@ -105,36 +119,36 @@
                                     <div class="emotion-entry">
                                         <div class="mb-3">
                                             <p class="fw-medium mb-2 text-secondary">¿Cómo han estado tus pensamientos?</p>
-                                            <p class="mb-0 ps-3 border-start border-3 border-primary">"@(respuestas[0])"</p>
+                                            <p class="mb-0 ps-3 border-start border-3 border-primary">"@respuestaPensamientos"</p>
                                         </div>
                                         <div class="mb-3">
                                             <p class="fw-medium mb-2 text-secondary">¿Algo que consideres importante de tu día?</p>
-                                            <p class="mb-0 ps-3 border-start border-3 border-primary">"@(respuestas[1])"</p>
+                                            <p class="mb-0 ps-3 border-start border-3 border-primary">"@respuestaImportante"</p>
                                         </div>
                                         <div class="mb-3">
                                             <p class="fw-medium mb-2 text-secondary">¿Algo más que quieras contar?</p>
-                                            <p class="mb-0 ps-3 border-start border-3 border-primary">"@(respuestas[2])"</p>
+                                            <p class="mb-0 ps-3 border-start border-3 border-primary">"@respuestaOtro"</p>
                                         </div>
                                         <div class="metrics-grid">
                                             <div class="metric-item">
                                                 <i class="fas fa-face-smile text-success"></i>
-                                                <span>Animo: <strong>@(emociones[0])/10</strong></span>
+                                                <span>Animo: <strong>@emocionAnimo/10</strong></span>
                                             </div>
                                             <div class="metric-item">
                                                 <i class="fas fa-utensils text-warning"></i>
-                                                <span>Apetito: <strong>@(emociones[1])/10</strong></span>
+                                                <span>Apetito: <strong>@emocionApetito/10</strong></span>
                                             </div>
                                             <div class="metric-item">
                                                 <i class="fas fa-bolt text-danger"></i>
-                                                <span>Energía: <strong>@(emociones[2])/10</strong></span>
+                                                <span>Energía: <strong>@emocionEnergia/10</strong></span>
                                             </div>
                                             <div class="metric-item">
                                                 <i class="fas fa-bed text-info"></i>
-                                                <span>Calidad Sueño: <strong>@(emociones[3])/10</strong></span>
+                                                <span>Calidad Sueño: <strong>@emocionSueno/10</strong></span>
                                             </div>
                                             <div class="metric-item">
                                                 <i class="fas fa-users text-primary"></i>
-                                                <span>Batería Social: <strong>@(emociones[4])/10</strong></span>
+                                                <span>Batería Social: <strong>@emocionSocial/10</strong></span>
                                             </div>
                                         </div>
                                         <div class="metrics-grid">
@@ -168,6 +182,81 @@
             </div>
         </div>
         </div>
+        <div class="tab-pane fade" id="medicamentosTab">
+            
+            <h3>Receta Médica Actual</h3>
+            <div class="card bg-light mb-3">
+                <div class="card-body">
+                    @if (!string.IsNullOrEmpty(Model.RecetaMedica))
+                    {
+                        <pre class="card-text" style="font-family: inherit; font-size: 1rem;">@Model.RecetaMedica</pre>
+                    }
+                    else
+                    {
+                        <p class="card-text text-muted">No hay una receta médica registrada actualmente.</p>
+                    }
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEditarReceta">
+                <i class="fas fa-edit me-2"></i>Actualizar Receta
+            </button>
+
+            <h3 class="mt-5">Historial de Cambios de Receta</h3>
+            
+            @{
+                // Filtramos los logs que sean solo de "RecetaMedica"
+                // NOTA: Model.Logs debe ser cargado en el PacientesController para que esto funcione.
+                var logsReceta = Model.Logs
+                    .Where(l => l.TipoLog == "RecetaMedica")
+                    .OrderByDescending(l => l.Fecha)
+                    .ToList();
+            }
+
+            <div class="accordion" id="accordionLogsReceta">
+                @if (logsReceta.Any())
+                {
+                    @foreach (var log in logsReceta)
+                    {
+                        var collapseId = $"collapseLog-{log.ID_Log}";
+                        var headingId = $"headingLog-{log.ID_Log}";
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="@headingId">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                        data-bs-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
+                                    Modificación del @log.Fecha?.ToString("dd/MM/yyyy HH:mm")
+                                    
+                                    @if (log.Psiquiatra != null)
+                                    {
+                                        <span class="ms-2 fst-italic text-muted"> (por @log.Psiquiatra.Nombre)</span>
+                                    }
+                                </button>
+                            </h2>
+                            <div id="@collapseId" class="accordion-collapse collapse" 
+                                 aria-labelledby="@headingId" data-bs-parent="#accordionLogsReceta">
+                                <div class="accordion-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p class="fw-bold">Receta Anterior:</p>
+                                            <pre>@log.Anterior</pre>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p class="fw-bold">Receta Nueva:</p>
+                                            <pre>@log.Actual</pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p class="text-muted">No hay historial de cambios para esta receta.</p>
+                }
+            </div>
+        </div>
         <div class="tab-pane fade" id="graficosTab">
             <div class="row">
                 <div class="col-md-6">
@@ -190,6 +279,38 @@
             <button id="btnDescargarCalendarioPdf" class="btn btn-primary ms-2">Descargar Calendario (PDF)</button>
         </div>
 
+    </div>
+    </div> <div class="modal fade" id="modalEditarReceta" tabindex="-1" aria-labelledby="modalEditarRecetaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                
+                <form asp-action="ActualizarReceta" asp-controller="Pacientes" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalEditarRecetaLabel">Actualizar Receta Médica</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        
+                        <input type="hidden" name="ID_Paciente" value="@Model.ID_Paciente" />
+                        <input type="hidden" name="RecetaAnterior" value="@Model.RecetaMedica" />
+                        
+                        <div class="mb-3">
+                            <label for="recetaActual" class="form-label">Texto de la Receta:</label>
+                            <textarea id="recetaActual" name="RecetaActual" class="form-control" rows="12">@Model.RecetaMedica</textarea>
+                        </div>
+                        <p class="form-text text-muted">
+                            <i class="fas fa-info-circle me-1"></i>
+                            Al guardar, el sistema registrará automáticamente este cambio en el historial del paciente.
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar Cambios y Registrar</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
     </div>
 </div>
 

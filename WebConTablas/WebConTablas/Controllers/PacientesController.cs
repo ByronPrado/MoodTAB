@@ -288,6 +288,56 @@ public class PacientesController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ActualizarReceta(int ID_Paciente, string RecetaActual, string RecetaAnterior)
+    {
+        // 1. Verificar la sesión del psiquiatra
+        var idPsiquiatra = HttpContext.Session.GetInt32("PsiquiatraId");
+        if (idPsiquiatra == null)
+        {
+            return RedirectToAction("Login", "Psiquiatras");
+        }
+
+        // 2. Buscar el paciente y asegurarse de que pertenece al psiquiatra
+        var paciente = await _context.Pacientes
+            .FirstOrDefaultAsync(p => p.ID_Paciente == ID_Paciente && p.ID_Psiquiatra == idPsiquiatra);
+
+        if (paciente == null)
+        {
+            return Unauthorized("El paciente no pertenece a este psiquiatra.");
+        }
+
+        // Evitar logs duplicados si la receta no cambió
+        if (paciente.RecetaMedica == RecetaActual)
+        {
+            // No hubo cambios, solo redirigir
+            return RedirectToAction("Details", new { id = ID_Paciente });
+        }
+
+        // 3. Actualizar la receta del paciente (Criterio 2)
+        paciente.RecetaMedica = RecetaActual;
+        _context.Pacientes.Update(paciente);
+
+        // 4. Crear el registro de log (Criterio 3)
+        var nuevoLog = new Logs
+        {
+            ID_Paciente = ID_Paciente,
+            ID_Psiquiatra = idPsiquiatra.Value,
+            TipoLog = "RecetaMedica", // Tal como lo definiste
+            Actual = RecetaActual,
+            Anterior = RecetaAnterior,
+            Fecha = DateTime.UtcNow // Usamos UTC para consistencia
+        };
+        _context.Logs.Add(nuevoLog);
+
+        // 5. Guardar ambos cambios en la base de datos
+        await _context.SaveChangesAsync();
+
+        // 6. Redirigir de vuelta a la vista de detalles del paciente
+        return RedirectToAction("Details", new { id = ID_Paciente });
+    }
+
     public async Task<IActionResult> Details(int id)
     {
         var idPsiquiatra = HttpContext.Session.GetInt32("PsiquiatraId");
@@ -302,7 +352,10 @@ public class PacientesController : Controller
         var paciente = await _context.Pacientes
             .Where(p => p.ID_Paciente == id && p.ID_Psiquiatra == idPsiquiatra)
             .Include(p => p.DiariosEmocionales)
+            .Include(p => p.Logs)
+                .ThenInclude(l => l.Psiquiatra)
             .FirstOrDefaultAsync();
+            
 
         if (paciente == null)
         {

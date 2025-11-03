@@ -18,6 +18,7 @@ namespace WebConTablas.Models
         public Psiquiatra? Psiquiatra { get; set; }
         public string? PlanSeguro { get; set; }
         public string? Severidad { get; set; }
+        public string? RecetaMedica { get; set; }
 
         public ICollection<FormularioAsignado> FormulariosAsignados { get; set; } = new List<FormularioAsignado>();
         public ICollection<DiarioEmocional> DiariosEmocionales { get; set; } = new List<DiarioEmocional>();
