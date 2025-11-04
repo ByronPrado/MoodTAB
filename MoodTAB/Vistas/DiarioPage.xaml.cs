@@ -19,11 +19,11 @@ public partial class DiarioPage : ContentPage
 		viewModel = new DiarioViewModel(stepService, dictationService);
 		BindingContext = viewModel;
 		
-		if (viewModel.DebeMostrarTutorial)
+		/*if (viewModel.DebeMostrarTutorial)
         {
             this.ShowPopup(new DiarioTutorialPopUp());
-        }
-        //this.ShowPopup(new DiarioTutorialPopUp());
+        }*/
+        this.ShowPopup(new DiarioTutorialPopUp());
     }
 
 	// Constructor sin parámetros para Shell/XAML

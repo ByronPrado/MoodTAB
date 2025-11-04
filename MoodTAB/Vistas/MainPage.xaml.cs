@@ -42,12 +42,12 @@ public partial class MainPage : ContentPage
         {
             notificationManager.DeleteNotification(1001);
         }
-        if (viewModel.DebeMostrarTutorial)
+        /*if (viewModel.DebeMostrarTutorial)
         {
             await Task.Delay(300);
             this.ShowPopup(new TutorialPopup());
         }
-        //this.ShowPopup(new DiarioTutorialPopUp());
+        */this.ShowPopup(new TutorialPopup());
 
 #if ANDROID
         PermissionStatus status = await Permissions.RequestAsync<MoodTAB.Platforms.Android.NotificationPermission>();

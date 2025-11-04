@@ -3,76 +3,255 @@ using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.Maui.ApplicationModel; // para MainThread
+using System;
 
 namespace MoodTAB.ViewModel
 {
     public partial class EditarPlanSeguroViewModel : ObservableObject
     {
-        // Lista donde se acumulan los consejos que el usuario va agregando
-        [ObservableProperty]
-        private ObservableCollection<Globals.ConsejoInfo> consejosAgregados = new ObservableCollection<Globals.ConsejoInfo>();
+        // ===== LISTAS DEL PLAN =====
+        [ObservableProperty] private ObservableCollection<string> senalesAlerta = new();
+        [ObservableProperty] private ObservableCollection<string> estrategiasInternas = new();
+        [ObservableProperty] private ObservableCollection<string> ambienteSeguro = new();
 
-        // Propiedades para binding de Entry/Editor del nuevo consejo
-        [ObservableProperty]
-        private string nuevoTitulo;
+        [ObservableProperty] private ObservableCollection<PersonaContacto> personasDistraerme = new();
+        [ObservableProperty] private ObservableCollection<PersonaContacto> personasPedirAyuda = new();
+        [ObservableProperty] private ObservableCollection<PersonaContacto> profesionales = new();
 
-        [ObservableProperty]
-        private string nuevoContenido;
+        // ===== CAMPOS TEMPORALES PARA AGREGAR ITEM =====
+        [ObservableProperty] private string nuevoItemTexto;
+        [ObservableProperty] private string nuevoNombreContacto;
+        [ObservableProperty] private string nuevoFonoContacto;
 
+        // ===== NÚMERO DE EMERGENCIA =====
         [ObservableProperty]
         private string numeroEmergencia;
 
-
         public EditarPlanSeguroViewModel()
         {
-            // Cargar número de emergencia guardado
-            NumeroEmergencia = Globals.numeroEmergencia;
+            // Cargar datos previos (no bloqueante)
+            _ = LoadAsync();
         }
-        // Comando para agregar un consejo a la lista
-        [RelayCommand]
-        private void AgregarConsejo()
+
+        // Intenta cargar desde SecureStorage; soporta estructuras con/ sin numeroEmergencia.
+        private async Task LoadAsync()
         {
-            if (!string.IsNullOrWhiteSpace(NuevoTitulo) && !string.IsNullOrWhiteSpace(NuevoContenido))
+            try
             {
-                consejosAgregados.Add(new Globals.ConsejoInfo(NuevoTitulo, NuevoContenido, true));
-                NuevoTitulo = string.Empty;
-                NuevoContenido = string.Empty;
+                var json = await SecureStorage.GetAsync("plan_seguro_data");
+                if (string.IsNullOrWhiteSpace(json))
+                    return;
+
+                // Intentamos parsear generically para soportar varios formatos
+                using var doc = JsonDocument.Parse(json);
+                var root = doc.RootElement;
+
+                // Cargar listas si existen
+                if (root.TryGetProperty("SenalesAlerta", out var sA))
+                {
+                    var list = new ObservableCollection<string>();
+                    foreach (var el in sA.EnumerateArray())
+                        list.Add(el.GetString() ?? string.Empty);
+
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        SenalesAlerta = list;
+                    });
+                }
+
+                if (root.TryGetProperty("EstrategiasInternas", out var eI))
+                {
+                    var list = new ObservableCollection<string>();
+                    foreach (var el in eI.EnumerateArray())
+                        list.Add(el.GetString() ?? string.Empty);
+
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        EstrategiasInternas = list;
+                    });
+                }
+
+                if (root.TryGetProperty("AmbienteSeguro", out var aS))
+                {
+                    var list = new ObservableCollection<string>();
+                    foreach (var el in aS.EnumerateArray())
+                        list.Add(el.GetString() ?? string.Empty);
+
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        AmbienteSeguro = list;
+                    });
+                }
+
+                // Función auxiliar para cargar contactos
+                void LoadContactList(string propertyName, Action<ObservableCollection<PersonaContacto>> setAction)
+                {
+                    if (!root.TryGetProperty(propertyName, out var arr)) return;
+                    var list = new ObservableCollection<PersonaContacto>();
+                    foreach (var el in arr.EnumerateArray())
+                    {
+                        var nombre = el.TryGetProperty("Nombre", out var n) ? n.GetString() ?? string.Empty : string.Empty;
+                        var fono = el.TryGetProperty("Fono", out var f) ? f.GetString() ?? string.Empty : string.Empty;
+                        list.Add(new PersonaContacto { Nombre = nombre, Fono = fono });
+                    }
+                    MainThread.BeginInvokeOnMainThread(() => setAction(list));
+                }
+
+                LoadContactList("PersonasDistraerme", c => PersonasDistraerme = c);
+                LoadContactList("PersonasPedirAyuda", c => PersonasPedirAyuda = c);
+                LoadContactList("Profesionales", c => Profesionales = c);
+
+                // Si viene numero de emergencia guardado
+                if (root.TryGetProperty("NumeroEmergencia", out var num))
+                {
+                    var numStr = num.GetString() ?? string.Empty;
+                    MainThread.BeginInvokeOnMainThread(() => NumeroEmergencia = numStr);
+                }
+                else
+                {
+                    // Para compatibilidad con formatos anteriores: busca en la raíz (opcional)
+                    if (root.TryGetProperty("Numero", out var num2))
+                    {
+                        MainThread.BeginInvokeOnMainThread(() => NumeroEmergencia = num2.GetString() ?? string.Empty);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // No romper la app por un JSON corrupto; solo logueamos
+                System.Diagnostics.Debug.WriteLine($"LoadAsync PlanSeguro: {ex.Message}");
             }
         }
 
-        // Comando para guardar los consejos agregados
+        // ===== FUNCIONES PARA AGREGAR DATOS A CADA LISTA =====
+        [RelayCommand]
+        private void AgregarSenalAlerta()
+        {
+            if (!string.IsNullOrWhiteSpace(NuevoItemTexto))
+            {
+                SenalesAlerta.Add(NuevoItemTexto.Trim());
+                NuevoItemTexto = string.Empty;
+            }
+        }
+
+        [RelayCommand]
+        private void AgregarEstrategiaInterna()
+        {
+            if (!string.IsNullOrWhiteSpace(NuevoItemTexto))
+            {
+                EstrategiasInternas.Add(NuevoItemTexto.Trim());
+                NuevoItemTexto = string.Empty;
+            }
+        }
+
+        [RelayCommand]
+        private void AgregarAmbienteSeguro()
+        {
+            if (!string.IsNullOrWhiteSpace(NuevoItemTexto))
+            {
+                AmbienteSeguro.Add(NuevoItemTexto.Trim());
+                NuevoItemTexto = string.Empty;
+            }
+        }
+
+        [RelayCommand]
+        private void AgregarPersonaDistraerme()
+        {
+            if (!string.IsNullOrWhiteSpace(NuevoNombreContacto) && !string.IsNullOrWhiteSpace(NuevoFonoContacto))
+            {
+                PersonasDistraerme.Add(new PersonaContacto
+                {
+                    Nombre = NuevoNombreContacto.Trim(),
+                    Fono = NuevoFonoContacto.Trim()
+                });
+
+                NuevoNombreContacto = string.Empty;
+                NuevoFonoContacto = string.Empty;
+            }
+        }
+
+        [RelayCommand]
+        private void AgregarPersonaPedirAyuda()
+        {
+            if (!string.IsNullOrWhiteSpace(NuevoNombreContacto) && !string.IsNullOrWhiteSpace(NuevoFonoContacto))
+            {
+                PersonasPedirAyuda.Add(new PersonaContacto
+                {
+                    Nombre = NuevoNombreContacto.Trim(),
+                    Fono = NuevoFonoContacto.Trim()
+                });
+
+                NuevoNombreContacto = string.Empty;
+                NuevoFonoContacto = string.Empty;
+            }
+        }
+
+        [RelayCommand]
+        private void AgregarProfesional()
+        {
+            if (!string.IsNullOrWhiteSpace(NuevoNombreContacto) && !string.IsNullOrWhiteSpace(NuevoFonoContacto))
+            {
+                Profesionales.Add(new PersonaContacto
+                {
+                    Nombre = NuevoNombreContacto.Trim(),
+                    Fono = NuevoFonoContacto.Trim()
+                });
+
+                NuevoNombreContacto = string.Empty;
+                NuevoFonoContacto = string.Empty;
+            }
+        }
+
+        // ===== COMANDO ELIMINAR (simple) =====
+        [RelayCommand]
+        void EliminarSenalAlerta(string item) => SenalesAlerta.Remove(item);
+
+        [RelayCommand]
+        void EliminarEstrategiaInterna(string item) => EstrategiasInternas.Remove(item);
+
+        [RelayCommand]
+        void EliminarAmbienteSeguro(string item) => AmbienteSeguro.Remove(item);
+
+        [RelayCommand]
+        void EliminarPersonaDistraerme(PersonaContacto persona) => PersonasDistraerme.Remove(persona);
+
+        [RelayCommand]
+        void EliminarPersonaPedirAyuda(PersonaContacto persona) => PersonasPedirAyuda.Remove(persona);
+
+        [RelayCommand]
+        void EliminarProfesional(PersonaContacto persona) => Profesionales.Remove(persona);
+
+        // ===== GUARDAR =====
         [RelayCommand]
         private async Task GuardarAsync()
         {
-            var updatedDict = new Dictionary<string, Globals.ConsejoInfo>();
-            int index = 1;
-            foreach (var consejo in ConsejosAgregados)
-            {
-                updatedDict[index.ToString()] = consejo;
-                index++;
-            }
-
-            Globals.planSeguroConsejos = updatedDict;
-            Globals.numeroEmergencia = NumeroEmergencia; // 👈 Guardamos el número
-
             try
             {
+                // Serializamos un objeto que incluye las listas y el número de emergencia
                 var data = new
                 {
-                    Consejos = updatedDict,
-                    NumeroEmergencia
+                    SenalesAlerta = SenalesAlerta.ToList(),
+                    EstrategiasInternas = EstrategiasInternas.ToList(),
+                    AmbienteSeguro = AmbienteSeguro.ToList(),
+                    PersonasDistraerme = PersonasDistraerme.ToList(),
+                    PersonasPedirAyuda = PersonasPedirAyuda.ToList(),
+                    Profesionales = Profesionales.ToList(),
+                    NumeroEmergencia = NumeroEmergencia ?? string.Empty
                 };
+
                 var json = JsonSerializer.Serialize(data);
                 await SecureStorage.SetAsync("plan_seguro_data", json);
-                // 👇 Notificar a la vista que se guardó
+
                 GuardadoExitoso?.Invoke(this, EventArgs.Empty);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error guardando Plan Seguro: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Error guardando Plan Seguro: {ex.Message}");
             }
         }
-        // Evento que la vista puede escuchar
+
+        // ===== EVENTO PARA LA VISTA =====
         public event EventHandler GuardadoExitoso;
     }
 }

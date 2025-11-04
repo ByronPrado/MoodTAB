@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:converters="clr-namespace:MoodTAB.Converters"
              x:Class="MoodTAB.Vistas.EditarPlanSeguroPage"
+             x:Name="RootPage"
              Title="Editar Plan Seguro">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -11,87 +13,326 @@
     </ContentPage.Resources>
 
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="20">
+        <VerticalStackLayout Padding="20" Spacing="25">
 
             <Label Text="Editar Plan Seguro"
                    FontSize="24"
-                   FontFamily="BreeSerif-Regular.ttf"
                    FontAttributes="Bold"
-                   HorizontalOptions="Center"/>
+                   HorizontalOptions="Center"
+                   FontFamily="BreeSerif-Regular.ttf" />
 
-<!-- Frame para ingresar un nuevo consejo -->
-            <Frame BackgroundColor="White"
-                   BorderColor="#DDD"
-                   CornerRadius="16"
-                   Padding="20">
+            <!-- ========= SEÑALES DE ALERTA ========= -->
+            <toolkit:Expander>
+                <toolkit:Expander.Header>
+                    <Label Text="🚨 Señales de alerta"
+                        FontAttributes="Bold"
+                        FontSize="16" />
+                </toolkit:Expander.Header>
+                <toolkit:Expander.Content>                    
+                    <VerticalStackLayout Spacing="10" Padding="10">
 
-                <VerticalStackLayout Spacing="10">
-                    <Entry Text="{Binding NuevoTitulo}"
-                           FontFamily="BreeSerif-Regular.ttf"
-                           FontAttributes="Bold"
-                           Placeholder="Título del consejo"
-                           TextColor="#222"/>
+                        <HorizontalStackLayout Spacing="10">
+                            <Entry Placeholder="Nueva señal de alerta"
+                                Text="{Binding NuevoItemTexto}"
+                                FontFamily="BreeSerif-Regular.ttf"
+                                HorizontalOptions="FillAndExpand"/>
+                            <Button Text="Agregar"
+                                    Command="{Binding AgregarSenalAlertaCommand}"
+                                    BackgroundColor="#4F46E5"
+                                    TextColor="White"
+                                    CornerRadius="8"/>
+                        </HorizontalStackLayout>
 
-                    <Editor Text="{Binding NuevoContenido}"
-                            FontFamily="BreeSerif-Regular.ttf"
-                            FontSize="14"
-                            Placeholder="Contenido del consejo"
-                            AutoSize="TextChanges"
-                            HeightRequest="80"
-                            TextColor="#444"/>
+                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding SenalesAlerta}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <HorizontalStackLayout Spacing="10">
 
-                    <Button Text="Agregar consejo"
-                            Command="{Binding AgregarConsejoCommand}"
-                            BackgroundColor="#4F46E5"
-                            TextColor="White"
-                            FontAttributes="Bold"
-                            CornerRadius="10"
-                            HeightRequest="45"/>
-                </VerticalStackLayout>
-            </Frame>
+                                        <Label Text="{Binding .}"
+                                            HorizontalOptions="StartAndExpand"
+                                            FontFamily="BreeSerif-Regular.ttf"
+                                            FontSize="14"/>
 
-            <!-- Lista de consejos agregados -->
-            <Frame BackgroundColor="White"
-                   BorderColor="#DDD"
-                   CornerRadius="16"
-                   Padding="20"
-                   IsVisible="{Binding ConsejosAgregados.Count, Converter={StaticResource IntToBoolConverter}}">
+                                        <Button Text="❌"
+                                                BackgroundColor="Transparent"
+                                                TextColor="Red"
+                                                Command="{Binding BindingContext.EliminarSenalAlertaCommand, Source={x:Reference RootPage}}"
+                                                CommandParameter="{Binding .}"/>
+                                    </HorizontalStackLayout>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
 
-                <VerticalStackLayout Spacing="10"
-                                     BindableLayout.ItemsSource="{Binding ConsejosAgregados}">
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate>
-                            <Frame BorderColor="#EEE" CornerRadius="10" Padding="10" HasShadow="False">
-                                <VerticalStackLayout Spacing="5">
-                                    <Label Text="{Binding Titulo}"
-                                           FontAttributes="Bold"
-                                           TextColor="#222"/>
-                                    <Label Text="{Binding Contenido}"
-                                           FontSize="14"
-                                           TextColor="#444"/>
-                                </VerticalStackLayout>
-                            </Frame>
-                        </DataTemplate>
-                    </BindableLayout.ItemTemplate>
-                </VerticalStackLayout>
-            </Frame>
+                    </VerticalStackLayout>
+                </toolkit:Expander.Content>                    
+            </toolkit:Expander>
 
-            <Label Text="Número de emergencia"
-                FontAttributes="Bold"
-                TextColor="#222"/>
+
+            <!-- ========= ESTRATEGIAS INTERNAS ========= -->
+            <toolkit:Expander >
+                <toolkit:Expander.Header>
+                    <Label Text="🧠 Estrategias internas"
+                        FontAttributes="Bold"
+                        FontSize="16" />
+                </toolkit:Expander.Header>
+                <toolkit:Expander.Content>   
+
+                    <VerticalStackLayout Spacing="10" Padding="10">
+
+                        <HorizontalStackLayout Spacing="10">
+                            <Entry Placeholder="Nueva estrategia interna"
+                                Text="{Binding NuevoItemTexto}"
+                                FontFamily="BreeSerif-Regular.ttf"
+                                HorizontalOptions="FillAndExpand"/>
+                            <Button Text="Agregar"
+                                    Command="{Binding AgregarEstrategiaInternaCommand}"
+                                    BackgroundColor="#4F46E5"
+                                    TextColor="White"
+                                    CornerRadius="8"/>
+                        </HorizontalStackLayout>
+
+                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding EstrategiasInternas}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <HorizontalStackLayout Spacing="10">
+
+                                        <Label Text="{Binding .}"
+                                            HorizontalOptions="StartAndExpand"
+                                            FontFamily="BreeSerif-Regular.ttf"
+                                            FontSize="14"/>
+
+                                        <Button Text="❌"
+                                                BackgroundColor="Transparent"
+                                                TextColor="Red"
+                                                Command="{Binding BindingContext.EliminarEstrategiaInternaCommand, Source={x:Reference RootPage}}"
+                                                CommandParameter="{Binding .}"/>
+                                    </HorizontalStackLayout>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </toolkit:Expander.Content>   
+            </toolkit:Expander>
+
+
+            <!-- ========= AMBIENTE SEGURO ========= -->
+            <toolkit:Expander >
+                <toolkit:Expander.Header>
+                    <Label Text="🏠 Ambiente seguro"
+                        FontAttributes="Bold"
+                        FontSize="16" />
+                </toolkit:Expander.Header>
+                <toolkit:Expander.Content>  
+                    <VerticalStackLayout Spacing="10" Padding="10">
+
+                        <HorizontalStackLayout Spacing="10">
+                            <Entry Placeholder="Nuevo ambiente seguro"
+                                Text="{Binding NuevoItemTexto}"
+                                FontFamily="BreeSerif-Regular.ttf"
+                                HorizontalOptions="FillAndExpand"/>
+                            <Button Text="Agregar"
+                                    Command="{Binding AgregarAmbienteSeguroCommand}"
+                                    BackgroundColor="#4F46E5"
+                                    TextColor="White"
+                                    CornerRadius="8"/>
+                        </HorizontalStackLayout>
+
+                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding AmbienteSeguro}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <HorizontalStackLayout Spacing="10">
+
+                                        <Label Text="{Binding .}"
+                                            HorizontalOptions="StartAndExpand"
+                                            FontFamily="BreeSerif-Regular.ttf"
+                                            FontSize="14"/>
+
+                                        <Button Text="❌"
+                                                BackgroundColor="Transparent"
+                                                TextColor="Red"
+                                                Command="{Binding BindingContext.EliminarAmbienteSeguroCommand, Source={x:Reference RootPage}}"
+                                                CommandParameter="{Binding .}"/>
+                                    </HorizontalStackLayout>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </toolkit:Expander.Content>  
+            </toolkit:Expander>
+
+
+            <!-- ========= PERSONAS PARA DISTRAERME ========= -->
+            <toolkit:Expander >
+                <toolkit:Expander.Header>
+                    <Label Text="🎭 Personas para distraerme"
+                        FontAttributes="Bold"
+                        FontSize="16" />
+                </toolkit:Expander.Header>
+                
+                <toolkit:Expander.Content>              
+                    <VerticalStackLayout Spacing="10" Padding="10">
+
+                        <Entry Placeholder="Nombre"
+                            Text="{Binding NuevoNombreContacto}"
+                            FontFamily="BreeSerif-Regular.ttf"/>
+
+                        <Entry Placeholder="Teléfono"
+                            Text="{Binding NuevoFonoContacto}"
+                            Keyboard="Telephone"
+                            FontFamily="BreeSerif-Regular.ttf"/>
+
+                        <Button Text="Agregar"
+                                Command="{Binding AgregarPersonaDistraermeCommand}"
+                                BackgroundColor="#4F46E5"
+                                TextColor="White"
+                                CornerRadius="8"/>
+
+                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding PersonasDistraerme}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <HorizontalStackLayout Spacing="10">
+
+                                        <VerticalStackLayout Spacing="2" HorizontalOptions="StartAndExpand">
+                                            <Label Text="{Binding Nombre}" FontAttributes="Bold"/>
+                                            <Label Text="{Binding Fono}" FontSize="12" TextColor="#555"/>
+                                        </VerticalStackLayout>
+
+                                        <Button Text="❌"
+                                                BackgroundColor="Transparent"
+                                                TextColor="Red"
+                                                Command="{Binding BindingContext.EliminarPersonaDistraermeCommand, Source={x:Reference RootPage}}"
+                                                CommandParameter="{Binding .}"/>
+                                    </HorizontalStackLayout>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </toolkit:Expander.Content>  
+            </toolkit:Expander>
+
+
+            <!-- ========= PERSONAS A QUIEN PEDIR AYUDA ========= -->
+            <toolkit:Expander >
+
+                <toolkit:Expander.Header>
+                    <Label Text="🆘 Personas a quienes pedir ayuda"
+                        FontAttributes="Bold"
+                        FontSize="16" />
+                </toolkit:Expander.Header>
+                    <toolkit:Expander.Content> 
+                    <VerticalStackLayout Spacing="10" Padding="10">
+
+                        <Entry Placeholder="Nombre"
+                            Text="{Binding NuevoNombreContacto}"
+                            FontFamily="BreeSerif-Regular.ttf"/>
+
+                        <Entry Placeholder="Teléfono"
+                            Text="{Binding NuevoFonoContacto}"
+                            Keyboard="Telephone"
+                            FontFamily="BreeSerif-Regular.ttf"/>
+
+                        <Button Text="Agregar"
+                                Command="{Binding AgregarPersonaPedirAyudaCommand}"
+                                BackgroundColor="#4F46E5"
+                                TextColor="White"
+                                CornerRadius="8"/>
+
+                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding PersonasPedirAyuda}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <HorizontalStackLayout Spacing="10">
+
+                                        <VerticalStackLayout Spacing="2" HorizontalOptions="StartAndExpand">
+                                            <Label Text="{Binding Nombre}" FontAttributes="Bold"/>
+                                            <Label Text="{Binding Fono}" FontSize="12" TextColor="#555"/>
+                                        </VerticalStackLayout>
+
+                                        <Button Text="❌"
+                                                BackgroundColor="Transparent"
+                                                TextColor="Red"
+                                                Command="{Binding BindingContext.EliminarPersonaPedirAyudaCommand, Source={x:Reference RootPage}}"
+                                                CommandParameter="{Binding .}"/>
+                                    </HorizontalStackLayout>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </toolkit:Expander.Content>
+            </toolkit:Expander>
+
+
+            <!-- ========= PROFESIONALES ========= -->
+            <toolkit:Expander >
+
+                <toolkit:Expander.Header>
+                    <Label Text="👩‍⚕️ Profesionales"
+                        FontAttributes="Bold"
+                        FontSize="16" />
+                </toolkit:Expander.Header>
+                <toolkit:Expander.Content> 
+                    <VerticalStackLayout Spacing="10" Padding="10">
+
+                        <Entry Placeholder="Nombre"
+                            Text="{Binding NuevoNombreContacto}"
+                            FontFamily="BreeSerif-Regular.ttf"/>
+
+                        <Entry Placeholder="Teléfono"
+                            Text="{Binding NuevoFonoContacto}"
+                            Keyboard="Telephone"
+                            FontFamily="BreeSerif-Regular.ttf"/>
+
+                        <Button Text="Agregar"
+                                Command="{Binding AgregarProfesionalCommand}"
+                                BackgroundColor="#4F46E5"
+                                TextColor="White"
+                                CornerRadius="8"/>
+
+                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding Profesionales}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <HorizontalStackLayout Spacing="10">
+
+                                        <VerticalStackLayout Spacing="2" HorizontalOptions="StartAndExpand">
+                                            <Label Text="{Binding Nombre}" FontAttributes="Bold"/>
+                                            <Label Text="{Binding Fono}" FontSize="12" TextColor="#555"/>
+                                        </VerticalStackLayout>
+
+                                        <Button Text="❌"
+                                                BackgroundColor="Transparent"
+                                                TextColor="Red"
+                                                Command="{Binding BindingContext.EliminarProfesionalCommand, Source={x:Reference RootPage}}"
+                                                CommandParameter="{Binding .}"/>
+                                    </HorizontalStackLayout>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+
+                    </VerticalStackLayout>
+                </toolkit:Expander.Content>
+            </toolkit:Expander>
+
+
+            <!-- ========= NÚMERO DE EMERGENCIA ========= -->
+            <Label Text="📞 Número de emergencia"
+                   FontAttributes="Bold"
+                   FontFamily="BreeSerif-Regular.ttf"/>
+
             <Entry Text="{Binding NumeroEmergencia}"
-                Placeholder="Ej: +56 9 1234 5678"
-                Keyboard="Telephone"
-                FontFamily="BreeSerif-Regular.ttf"
-                TextColor="#222"/>
-            <!-- Botón para guardar todos los consejos agregados -->
-            <Button Text="Guardar Consejos"
+                   Placeholder="Ej: +56 9 1234 5678"
+                   Keyboard="Telephone"
+                   FontFamily="BreeSerif-Regular.ttf"/>
+
+
+            <!-- ========= GUARDAR ========= -->
+            <Button Text="Guardar Plan Seguro"
                     Command="{Binding GuardarCommand}"
                     BackgroundColor="#16A34A"
                     TextColor="White"
                     FontAttributes="Bold"
                     CornerRadius="10"
-                    HeightRequest="45"/>
+                    HeightRequest="50"/>
+
         </VerticalStackLayout>
     </ScrollView>
+
 </ContentPage>

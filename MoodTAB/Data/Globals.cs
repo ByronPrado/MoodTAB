@@ -19,7 +19,7 @@ namespace MoodTAB
         public static string numeroEmergencia { get; set; } = "*4141";
 
         //public static string direccion_ngrok = "http://10.0.2.2:5051/";
-        public static string direccion_ngrok = "https://741f7f627d1e.ngrok-free.app/";
+        public static string direccion_ngrok = "https://d6f5554d3947.ngrok-free.app/";
 
         public static bool toBool(string? boole)
         {
