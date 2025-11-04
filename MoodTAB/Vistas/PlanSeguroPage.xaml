@@ -14,7 +14,7 @@
                 FontSize="24"
                 FontAttributes="Bold"
                 HorizontalOptions="Center" />
-
+            <Entry Text="{Binding LogTxt}" ></Entry>
             <!-- Señales de alerta -->
             <Frame BackgroundColor="White" BorderColor="#DDD" CornerRadius="12" Padding="12" HasShadow="False">
                 <VerticalStackLayout Spacing="8">
@@ -176,7 +176,13 @@
                     </HorizontalStackLayout>
                 </VerticalStackLayout>
             </Frame>
-
+            <Button Text="📝 Editar Plan Seguro"
+                FontSize="16"
+                TextColor="#FFE1E1E1"
+                BackgroundColor="#FF004B9C"
+                FontFamily="BreeSerif-Regular.ttf"
+                HeightRequest="50"
+                Clicked="onEditarPlanSeguroClicked"/>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

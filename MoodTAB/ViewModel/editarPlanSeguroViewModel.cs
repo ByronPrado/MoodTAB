@@ -228,7 +228,7 @@ namespace MoodTAB.ViewModel
         {
             try
             {
-                // Serializamos un objeto que incluye las listas y el número de emergencia
+                // Serializamos un objeto que incluye las listas
                 var data = new
                 {
                     SenalesAlerta = SenalesAlerta.ToList(),
@@ -236,14 +236,39 @@ namespace MoodTAB.ViewModel
                     AmbienteSeguro = AmbienteSeguro.ToList(),
                     PersonasDistraerme = PersonasDistraerme.ToList(),
                     PersonasPedirAyuda = PersonasPedirAyuda.ToList(),
-                    Profesionales = Profesionales.ToList(),
-                    NumeroEmergencia = NumeroEmergencia ?? string.Empty
+                    Profesionales = Profesionales.ToList()
                 };
 
-                var json = JsonSerializer.Serialize(data);
-                await SecureStorage.SetAsync("plan_seguro_data", json);
+                var jsonPlan = JsonSerializer.Serialize(data);
 
-                GuardadoExitoso?.Invoke(this, EventArgs.Empty);
+                // =========== ENVÍO A LA API ===========
+                var httpClient = new HttpClient();
+                var userId = await SecureStorage.GetAsync("user_id");
+                var url = $"{Globals.direccion_ngrok}api/apiplanseguroedit/{userId}";
+
+                var payload = new { planJson = jsonPlan };
+                var jsonPayload = JsonSerializer.Serialize(payload);
+                var content = new StringContent(jsonPayload, System.Text.Encoding.UTF8, "application/json");
+
+                var response = await httpClient.PatchAsync(url, content);
+
+                var main = Microsoft.Maui.Controls.Application.Current?.MainPage;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // Guardamos localmente SOLO si el backend aceptó el guardado
+                    await SecureStorage.SetAsync("plan_seguro_data", jsonPlan);
+
+                    if (main != null)
+                        await main.DisplayAlert("Éxito", "Tu plan de seguridad se ha guardado correctamente.", "OK");
+
+                    GuardadoExitoso?.Invoke(this, EventArgs.Empty);
+                }
+                else
+                {
+                    if (main != null)
+                        await main.DisplayAlert("Error", "No se pudo guardar en el servidor.", "OK");
+                }
             }
             catch (Exception ex)
             {

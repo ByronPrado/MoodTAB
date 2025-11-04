@@ -12,16 +12,6 @@ public partial class UserPage : ContentPage
 		InitializeComponent();
 		BindingContext = new UserViewModel();
 	}
-
-	private async void onEditarPlanSeguroClicked(object sender, EventArgs e)
-	{
-		 
-		Device.InvokeOnMainThreadAsync(() =>
-		{
-			Navigation.PushAsync(new EditarPlanSeguroPage());
-		});
-	}
-
 	private async void onBorrarDatosClicked(object sender, EventArgs e)
 	{
 		Device.InvokeOnMainThreadAsync(() =>

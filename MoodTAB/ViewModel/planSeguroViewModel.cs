@@ -32,8 +32,12 @@ namespace MoodTAB.ViewModel
         [ObservableProperty]
         private string numeroEmergencia;
 
+        [ObservableProperty]
+        private string logTxt;
+
         public PlanSeguroViewModel()
         {
+            _ = CargarAsync();
             // No bloqueante; la vista llamará a CargarAsync en OnAppearing.
         }
 
@@ -55,9 +59,8 @@ namespace MoodTAB.ViewModel
             try
             {
                 var saved = await SecureStorage.GetAsync("plan_seguro_data");
-
                 string json = saved;
-
+                LogTxt = json;
                 // Si no hay datos guardados, usamos el jsonEjemplo (útil para pruebas)
                 if (string.IsNullOrWhiteSpace(json))
                 {
@@ -79,6 +82,8 @@ namespace MoodTAB.ViewModel
                         ""AmbienteSeguro"": [""Despejar mi velador"", ""Guardar objetos peligrosos bajo llave""],
                         ""NumeroEmergencia"": """"
                     }";
+                    LogTxt = json;
+
                 }
 
                 var options = new JsonSerializerOptions

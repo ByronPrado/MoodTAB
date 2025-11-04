@@ -224,14 +224,6 @@
 
                 </Frame>
                 <StackLayout Spacing="15" Margin="0,30,0,0">
-                    
-                    <Button Text="📝 Editar Plan Seguro"
-                            FontSize="16"
-                            TextColor="#FFE1E1E1"
-                            BackgroundColor="#FF004B9C"
-                            FontFamily="BreeSerif-Regular.ttf"
-                            HeightRequest="50"
-                            Clicked="onEditarPlanSeguroClicked"/>
                     <Button Text="🗑️ Borrar Datos"
                             FontSize="16"
                             TextColor="#FFE1E1E1"

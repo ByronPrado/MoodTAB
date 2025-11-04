@@ -12,10 +12,14 @@ public partial class PlanSeguroPage : ContentPage
 		BindingContext = viewModel;
 	}
 	protected override async void OnAppearing()
-    {
+	{
 		base.OnAppearing();
 		await viewModel.CargarAsync();
 		//BindingContext = viewModel;
 
-    }
+	}
+		private async void onEditarPlanSeguroClicked(object sender, EventArgs e)
+	{ 
+		await Navigation.PushAsync(new EditarPlanSeguroPage());
+	}
 }
