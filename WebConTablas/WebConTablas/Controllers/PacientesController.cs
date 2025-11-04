@@ -388,24 +388,50 @@ public class PacientesController : Controller
             return RedirectToAction("Login", "Psiquiatras");
         }
 
-        // Busca el paciente específico, asegurándote que pertenece al psiquiatra
-        // e incluye sus diarios emocionales.
         var paciente = await _context.Pacientes
             .Where(p => p.ID_Paciente == id && p.ID_Psiquiatra == idPsiquiatra)
             .Include(p => p.DiariosEmocionales)
             .Include(p => p.Logs)
                 .ThenInclude(l => l.Psiquiatra)
             .FirstOrDefaultAsync();
-            
+
 
         if (paciente == null)
         {
-            // Si no se encuentra el paciente (o no pertenece al psiquiatra),
-            // retorna un error 404.
             return NotFound();
         }
 
-        // Pasa el objeto paciente a la nueva vista "Details.cshtml"
         return View(paciente);
+    }
+
+    public class DiarioViewRequest
+    {
+        public int ID_Diario { get; set; }
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> MarcarDiarioVisto([FromBody] DiarioViewRequest request)
+    {
+        if (request == null || request.ID_Diario == 0)
+        {
+            return BadRequest(new { success = false, message = "ID de diario inválido" });
+        }
+
+        try
+        {
+            var diario = await _context.DiariosEmocionales.FindAsync(request.ID_Diario);
+            if (diario != null)
+            {
+                diario.Ultima_Revision_Psiquiatra = DateTime.UtcNow;
+                await _context.SaveChangesAsync();
+                return Json(new { success = true });
+            }
+            return NotFound(new { success = false, message = "Diario no encontrado" });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { success = false, message = ex.Message });
+        }
     }
 }

@@ -51,6 +51,11 @@
             @foreach (var paciente in Model)
             {
                 var tieneAlerta = paciente.Alertas != null && paciente.Alertas.Any(a => a.Estado == "No Visto");
+                var tieneNuevoDiario = paciente.DiariosEmocionales != null && paciente.DiariosEmocionales.Count > 0;
+                var diarioMasReciente = tieneNuevoDiario ? paciente.DiariosEmocionales.OrderByDescending(d => d.Fecha).FirstOrDefault() : null;
+                var tieneNuevoDiarioNoVisto = diarioMasReciente != null && 
+                    (diarioMasReciente.Ultima_Revision_Psiquiatra == null || 
+                     diarioMasReciente.Fecha > diarioMasReciente.Ultima_Revision_Psiquiatra);
                 
                 <div class="white-card" data-patient-id="@paciente.ID_Paciente" onclick="showPatientDetails(@paciente.ID_Paciente)">
                     <div class="d-flex align-items-start mb-2">
@@ -60,12 +65,20 @@
                                 @paciente.Diagnostico
                             </span>
                         </div>
-                        @if (tieneAlerta)
-                        {
-                            <span class="badge bg-warning" id="alerta">
-                                <i class="fas fa-exclamation-triangle me-1"></i>Alerta
-                            </span>
-                        }
+                        <div class="d-flex gap-2">
+                            @if (tieneAlerta)
+                            {
+                                <span class="badge bg-warning" id="alerta">
+                                    <i class="fas fa-exclamation-triangle me-1"></i>Alerta
+                                </span>
+                            }
+                            @if (tieneNuevoDiarioNoVisto)
+                            {
+                                <span class="badge bg-info" id="diario-nuevo" title="Nuevo diario emocional desde última revisión">
+                                    <i class="fas fa-book me-1"></i>Nuevo
+                                </span>
+                            }
+                        </div>
                     </div>
                     <div class="d-flex justify-content-between align-items-center mt-2 pt-2" style="border-top: 1px solid var(--border-color);">
                         <span class="text-muted small">
@@ -117,7 +130,9 @@
             ""AmbienteSeguro"": [""Despejar mi velador"", ""Guardar objetos peligrosos bajo llave""]
         }";
     }
-        const patientsData = @Html.Raw(JsonSerializer.Serialize(Model.Select(p => new {
+        const patientsData = @Html.Raw(JsonSerializer.Serialize(Model.Select(p => {
+            var diarioMasReciente = p.DiariosEmocionales?.OrderByDescending(d => d.Fecha).FirstOrDefault();
+            return new {
             ID_Paciente = p.ID_Paciente,
             Nombre = p.Nombre,
             Edad = p.Edad,
@@ -126,10 +141,7 @@
             Telefono = p.Telefono,
             Diagnostico = p.Diagnostico,
             Severidad = p.Severidad,
-            //----------------------Prueba plan seguro---------------------------------------------------
-            //PlanSeguro = p.PlanSeguro,
             PlanSeguro = p.Nombre == "Ana Gómez" ? jsonEjemplo : p.PlanSeguro,
-            //-------------------------------------------------------------------------------------------
             TieneAlerta = p.Alertas != null && p.Alertas.Any(a => a.Estado == "No Visto"),
             Alertas = p.Alertas?.Where(a => a.Estado == "No Visto").Select(a => new {
                 ID_Alerta = a.ID_Alerta,
@@ -138,7 +150,11 @@
                 Tipo = a.Tipo ?? "Alerta",
                 Created_at = a.Created_at?.ToString("dd/MM/yyyy HH:mm") ?? "Fecha desconocida"
             }).ToList(),
+            TieneNuevoDiario = diarioMasReciente != null && 
+                (diarioMasReciente.Ultima_Revision_Psiquiatra == null || 
+                 diarioMasReciente.Fecha > diarioMasReciente.Ultima_Revision_Psiquiatra),
             DiariosEmocionales = p.DiariosEmocionales?.Select(d => new {
+                ID_Diario = d.ID_Diario,
                 Fecha = d.Fecha.ToString("yyyy-MM-dd"),
                 Emociones = d.Emociones,
                 Descripcion = d.Descripcion,
@@ -146,7 +162,8 @@
                 Horas_celular = d.Horas_celular,
                 Horas_redes = d.Horas_redes,
                 Hora_dormida = d.Hora_dormida,
-                Estado = d.Estado
+                Estado = d.Estado,
+                Ultima_Revision_Psiquiatra = d.Ultima_Revision_Psiquiatra?.ToString("yyyy-MM-dd HH:mm")
             }).ToList(),
             FormulariosAsignados = p.FormulariosAsignados?.Select(f => new {
                 IdForm = f.ID_Asignacion,
@@ -170,6 +187,7 @@
                     Comentario = c.Comentario
                 }).OrderByDescending(c => c.Fecha).ToList()
             }).ToList()
+            };
         })));
 
         const antiForgeryToken = document.querySelector('input[name="__RequestVerificationToken"]')?.value || 
@@ -211,6 +229,42 @@
             detailsContainer.innerHTML = generatePatientDetailsHTML(patient);
             initDetailToggles();
         }
+
+        async function markDiaryAsViewed(diarioId) {
+        try {
+            if (!diarioId || diarioId == 0 || diarioId == undefined) {
+                return;
+            }
+            
+            const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+            
+            const response = await fetch('/Pacientes/MarcarDiarioVisto', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': token
+                },
+                body: JSON.stringify({ ID_Diario: diarioId })
+            });
+            
+            if (response.ok) {
+                const patient = patientsData.find(p => p.DiariosEmocionales?.some(d => d.ID_Diario === diarioId));
+                if (patient) {
+                    patient.TieneNuevoDiario = false;
+                    const cardBadge = document.querySelector(`[data-patient-id="${patient.ID_Paciente}"] #diario-nuevo`);
+                    if (cardBadge) {
+                        cardBadge.remove();
+                    }
+                }
+            } else {
+                console.error("Failed to mark diary as viewed. Status:", response.status);
+                const errorText = await response.text();
+                console.error("Response body:", errorText);
+            }
+        } catch (error) {
+            console.error('Error marking diary as viewed:', error);
+        }
+    }
 
         function generatePatientDetailsHTML(patient) {
             const diagnosticoClass = patient.Diagnostico ? patient.Diagnostico.toLowerCase() : '';
@@ -268,17 +322,28 @@
                     month: 'long', 
                     day: 'numeric' 
                 });
+
+                const diaryViewed = diarioReciente.Ultima_Revision_Psiquiatra != null;
+                const viewedIndicator = diaryViewed ? 
+                    `<span class="badge bg-success ms-2" title="Revisado el ${new Date(diarioReciente.Ultima_Revision_Psiquiatra).toLocaleDateString('es-ES')}">
+                        <i class="fas fa-eye me-1"></i>Revisado
+                    </span>` : 
+                    `<span class="badge bg-warning ms-2">
+                        <i class="fas fa-eye-slash me-1"></i>No revisado
+                    </span>`;
                 
                 diariosHTML = `
-                    <div class="emotion-entry">
+                    <div class="emotion-entry" onmouseenter="markDiaryAsViewed(${diarioReciente.ID_Diario})">
                         <div class="d-flex justify-content-between align-items-start mb-3">
                             <span class="fw-semibold text-primary">
                                 ${fecha}
                             </span>
-                            <span class="condition-badge condition-${diarioReciente.Estado}">
-                                <strong>${diarioReciente.Estado || 'basal'}</strong>
-                            </span>
-                            
+                            <div class="d-flex gap-2">
+                                <span class="condition-badge condition-${diarioReciente.Estado}">
+                                    <strong>${diarioReciente.Estado || 'basal'}</strong>
+                                </span>
+                                ${viewedIndicator}
+                            </div>
                         </div>
                         
                         <div class="mb-3">
@@ -580,8 +645,6 @@
             `;
         }
 
-        // prueba para plan seguro -----------------------------------
-
         function generateSafetyPlanHTML(planSeguroJson) {
             if (!planSeguroJson || planSeguroJson.trim() === "") {
                 return `
@@ -595,7 +658,6 @@
             try {
                 const plan = JSON.parse(planSeguroJson);
 
-                // Funciones auxiliares para crear las listas
                 const createStringList = (items, icono) => {
                     if (!items || items.length === 0) return '<li>No hay elementos.</li>';
                     return items.map(item => `<li><i class="${icono} me-2 text-muted"></i>${item || 'N/A'}</li>`).join('');
@@ -636,7 +698,7 @@
                         <h6 class="text-secondary fw-semibold"><i class="fas fa-hospital me-2"></i>Paso 5: Profesionales o instituciones</h6>
                         <ul class="list-unstyled ms-3 mb-4">
                             ${createContactList(plan.Profesionales, 'fa-solid fa-user-md')}
-                            </ul>
+                        </ul>
 
                         <h6 class="text-secondary fw-semibold"><i class="fas fa-home me-2"></i>Vivir en un ambiente seguro</h6>
                         <ul class="list-unstyled ms-3 mb-4">
@@ -746,7 +808,6 @@
                     }
                 }
                 
-                // Apply visibility
                 card.style.display = shouldShow ? 'block' : 'none';
             });
         }
@@ -773,7 +834,6 @@
                 
                 if (response.ok) {
                     
-                    // Remove the alert item from the banner
                     const alertItem = document.querySelector(`[data-alertaP-id="${alertaId}"]`);
                     const alertItemnotif = document.querySelector(`[data-alerta-id="${alertaId}"]`);
                     if (alertItemnotif) {
@@ -787,11 +847,9 @@
                         setTimeout(() => {
                             alertItem.remove();
                             
-                            // Check if there are any remaining alerts
                             const remainingAlerts = document.querySelectorAll('.alert-item');
                             
                             if (remainingAlerts.length === 0) {
-                                // Hide the entire banner if no alerts remain
                                 const banner = document.querySelector('.alert-banner');
                                 if (banner) {
                                     banner.style.transition = 'all 0.3s ease';
@@ -803,12 +861,10 @@
                         }, 150);
                     }
                     
-                    // Update notification count in navbar
                     const notifBadge = document.getElementById('notif-count-badge');
                     if (notifBadge) {
                         const currentCount = parseInt(notifBadge.textContent);
                         const newCount = currentCount - 1;
-                        console.log("[v0] Updating notification count:", currentCount, "->", newCount);
                         
                         if (newCount > 0) {
                             notifBadge.textContent = newCount;
@@ -817,18 +873,11 @@
                         }
                     }
                     
-                    // Update the patient data
                     const patient = patientsData.find(p => p.Alertas && p.Alertas.some(a => a.ID_Alerta === alertaId));
                     if (patient) {
                         patient.Alertas = patient.Alertas.filter(a => a.ID_Alerta !== alertaId);
                         patient.TieneAlerta = patient.Alertas.length > 0;
                         
-                        console.log("[v0] Updated patient data:", { 
-                            patientId: patient.ID_Paciente, 
-                            remainingAlerts: patient.Alertas.length 
-                        });
-                        
-                        // Update the alert badge in the sidebar
                         const patientCard = document.querySelector(`[data-patient-id="${patient.ID_Paciente}"]`);
                         if (patientCard && !patient.TieneAlerta) {
                             const alertBadge = patientCard.querySelector('#alerta');

@@ -40,5 +40,6 @@ namespace WebConTablas.Models
         // Estos se llenan con la simulación en el controlador
         public float? Coherencia { get; set; }
         public float? Errores_gramaticales { get; set; }
+        public DateTime? Ultima_Revision_Psiquiatra { get; set; }
     }
 }

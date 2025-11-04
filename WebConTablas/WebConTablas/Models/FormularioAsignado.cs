@@ -17,6 +17,8 @@ namespace WebConTablas.Models
         public DateTime? Fecha_Limite { get; set; }
         public string Estado { get; set; } = "pendiente";
 
+        public DateTime? Ultima_Revision_Psiquiatra { get; set; }
+
         public ICollection<Respuesta> Respuestas { get; set; } = new List<Respuesta>();
     }
 }
