@@ -238,6 +238,15 @@ body {
   border: 1px solid var(--border-color);
 }
 
+.detail-card-new {
+  background: rgb(208, 232, 255);
+  border-radius: 16px;
+  padding: 1.75rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border-color);
+}
+
 .detail-card-p {
   background: var(--card-bg);
   border-radius: 16px;
@@ -571,6 +580,12 @@ body {
 .form-completado {
   border-left-color: var(--success-color);
   background-color: #f0fdf4;
+}
+
+.form-pendiente-new {
+  border-left-color: #f59e0b !important;
+  background-color: #fffbeb !important;
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
 }
 
 /* Enhanced external user cards */
