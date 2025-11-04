@@ -95,6 +95,8 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
     @{
         string jsonEjemplo = @"{
@@ -562,16 +564,15 @@
                     </div>
                 </details>
 
-                //------------------------------
                 <details class="detail-card" data-section="plan-seguridad-${patient.ID_Paciente}">
                     <summary class="d-flex justify-content-between align-items-center">
                         <h5 class="mb-0 summary-title">
                             <i class="fas fa-shield-alt me-2 text-primary"></i>Plan de Seguridad
                         </h5>
-                        <a href="/Pacientes/EditPlan/${patient.ID_Paciente.toString()}" class="btn btn-sm btn-outline-primary">
-                            <i class="fas fa-edit me-1"></i>Editar Plan
-                        </a>
-                    </summary>
+                        <button typebutton="button" class="btn btn-sm btn-outline-primary" onclick="event.preventDefault(); printSafetyPlan(${patient.ID_Paciente})">
+                            <i class="fas fa-print me-1"></i>Imprimir Plan
+                        </button>
+                        </summary>
                     <div class="mt-3">
                         ${generateSafetyPlanHTML(patient.PlanSeguro)}
                     </div>
@@ -649,6 +650,76 @@
             }
         }
 
+        async function printSafetyPlan(patientId) {
+            // 1. Encontrar los datos del paciente
+            const patient = patientsData.find(p => p.ID_Paciente === patientId);
+            if (!patient) {
+                alert("No se encontró al paciente.");
+                return;
+            }
+
+            // 2. Encontrar el elemento HTML del plan de seguridad
+            // Usamos la clase .safety-plan-container que definimos en generateSafetyPlanHTML
+            const planElement = document.querySelector(`[data-section="plan-seguridad-${patientId}"] .safety-plan-container`);
+
+            if (!planElement) {
+                // Comprobar si es porque no tiene plan
+                const noDataElement = document.querySelector(`[data-section="plan-seguridad-${patientId}"] .no-data-state`);
+                if(noDataElement) {
+                    alert("No hay un plan de seguridad para imprimir.");
+                } else {
+                    alert("No se pudo encontrar el elemento del plan de seguridad.");
+                }
+                return;
+            }
+
+            // 3. Usar html2canvas y jsPDF (similar a Details.cshtml)
+            try {
+                const { jsPDF } = window.jspdf;
+                const canvas = await html2canvas(planElement, { scale: 2 });
+                const imgData = canvas.toDataURL('image/png');
+                
+                // Configurar el documento PDF en A4
+                const doc = new jsPDF({
+                    orientation: 'p',
+                    unit: 'mm',
+                    format: 'a4'
+                });
+
+                const margin = 15;
+                const topMargin = 25;
+                const pdfWidth = doc.internal.pageSize.getWidth();
+                const pageWidth = pdfWidth - (margin * 2);
+                const pdfHeight = doc.internal.pageSize.getHeight();
+                const pageHeight = pdfHeight - (topMargin * 2);
+
+                // Calcular el alto de la imagen manteniendo la proporción
+                const imgProps = doc.getImageProperties(imgData);
+                const imgHeight = (imgProps.height * pageWidth) / imgProps.width;
+
+                // Añadir Título
+                doc.setFontSize(18);
+                doc.text(`Plan de Seguridad de: ${patient.Nombre}`, pdfWidth / 2, margin, { align: 'center' });
+
+                // Escalar la imagen si es más alta que la página
+                let finalImgHeight = imgHeight;
+                if (imgHeight > pageHeight) {
+                    finalImgHeight = pageHeight;
+                    console.warn("El plan de seguridad excede una página, puede verse recortado.");
+                }
+
+                // Añadir la imagen del plan
+                doc.addImage(imgData, 'PNG', margin, topMargin, pageWidth, finalImgHeight);
+                
+                // 4. Guardar el PDF
+                const fecha = new Date().toISOString().slice(0, 10);
+                doc.save(`PlanSeguridad-${patient.Nombre.replace(/ /g, "_")}-${fecha}.pdf`);
+
+            } catch (err) {
+                console.error("Error al generar el PDF del plan:", err);
+                alert("Hubo un error al generar el PDF.");
+            }
+        }
         //------------------------------------------------------------
         function filtrar(){
             const questionCards = document.querySelectorAll('.white-card');
