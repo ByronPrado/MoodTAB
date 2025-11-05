@@ -35,7 +35,7 @@ namespace MoodTAB.Popups
 
         private void OnSkip(object sender, EventArgs e)
         {
-            Preferences.Set("tutorial_shown", true);
+            Preferences.Set("tutorialdiario_shown", true);
             _ = AnimateOutAsync();
         }
 
@@ -44,7 +44,7 @@ namespace MoodTAB.Popups
             int count = GetItemCount();
             if (count == 0)
             {
-                Preferences.Set("tutorial_shown", true);
+                Preferences.Set("tutorialdiario_shown", true);
                 await AnimateOutAsync();
                 return;
             }
@@ -55,7 +55,7 @@ namespace MoodTAB.Popups
             }
             else
             {
-                Preferences.Set("tutorial_shown", true);
+                Preferences.Set("tutorialdiario_shown", true);
                 await AnimateOutAsync();
             }
         }

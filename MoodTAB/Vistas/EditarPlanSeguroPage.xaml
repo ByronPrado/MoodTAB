@@ -46,7 +46,7 @@
                         <toolkit:Expander.Content>
                             <VerticalStackLayout Spacing="10">
                                 <Frame >
-                                    <Grid RowDefinitions="*,*">
+                                    <Grid RowDefinitions="*,*,*">
                                         <VerticalStackLayout  Grid.Row="0" BindableLayout.ItemsSource="{Binding SenalesAlerta}">
                                 
                                             <BindableLayout.ItemTemplate>
@@ -69,18 +69,16 @@
                                             </BindableLayout.ItemTemplate>
                                         </VerticalStackLayout>                                
 
-                                        <HorizontalStackLayout   Grid.Row="1" Spacing="10">
-                                            <Entry Placeholder="Nueva señal de alerta"
-                                                Text="{Binding NuevoItemTexto}"
-                                                FontFamily="BreeSerif-Regular.ttf"
-                                                HorizontalOptions="FillAndExpand" />
+                                        <Entry   Grid.Row="1" Placeholder="Nueva señal de alerta"
+                                            Text="{Binding NuevoItemTexto}"
+                                            FontFamily="BreeSerif-Regular.ttf"
+                                            HorizontalOptions="FillAndExpand" />
 
-                                            <Button Text="Agregar"
-                                                    Command="{Binding AgregarSenalAlertaCommand}"
-                                                    BackgroundColor="#16A34A"
-                                                    TextColor="White"
-                                                    CornerRadius="8" />
-                                        </HorizontalStackLayout>
+                                        <Button  Grid.Row="2" Text="Agregar"
+                                                Command="{Binding AgregarSenalAlertaCommand}"
+                                                BackgroundColor="#16A34A"
+                                                TextColor="White"
+                                                CornerRadius="8" />
                                     </Grid>
                                 </Frame>
                             </VerticalStackLayout>
@@ -100,7 +98,7 @@
                         <toolkit:Expander.Content>
                             <VerticalStackLayout Spacing="10">
                                 <Frame >
-                                    <Grid RowDefinitions="*,*">
+                                    <Grid RowDefinitions="*,*,*">
                                         <VerticalStackLayout Grid.Row="0" BindableLayout.ItemsSource="{Binding EstrategiasInternas}">
                                             <BindableLayout.ItemTemplate>
                                                 <DataTemplate>
@@ -121,17 +119,15 @@
                                             </BindableLayout.ItemTemplate>
                                         </VerticalStackLayout>                                
 
-                                        <HorizontalStackLayout Grid.Row="1" Spacing="10">
-                                            <Entry Placeholder="Nueva estrategia interna"
-                                                Text="{Binding NuevoItemTexto}"
-                                                FontFamily="BreeSerif-Regular.ttf"
-                                                HorizontalOptions="FillAndExpand" />
-                                            <Button Text="Agregar"
-                                                    Command="{Binding AgregarEstrategiaInternaCommand}"
-                                                    BackgroundColor="#16A34A"
-                                                    TextColor="White"
-                                                    CornerRadius="8" />
-                                        </HorizontalStackLayout>
+                                        <Entry  Grid.Row="1" Placeholder="Nueva estrategia interna"
+                                            Text="{Binding NuevoItemTexto}"
+                                            FontFamily="BreeSerif-Regular.ttf"
+                                            HorizontalOptions="FillAndExpand" />
+                                        <Button  Grid.Row="2" Text="Agregar"
+                                                Command="{Binding AgregarEstrategiaInternaCommand}"
+                                                BackgroundColor="#16A34A"
+                                                TextColor="White"
+                                                CornerRadius="8" />
                                     </Grid>
                                 </Frame>                                
                             </VerticalStackLayout>
@@ -151,7 +147,7 @@
                         <toolkit:Expander.Content>
                             <VerticalStackLayout Spacing="10">
                                 <Frame >
-                                    <Grid RowDefinitions="*,*">
+                                    <Grid RowDefinitions="*,*,*">
                                         <VerticalStackLayout Grid.Row="0" BindableLayout.ItemsSource="{Binding AmbienteSeguro}">
                                             <BindableLayout.ItemTemplate>
                                                 <DataTemplate>
@@ -172,18 +168,16 @@
                                             </BindableLayout.ItemTemplate>
                                         </VerticalStackLayout>
 
-                                        <HorizontalStackLayout Grid.Row="1" Spacing="10">
-                                            <Entry Placeholder="Nuevo ambiente seguro"
-                                                Text="{Binding NuevoItemTexto}"
-                                                FontFamily="BreeSerif-Regular.ttf"
-                                                HorizontalOptions="FillAndExpand" />
+                                        <Entry Grid.Row="1" Placeholder="Nuevo ambiente seguro"
+                                            Text="{Binding NuevoItemTexto}"
+                                            FontFamily="BreeSerif-Regular.ttf"
+                                            HorizontalOptions="FillAndExpand" />
 
-                                            <Button Text="Agregar"
-                                                    Command="{Binding AgregarAmbienteSeguroCommand}"
-                                                    BackgroundColor="#16A34A"
-                                                    TextColor="White"
-                                                    CornerRadius="8" />
-                                        </HorizontalStackLayout>
+                                        <Button Grid.Row="2" Text="Agregar"
+                                                Command="{Binding AgregarAmbienteSeguroCommand}"
+                                                BackgroundColor="#16A34A"
+                                                TextColor="White"
+                                                CornerRadius="8" />
                                     </Grid>
                                 </Frame>
                             </VerticalStackLayout>

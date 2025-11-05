@@ -19,7 +19,12 @@ public partial class PlanSeguroPage : ContentPage
 
 	}
 		private async void onEditarPlanSeguroClicked(object sender, EventArgs e)
-	{ 
+	{
+		viewModel.IsBusy = true;
+		
 		await Navigation.PushAsync(new EditarPlanSeguroPage());
+		
+		viewModel.IsBusy = false;
+
 	}
 }

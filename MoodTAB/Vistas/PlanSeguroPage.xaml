@@ -4,16 +4,19 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="MoodTAB.Vistas.PlanSeguroPage"
     Title="Plan Seguro">
-
+    <NavigationPage.TitleView>
+        <Grid >
+            <Label Text="    📘 Plan Seguro"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Center"
+                   FontSize="20"
+                   FontFamily="BreeSerif-Regular.ttf"
+                   TextColor="#FF191919"/>
+        </Grid>
+    </NavigationPage.TitleView>
+    <Grid>
     <ScrollView BackgroundColor="#FFF3F3FF">
         <VerticalStackLayout Padding="20" Spacing="18">
-
-            <Label
-                Text="Tu Plan Seguro"
-                FontFamily="BreeSerif-Regular.ttf"
-                FontSize="24"
-                FontAttributes="Bold"
-                HorizontalOptions="Center" />
             <!-- DEBUG-->
             <Entry Text="{Binding LogTxt}" IsVisible="False"></Entry>
             <!-- DEBUG-->
@@ -170,11 +173,26 @@
             </Frame>
             <Button Text="📝 Editar Plan Seguro"
                 FontSize="16"
-                TextColor="#FFE1E1E1"
-                BackgroundColor="#FF004B9C"
+                TextColor="White"
+                BackgroundColor="#6B8DD6"
                 FontFamily="BreeSerif-Regular.ttf"
                 HeightRequest="50"
                 Clicked="onEditarPlanSeguroClicked"/>
         </VerticalStackLayout>
     </ScrollView>
+                <!-- Overlay de carga -->
+        <Grid x:Name="LoadingOverlay"
+            BackgroundColor="#FFF3F3FF"   
+            IsVisible="{Binding IsBusy}"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutFlags="All"
+            VerticalOptions="Fill"
+            HorizontalOptions="Fill"
+            ZIndex="99">
+            <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                <ActivityIndicator IsRunning="True" Color="#FF071A1E" WidthRequest="50" HeightRequest="50"/>
+                <Label Text="Cargando..." TextColor="#FF191919" FontSize="16" HorizontalOptions="Center" FontFamily="BreeSerif-Regular.ttf"/>
+            </StackLayout>
+        </Grid>
+    </Grid>
 </ContentPage>

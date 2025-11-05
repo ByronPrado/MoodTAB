@@ -11,6 +11,7 @@ namespace MoodTAB.ViewModel
 {
     public partial class PlanSeguroViewModel : ObservableObject
     {
+        //listas de elementos del plan seguro
         [ObservableProperty]
         private ObservableCollection<string> senalesAlerta = new();
 
@@ -34,6 +35,9 @@ namespace MoodTAB.ViewModel
 
         [ObservableProperty]
         private string logTxt;
+
+        [ObservableProperty]
+        private bool isBusy = false;
 
         public PlanSeguroViewModel()
         {

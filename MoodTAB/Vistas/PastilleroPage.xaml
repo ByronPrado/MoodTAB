@@ -8,6 +8,17 @@
     <ContentPage.BindingContext>
         <local:PastilleroViewModel/>
     </ContentPage.BindingContext>
+    
+    <NavigationPage.TitleView>
+        <Grid >
+            <Label Text="    💊 Medicamentos"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Center"
+                   FontSize="20"
+                   FontFamily="BreeSerif-Regular.ttf"
+                   TextColor="#FF191919"/>
+        </Grid>
+    </NavigationPage.TitleView>
 
     <Grid BackgroundColor="#FFF3F3FF">
         <ScrollView>

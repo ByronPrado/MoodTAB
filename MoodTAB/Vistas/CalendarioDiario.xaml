@@ -8,7 +8,7 @@
              Title="CalendarioDiario">
     <NavigationPage.TitleView>
         <Grid>
-            <Label Text="Historial"
+            <Label Text="  🗓️     Historial"
                    VerticalOptions="Center"
                    HorizontalTextAlignment="Start"
                    FontSize="20"
@@ -260,21 +260,7 @@
                             </Frame>  
                         </Grid>
                     </Frame>
-                    <Button
-                            Grid.Column="1"
-                            Text="Exportar Datos"                            
-                            FontSize="Small"
-                            FontAttributes="Bold"
-                            FontFamily="BreeSerif-Regular.ttf"
-                            Clicked="OnExportarPDFClicked"
-                            HorizontalOptions="End">
-                            <Button.Background>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                    <GradientStop Color="#3B82F6" Offset="0.0" />
-                                    <GradientStop Color="#10B981" Offset="1.0" />
-                                </LinearGradientBrush>
-                            </Button.Background>                            
-                        </Button> 
+
                 </VerticalStackLayout>    
         </ScrollView>
         <!-- Overlay de carga -->

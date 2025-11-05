@@ -42,12 +42,12 @@ public partial class MainPage : ContentPage
         {
             notificationManager.DeleteNotification(1001);
         }
-        /*if (viewModel.DebeMostrarTutorial)
+        if (viewModel.DebeMostrarTutorial)
         {
             await Task.Delay(300);
             this.ShowPopup(new TutorialPopup());
         }
-        */this.ShowPopup(new TutorialPopup());
+        //this.ShowPopup(new TutorialPopup());
 
 #if ANDROID
         PermissionStatus status = await Permissions.RequestAsync<MoodTAB.Platforms.Android.NotificationPermission>();
@@ -103,7 +103,7 @@ public partial class MainPage : ContentPage
     {
         if (sender is Button button)
         {
-            bool util = button.Text?.Trim().StartsWith("Es util", StringComparison.OrdinalIgnoreCase) ?? false;
+            bool util = button.Text?.Trim().StartsWith("Si", StringComparison.OrdinalIgnoreCase) ?? false;
             string mensaje = util ? "Se marcó como útil" : "Se marcó como no relevante";
 
             // persistir la opinión y solicitar siguiente consejo desde el ViewModel
