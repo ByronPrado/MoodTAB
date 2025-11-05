@@ -36,6 +36,7 @@ public class PacientesController : Controller
         .Include(p => p.UsuariosExternos)
             .ThenInclude(ue => ue.Comentarios)
         .Include(p => p.Alertas)
+        .Include(p => p.Logs)
         .ToListAsync();
 
         foreach (var paciente in pacientes)

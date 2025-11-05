@@ -56,6 +56,8 @@
                 var tieneNuevoDiarioNoVisto = diarioMasReciente != null && 
                     (diarioMasReciente.Ultima_Revision_Psiquiatra == null || 
                      diarioMasReciente.Fecha > diarioMasReciente.Ultima_Revision_Psiquiatra);
+                var tieneAlertaPlan = paciente.Alertas != null && paciente.Alertas.Any(a => a.Tipo == "PlanSeguro" && a.Estado == "No Visto");
+
                 
                 <div class="white-card" data-patient-id="@paciente.ID_Paciente" onclick="showPatientDetails(@paciente.ID_Paciente)">
                     <div class="d-flex align-items-start mb-2">
@@ -66,6 +68,12 @@
                             </span>
                         </div>
                         <div class="d-flex gap-2">
+                            @if (tieneAlertaPlan)
+                            {
+                                <span class="badge bg-success" id="alerta-plan">
+                                    <i class="fas fa-shield-alt me-1"></i>Plan
+                                </span>
+                            }
                             @if (tieneAlerta)
                             {
                                 <span class="badge bg-warning" id="alerta">
@@ -141,7 +149,9 @@
             Telefono = p.Telefono,
             Diagnostico = p.Diagnostico,
             Severidad = p.Severidad,
-            PlanSeguro = p.Nombre == "Ana Gómez" ? jsonEjemplo : p.PlanSeguro,
+            PlanSeguro = string.IsNullOrWhiteSpace(p.PlanSeguro) 
+                ? jsonEjemplo
+                : p.PlanSeguro,
             TieneAlerta = p.Alertas != null && p.Alertas.Any(a => a.Estado == "No Visto"),
             Alertas = p.Alertas?.Where(a => a.Estado == "No Visto").Select(a => new {
                 ID_Alerta = a.ID_Alerta,
@@ -186,7 +196,15 @@
                     Fecha = c.Fecha.ToString("g"),
                     Comentario = c.Comentario
                 }).OrderByDescending(c => c.Fecha).ToList()
-            }).ToList()
+            }).ToList(),
+            Logs = p.Logs?.Where(l => l.TipoLog == "PlanSeguro")
+              .OrderByDescending(l => l.Fecha)
+              .Select(l => new {
+                  ID_Log = l.ID_Log,
+                  Actual = l.Actual,
+                  Anterior = l.Anterior,
+                  Fecha = l.Fecha?.ToString("dd/MM/yyyy HH:mm") ?? "Fecha desconocida",
+              }).ToList()
             };
         })));
 
@@ -221,7 +239,9 @@
             }
             
             // Find patient data
-            const patient = patientsData.find(p => p.ID_Paciente === patientId);
+            const patient = patientsData.find(
+                p => p.ID_Paciente.toString() === String(patientId).trim()
+            );
             if (!patient) return;
             
             // Update patient details content
@@ -229,6 +249,34 @@
             detailsContainer.innerHTML = generatePatientDetailsHTML(patient);
             initDetailToggles();
         }
+        function goToSafetyPlan(patientId) {
+
+            // 1. Mostrar detalles del paciente
+            showPatientDetails(patientId);
+
+            // Esperar un pequeño tiempo para que el HTML renderice
+            setTimeout(() => {
+                // 2. Abrir la sección Plan de Seguridad
+                const section = document.querySelector(`details[data-section="plan-seguridad-${patientId}"]`);
+
+                if (section) {
+                    section.setAttribute("open", "true");
+                }
+
+                // 3. Abrir automáticamente EL PRIMER LOG (el más reciente)
+                const firstLog = document.querySelector(
+                    `details[data-section="plan-seguridad-${patientId}"] .plan-log-toggle`
+                );
+
+                if (firstLog) {
+                    firstLog.setAttribute("open", "true");
+
+                    // 4. Hacer scroll suave hasta el log
+                    firstLog.scrollIntoView({ behavior: "smooth", block: "center" });
+                }
+            }, 50);
+        }
+
 
         async function markDiaryAsViewed(diarioId) {
         try {
@@ -265,6 +313,58 @@
             console.error('Error al marcar diario como visto:', error);
         }
     }
+        function diffPlans(oldJson, newJson) {
+            if (!oldJson || !newJson) return ["No hay información suficiente para comparar."];
+
+            let oldPlan, newPlan;
+            try {
+                oldPlan = JSON.parse(oldJson);
+                newPlan = JSON.parse(newJson);
+            } catch {
+                return ["Error al procesar los datos."];
+            }
+
+            const diffs = [];
+            const keys = new Set([...Object.keys(oldPlan), ...Object.keys(newPlan)]);
+
+            for (const key of keys) {
+                const before = oldPlan[key] || [];
+                const after = newPlan[key] || [];
+
+                // --- STRINGS (arrays simples) ---
+                if (Array.isArray(before) && typeof before[0] === "string") {
+                    before.forEach(item => {
+                        if (!after.includes(item))
+                            diffs.push(`- Eliminado de ${key}: "${item}"`);
+                    });
+
+                    after.forEach(item => {
+                        if (!before.includes(item))
+                            diffs.push(`+ Agregado en ${key}: "${item}"`);
+                    });
+                }
+
+                // --- OBJETOS (contactos, profesionales) ---
+                else if (Array.isArray(before) && typeof before[0] === "object") {
+                    const serialize = obj => `${obj.Nombre ?? ''}|${obj.Fono ?? ''}`;
+
+                    const beforeSet = new Set(before.map(serialize));
+                    const afterSet = new Set(after.map(serialize));
+
+                    before.forEach(item => {
+                        if (!afterSet.has(serialize(item)))
+                            diffs.push(`- Eliminado en ${key}: "${item.Nombre}" (${item.Fono || ''})`);
+                    });
+
+                    after.forEach(item => {
+                        if (!beforeSet.has(serialize(item)))
+                            diffs.push(`+ Agregado en ${key}: "${item.Nombre}" (${item.Fono || ''})`);
+                    });
+                }
+            }
+
+            return diffs.length > 0 ? diffs : ["No hubo cambios relevantes."];
+        }
 
         function generatePatientDetailsHTML(patient) {
             const diagnosticoClass = patient.Diagnostico ? patient.Diagnostico.toLowerCase() : '';
@@ -277,9 +377,21 @@
                             <div class="flex-grow-1">
                                 <span class="badge bg-warning text-dark me-2">${alerta.Tipo}</span>
                                 <span>${alerta.Contenido}</span>
-                                <a href="/Pacientes/Details/${alerta.ID_Paciente.toString()}" class="btn btn-sm btn-outline-primary">
-                                    Detalles
-                                </a>
+                                ${
+                                    alerta.Tipo === "PlanSeguro"
+                                    ? `
+                                        <button class="btn btn-sm btn-outline-primary"
+                                                onclick="handleViewPlanChange(${alerta.ID_Alerta}, ${alerta.ID_Paciente}, event)">
+                                            Ver cambio
+                                        </button>
+                                    `
+                                    : `
+                                        <a href="/Pacientes/Details/${alerta.ID_Paciente.toString()}" 
+                                        class="btn btn-sm btn-outline-primary">
+                                            Detalles
+                                        </a>
+                                    `
+                                }
                                 <small class="text-muted ms-2">${alerta.Created_at}</small>
                             </div>
                             <div class="alert-actions">
@@ -310,7 +422,7 @@
             }
             
             let diariosHTML = '';
-            let diarioViwed = true;
+            let diaryViewed = true;
             if (patient.DiariosEmocionales && patient.DiariosEmocionales.length > 0) {
                 const diariosOrdenados = [...patient.DiariosEmocionales];
                                 
@@ -635,6 +747,81 @@
                     <div class="mt-3">
                         ${generateSafetyPlanHTML(patient.PlanSeguro)}
                     </div>
+                    <div class="mt-4">
+                        <h6 class="text-secondary fw-semibold">
+                            <i class="fas fa-history me-2"></i>Historial de cambios del Plan de Seguridad
+                        </h6>
+
+                        ${
+                            patient.Logs && patient.Logs.length > 0
+                            ? `
+                                <ul class="list-group mt-3">
+                                    ${patient.Logs.map((log, i) => `
+                                        <li class="list-group-item">
+
+                                            <details class="plan-log-toggle">
+                                                <summary class="d-flex justify-content-between align-items-center">
+                                                    <span><strong>${log.Fecha}</strong></span>
+                                                    <span class="badge bg-success">#${log.ID_Log}</span>
+                                                </summary>
+
+                                                <div class="mt-3 p-2">
+
+                                                    <!-- DIFF SIMPLE -->
+                                                    <div class="log-diff-box mb-3 p-2 border rounded bg-light">
+                                                        <h6 class="fw-semibold mb-2"><i class="fas fa-exchange-alt me-2"></i>Cambios realizados</h6>
+                                                        <ul class="list-unstyled ms-2">
+                                                            ${diffPlans(log.Anterior, log.Actual).map(d => `
+                                                                <li class="mb-1">${d}</li>
+                                                            `).join("")}
+                                                        </ul>
+                                                    </div>
+
+                                                    <!-- BOTÓN MÁS DETALLES -->
+                                                    <div>
+                                                        <button 
+                                                            class="btn btn-outline-primary btn-sm"
+                                                            onclick="toggleLogDetails(this, '${log.ID_Log}')"
+                                                        >
+                                                            Más detalles ▼
+                                                        </button>
+                                                    </div>
+
+                                                    <!-- BLOQUE OCULTO -->
+                                                    <div id="log-details-${log.ID_Log}" style="display:none;" class="mt-3">
+
+                                                        <div class="log-section-title log-anterior">
+                                                            <i class="fas fa-history me-1"></i>Antes
+                                                        </div>
+                                                        <div class="plan-log-content mb-4">
+                                                            ${generateParsedPlanFromJSON(log.Anterior)}
+                                                        </div>
+
+                                                        <div class="log-section-title log-actual">
+                                                            <i class="fas fa-check-circle me-1"></i>Después
+                                                        </div>
+                                                        <div class="plan-log-content">
+                                                            ${generateParsedPlanFromJSON(log.Actual)}
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                            </details>
+
+                                        </li>
+                                    `).join('')}
+                                </ul>
+                            `
+                            :
+                            `
+                                <div class="no-data-state mt-3">
+                                    <i class="fas fa-history"></i>
+                                    <p>No hay registros de modificaciones del Plan de Seguridad.</p>
+                                </div>
+                            `
+                        }
+                    </div>
                 </details>
             `;
         }
@@ -705,6 +892,65 @@
                 return `<div class="alert alert-danger">Error al cargar el plan de seguridad.</div>`;
             }
         }
+        function generateParsedPlanFromJSON(jsonText) {
+            if (!jsonText || jsonText.trim() === "") return "<em>Sin registro</em>";
+
+            try {
+                const plan = JSON.parse(jsonText);
+
+                const createStringList = (items, icono) => {
+                    if (!items || items.length === 0) return '<li>No hay elementos.</li>';
+                    return items.map(item => `<li><i class="${icono} me-2 text-muted"></i>${item || 'N/A'}</li>`).join('');
+                };
+
+                const createContactList = (items, icono) => {
+                    if (!items || items.length === 0) return '<li>No hay elementos.</li>';
+                    return items.map(contacto => `
+                        <li class="d-flex justify-content-between">
+                            <span><i class="${icono} me-2 text-muted"></i>${contacto.Nombre || 'N/A'}</span>
+                            <span class="text-muted">${contacto.Fono || ''}</span>
+                        </li>
+                    `).join('');
+                };
+
+                return `
+                    <div class="safety-plan-container parsed-log-plan">
+                        <h6 class="text-secondary fw-semibold mt-3"><i class="fas fa-exclamation-circle me-2"></i>Paso 1: Señales de alerta</h6>
+                        <ul class="list-unstyled ms-3 mb-3">
+                            ${createStringList(plan.SenalesAlerta, "fa-solid fa-flag")}
+                        </ul>
+
+                        <h6 class="text-secondary fw-semibold"><i class="fas fa-street-view me-2"></i>Paso 2: Estrategias internas</h6>
+                        <ul class="list-unstyled ms-3 mb-3">
+                            ${createStringList(plan.EstrategiasInternas, "fa-solid fa-check")}
+                        </ul>
+
+                        <h6 class="text-secondary fw-semibold"><i class="fas fa-users me-2"></i>Paso 3: Personas o situaciones que ayudan</h6>
+                        <ul class="list-unstyled ms-3 mb-3">
+                            ${createContactList(plan.PersonasDistraerme, "fa-solid fa-user")}
+                        </ul>
+
+                        <h6 class="text-secondary fw-semibold"><i class="fas fa-phone-alt me-2"></i>Paso 4: Personas a las que puedo pedir ayuda</h6>
+                        <ul class="list-unstyled ms-3 mb-3">
+                            ${createContactList(plan.PersonasPedirAyuda, "fa-solid fa-user-shield")}
+                        </ul>
+
+                        <h6 class="text-secondary fw-semibold"><i class="fas fa-hospital me-2"></i>Paso 5: Profesionales o instituciones</h6>
+                        <ul class="list-unstyled ms-3 mb-3">
+                            ${createContactList(plan.Profesionales, "fa-solid fa-user-md")}
+                        </ul>
+
+                        <h6 class="text-secondary fw-semibold"><i class="fas fa-home me-2"></i>Ambiente seguro</h6>
+                        <ul class="list-unstyled ms-3 mb-3">
+                            ${createStringList(plan.AmbienteSeguro, "fa-solid fa-key")}
+                        </ul>
+                    </div>
+                `;
+            } catch (e) {
+                return `<div class="alert alert-danger">Error al parsear este registro.</div>`;
+            }
+        }
+
 
         async function printSafetyPlan(patientId) {
             // 1. Encontrar los datos del paciente
@@ -776,7 +1022,7 @@
                 alert("Hubo un error al generar el PDF.");
             }
         }
-        //------------------------------------------------------------
+
         function filtrar(){
             const questionCards = document.querySelectorAll('.white-card');
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
@@ -888,6 +1134,68 @@
                 }
             } catch (error) {
                 console.error('[v0] Error updating alert status:', error);
+            }
+        }
+        async function handleViewPlanChange(alertaId, pacienteId, event) {
+            event.stopPropagation();
+
+            try {
+                // 1. Marcar alerta como vista
+                const response = await fetch('/Pacientes/ActualizarEstadoAlerta', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        idAlerta: alertaId,
+                        estado: 'Visto'
+                    })
+                });
+
+                if (response.ok) {
+
+                    // 2. Eliminar visualmente la alerta del banner
+                    const alertItem = document.querySelector(`[data-alertaP-id="${alertaId}"]`);
+                    if (alertItem) {
+                        alertItem.style.transition = "opacity 0.3s ease";
+                        alertItem.style.opacity = "0";
+                        setTimeout(() => alertItem.remove(), 300);
+                    }
+
+                    // 3. Actualizar patientData en memoria
+                    const patient = patientsData.find(p => p.ID_Paciente === pacienteId);
+                    if (patient) {
+                        patient.Alertas = patient.Alertas.filter(a => a.ID_Alerta !== alertaId);
+                        patient.TieneAlerta = patient.Alertas.length > 0;
+                    }
+
+                    // 4. Quitar badge de alerta en la tarjeta de la lista
+                    const card = document.querySelector(`[data-patient-id="${pacienteId}"]`);
+                    if (card) {
+                        const badge = card.querySelector("#alerta-plan");
+                        if (badge) badge.remove();
+                    }
+                }
+
+            } catch (err) {
+                console.error("Error marcando alerta al ver cambio:", err);
+            }
+
+            // 5. Finalmente navegar al plan
+            goToSafetyPlan(pacienteId);
+        }
+
+
+        function toggleLogDetails(btn, logId) {
+            const panel = document.getElementById(`log-details-${logId}`);
+            const isOpen = panel.style.display === "block";
+
+            if (isOpen) {
+                panel.style.display = "none";
+                btn.textContent = "Más detalles ▼";
+            } else {
+                panel.style.display = "block";
+                btn.textContent = "Menos detalles ▲";
             }
         }
     </script>

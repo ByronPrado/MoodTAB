@@ -879,3 +879,65 @@ label {
   color: var(--text-secondary);
   margin-bottom: 0.5rem;
 }
+
+.plan-log-block {
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 25px;
+    background: #f8f9fc;
+    border: 1px solid #d0d7e1;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.log-section-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 8px 14px;
+    font-size: 1rem;            
+    font-weight: 800;           
+    border-radius: 12px;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+}
+
+.log-anterior {
+    background: #ffdce0;
+    color: #80000f;
+    border-left: 5px solid #c0001c;
+}
+
+.log-actual {
+    background: #d4f8e0;
+    color: #005924;
+    border-left: 5px solid #00974a;
+}
+
+.log-section-title i {
+    font-size: 1.3rem;       
+}
+
+.plan-log-content {
+    margin-top: 10px;
+    padding: 14px;
+    background: #ffffff;
+    border: 1px solid #dce1e7;
+    border-radius: 8px;
+}
+
+.log-diff-box ul li::before {
+    content: "• ";
+    color: #0d6efd;
+}
+
+.log-section-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.plan-log-content {
+    padding-left: 10px;
+    border-left: 3px solid #0d6efd33;
+}
