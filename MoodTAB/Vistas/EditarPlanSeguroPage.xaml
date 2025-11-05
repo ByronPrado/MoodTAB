@@ -12,16 +12,19 @@
             <converters:IntToBoolConverter x:Key="IntToBoolConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
+    <NavigationPage.TitleView>
+        <Grid >
+            <Label Text="    📝 Editar Plan Seguro"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Center"
+                   FontSize="20"
+                   FontFamily="BreeSerif-Regular.ttf"
+                   TextColor="#FF191919"/>
+        </Grid>
+    </NavigationPage.TitleView>
 
     <ScrollView BackgroundColor="#FFF3F3FF">
         <VerticalStackLayout Padding="20" Spacing="20">
-
-            <Label Text="Editar Plan Seguro"
-                   FontSize="24"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center"
-                   FontFamily="BreeSerif-Regular.ttf" />
-
             <!-- === FRAME PRINCIPAL === -->
             <Frame BackgroundColor="White"
                    CornerRadius="12"
@@ -42,38 +45,44 @@
 
                         <toolkit:Expander.Content>
                             <VerticalStackLayout Spacing="10">
-                                <VerticalStackLayout BindableLayout.ItemsSource="{Binding SenalesAlerta}">
-                                    <BindableLayout.ItemTemplate>
-                                        <DataTemplate>
-                                            <HorizontalStackLayout Spacing="10">
+                                <Frame >
+                                    <Grid RowDefinitions="*,*">
+                                        <VerticalStackLayout  Grid.Row="0" BindableLayout.ItemsSource="{Binding SenalesAlerta}">
+                                
+                                            <BindableLayout.ItemTemplate>
+                                                <DataTemplate>
+                                                    <HorizontalStackLayout Spacing="10">
 
-                                                <Label Text="{Binding .}"
-                                                       HorizontalOptions="StartAndExpand"
-                                                       FontFamily="BreeSerif-Regular.ttf" />
+                                                        <Label Text="{Binding .}"
+                                                            HorizontalOptions="StartAndExpand"
+                                                            FontFamily="BreeSerif-Regular.ttf" />
 
-                                                <Button Text="🗑️"
-                                                        FontSize="14"
-                                                        BackgroundColor="Transparent"
-                                                        TextColor="#777"
-                                                        Command="{Binding BindingContext.EliminarSenalAlertaCommand, Source={x:Reference RootPage}}"
-                                                        CommandParameter="{Binding .}" />
-                                            </HorizontalStackLayout>
-                                        </DataTemplate>
-                                    </BindableLayout.ItemTemplate>
-                                </VerticalStackLayout>                                
+                                                        <Button Text="🗑️"
+                                                                HorizontalOptions="End"
+                                                                FontSize="14"
+                                                                BackgroundColor="Transparent"
+                                                                TextColor="#777"
+                                                                Command="{Binding BindingContext.EliminarSenalAlertaCommand, Source={x:Reference RootPage}}"
+                                                                CommandParameter="{Binding .}" />
+                                                    </HorizontalStackLayout>
+                                                </DataTemplate>
+                                            </BindableLayout.ItemTemplate>
+                                        </VerticalStackLayout>                                
 
-                                <HorizontalStackLayout Spacing="10">
-                                    <Entry Placeholder="Nueva señal de alerta"
-                                           Text="{Binding NuevoItemTexto}"
-                                           FontFamily="BreeSerif-Regular.ttf"
-                                           HorizontalOptions="FillAndExpand" />
+                                        <HorizontalStackLayout   Grid.Row="1" Spacing="10">
+                                            <Entry Placeholder="Nueva señal de alerta"
+                                                Text="{Binding NuevoItemTexto}"
+                                                FontFamily="BreeSerif-Regular.ttf"
+                                                HorizontalOptions="FillAndExpand" />
 
-                                    <Button Text="Agregar"
-                                            Command="{Binding AgregarSenalAlertaCommand}"
-                                            BackgroundColor="#16A34A"
-                                            TextColor="White"
-                                            CornerRadius="8" />
-                                </HorizontalStackLayout>
+                                            <Button Text="Agregar"
+                                                    Command="{Binding AgregarSenalAlertaCommand}"
+                                                    BackgroundColor="#16A34A"
+                                                    TextColor="White"
+                                                    CornerRadius="8" />
+                                        </HorizontalStackLayout>
+                                    </Grid>
+                                </Frame>
                             </VerticalStackLayout>
                         </toolkit:Expander.Content>
                     </toolkit:Expander>
@@ -90,37 +99,41 @@
 
                         <toolkit:Expander.Content>
                             <VerticalStackLayout Spacing="10">
-                                <VerticalStackLayout BindableLayout.ItemsSource="{Binding EstrategiasInternas}">
-                                    <BindableLayout.ItemTemplate>
-                                        <DataTemplate>
-                                            <HorizontalStackLayout Spacing="10">
+                                <Frame >
+                                    <Grid RowDefinitions="*,*">
+                                        <VerticalStackLayout Grid.Row="0" BindableLayout.ItemsSource="{Binding EstrategiasInternas}">
+                                            <BindableLayout.ItemTemplate>
+                                                <DataTemplate>
+                                                    <HorizontalStackLayout Spacing="10">
 
-                                                <Label Text="{Binding .}"
-                                                       HorizontalOptions="StartAndExpand"
-                                                       FontFamily="BreeSerif-Regular.ttf" />
+                                                        <Label Text="{Binding .}"
+                                                            HorizontalOptions="StartAndExpand"
+                                                            FontFamily="BreeSerif-Regular.ttf" />
 
-                                                <Button Text="🗑️"
-                                                        FontSize="14"
-                                                        BackgroundColor="Transparent"
-                                                        TextColor="#777"
-                                                        Command="{Binding BindingContext.EliminarEstrategiaInternaCommand, Source={x:Reference RootPage}}"
-                                                        CommandParameter="{Binding .}" />
-                                            </HorizontalStackLayout>
-                                        </DataTemplate>
-                                    </BindableLayout.ItemTemplate>
-                                </VerticalStackLayout>                                
+                                                        <Button Text="🗑️"
+                                                                FontSize="14"
+                                                                BackgroundColor="Transparent"
+                                                                TextColor="#777"
+                                                                Command="{Binding BindingContext.EliminarEstrategiaInternaCommand, Source={x:Reference RootPage}}"
+                                                                CommandParameter="{Binding .}" />
+                                                    </HorizontalStackLayout>
+                                                </DataTemplate>
+                                            </BindableLayout.ItemTemplate>
+                                        </VerticalStackLayout>                                
 
-                                <HorizontalStackLayout Spacing="10">
-                                    <Entry Placeholder="Nueva estrategia interna"
-                                           Text="{Binding NuevoItemTexto}"
-                                           FontFamily="BreeSerif-Regular.ttf"
-                                           HorizontalOptions="FillAndExpand" />
-                                    <Button Text="Agregar"
-                                            Command="{Binding AgregarEstrategiaInternaCommand}"
-                                            BackgroundColor="#16A34A"
-                                            TextColor="White"
-                                            CornerRadius="8" />
-                                </HorizontalStackLayout>
+                                        <HorizontalStackLayout Grid.Row="1" Spacing="10">
+                                            <Entry Placeholder="Nueva estrategia interna"
+                                                Text="{Binding NuevoItemTexto}"
+                                                FontFamily="BreeSerif-Regular.ttf"
+                                                HorizontalOptions="FillAndExpand" />
+                                            <Button Text="Agregar"
+                                                    Command="{Binding AgregarEstrategiaInternaCommand}"
+                                                    BackgroundColor="#16A34A"
+                                                    TextColor="White"
+                                                    CornerRadius="8" />
+                                        </HorizontalStackLayout>
+                                    </Grid>
+                                </Frame>                                
                             </VerticalStackLayout>
                         </toolkit:Expander.Content>
                     </toolkit:Expander>
@@ -137,38 +150,42 @@
 
                         <toolkit:Expander.Content>
                             <VerticalStackLayout Spacing="10">
-                                <VerticalStackLayout BindableLayout.ItemsSource="{Binding AmbienteSeguro}">
-                                    <BindableLayout.ItemTemplate>
-                                        <DataTemplate>
-                                            <HorizontalStackLayout Spacing="10">
+                                <Frame >
+                                    <Grid RowDefinitions="*,*">
+                                        <VerticalStackLayout Grid.Row="0" BindableLayout.ItemsSource="{Binding AmbienteSeguro}">
+                                            <BindableLayout.ItemTemplate>
+                                                <DataTemplate>
+                                                    <HorizontalStackLayout Spacing="10">
 
-                                                <Label Text="{Binding .}"
-                                                       HorizontalOptions="StartAndExpand"
-                                                       FontFamily="BreeSerif-Regular.ttf" />
+                                                        <Label Text="{Binding .}"
+                                                            HorizontalOptions="StartAndExpand"
+                                                            FontFamily="BreeSerif-Regular.ttf" />
 
-                                                <Button Text="🗑️"
-                                                        FontSize="14"
-                                                        BackgroundColor="Transparent"
-                                                        TextColor="#777"
-                                                        Command="{Binding BindingContext.EliminarAmbienteSeguroCommand, Source={x:Reference RootPage}}"
-                                                        CommandParameter="{Binding .}" />
-                                            </HorizontalStackLayout>
-                                        </DataTemplate>
-                                    </BindableLayout.ItemTemplate>
-                                </VerticalStackLayout>
+                                                        <Button Text="🗑️"
+                                                                FontSize="14"
+                                                                BackgroundColor="Transparent"
+                                                                TextColor="#777"
+                                                                Command="{Binding BindingContext.EliminarAmbienteSeguroCommand, Source={x:Reference RootPage}}"
+                                                                CommandParameter="{Binding .}" />
+                                                    </HorizontalStackLayout>
+                                                </DataTemplate>
+                                            </BindableLayout.ItemTemplate>
+                                        </VerticalStackLayout>
 
-                                <HorizontalStackLayout Spacing="10">
-                                    <Entry Placeholder="Nuevo ambiente seguro"
-                                           Text="{Binding NuevoItemTexto}"
-                                           FontFamily="BreeSerif-Regular.ttf"
-                                           HorizontalOptions="FillAndExpand" />
+                                        <HorizontalStackLayout Grid.Row="1" Spacing="10">
+                                            <Entry Placeholder="Nuevo ambiente seguro"
+                                                Text="{Binding NuevoItemTexto}"
+                                                FontFamily="BreeSerif-Regular.ttf"
+                                                HorizontalOptions="FillAndExpand" />
 
-                                    <Button Text="Agregar"
-                                            Command="{Binding AgregarAmbienteSeguroCommand}"
-                                            BackgroundColor="#16A34A"
-                                            TextColor="White"
-                                            CornerRadius="8" />
-                                </HorizontalStackLayout>
+                                            <Button Text="Agregar"
+                                                    Command="{Binding AgregarAmbienteSeguroCommand}"
+                                                    BackgroundColor="#16A34A"
+                                                    TextColor="White"
+                                                    CornerRadius="8" />
+                                        </HorizontalStackLayout>
+                                    </Grid>
+                                </Frame>
                             </VerticalStackLayout>
                         </toolkit:Expander.Content>
                     </toolkit:Expander>
@@ -185,42 +202,45 @@
 
                         <toolkit:Expander.Content>
                             <VerticalStackLayout Spacing="10">
-                                <VerticalStackLayout BindableLayout.ItemsSource="{Binding PersonasDistraerme}">
-                                    <BindableLayout.ItemTemplate>
-                                        <DataTemplate>
-                                            <HorizontalStackLayout Spacing="10">
+                                <Frame >
+                                    <Grid RowDefinitions="*,*,*,*">
+                                        <VerticalStackLayout Grid.Row="0" BindableLayout.ItemsSource="{Binding PersonasDistraerme}">
+                                            <BindableLayout.ItemTemplate>
+                                                <DataTemplate>
+                                                    <HorizontalStackLayout Spacing="10">
 
-                                                <VerticalStackLayout Spacing="2" HorizontalOptions="StartAndExpand">
-                                                    <Label Text="{Binding Nombre}" FontAttributes="Bold" />
-                                                    <Label Text="{Binding Fono}" FontSize="12" TextColor="#555" />
-                                                </VerticalStackLayout>
+                                                        <VerticalStackLayout Spacing="2" HorizontalOptions="StartAndExpand">
+                                                            <Label Text="{Binding Nombre}" FontAttributes="Bold" />
+                                                            <Label Text="{Binding Fono}" FontSize="12" TextColor="#555" />
+                                                        </VerticalStackLayout>
 
-                                                <Button Text="🗑️"
-                                                        FontSize="14"
-                                                        BackgroundColor="Transparent"
-                                                        TextColor="#777"
-                                                        Command="{Binding BindingContext.EliminarPersonaDistraermeCommand, Source={x:Reference RootPage}}"
-                                                        CommandParameter="{Binding .}" />
-                                            </HorizontalStackLayout>
-                                        </DataTemplate>
-                                    </BindableLayout.ItemTemplate>
-                                </VerticalStackLayout>                                
+                                                        <Button Text="🗑️"
+                                                                FontSize="14"
+                                                                BackgroundColor="Transparent"
+                                                                TextColor="#777"
+                                                                Command="{Binding BindingContext.EliminarPersonaDistraermeCommand, Source={x:Reference RootPage}}"
+                                                                CommandParameter="{Binding .}" />
+                                                    </HorizontalStackLayout>
+                                                </DataTemplate>
+                                            </BindableLayout.ItemTemplate>
+                                        </VerticalStackLayout>                                
 
-                                <Entry Placeholder="Nombre"
-                                       Text="{Binding NuevoNombreContacto}"
-                                       FontFamily="BreeSerif-Regular.ttf" />
+                                        <Entry Grid.Row="1" Placeholder="Nombre"
+                                            Text="{Binding NuevoNombreContacto}"
+                                            FontFamily="BreeSerif-Regular.ttf" />
 
-                                <Entry Placeholder="Teléfono"
-                                       Text="{Binding NuevoFonoContacto}"
-                                       Keyboard="Telephone"
-                                       FontFamily="BreeSerif-Regular.ttf" />
+                                        <Entry Grid.Row="2" Placeholder="Teléfono"
+                                            Text="{Binding NuevoFonoContacto}"
+                                            Keyboard="Telephone"
+                                            FontFamily="BreeSerif-Regular.ttf" />
 
-                                <Button Text="Agregar"
-                                        Command="{Binding AgregarPersonaDistraermeCommand}"
-                                        BackgroundColor="#16A34A"
-                                        TextColor="White"
-                                        CornerRadius="8" />
-
+                                        <Button Grid.Row="3" Text="Agregar"
+                                                Command="{Binding AgregarPersonaDistraermeCommand}"
+                                                BackgroundColor="#16A34A"
+                                                TextColor="White"
+                                                CornerRadius="8" />
+                                    </Grid>
+                                </Frame>
                             </VerticalStackLayout>
                         </toolkit:Expander.Content>
                     </toolkit:Expander>
@@ -237,44 +257,45 @@
 
                         <toolkit:Expander.Content>
                             <VerticalStackLayout Spacing="10">
-                                <VerticalStackLayout BindableLayout.ItemsSource="{Binding PersonasPedirAyuda}">
-                                    <BindableLayout.ItemTemplate>
-                                        <DataTemplate>
-                                            <HorizontalStackLayout Spacing="10">
+                                <Frame >
+                                    <Grid RowDefinitions="*,*,*,*">
+                                        <VerticalStackLayout Grid.Row="0" BindableLayout.ItemsSource="{Binding PersonasPedirAyuda}">
+                                            <BindableLayout.ItemTemplate>
+                                                <DataTemplate>
+                                                    <HorizontalStackLayout Spacing="10">
 
-                                                <VerticalStackLayout Spacing="2" HorizontalOptions="StartAndExpand">
-                                                    <Label Text="{Binding Nombre}" FontAttributes="Bold" />
-                                                    <Label Text="{Binding Fono}" FontSize="12" TextColor="#555" />
-                                                </VerticalStackLayout>
+                                                        <VerticalStackLayout Spacing="2" HorizontalOptions="StartAndExpand">
+                                                            <Label Text="{Binding Nombre}" FontAttributes="Bold" />
+                                                            <Label Text="{Binding Fono}" FontSize="12" TextColor="#555" />
+                                                        </VerticalStackLayout>
 
-                                                <Button Text="🗑️"
-                                                        FontSize="14"
-                                                        BackgroundColor="Transparent"
-                                                        TextColor="#777"
-                                                        Command="{Binding BindingContext.EliminarPersonaPedirAyudaCommand, Source={x:Reference RootPage}}"
-                                                        CommandParameter="{Binding .}" />
-                                            </HorizontalStackLayout>
-                                        </DataTemplate>
-                                    </BindableLayout.ItemTemplate>
-                                </VerticalStackLayout>
+                                                        <Button Text="🗑️"
+                                                                FontSize="14"
+                                                                BackgroundColor="Transparent"
+                                                                TextColor="#777"
+                                                                Command="{Binding BindingContext.EliminarPersonaPedirAyudaCommand, Source={x:Reference RootPage}}"
+                                                                CommandParameter="{Binding .}" />
+                                                    </HorizontalStackLayout>
+                                                </DataTemplate>
+                                            </BindableLayout.ItemTemplate>
+                                        </VerticalStackLayout>
 
-                                <Entry Placeholder="Nombre"
-                                       Text="{Binding NuevoNombreContacto}"
-                                       FontFamily="BreeSerif-Regular.ttf" />
+                                        <Entry Grid.Row="1" Placeholder="Nombre"
+                                            Text="{Binding NuevoNombreContacto}"
+                                            FontFamily="BreeSerif-Regular.ttf" />
 
-                                <Entry Placeholder="Teléfono"
-                                       Text="{Binding NuevoFonoContacto}"
-                                       Keyboard="Telephone"
-                                       FontFamily="BreeSerif-Regular.ttf" />
+                                        <Entry Grid.Row="2" Placeholder="Teléfono"
+                                            Text="{Binding NuevoFonoContacto}"
+                                            Keyboard="Telephone"
+                                            FontFamily="BreeSerif-Regular.ttf" />
 
-                                <Button Text="Agregar"
-                                        Command="{Binding AgregarPersonaPedirAyudaCommand}"
-                                        BackgroundColor="#16A34A"
-                                        TextColor="White"
-                                        CornerRadius="8" />
-
-
-
+                                        <Button Grid.Row="3" Text="Agregar"
+                                                Command="{Binding AgregarPersonaPedirAyudaCommand}"
+                                                BackgroundColor="#16A34A"
+                                                TextColor="White"
+                                                CornerRadius="8" />
+                                    </Grid>
+                                </Frame>
                             </VerticalStackLayout>
                         </toolkit:Expander.Content>
                     </toolkit:Expander>
@@ -291,42 +312,45 @@
 
                         <toolkit:Expander.Content>
                             <VerticalStackLayout Spacing="10">
-                                <VerticalStackLayout BindableLayout.ItemsSource="{Binding Profesionales}">
-                                    <BindableLayout.ItemTemplate>
-                                        <DataTemplate>
-                                            <HorizontalStackLayout Spacing="10">
+                                <Frame >
+                                    <Grid RowDefinitions="*,*,*,*">
+                                        <VerticalStackLayout Grid.Row="0" BindableLayout.ItemsSource="{Binding Profesionales}">
+                                            <BindableLayout.ItemTemplate>
+                                                <DataTemplate>
+                                                    <HorizontalStackLayout Spacing="10">
 
-                                                <VerticalStackLayout Spacing="2" HorizontalOptions="StartAndExpand">
-                                                    <Label Text="{Binding Nombre}" FontAttributes="Bold" />
-                                                    <Label Text="{Binding Fono}" FontSize="12" TextColor="#555" />
-                                                </VerticalStackLayout>
+                                                        <VerticalStackLayout Spacing="2" HorizontalOptions="StartAndExpand">
+                                                            <Label Text="{Binding Nombre}" FontAttributes="Bold" />
+                                                            <Label Text="{Binding Fono}" FontSize="12" TextColor="#555" />
+                                                        </VerticalStackLayout>
 
-                                                <Button Text="🗑️"
-                                                        FontSize="14"
-                                                        BackgroundColor="Transparent"
-                                                        TextColor="#777"
-                                                        Command="{Binding BindingContext.EliminarProfesionalCommand, Source={x:Reference RootPage}}"
-                                                        CommandParameter="{Binding .}" />
-                                            </HorizontalStackLayout>
-                                        </DataTemplate>
-                                    </BindableLayout.ItemTemplate>
-                                </VerticalStackLayout>
+                                                        <Button Text="🗑️"
+                                                                FontSize="14"
+                                                                BackgroundColor="Transparent"
+                                                                TextColor="#777"
+                                                                Command="{Binding BindingContext.EliminarProfesionalCommand, Source={x:Reference RootPage}}"
+                                                                CommandParameter="{Binding .}" />
+                                                    </HorizontalStackLayout>
+                                                </DataTemplate>
+                                            </BindableLayout.ItemTemplate>
+                                        </VerticalStackLayout>
 
-                                <Entry Placeholder="Nombre"
-                                       Text="{Binding NuevoNombreContacto}"
-                                       FontFamily="BreeSerif-Regular.ttf" />
+                                        <Entry Grid.Row="1" Placeholder="Nombre"
+                                            Text="{Binding NuevoNombreContacto}"
+                                            FontFamily="BreeSerif-Regular.ttf" />
 
-                                <Entry Placeholder="Teléfono"
-                                       Text="{Binding NuevoFonoContacto}"
-                                       Keyboard="Telephone"
-                                       FontFamily="BreeSerif-Regular.ttf" />
+                                        <Entry Grid.Row="2" Placeholder="Teléfono"
+                                            Text="{Binding NuevoFonoContacto}"
+                                            Keyboard="Telephone"
+                                            FontFamily="BreeSerif-Regular.ttf" />
 
-                                <Button Text="Agregar"
-                                        Command="{Binding AgregarProfesionalCommand}"
-                                        BackgroundColor="#16A34A"
-                                        TextColor="White"
-                                        CornerRadius="8" />
-
+                                        <Button Grid.Row="3" Text="Agregar"
+                                                Command="{Binding AgregarProfesionalCommand}"
+                                                BackgroundColor="#16A34A"
+                                                TextColor="White"
+                                                CornerRadius="8" />
+                                    </Grid>
+                                </Frame>
                             </VerticalStackLayout>
                         </toolkit:Expander.Content>
                     </toolkit:Expander>
