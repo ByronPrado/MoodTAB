@@ -5,7 +5,7 @@
     x:Class="MoodTAB.Vistas.PlanSeguroPage"
     Title="Plan Seguro">
 
-    <ScrollView>
+    <ScrollView BackgroundColor="#FFF3F3FF">
         <VerticalStackLayout Padding="20" Spacing="18">
 
             <Label
@@ -14,11 +14,17 @@
                 FontSize="24"
                 FontAttributes="Bold"
                 HorizontalOptions="Center" />
-            <Entry Text="{Binding LogTxt}" ></Entry>
-            <!-- Señales de alerta -->
+            <!-- DEBUG-->
+            <Entry Text="{Binding LogTxt}" IsVisible="False"></Entry>
+            <!-- DEBUG-->
+
             <Frame BackgroundColor="White" BorderColor="#DDD" CornerRadius="12" Padding="12" HasShadow="False">
                 <VerticalStackLayout Spacing="8">
-                    <Label Text="🚨 Señales de alerta" FontAttributes="Bold" />
+                    <!-- Señales de alerta -->
+                    <Label Text="🚨 Señales de alerta" 
+                        FontAttributes="Bold"
+                        FontFamily="BreeSerif-Regular.ttf"
+                        FontSize="20" />
                     <VerticalStackLayout BindableLayout.ItemsSource="{Binding SenalesAlerta}">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate>
@@ -26,154 +32,140 @@
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="• " />
-                                            <Span Text="{Binding .}" />
+                                            <Span Text="{Binding .}"  FontFamily="BreeSerif-Regular.ttf" />
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>
                     </VerticalStackLayout>
-                </VerticalStackLayout>
-            </Frame>
 
-            <!-- Estrategias internas -->
-            <Frame BackgroundColor="White" BorderColor="#DDD" CornerRadius="12" Padding="12" HasShadow="False">
-                <VerticalStackLayout Spacing="8">
-                    <Label Text="🧠 Estrategias internas" FontAttributes="Bold" />
+                    <!-- Estrategias internas -->
+                    <Label Text="🧠 Estrategias internas" 
+                        FontAttributes="Bold"
+                        FontFamily="BreeSerif-Regular.ttf"
+                        FontSize="20"  />
                     <VerticalStackLayout BindableLayout.ItemsSource="{Binding EstrategiasInternas}">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate>
                                 <Label Text="•  ">
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span Text="• " />
-                                            <Span Text="{Binding .}" />
+                                            <Span Text="• " FontFamily="BreeSerif-Regular.ttf" />
+                                            <Span Text="{Binding .}" FontFamily="BreeSerif-Regular.ttf" />
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>
                     </VerticalStackLayout>
-                </VerticalStackLayout>
-            </Frame>
-
-            <!-- Ambiente seguro -->
-            <Frame BackgroundColor="White" BorderColor="#DDD" CornerRadius="12" Padding="12" HasShadow="False">
-                <VerticalStackLayout Spacing="8">
-                    <Label Text="🏠 Ambiente seguro" FontAttributes="Bold" />
+                    <!-- Ambiente seguro -->
+                    <Label Text="🏠 Ambiente seguro" 
+                        FontAttributes="Bold"
+                        FontFamily="BreeSerif-Regular.ttf"
+                        FontSize="20"  />
                     <VerticalStackLayout BindableLayout.ItemsSource="{Binding AmbienteSeguro}">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate>
-                                <Label Text="•  ">
+                                <Label Text="•  " >
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="• " />
-                                            <Span Text="{Binding .}" />
+                                            <Span Text="{Binding .}" FontFamily="BreeSerif-Regular.ttf" />
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>
                     </VerticalStackLayout>
-                </VerticalStackLayout>
-            </Frame>
 
-            <!-- Personas para distraerme -->
-            <Frame BackgroundColor="White" BorderColor="#DDD" CornerRadius="12" Padding="12" HasShadow="False">
-                <VerticalStackLayout Spacing="8">
-                    <Label Text="🎭 Personas para distraerme" FontAttributes="Bold" />
-
+                    <!--Todos estos tienen telefono -->
+                    <!-- Personas para distraerme -->
+                    <Label Text="🎭 Personas para distraerme" 
+                        FontAttributes="Bold"
+                        FontFamily="BreeSerif-Regular.ttf"
+                        FontSize="20" />
                     <VerticalStackLayout BindableLayout.ItemsSource="{Binding PersonasDistraerme}">
-                        <BindableLayout.ItemTemplate>
+
+                         <BindableLayout.ItemTemplate>
                             <DataTemplate>
                                 <HorizontalStackLayout Spacing="10" Padding="6">
-                                    <VerticalStackLayout HorizontalOptions="StartAndExpand" Spacing="2">
-                                        <Label Text="{Binding Nombre}" FontAttributes="Bold" />
-                                        <Label Text="{Binding Fono}" FontSize="12" TextColor="#333" />
-                                    </VerticalStackLayout>
+                                    <Label Text="{Binding Nombre}" 
+                                        FontFamily="BreeSerif-Regular.ttf"
+                                        FontAttributes="Bold" />
 
-                                    <Button Text="Llamar"
-                                            VerticalOptions="Center"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.LlamarCommand}"
-                                            CommandParameter="{Binding Fono}"
-                                            CornerRadius="8"
-                                            HeightRequest="36" />
+                                    <Label Text="{Binding Fono}"
+                                        FontSize="14"
+                                        TextColor="Blue"
+                                        TextDecorations="Underline">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.LlamarCommand}"
+                                                CommandParameter="{Binding Fono}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
                                 </HorizontalStackLayout>
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>
                     </VerticalStackLayout>
 
-                </VerticalStackLayout>
-            </Frame>
 
-            <!-- Personas a quienes pedir ayuda -->
-            <Frame BackgroundColor="White" BorderColor="#DDD" CornerRadius="12" Padding="12" HasShadow="False">
-                <VerticalStackLayout Spacing="8">
-                    <Label Text="🆘 Personas a quienes pedir ayuda" FontAttributes="Bold" />
+                    <!-- Personas a quienes pedir ayuda -->
+                    <Label Text="🆘 Personas a quienes pedir ayuda" 
+                        FontAttributes="Bold"
+                        FontFamily="BreeSerif-Regular.ttf"
+                        FontSize="20"  />
 
                     <VerticalStackLayout BindableLayout.ItemsSource="{Binding PersonasPedirAyuda}">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate>
                                 <HorizontalStackLayout Spacing="10" Padding="6">
-                                    <VerticalStackLayout HorizontalOptions="StartAndExpand" Spacing="2">
-                                        <Label Text="{Binding Nombre}" FontAttributes="Bold" />
-                                        <Label Text="{Binding Fono}" FontSize="12" TextColor="#333" />
-                                    </VerticalStackLayout>
+                                    <Label Text="{Binding Nombre}" 
+                                        FontFamily="BreeSerif-Regular.ttf"
+                                        FontAttributes="Bold" />
 
-                                    <Button Text="Llamar"
-                                            VerticalOptions="Center"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.LlamarCommand}"
-                                            CommandParameter="{Binding Fono}"
-                                            CornerRadius="8"
-                                            HeightRequest="36" />
+                                    <Label Text="{Binding Fono}"
+                                        FontSize="14"
+                                        TextColor="Blue"
+                                        TextDecorations="Underline">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.LlamarCommand}"
+                                                CommandParameter="{Binding Fono}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
                                 </HorizontalStackLayout>
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>
                     </VerticalStackLayout>
-
-                </VerticalStackLayout>
-            </Frame>
-
-            <!-- Profesionales -->
-            <Frame BackgroundColor="White" BorderColor="#DDD" CornerRadius="12" Padding="12" HasShadow="False">
-                <VerticalStackLayout Spacing="8">
-                    <Label Text="👩‍⚕️ Profesionales" FontAttributes="Bold" />
+                    <!-- Profesionales -->
+                    <Label Text="🏥Telefonos de emergencia" 
+                        FontAttributes="Bold"
+                        FontFamily="BreeSerif-Regular.ttf"
+                        FontSize="20" />
 
                     <VerticalStackLayout BindableLayout.ItemsSource="{Binding Profesionales}">
-                        <BindableLayout.ItemTemplate>
+                         <BindableLayout.ItemTemplate>
                             <DataTemplate>
                                 <HorizontalStackLayout Spacing="10" Padding="6">
-                                    <VerticalStackLayout HorizontalOptions="StartAndExpand" Spacing="2">
-                                        <Label Text="{Binding Nombre}" FontAttributes="Bold" />
-                                        <Label Text="{Binding Fono}" FontSize="12" TextColor="#333" />
-                                    </VerticalStackLayout>
+                                    <Label Text="{Binding Nombre}" 
+                                        FontFamily="BreeSerif-Regular.ttf"
+                                        FontAttributes="Bold" />
 
-                                    <Button Text="Llamar"
-                                            VerticalOptions="Center"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.LlamarCommand}"
-                                            CommandParameter="{Binding Fono}"
-                                            CornerRadius="8"
-                                            HeightRequest="36" />
+                                    <Label Text="{Binding Fono}"
+                                        FontSize="14"
+                                        TextColor="Blue"
+                                        TextDecorations="Underline">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.LlamarCommand}"
+                                                CommandParameter="{Binding Fono}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
                                 </HorizontalStackLayout>
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>
-                    </VerticalStackLayout>
-
-                </VerticalStackLayout>
-            </Frame>
-
-            <!-- Número de emergencia (visible si hay valor) -->
-            <Frame BackgroundColor="White" BorderColor="#DDD" CornerRadius="12" Padding="12" HasShadow="False">
-                <VerticalStackLayout Spacing="6">
-                    <Label Text="📞 Número de emergencia" FontAttributes="Bold" />
-                    <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
-                        <Label Text="{Binding NumeroEmergencia}" VerticalOptions="Center" />
-                        <Button Text="Llamar"
-                                Command="{Binding LlamarCommand}"
-                                CommandParameter="{Binding NumeroEmergencia}"
-                                CornerRadius="8"
-                                HeightRequest="36" />
-                    </HorizontalStackLayout>
+                    </VerticalStackLayout>                
                 </VerticalStackLayout>
             </Frame>
             <Button Text="📝 Editar Plan Seguro"
