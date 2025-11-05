@@ -5,9 +5,9 @@
              NavigationPage.HasNavigationBar="False"             
              >
     <ScrollView BackgroundColor="#6493e5">
-        <VerticalStackLayout VerticalOptions="Center" BackgroundColor="#6493e5" Padding="10" Spacing="60">
+        <VerticalStackLayout VerticalOptions="Center" BackgroundColor="#6493e5" Padding="40" Spacing="60">
             <Image Source="moodtablogo_white.png"/>
-            <Frame IsVisible="true">
+            <Frame IsVisible="false">
                 <Grid RowDefinitions="*,*">
                     <Label Grid.Row="0" Text="{Binding LogsMessage}"
                         TextColor="Blue"
@@ -18,22 +18,22 @@
                         TextColor="Red" />
                 </Grid>
             </Frame>
-            <Frame VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-                <Grid RowDefinitions="*,*,*,*,*,*">
-                    <Label Grid.Row="0" Text="Iniciar Sesión" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    <Entry  Grid.Row="1" Placeholder="Email" Text="{Binding Email}" />
-                    <Entry  Grid.Row="2" IsPassword="True" Placeholder="Contraseña" Text="{Binding Password}" />
-                    <HorizontalStackLayout  Grid.Row="3">
-                        <CheckBox IsChecked="{Binding EsFamiliar}" />
-                        <Label Text="Soy familiar/tutor" VerticalOptions="Center"/>
+            <Frame VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" WidthRequest="250">
+                <Grid RowDefinitions="*,*,*,*,*,*" RowSpacing="5">
+                    <Label Grid.Row="0" Text="Iniciar Sesión" FontFamily="BreeSerif-Regular.ttf" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Entry  Grid.Row="1" Placeholder="Email" Text="{Binding Email}"  MaximumWidthRequest="200" IsSpellCheckEnabled="false"/>
+                    <Entry  Grid.Row="2" IsPassword="True" Placeholder="Contraseña" MaximumWidthRequest="200" IsSpellCheckEnabled="false" Text="{Binding Password}" />
+                    <HorizontalStackLayout  Grid.Row="3" HorizontalOptions="Start">
+                        <CheckBox IsChecked="{Binding EsFamiliar}" Color="#FF567ED3"/>
+                        <Label Text="Soy familiar/tutor" VerticalOptions="Center" HorizontalOptions="Start" FontFamily="BreeSerif-Regular.ttf"/>
                     </HorizontalStackLayout>
-                    <Button  Grid.Row="4" 
+                    <Label Grid.Row="4" Text="{Binding ErrorMessage}"
+                        TextColor="Red" />
+                    <Button  Grid.Row="5" 
                         Text="Ingresar"
                         Command="{Binding LoginCommand}"
                         BackgroundColor="#eeeeee"
                         TextColor="Black" />
-                    <Label Grid.Row="5" Text="{Binding ErrorMessage}"
-                        TextColor="Red" />
                 </Grid>
             </Frame>
         </VerticalStackLayout>

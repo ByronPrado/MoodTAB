@@ -4,9 +4,20 @@
              x:Class="MoodTAB.Vistas.TestPage"
              Title="Ajustes"
              BackgroundColor="#F8F9FA">
+       <NavigationPage.TitleView>
+        <Grid>
+            <Label Text="Ajustes"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   FontSize="20"
+                   Padding="-66,0,0,0"
+                   FontFamily="BreeSerif-Regular.ttf"
+                   TextColor="#FF191919"/>
+        </Grid>
+    </NavigationPage.TitleView>
 
-    <ScrollView>
-        <VerticalStackLayout Spacing="20" Padding="16,20">
+    <ScrollView VerticalScrollBarVisibility="Always"> 
+        <VerticalStackLayout Spacing="5" Padding="16,20">
             
             <Frame BackgroundColor="White"
                    CornerRadius="16"
@@ -16,9 +27,10 @@
                 <VerticalStackLayout Spacing="0">
                     
                     <Label Text="SmarthWatch Data" 
+                            FontFamily="BreeSerif-Regular.ttf"
                            FontSize="14" 
                            FontAttributes="Bold"
-                           TextColor="#6B7280"
+                           TextColor="#1A1A1A"
                            Margin="16,16,16,12"
                            TextTransform="Uppercase"/>
                     
@@ -41,9 +53,9 @@
                                            Spacing="2" 
                                            Margin="12,0,0,0"
                                            VerticalOptions="Center">
-                            <Label Text="Ingreso de datos manual" 
+                            <Label Text="Ingreso de datos manual"
+                                   FontFamily="BreeSerif-Regular.ttf"
                                    FontSize="16"
-                                   FontAttributes="Bold"
                                    TextColor="#1A1A1A"/>
 
                         </VerticalStackLayout>
@@ -65,14 +77,16 @@
                 <VerticalStackLayout Spacing="0">
                     
                     <VerticalStackLayout Spacing="4" Margin="16,16,16,12">
-                        <Label Text="Toma de datos" 
+                        <Label Text="Toma de datos"
+                               FontFamily="BreeSerif-Regular.ttf"
                                FontSize="14" 
                                FontAttributes="Bold"
-                               TextColor="#6B7280"
+                               TextColor="#1A1A1A"
                                TextTransform="Uppercase"/>
                         <Label Text="Datos que se ingresaran en los diarios emocionales" 
                                FontSize="13"
-                               TextColor="#9CA3AF"
+                               FontFamily="BreeSerif-Regular.ttf"
+                               TextColor="#6B7280"
                                LineBreakMode="WordWrap"/>
                     </VerticalStackLayout>
 
@@ -96,7 +110,8 @@
                         </Frame>
                         
                         <Label Grid.Column="1" 
-                               Text="Frecuencia cardíaca" 
+                               Text="Frecuencia cardíaca"
+                               FontFamily="BreeSerif-Regular.ttf"
                                FontSize="16"
                                TextColor="#1A1A1A"
                                VerticalOptions="Center"
@@ -131,12 +146,11 @@
                                            Spacing="2" 
                                            Margin="12,0,0,0"
                                            VerticalOptions="Center">
-                            <Label Text="Variabilidad de la Frecuencia cardíaca" 
+                            <Label Text="Variabilidad de la Frecuencia cardíaca"
+                                   FontFamily="BreeSerif-Regular.ttf"
                                    FontSize="16"
                                    TextColor="#1A1A1A"/>
-                            <Label Text="HRV en millisegundos" 
-                                   FontSize="12"
-                                   TextColor="#6B7280"/>
+
                         </VerticalStackLayout>
                         
                         <Switch Grid.Column="2" 
@@ -165,7 +179,8 @@
                         </Frame>
                         
                         <Label Grid.Column="1" 
-                               Text="Pasos" 
+                               Text="Pasos"
+                               FontFamily="BreeSerif-Regular.ttf"
                                FontSize="16"
                                TextColor="#1A1A1A"
                                VerticalOptions="Center"
@@ -191,10 +206,11 @@
                    Margin="0,0,0,12">
                 <VerticalStackLayout Spacing="0">
                     
-                    <Label Text="Seguimiento del sueño" 
+                    <Label Text="Seguimiento del sueño"
+                           FontFamily="BreeSerif-Regular.ttf"
                            FontSize="14" 
                            FontAttributes="Bold"
-                           TextColor="#6B7280"
+                           TextColor="#1A1A1A"
                            Margin="16,16,16,12"
                            TextTransform="Uppercase"/>
                     
@@ -217,12 +233,13 @@
                                            Spacing="2" 
                                            Margin="12,0,0,0"
                                            VerticalOptions="Center">
-                            <Label Text="Registro de sueño" 
+                            <Label Text="Registro de sueño"
+                                   FontFamily="BreeSerif-Regular.ttf"
                                    FontSize="16"
-                                   FontAttributes="Bold"
                                    TextColor="#1A1A1A"/>
                             <Label Text="Ingresar horas totales" 
                                    FontSize="13"
+                                   FontFamily="BreeSerif-Regular.ttf"
                                    TextColor="#6B7280"/>
                         </VerticalStackLayout>
                         
@@ -243,9 +260,10 @@
                 <VerticalStackLayout Spacing="0">
                     
                     <Label Text="Personalización" 
-                           FontSize="14" 
+                           FontSize="14"
+                           FontFamily="BreeSerif-Regular.ttf"
                            FontAttributes="Bold"
-                           TextColor="#6B7280"
+                           TextColor="#1A1A1A"
                            Margin="16,16,16,12"
                            TextTransform="Uppercase"/>
                     
@@ -270,7 +288,7 @@
                                            VerticalOptions="Center">
                             <Label Text="Mostrar Consejos" 
                                    FontSize="16"
-                                   FontAttributes="Bold"
+                                   FontFamily="BreeSerif-Regular.ttf"
                                    TextColor="#1A1A1A"/>
                         </VerticalStackLayout>
                         

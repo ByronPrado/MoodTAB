@@ -17,61 +17,72 @@
 
     <Grid Grid.Row="1" Padding="20,20,20,20">
         <ScrollView
-            VerticalScrollBarVisibility="Never"
+            VerticalScrollBarVisibility="Always"
             HorizontalScrollBarVisibility="Never">
-            <StackLayout Spacing="30">
-                <StackLayout HorizontalOptions="Center" Spacing="15">
-                    <Grid>
-                        <Ellipse Fill="LightGray" 
-                                 WidthRequest="120" 
-                                 HeightRequest="120"/>
-                        <Image Source="dotnet_bot.jpg"
-                               WidthRequest="120"
-                               HeightRequest="120"
-                               Aspect="AspectFill">
+            <StackLayout Spacing="15">
+                <StackLayout HorizontalOptions="Center" Spacing="0">
+                    <Grid RowDefinitions="*,*">
+                        <Ellipse BackgroundColor="#6B8DD6"
+                                 WidthRequest="125" 
+                                 HeightRequest="125"
+                                 Grid.Row="0"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center"/>
+                        <Image Source="{Binding ImagenPerfil}"
+                                WidthRequest="120"
+                                HeightRequest="120"
+                                Grid.Row="0"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                Aspect="AspectFill">
                             <Image.Clip>
                                 <EllipseGeometry Center="60,60" RadiusX="60" RadiusY="60"/>
                             </Image.Clip>
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding CambiarFotoCommand}" />
+                            </Image.GestureRecognizers>
                         </Image>
-                        
-                        <Frame BackgroundColor="#007AFF"
-                               WidthRequest="36"
-                               HeightRequest="36"
-                               CornerRadius="18"
-                               HasShadow="True"
-                               HorizontalOptions="End"
-                               VerticalOptions="End"
-                               Margin="0,0,5,5">
-                            <Label Text="📷"
-                                   FontSize="16"
-                                   TextColor="White"
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"/>
-                        </Frame>
                     </Grid>
-                    
-                    <Label Text="{Binding Nombre}"
-                           FontSize="24"
-                           FontAttributes="Bold"
-                           TextColor="#1F2937"
-                           FontFamily="BreeSerif-Regular.ttf"
-                           HorizontalOptions="Center"/>
 
                 </StackLayout>
                 
-                <Frame Padding="10" BorderColor="#7B000000">
+                <Frame BackgroundColor="White"
+                   CornerRadius="16"
+                   HasShadow="True"
+                   Padding="10"
+                   Margin="0,0,0,12">
                 <!-- Información -->
-                <StackLayout Spacing="20">
-                    <Label Text="Información Personal"
-                           FontSize="18"
-                           FontAttributes="Bold"
-                           TextColor="#1F2937"
-                           FontFamily="BreeSerif-Regular.ttf"
-                           Margin="0,0,0,10"/>
+                <StackLayout Spacing="15">
+                    <Grid ColumnDefinitions="*,35">
+                        <Label Text="Información Personal"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            TextColor="#1F2937"
+                            VerticalOptions="Center"
+                            FontFamily="BreeSerif-Regular.ttf"
+                            Grid.Column="0"
+                            Margin="0,0,0,10"/>
+
+                        <Button Text="✏️"
+                                Command="{Binding EditarCommand}" 
+                                Grid.Column="1" 
+                                HeightRequest="35"
+                                WidthRequest="35"
+                                Padding="0"
+                                VerticalOptions="Center"
+                                IsEnabled="{Binding IsNotEditing}"
+                                FontSize="14"
+                                TextColor="#FFE1E1E1"
+                                BackgroundColor="#FF567ED3"
+                                FontFamily="BreeSerif-Regular.ttf"/>
+                    </Grid>
+
+                    
                     
                     <!-- Nombre -->
                     <Grid HeightRequest="40"
-                          ColumnDefinitions="40,100,*">
+                            ColumnSpacing="10"
+                            ColumnDefinitions="25,70,*">
                         
                         <Label Grid.Column="0"
                                Text="👤"
@@ -80,10 +91,11 @@
                                VerticalOptions="Center"/>
                         
                         <Label Grid.Column="1"
-                               Text="Nombre"
+                               Text="Nombre: "
                                FontSize="16"
                                FontFamily="BreeSerif-Regular.ttf"
                                TextColor="#6B7280"
+                               HorizontalOptions="End"
                                VerticalOptions="Center"/>
                         
                         <Label Grid.Column="2"
@@ -92,7 +104,7 @@
                                TextColor="#1F2937"
                                FontFamily="BreeSerif-Regular.ttf"
                                VerticalOptions="Center"
-                               HorizontalOptions="End">
+                               HorizontalOptions="Start">
                             <Label.Triggers>
                                 <DataTrigger TargetType="Label" Binding="{Binding IsEditing}" Value="True">
                                     <Setter Property="IsVisible" Value="False"/>
@@ -102,9 +114,63 @@
                         <Entry Grid.Column="2"
                                Text="{Binding Nombre}"
                                FontSize="16"
+                               WidthRequest="130"
+                               MaximumWidthRequest="130"
+                               HorizontalTextAlignment="Start"
                                TextColor="#1F2937"
                                VerticalOptions="Center"
-                               HorizontalOptions="End">
+                               FontFamily="BreeSerif-Regular.ttf"
+                               HorizontalOptions="Start">
+                            <Entry.Triggers>
+                                <DataTrigger TargetType="Entry" Binding="{Binding IsEditing}" Value="False">
+                                    <Setter Property="IsVisible" Value="False"/>
+                                </DataTrigger>
+                            </Entry.Triggers>
+                        </Entry>
+                    </Grid>
+
+                    <!-- Telefono -->
+                    <Grid HeightRequest="40"
+                          ColumnSpacing="10"
+                          ColumnDefinitions="25,70,*">
+                        
+                        <Label Grid.Column="0"
+                               Text="📞"
+                               FontSize="20"
+                               TextColor="#6B7280"
+                               VerticalOptions="Center"/>
+                        
+                        <Label Grid.Column="1"
+                               Text="Teléfono: "
+                               FontSize="16"
+                               FontFamily="BreeSerif-Regular.ttf"
+                               TextColor="#6B7280"
+                               HorizontalOptions="End"
+                               VerticalOptions="Center"/>
+                        
+                        <Label Grid.Column="2"
+                               Text="{Binding Telefono}"
+                               FontSize="16"
+                               FontFamily="BreeSerif-Regular.ttf"
+                               TextColor="#1F2937"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Start">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding IsEditing}" Value="True">
+                                    <Setter Property="IsVisible" Value="False"/>
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <Entry Grid.Column="2"
+                               Text="{Binding Telefono}"
+                               FontSize="16"
+                               TextColor="#1F2937"
+                               VerticalOptions="Center"
+                               WidthRequest="130"
+                               MaximumWidthRequest="130"
+                               HorizontalTextAlignment="Start"
+                               FontFamily="BreeSerif-Regular.ttf"
+                               HorizontalOptions="Start">
                             <Entry.Triggers>
                                 <DataTrigger TargetType="Entry" Binding="{Binding IsEditing}" Value="False">
                                     <Setter Property="IsVisible" Value="False"/>
@@ -115,7 +181,8 @@
                     
                     <!-- Email -->
                     <Grid HeightRequest="40"
-                          ColumnDefinitions="40,100,*">
+                          ColumnSpacing="10"
+                          ColumnDefinitions="25,70,*">
                         
                         <Label Grid.Column="0"
                                Text="📧"
@@ -124,10 +191,11 @@
                                VerticalOptions="Center"/>
                         
                         <Label Grid.Column="1"
-                               Text="Email"
+                               Text="Email: "
                                FontSize="16"
                                FontFamily="BreeSerif-Regular.ttf"
                                TextColor="#6B7280"
+                               HorizontalOptions="End"
                                VerticalOptions="Center"/>
                         
                         <Label Grid.Column="2"
@@ -136,7 +204,7 @@
                                TextColor="#1F2937"
                                FontFamily="BreeSerif-Regular.ttf"
                                VerticalOptions="Center"
-                               HorizontalOptions="End">
+                               HorizontalOptions="Start">
                             <Label.Triggers>
                                 <DataTrigger TargetType="Label" Binding="{Binding IsEditing}" Value="True">
                                     <Setter Property="IsVisible" Value="False"/>
@@ -148,7 +216,11 @@
                                FontSize="16"
                                TextColor="#1F2937"
                                VerticalOptions="Center"
-                               HorizontalOptions="End">
+                               WidthRequest="130"
+                               MaximumWidthRequest="130"
+                               HorizontalTextAlignment="Start"
+                               FontFamily="BreeSerif-Regular.ttf"
+                               HorizontalOptions="Start">
                             <Entry.Triggers>
                                 <DataTrigger TargetType="Entry" Binding="{Binding IsEditing}" Value="False">
                                     <Setter Property="IsVisible" Value="False"/>
@@ -157,58 +229,17 @@
                         </Entry>
                     </Grid>
                     
-                    <!-- Telefono -->
-                    <Grid HeightRequest="40"
-                          ColumnDefinitions="40,100,*">
-                        
-                        <Label Grid.Column="0"
-                               Text="📞"
-                               FontSize="20"
-                               TextColor="#6B7280"
-                               VerticalOptions="Center"/>
-                        
-                        <Label Grid.Column="1"
-                               Text="Teléfono"
-                               FontSize="16"
-                               FontFamily="BreeSerif-Regular.ttf"
-                               TextColor="#6B7280"
-                               VerticalOptions="Center"/>
-                        
-                        <Label Grid.Column="2"
-                               Text="{Binding Telefono}"
-                               FontSize="16"
-                               FontFamily="BreeSerif-Regular.ttf"
-                               TextColor="#1F2937"
-                               VerticalOptions="Center"
-                               HorizontalOptions="End">
-                            <Label.Triggers>
-                                <DataTrigger TargetType="Label" Binding="{Binding IsEditing}" Value="True">
-                                    <Setter Property="IsVisible" Value="False"/>
-                                </DataTrigger>
-                            </Label.Triggers>
-                        </Label>
-                        <Entry Grid.Column="2"
-                               Text="{Binding Telefono}"
-                               FontSize="16"
-                               TextColor="#1F2937"
-                               VerticalOptions="Center"
-                               HorizontalOptions="End">
-                            <Entry.Triggers>
-                                <DataTrigger TargetType="Entry" Binding="{Binding IsEditing}" Value="False">
-                                    <Setter Property="IsVisible" Value="False"/>
-                                </DataTrigger>
-                            </Entry.Triggers>
-                        </Entry>
-                    </Grid>
+                    
                     <Grid ColumnDefinitions="auto,auto" HorizontalOptions="End" ColumnSpacing="10">
-                    <Button Text="{Binding BotonEditar}"
-                            Command="{Binding EditarCommand}" 
+                    <Button Text="Cancelar"
+                            Command="{Binding CancelarCommand}" 
                             Grid.Column="1" 
                             WidthRequest="90" 
                             FontSize="14"
                             TextColor="#FFE1E1E1"
-                            BackgroundColor="#FF5E92E1"
+                            BackgroundColor="#FF567ED3"
                             FontFamily="BreeSerif-Regular.ttf"
+                            IsVisible="{Binding IsEditing}"
                             HeightRequest="50"/>
 
                     <Button Text="Guardar Cambios"
@@ -216,25 +247,24 @@
                             Grid.Column="0" 
                             FontSize="14"
                             TextColor="#FFE1E1E1"
-                            BackgroundColor="#FF5E92E1"
+                            BackgroundColor="#FF567ED3"
                             FontFamily="BreeSerif-Regular.ttf"
                             IsVisible="{Binding IsEditing}"/>
                     </Grid>
                 </StackLayout>
-
                 </Frame>
-                <StackLayout Spacing="15" Margin="0,30,0,0">
+                <StackLayout Spacing="10" Margin="0,5,0,0">
                     <Button Text="🗑️ Borrar Datos"
                             FontSize="16"
                             TextColor="#FFE1E1E1"
-                            BackgroundColor="#FFD33737"
+                            BackgroundColor="#FF4C6CB0"
                             FontFamily="BreeSerif-Regular.ttf"
                             HeightRequest="50"
                             Clicked="onBorrarDatosClicked"/>
                     <Button Text="🚪 Cerrar Sesión"
                             FontSize="16"
                             TextColor="#FFE1E1E1"
-                            BackgroundColor="#6B7280"
+                            BackgroundColor="#FF4C6CB0"
                             FontFamily="BreeSerif-Regular.ttf"
                             HeightRequest="50"
                             Clicked="OnLogoutClicked"/>

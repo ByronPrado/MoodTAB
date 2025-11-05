@@ -8,17 +8,18 @@
     <Grid>
         
         <!-- Contenido principal -->
-        <ScrollView BackgroundColor="#FFF3F3FF">
+        <ScrollView BackgroundColor="#FFF3F3FF" VerticalScrollBarVisibility="Always">
             <VerticalStackLayout Padding="20,20,20,90" Spacing="15">
 
                 <!-- ... existing code ... -->
 
                 <!-- Frame con título de la API -->
                 <Image Source="moodtablogo_color.png"/>
-                <Frame CornerRadius="12"
-                       Padding="15"
-                       BackgroundColor="#FFFCFCFC"
-                       BorderColor="#0C000000">
+                <Frame BackgroundColor="White"
+                        CornerRadius="16"
+                        HasShadow="True"
+                        Padding="10"
+                        Margin="0,0,0,12">
                     <Grid
                         ColumnSpacing="0"
                         RowSpacing="10"
@@ -34,39 +35,45 @@
                                />
                         <Label x:Name="LabelTituloConsejo"
                                 Text="{Binding TextoTituloConsejo}"
-                               FontSize="14"
+                               FontSize="16"
                                FontFamily="BreeSerif-Regular.ttf"
-                               TextColor="#FF9B9B9B"
+                               TextColor="#FF4B4B4B"
                                Grid.Row="1"
                                IsVisible ="{Binding MostrarConsejo}"/>
                         <Label
                             x:Name="LabelContenidoConsejo"
                             Text="{Binding TextoContenidoConsejo}"
                             FontFamily="BreeSerif-Regular.ttf"
-                            TextColor="#FF9B9B9B"
+                            TextColor="#FF4B4B4B"
+                            FontSize="16"
                             Grid.Row="2"
                             IsVisible ="{Binding MostrarConsejo}"/>
                         <HorizontalStackLayout
-                                HeightRequest="40"
+                                HeightRequest="45"
                                 Padding="5"
                                 Spacing ="10"
-                                HorizontalOptions="End"
+                                HorizontalOptions="Start"
                                 Grid.Row="3"
                                 IsVisible="{Binding MostrarConsejo}"
                                 >
                                 <Label Text="Te resultó util el consejo?"
                                     FontFamily="BreeSerif-Regular.ttf"
-                                    FontSize="8"
-                                    TextColor="#FF9B9B9B"
+                                    FontSize="12"
+                                    VerticalOptions="Center"
+                                    TextColor="#FF4B4B4B"
                                     HorizontalOptions="Start"/>
 
-                                <Button Text="Es util "
-                                    FontSize ="8"
+                                <Button Text="Si"
+                                    FontSize ="12"
+                                    Padding="0"
+                                    BackgroundColor="#FF567ED3"
                                     FontFamily="BreeSerif-Regular.ttf"
                                     Clicked="OnOpinionComentario"
                                     />
-                                <Button Text="No relevante"
-                                    FontSize ="8"
+                                <Button Text="No"
+                                    FontSize ="12"
+                                    Padding="0"
+                                    BackgroundColor="#FF567ED3"
                                     FontFamily="BreeSerif-Regular.ttf"
                                     Clicked="OnOpinionComentario"
                                     />
@@ -76,10 +83,11 @@
 
                 <!-- Sección Actividades -->
                 <Label Text="Actividades de hoy"
-                       FontSize="20"
-                       FontFamily="BreeSerif-Regular.ttf"
-                       TextColor="#FF141414"
-                       Margin="0,10,0,0"/>
+                        Padding="10,0,0,0"
+                        FontSize="20"
+                        FontFamily="BreeSerif-Regular.ttf"
+                        TextColor="#FF141414"
+                        Margin="0,10,0,0"/>
 
                 <VerticalStackLayout Spacing="0">
                     <Frame  BackgroundColor="#6B8DD6"
@@ -145,7 +153,7 @@
                         </Grid>
                     </Frame>
 
-                    <Frame  BackgroundColor="#FFD6A46B"
+                    <Frame  BackgroundColor="#FF6BB4D6"
                             BorderColor="Transparent"
                             CornerRadius="15"
                             Padding="10"
@@ -160,7 +168,7 @@
                         <Grid ColumnDefinitions="40,*"
                                 RowDefinitions="40">
                             <Frame Grid.Column="0"
-                                    BackgroundColor="#FFDEBB89"
+                                    BackgroundColor="#FF90C3E0"
                                     BorderColor="Transparent">
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer
@@ -178,32 +186,41 @@
                 </VerticalStackLayout>
                 <Label Text="Plan de Seguridad"
                        FontSize="20"
+                       Padding="10,0,0,0"
                        FontFamily="BreeSerif-Regular.ttf"
                        TextColor="#FF141414"
                        Margin="0,10,0,0"/>
-                <Label Text="Acceder a plan de seguridad personal."
-                       FontSize="16"
-                       FontFamily="BreeSerif-Regular.ttf"
-                       TextColor="#FF5C5C5C"
-                       Margin="0,0,0,0"/>
 
-                <VerticalStackLayout Spacing="0">
-                    <Frame  BackgroundColor="#FF567ED3"
-                            BorderColor="Transparent"
-                            CornerRadius="15"
-                            Padding="10"
-                            Margin="5"
-                            WidthRequest="120"
-                            HasShadow="False"
-                            IsClippedToBounds="False">
-                        <Frame.GestureRecognizers>
-                            <TapGestureRecognizer
-                                Command="{Binding MovetoPageCommand}"
-                                CommandParameter="PlanSeguroPage" />
-                        </Frame.GestureRecognizers>
-                        <Label Text="Plan Seguro" FontFamily="BreeSerif-Regular.ttf" FontSize="16" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center"/>
-                    </Frame>
-                </VerticalStackLayout>
+                <Frame  BackgroundColor="#6B8DD6"
+                        BorderColor="Transparent"
+                        CornerRadius="15"
+                        Padding="10"
+                        Margin="5"
+                        HasShadow="False"
+                        IsClippedToBounds="False">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding MovetoPageCommand}"
+                            CommandParameter="PlanSeguroPage" />
+                    </Frame.GestureRecognizers>
+                    <Grid ColumnDefinitions="40,*"
+                            RowDefinitions="40">
+                        <Frame Grid.Column="0"
+                                BackgroundColor="#89A4DE"
+                                BorderColor="Transparent">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding MovetoPageCommand}"
+                                    CommandParameter="PlanSeguroPage" />
+                            </Frame.GestureRecognizers>
+                                <Image Source="neodiarywhite.png" WidthRequest="20" HeightRequest="20"/>
+                        </Frame>
+                        <VerticalStackLayout Grid.Column="1" Padding="10,0,0,0" HorizontalOptions="Start">
+                            <Label Text="Plan de seguridad" FontFamily="BreeSerif-Regular.ttf" FontSize="16" TextColor="White" FontAttributes="Bold" HorizontalOptions="Start"/>
+                            <Label Text="Acceder a plan de seguridad." FontFamily="BreeSerif-Regular.ttf" FontSize="12" TextColor="White" HorizontalOptions="Start"/>
+                        </VerticalStackLayout>
+                    </Grid>
+                </Frame>
                 <!-- Sección Debug -->
                 <Label Text="Debug"
                        FontSize="20"
