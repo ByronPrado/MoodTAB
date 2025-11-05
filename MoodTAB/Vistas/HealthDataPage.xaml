@@ -114,6 +114,30 @@
                 </VerticalStackLayout>
             </Frame>
 
+            <!-- HRV -->
+            <Frame BackgroundColor="White" 
+                   CornerRadius="15" 
+                   Padding="20"
+                   HasShadow="True">
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        Text="❤️HRV"
+                        FontSize="18"
+                        FontAttributes="Bold"
+                        TextColor="#2C3E50" />
+                    <Label
+                        x:Name="HrvLabel"
+                        Text="-- bpm"
+                        FontSize="32"
+                        FontAttributes="Bold"
+                        TextColor="#E74C3C" />
+                    <Label
+                        Text="Promedio hoy"
+                        FontSize="12"
+                        TextColor="#7F8C8D" />
+                </VerticalStackLayout>
+            </Frame>
+
             <!-- Distancia -->
             <Frame BackgroundColor="White" 
                    CornerRadius="15" 

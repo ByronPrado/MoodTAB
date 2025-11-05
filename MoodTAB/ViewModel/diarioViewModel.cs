@@ -50,7 +50,7 @@ namespace MoodTAB.ViewModel
         [ObservableProperty] int cantidadPasos;
 
         // Calidad Sueño
-        [ObservableProperty] string horasSueno;
+        [ObservableProperty] string horasSueno ="0";
         [ObservableProperty] public TimeSpan horaDurmio;
         [ObservableProperty] public TimeSpan horaDesperto;
 
@@ -82,24 +82,29 @@ namespace MoodTAB.ViewModel
         // Servicios
         private readonly IStepCounterService stepService;
         private readonly IDictationService dictationService;
+        private readonly IHealthDataService healthDataService;
 
         public DiarioViewModel(IStepCounterService stepService, IDictationService dictationService)
         {
             this.stepService = stepService;
             this.dictationService = dictationService;
+            #if ANDROID
+                Console.WriteLine("🔥 DiarioViewModel CONSTRUCTOR EJECUTADO");
+
+                this.healthDataService = new HealthDataService();
+                // Levantar servicio automáticamente
+                _ = InitializeHealthDataAsync();
+            #endif
 
             stepService.Start();
 
             HorasCelular = 0;
             HorasRedes = 0;
-            CantidadPasos = (int)stepService.TotalSteps;
-            HorasSueno = "0";
+            CantidadPasos = 0;
             Error = "";
-            RitmoCardiaco = 0;
             VariabilidadFrecuenciaCardiaca = 0;
             HoraDurmio = TimeSpan.Zero;
             HoraDesperto = TimeSpan.Zero;
-
 
             _ = LoadDiariosAsync();
         }
@@ -117,6 +122,40 @@ namespace MoodTAB.ViewModel
             }
         }
 
+        #if ANDROID
+            private async Task InitializeHealthDataAsync()
+            {
+                try
+                {
+                    Console.WriteLine("InitializeHealthDataAsync llamado");
+
+                    // Solicitar permisos
+                    bool permissionsGranted = await healthDataService.InitializeAndRequestPermissionsAsync();
+                    Console.WriteLine($"Permisos concedidos? {permissionsGranted}");
+                    if (!permissionsGranted)
+                    {
+                        Error = "Permisos de HealthConnect no concedidos";
+                        return;
+                    }
+
+                    // Cargar todos los datos
+                    await healthDataService.LoadAllHealthDataAsync();
+
+                    // Asignar valores al viewmodel
+                    CantidadPasos = healthDataService.TotalSteps;
+                    RitmoCardiaco = healthDataService.HeartRate;
+                    VariabilidadFrecuenciaCardiaca = healthDataService.HRV;
+                    HorasSueno = healthDataService.SleepHours.ToString();
+                    // Si quieres distancia también
+                    // DistanciaKm = healthDataService.DistanceKm;
+                    Console.WriteLine($"valores en viewmodel:pasos{CantidadPasos},ritmocardiaco {RitmoCardiaco},HRV {VariabilidadFrecuenciaCardiaca},HorasSueno {HorasSueno}");
+                }
+                catch (Exception ex)
+                {
+                    Error = ex.Message;
+                }
+            }
+        #endif
 
         // Cargar y guardar
         private async Task LoadDiariosAsync()

@@ -2,8 +2,6 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using Microsoft.Maui.Controls;
 
-using MoodTAB.ViewModels; 
-
 namespace MoodTAB.Services
 {
     public class AuthService : IAuthService

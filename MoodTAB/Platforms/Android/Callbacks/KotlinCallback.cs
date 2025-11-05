@@ -143,8 +143,15 @@ namespace MoodTAB.Platforms.Android.Callbacks
         {
             var request = CreateReadRecordsRequest(typeof(HeartRateRecord), startTime, endTime);
             if (request == null) return new List<HeartRateRecord>();
-            
+
             return await ReadRecordsGeneric<HeartRateRecord>(request);
+        }
+        public async Task<List<HeartRateVariabilityRmssdRecord>> ReadHeartRateVariabilityRecords(Java.Time.Instant startTime, Java.Time.Instant endTime)
+        {
+            var request = CreateReadRecordsRequest(typeof(HeartRateVariabilityRmssdRecord), startTime, endTime);
+            if (request == null) return new List<HeartRateVariabilityRmssdRecord>();
+
+            return await ReadRecordsGeneric<HeartRateVariabilityRmssdRecord>(request);  
         }
 
         public async Task<List<DistanceRecord>> ReadDistanceRecords(Java.Time.Instant startTime, Java.Time.Instant endTime)

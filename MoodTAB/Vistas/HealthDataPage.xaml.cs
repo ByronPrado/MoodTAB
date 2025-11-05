@@ -133,12 +133,14 @@ public partial class HealthDataPage : ContentPage
                     AndroidX.Health.Connect.Client.Units.Length.InvokeMeters(1),
                     new Metadata()
                 );
+                var hrvClass = Java.Lang.Class.ForName("androidx.health.connect.client.records.HeartRateVariabilityRmssdRecord");
 
                 var permissionsToGrant = new Java.Util.HashSet();
                 permissionsToGrant.Add(HealthPermission.GetReadPermission(Kotlin.Jvm.Internal.Reflection.GetOrCreateKotlinClass(stepsRecord.Class)));
                 permissionsToGrant.Add(HealthPermission.GetReadPermission(Kotlin.Jvm.Internal.Reflection.GetOrCreateKotlinClass(sleepRecord.Class)));
                 permissionsToGrant.Add(HealthPermission.GetReadPermission(Kotlin.Jvm.Internal.Reflection.GetOrCreateKotlinClass(heartRateRecord.Class)));
                 permissionsToGrant.Add(HealthPermission.GetReadPermission(Kotlin.Jvm.Internal.Reflection.GetOrCreateKotlinClass(distanceRecord.Class)));
+                permissionsToGrant.Add(HealthPermission.GetReadPermission(Kotlin.Jvm.Internal.Reflection.GetOrCreateKotlinClass(hrvClass)));
 
                 Android.Util.Log.Info("v0", $"Permisos a solicitar: {permissionsToGrant.Size()}");
 
@@ -230,8 +232,9 @@ public partial class HealthDataPage : ContentPage
             var sleepTask = LoadSleepData(startTimeMonth, endTimeNow);
             var heartRateTask = LoadHeartRateData(startTimeMonth, endTimeNow);
             var distanceTask = LoadDistanceData(startTimeToday, endTimeNow);
+            var hrvTask = LoadHeartRateVariabilityData(startTimeToday,endTimeNow);
 
-            await Task.WhenAll(stepsTask, sleepTask, heartRateTask, distanceTask);
+            await Task.WhenAll(stepsTask, sleepTask, heartRateTask, distanceTask,hrvTask);
         }
 
         private async Task LoadStepsData(Instant startTime, Instant endTime)
@@ -398,6 +401,50 @@ public partial class HealthDataPage : ContentPage
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
                     DistanceLabel.Text = "Sin datos";
+                });
+            }
+        }
+
+        private async Task LoadHeartRateVariabilityData(Instant startTime, Instant endTime)
+        {
+            try
+            {
+                Android.Util.Log.Info("v0", "=== Iniciando carga de HRV (RMSSD) ===");
+                var records = await _healthConnectClient.ReadHeartRateVariabilityRecords(startTime, endTime);
+                Android.Util.Log.Info("v0", $"Registros HRV encontrados: {records?.Count ?? 0}");
+                Android.Util.Log.Info("v0", $"Propiedades: {records}");
+                
+                double totalRmssd = 0;
+                int count = 0;
+
+                if (records != null && records.Count > 0)
+                {
+                    foreach (var record in records)
+                    {
+                        Android.Util.Log.Info("v0", $"Propiedades: {record}");
+                        //var registro = record.getHeartRateVariabilityMillis();
+                        /*
+                        totalRmssd += rmssd;
+                        count++;*/
+                    }
+                }
+                HrvLabel.Text = "Sin datos";
+                /*
+                double averageRmssd = (count > 0) ? totalRmssd / count : 0;
+
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    HrvLabel.Text = averageRmssd > 0 ? $"{averageRmssd:F2} ms" : "0.00 ms";
+                    Android.Util.Log.Info("v0", $"HRV promedio mostrado: {averageRmssd:F2}ms");
+                });*/
+            }
+            catch (Exception ex)
+            {
+                Android.Util.Log.Error("v0", $"Error cargando HRV: {ex.Message}");
+                Android.Util.Log.Error("v0", $"StackTrace: {ex.StackTrace}");
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    HrvLabel.Text = "Sin datos";
                 });
             }
         }
