@@ -211,7 +211,6 @@ namespace MoodTAB.ViewModel
 
                 var content = await response.Content.ReadAsStringAsync();
                 Globals.cuestionario = content;
-                // ✅ Analizar el JSON antes de deserializar
                 using var doc = JsonDocument.Parse(content);
                 var root = doc.RootElement;
 

@@ -72,7 +72,6 @@ namespace MoodTAB.ViewModel
         {
             OpcionSeleccionada = opcion;
             RespuestaUsuario = opcion;
-            // Actualiza el estado de cada opción
             foreach (var item in OpcionesSeleccion)
                 item.IsSelected = item.Texto == opcion;
         }
@@ -86,20 +85,14 @@ namespace MoodTAB.ViewModel
     }
     public partial class Cuestionario : ObservableObject
     {
-        [ObservableProperty]
-        bool pendiente;
-        [ObservableProperty]
-        bool nopendiente;
-        //DE AQUI EN ADELANTE CAMBIE
-        [ObservableProperty]
-        string log_test = string.Empty;
+        [ObservableProperty] bool pendiente;
+        [ObservableProperty] bool nopendiente;
+        [ObservableProperty] string prueba;
+        [ObservableProperty] string log_test = string.Empty;
 
-        [ObservableProperty]
-        ObservableCollection<CuestionarioData> listaCuestionarios = new();
+        [ObservableProperty] ObservableCollection<CuestionarioData> listaCuestionarios = new();
 
-        [ObservableProperty]
-        private CuestionarioData cuestionarioSeleccionado;
-        //private int id_cuestionario;
+        [ObservableProperty] private CuestionarioData cuestionarioSeleccionado;
         private int idAsignacion;
 
         public async Task InitializeAsync()
@@ -129,7 +122,23 @@ namespace MoodTAB.ViewModel
         public async Task SepararCuestionarios()
         {
             ListaCuestionarios.Clear();
-            using var doc = JsonDocument.Parse(Globals.cuestionario);
+            var url = $"{Globals.direccion_ngrok}api/formulario/{Globals.id_paciente_DB}";
+            using var client = new HttpClient()
+            {
+                Timeout = TimeSpan.FromSeconds(10)
+            };
+            var response = await client.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                Pendiente = false;
+                Nopendiente = true;
+                return;
+            }
+
+            var content = await response.Content.ReadAsStringAsync();
+            Globals.cuestionario = content;
+            using var doc = JsonDocument.Parse(content);
             var root = doc.RootElement;
            //Log_test = len.ToString();
             if (root.ValueKind != JsonValueKind.Array)
@@ -142,7 +151,14 @@ namespace MoodTAB.ViewModel
             if (len == 0)
             {
                 Log_test = $" largo = {len}\t";
+                Pendiente = false;
+                Nopendiente = true;
 
+            }
+            else
+            {
+                Pendiente = true;
+                Nopendiente = false;
             }
             foreach (var cuestionarioJson in root.EnumerateArray())
             {

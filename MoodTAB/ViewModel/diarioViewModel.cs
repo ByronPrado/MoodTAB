@@ -293,13 +293,13 @@ namespace MoodTAB.ViewModel
                         string anteriorResumen = diarioAnterior != null
                             ? $"Emociones: {diarioAnterior.Emocion_Diaria}, Descripción: {diarioAnterior.Descripcion}, Fecha: {diarioAnterior.CreatedAt}"
                             : null;
-                        
-                        
+
+
                         // Crear payload del log
                         var logPayload = new
                         {
                             ID_Paciente = Globals.id_paciente_DB,
-                            ID_Psiquiatra = "1",
+                            ID_Psiquiatra = Globals.id_psiquiatra_DB ?? "1",
                             TipoLog = "DiarioEmocional",
                             Actual = $"Emociones: {Sliders}, Descripción: {Pregunta1}/{Pregunta2}/{Pregunta3}",
                             Anterior = anteriorResumen,

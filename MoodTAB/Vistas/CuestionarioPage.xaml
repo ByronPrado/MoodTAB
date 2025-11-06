@@ -14,32 +14,48 @@
                    TextColor="#FF191919"/>
         </Grid>
     </NavigationPage.TitleView>
+    
 
     <ScrollView BackgroundColor="#FFF3F3FF">
-        <VerticalStackLayout Padding="5" Spacing="15">
-            <!--Entry Text="{Binding Log_test}"/-->
+        <VerticalStackLayout Padding="5" Spacing="10">
+            <Button Text="Ver Cuestionarios Completados →"
+                FontSize ="16"
+                Margin="5,15,5,5"
+                BackgroundColor="#6B8DD6"
+                FontFamily="BreeSerif-Regular.ttf"
+                Clicked="OnVerCompletadosClicked"
+                />
 
-            <Label Text="Selecciona un Cuestionario:"                        
+            <Label Text="Cuestionarios pendientes:"                        
                 FontSize="20"
                 FontFamily="BreeSerif-Regular.ttf"
                 TextColor="#FF141414"
-                Margin="0,10,0,0"/>            
+                Margin="10,10,0,0"/>            
             <CollectionView ItemsSource="{Binding ListaCuestionarios}"
                 SelectionMode="Single"
                 SelectionChanged="CollectionView_SelectionChanged">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame Padding="15" Margin="5" CornerRadius="15" BackgroundColor="#E8F0FE" IsClippedToBounds="False" InputTransparent="True">
-                            <VerticalStackLayout>
-                                <Label Text="{Binding Titulo}" 
-                                    FontSize="20"
-                                    FontFamily="BreeSerif-Regular.ttf"
-                                    TextColor="#0F172A"/>
-                                <Label Text="{Binding PreguntasConRespuesta.Count, StringFormat='Preguntas: {0}'}" 
-                                    FontSize="14"
-                                    FontFamily="BreeSerif-Regular.ttf"
-                                    TextColor="#FF5B5B5B"/>
-                            </VerticalStackLayout>
+                        <Frame 
+                            BackgroundColor="#6B8DD6"
+                            BorderColor="Transparent"
+                            CornerRadius="15"
+                            Padding="10"
+                            Margin="5"
+                            HasShadow="False"
+                            IsClippedToBounds="False" InputTransparent="True">
+                            <Grid ColumnDefinitions="40,*"
+                                RowDefinitions="40">
+                                <Frame Grid.Column="0"
+                                        BackgroundColor="#89A4DE"
+                                        BorderColor="Transparent">
+                                        <Image Source="neosurveywhite.png" WidthRequest="20" HeightRequest="20"/>
+                                </Frame>
+                                <VerticalStackLayout Grid.Column="1" Padding="10,0,0,0" HorizontalOptions="Start">
+                                    <Label Text="{Binding Titulo}" FontFamily="BreeSerif-Regular.ttf" FontSize="16" TextColor="White" FontAttributes="Bold" HorizontalOptions="Start"/>
+                                    <Label Text="{Binding PreguntasConRespuesta.Count, StringFormat='Preguntas: {0}'}" FontFamily="BreeSerif-Regular.ttf" FontSize="12" TextColor="White" HorizontalOptions="Start"/>
+                                </VerticalStackLayout>
+                            </Grid>
                         </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
@@ -52,17 +68,7 @@
                 HorizontalOptions="Center"
                 IsVisible="{Binding Nopendiente}"/>
             
-            <Label Text="Ver Cuestionarios Completados →"
-                FontFamily="BreeSerif-Regular.ttf"
-                FontSize="16"
-                TextColor="#512BD4"
-                FontAttributes="Bold"
-                HorizontalOptions="Center"
-                Margin="0,10,0,0">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnVerCompletadosTapped" />
-                </Label.GestureRecognizers>
-            </Label>
+            
                 
         </VerticalStackLayout>
     </ScrollView>

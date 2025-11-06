@@ -10,8 +10,20 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-   <ScrollView>
-        <VerticalStackLayout>
+    <NavigationPage.TitleView>
+        <Grid>
+            <Label Text="Historial"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   FontSize="20"
+                   Padding="-66,0,0,0"
+                   FontFamily="BreeSerif-Regular.ttf"
+                   TextColor="#FF191919"/>
+        </Grid>
+    </NavigationPage.TitleView>
+
+   <ScrollView VerticalScrollBarVisibility="Always">
+        <VerticalStackLayout Spacing="20">
                     <!-- Título -->
             <Label Text="Formularios Completados"
                 FontFamily="BreeSerif-Regular.ttf"
@@ -43,24 +55,26 @@
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame Padding="15" Margin="5,3"
-                            BorderColor="#DDD"
-                            CornerRadius="12"
-                            HasShadow="True"
-                            IsClippedToBounds="False"
-                            InputTransparent="True">
-                            <VerticalStackLayout>
-                                <Label Text="{Binding Formulario.Titulo}" 
-                                    FontFamily="BreeSerif-Regular.ttf"
-                                    FontSize="20" 
-                                    FontAttributes="Bold"
-                                    TextColor="#512BD4" />
-
-                                <Label Text="{Binding Fecha_Asignacion, StringFormat='Asignado el {0:dd/MM/yy}'}"
-                                    FontFamily="BreeSerif-Regular.ttf"
-                                    FontSize="12" 
-                                    TextColor="Gray" />
-                            </VerticalStackLayout>                             
+                        <Frame 
+                            BackgroundColor="#6B8DD6"
+                            BorderColor="Transparent"
+                            CornerRadius="15"
+                            Padding="10"
+                            Margin="5"
+                            HasShadow="False"
+                            IsClippedToBounds="False" InputTransparent="True">
+                            <Grid ColumnDefinitions="40,*"
+                                RowDefinitions="40">
+                                <Frame Grid.Column="0"
+                                        BackgroundColor="#89A4DE"
+                                        BorderColor="Transparent">
+                                        <Image Source="neosurveywhite.png" WidthRequest="20" HeightRequest="20"/>
+                                </Frame>
+                                <VerticalStackLayout Grid.Column="1" Padding="10,0,0,0" HorizontalOptions="Start">
+                                    <Label Text="{Binding Formulario.Titulo}" FontFamily="BreeSerif-Regular.ttf" FontSize="16" TextColor="White" FontAttributes="Bold" HorizontalOptions="Start"/>
+                                    <Label Text="{Binding Fecha_Asignacion, StringFormat='Asignado el {0:dd/MM/yy}'}" FontFamily="BreeSerif-Regular.ttf" FontSize="12" TextColor="White" HorizontalOptions="Start"/>
+                                </VerticalStackLayout>
+                            </Grid>
                         </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

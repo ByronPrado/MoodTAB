@@ -4,12 +4,13 @@ using MoodTAB.Models;
 using System.Collections.ObjectModel;
 using System.Text.Json;
 using Microsoft.Maui.Controls;
+using MoodTAB.Vistas;
 
 
 
 namespace MoodTAB.ViewModel
 {
-    
+
     public partial class CuestionarioDetalleViewmodel : ObservableObject
     {
         [ObservableProperty]
@@ -28,6 +29,24 @@ namespace MoodTAB.ViewModel
         int paginaActual = 0;
 
         private const int TAMANIO_PAGINA = 5;
+
+        public bool MostrarPaginacion
+        {
+            get
+            {
+                if (PreguntasConRespuesta == null) return false;
+                return PreguntasConRespuesta.Count > TAMANIO_PAGINA;
+            }
+        }
+
+        public int TotalPreguntas
+        {
+            get
+            {
+                return PreguntasConRespuesta?.Count ?? 0;
+            }
+        }
+
         public IEnumerable<PreguntaConRespuesta> PreguntasPaginadas
         {
             get
@@ -69,11 +88,11 @@ namespace MoodTAB.ViewModel
         public void SetIdAsignacion(int id)
         {
             idAsignacion = id;
-        } 
+        }
         [RelayCommand]
         private async Task GuardarRespuestas()
         {
-            
+
             try
             {
                 if (Microsoft.Maui.Controls.Application.Current.MainPage == null || Microsoft.Maui.Controls.Application.Current == null) return;
@@ -166,7 +185,7 @@ namespace MoodTAB.ViewModel
             await CargarRespuestas();
         }
 
-        
+
         [RelayCommand]
         private async Task SiguientePagina()
         {
@@ -196,6 +215,6 @@ namespace MoodTAB.ViewModel
             if (PuedeRetroceder)
                 PaginaActual--;
         }
-
+        
     }
 }

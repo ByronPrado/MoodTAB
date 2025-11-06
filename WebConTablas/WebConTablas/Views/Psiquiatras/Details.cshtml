@@ -154,6 +154,49 @@
     }
 }
 
+<div class="modal fade" id="onboardingModalDetails" tabindex="-1" aria-labelledby="onboardingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title" id="onboardingModalLabel">
+                    <i class="fas fa-magic me-2 text-primary"></i>
+                    ¡Bienvenido/a a tu Perfil y Agenda!
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body px-4 py-4" style="background-color: #f8f9fa;">
+                <p class="lead text-center mb-4">Esta es tu página principal. Desde aquí puedes gestionar tu calendario y tus datos de perfil.</p>
+                
+                <div class="onboarding-steps">
+                    <div class="onboarding-step">
+                        <div class="onboarding-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="onboarding-text">
+                            <strong>Pestaña "Mi Agenda"</strong>
+                            <p>Aquí verás tu calendario personal. Puedes añadir recordatorios, citas o eventos importantes haciendo clic en un día o usando el botón "Añadir Recordatorio" .</p>
+                        </div>
+                    </div>
+                    
+                    <div class="onboarding-step">
+                        <div class="onboarding-icon">
+                            <i class="fas fa-user-edit"></i>
+                        </div>
+                        <div class="onboarding-text">
+                            <strong>Pestaña "Mis Datos"</strong>
+                            <p>En esta pestaña puedes ver y actualizar tu información personal, como tu email o teléfono, usando el botón "Editar mis datos" [cite: 279-281].</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 justify-content-center">
+                <button type="button" class="btn btn-primary btn-lg" data-bs-dismiss="modal" id="btnComenzarOnboardingDetails">
+                    ¡Entendido!
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 @section Scripts {
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js'></script>
 
@@ -420,5 +463,7 @@
             });
 
         });
+
+
     </script>
 }

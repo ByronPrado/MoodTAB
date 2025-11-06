@@ -254,7 +254,7 @@ namespace MoodTAB.ViewModel
             }
             else
             {
-                await Application.Current.MainPage.DisplayAlert("No hay Registro", $"No hay diario registrado este dia\n", "No");
+                //await Application.Current.MainPage.DisplayAlert("No hay Registro", $"No hay diario registrado este dia\n", "No");
                 return;
             }
         }

@@ -77,17 +77,17 @@
             <Button x:Name="SkipButton"
                     Text="Saltar tutorial"
                     Clicked="OnSkip"
-                    BackgroundColor="Transparent"
-                    TextColor="LightGray"
+                    Grid.Column="1"
+                    BackgroundColor="#FF567ED3"
+                    TextColor="White"
                     FontAttributes="Bold"/>
 
             <Button x:Name="NextButton"
                     Text="Siguiente"
                     Clicked="OnNext"
                     Grid.Column="1"
-                    BackgroundColor="#5A67D8"
+                    BackgroundColor="#FF567ED3"
                     TextColor="White"
-                    CornerRadius="12"
                     WidthRequest="120"/>
         </Grid>
     </Grid>
