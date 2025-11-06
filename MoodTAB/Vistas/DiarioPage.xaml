@@ -43,7 +43,7 @@
             </Frame>
 
             <!-- Sliders -->
-            <VerticalStackLayout Padding="10,0" Spacing="6">
+            <VerticalStackLayout Padding="10,0" Spacing="8">
                 <!-- Animo -->
                 <Label Text="Mi estado de ánimo"
                     FontFamily="BreeSerif-Regular.ttf"
@@ -60,11 +60,11 @@
                             Minimum="0"
                             Maximum="10"
                             WidthRequest="200"
-                            ThumbColor="#4CAF50"
-                            MinimumTrackColor="#81C784"
-                            MaximumTrackColor="#FF3A3A3A"
+                            ThumbColor="#4285F4"
+                            MinimumTrackColor="#4285F4"
+                            MaximumTrackColor="#FFB2B4B7"
                             Value="{Binding Animo, Mode=TwoWay}"
-                            ValueChanged="OnSliderValueChanged" />
+                            />
 
                     <Label Text=" 😄 " FontSize="20" Grid.Column="2" Grid.Row="0" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
                     <Label Text=" Feliz" FontSize="12" TextColor="#FF646464" Grid.Column="2" Grid.Row="1" HorizontalTextAlignment="Center" />
@@ -86,11 +86,11 @@
                             Minimum="0"
                             Maximum="10"
                             WidthRequest="200"
-                            ThumbColor="#4CAF50"
-                            MinimumTrackColor="#81C784"
-                            MaximumTrackColor="#FF3A3A3A"
+                            ThumbColor="#4285F4"
+                            MinimumTrackColor="#4285F4"
+                            MaximumTrackColor="#FFB2B4B7"
                             Value="{Binding Apetito, Mode=TwoWay}"
-                            ValueChanged="OnSliderValueChanged" />
+                            />
 
                     <Label Text="😋" FontSize="20" Grid.Column="2" Grid.Row="0" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
                     <Label Text="Mucho" FontSize="12" TextColor="#FF646464" Grid.Column="2" Grid.Row="1" HorizontalTextAlignment="Center" />
@@ -112,11 +112,11 @@
                             Minimum="0"
                             Maximum="10"
                             WidthRequest="200"
-                            ThumbColor="#4CAF50"
-                            MinimumTrackColor="#81C784"
-                            MaximumTrackColor="#FF3A3A3A"
+                            ThumbColor="#4285F4"
+                            MinimumTrackColor="#4285F4"
+                            MaximumTrackColor="#FFB2B4B7"
                             Value="{Binding Energia, Mode=TwoWay}"
-                            ValueChanged="OnSliderValueChanged" />
+                            />
 
                     <Label Text="😃" FontSize="20" Grid.Column="2" Grid.Row="0" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
                     <Label Text="Mucha" FontSize="12" TextColor="#FF646464" Grid.Column="2" Grid.Row="1" HorizontalTextAlignment="Center" />
@@ -137,11 +137,11 @@
                             Minimum="0"
                             Maximum="10"
                             WidthRequest="200"
-                            ThumbColor="#4CAF50"
-                            MinimumTrackColor="#81C784"
-                            MaximumTrackColor="#FF3A3A3A"
+                            ThumbColor="#4285F4"
+                            MinimumTrackColor="#4285F4"
+                            MaximumTrackColor="#FFB2B4B7"
                             Value="{Binding BateriaSocial, Mode=TwoWay}"
-                            ValueChanged="OnSliderValueChanged" />
+                            />
 
                     <Label Text="😃" FontSize="20" Grid.Column="2" Grid.Row="0" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
                     <Label Text="Mucha" FontSize="12" TextColor="#FF646464" Grid.Column="2" Grid.Row="1" HorizontalTextAlignment="Center" />
@@ -354,12 +354,10 @@
                                     Grid.Row="0"
                                     Minimum="0"
                                     Maximum="10"
-                                    WidthRequest="200"
-                                    ThumbColor="#4CAF50"
-                                    MinimumTrackColor="#81C784"
-                                    MaximumTrackColor="#FF3A3A3A"
-                                    Value="{Binding CalidadSueno, Mode=TwoWay}"
-                                    ValueChanged="OnSliderValueChanged"/>
+                                    ThumbColor="#4285F4"
+                                    MinimumTrackColor="#4285F4"
+                                    MaximumTrackColor="#FFB2B4B7"
+                                    Value="{Binding CalidadSueno, Mode=TwoWay}"/>
 
                             <Label Text="😴" FontSize="20" Grid.Column="2" Grid.Row="0" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
                             <Label Text="Bien" FontSize="12" TextColor="#FF1A4E75" Grid.Column="2" Grid.Row="1" HorizontalTextAlignment="Center" />

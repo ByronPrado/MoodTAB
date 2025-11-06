@@ -175,7 +175,7 @@
                                         Command="{Binding MovetoPageCommand}"
                                         CommandParameter="PastilleroPage" />
                                 </Frame.GestureRecognizers>
-                                    <Image Source="neosurveywhite.png" WidthRequest="20" HeightRequest="20"/>
+                                    <Image Source="neomedicine.png" WidthRequest="20" HeightRequest="20"/>
                             </Frame>
                             <VerticalStackLayout Grid.Column="1" Padding="10,0,0,0" HorizontalOptions="Start">
                                 <Label Text="Medicamento" FontFamily="BreeSerif-Regular.ttf" FontSize="16" TextColor="White" FontAttributes="Bold" HorizontalOptions="Start"/>

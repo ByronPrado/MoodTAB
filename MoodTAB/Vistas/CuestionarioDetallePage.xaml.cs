@@ -7,6 +7,5 @@ public partial class CuestionarioDetallePage : ContentPage
        public CuestionarioDetallePage()
     {
         InitializeComponent();
-        //BindingContext = Cuestionario.NavigationState.DetalleVm;
     }
 }

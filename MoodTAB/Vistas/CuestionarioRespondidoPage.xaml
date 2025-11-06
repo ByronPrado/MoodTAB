@@ -4,47 +4,62 @@
              x:Class="MoodTAB.Vistas.CuestionarioRespondidoPage"
              Title="Cuestionario Respondido">
 
+    <NavigationPage.TitleView>
+        <Grid>
+            <Label Text="Historial"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   FontSize="20"
+                   Padding="-66,0,0,0"
+                   FontFamily="BreeSerif-Regular.ttf"
+                   TextColor="#FF191919"/>
+        </Grid>
+    </NavigationPage.TitleView>
+
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="15">
             
             <!-- Título del formulario -->
             <Label Text="{Binding Titulo}"
                 FontSize="22"
+                FontFamily="BreeSerif-Regular.ttf"
                 FontAttributes="Bold"
                 HorizontalOptions="Center" />
-            <!-- Descripción opcional -->
+            <!-- Descripción opcional>
             <Label Text="{Binding Descripcion}"
                 FontSize="14"
                 TextColor="Gray"
                 HorizontalOptions="Center"
-                Margin="0,0,0,20"/>
+                Margin="0,0,0,20"/-->
             <Button Text="Exportar a PDF"
                 Command="{Binding ExportarPdfCommand}"
                 HorizontalOptions="Center"
-                Margin="0,20,0,0"/>
+                FontSize="14"
+                FontFamily="BreeSerif-Regular.ttf"
+                Margin="0,0,0,0"/>
             <!-- Lista de preguntas y respuestas -->
             <CollectionView ItemsSource="{Binding Preguntas}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame BorderColor="#DDD" CornerRadius="8" Padding="10" Margin="5">
+                        <Frame BackgroundColor="White"
+                                CornerRadius="16"
+                                HasShadow="True"
+                                Padding="10"
+                                Margin="0,0,0,12">
                             <VerticalStackLayout>
                                 <Label Text="{Binding Contenido}" 
                                        FontAttributes="Bold"
+                                       FontFamily="BreeSerif-Regular.ttf"
                                        FontSize="16" />
                                 <Label Text="{Binding Respuesta}" 
                                        FontSize="14"
+                                       FontFamily="BreeSerif-Regular.ttf"
                                        TextColor="Gray" />
                             </VerticalStackLayout>
                         </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-
-            <Button Text="Exportar a PDF"
-                Command="{Binding ExportarPdfCommand}"
-                HorizontalOptions="Center"
-                Margin="0,20,0,0"/>
-
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

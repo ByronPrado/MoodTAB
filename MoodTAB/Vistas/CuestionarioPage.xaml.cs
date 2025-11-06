@@ -14,9 +14,9 @@ public partial class CuestionarioPage : ContentPage
     }
 
     protected override async void OnAppearing()
-    {
-        base.OnAppearing();
+    {    
         await viewModel.InitializeAsync();
+        base.OnAppearing();
     }
 
     private async void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -45,7 +45,7 @@ public partial class CuestionarioPage : ContentPage
         ((CollectionView)sender).SelectedItem = null;
     }
 
-    private async void OnVerCompletadosTapped(object sender, TappedEventArgs e)
+    private async void OnVerCompletadosClicked(object sender, EventArgs e)
     {
         await Navigation.PushAsync(new CuestionarioHistorialPage());
     }

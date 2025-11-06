@@ -9,7 +9,8 @@ namespace MoodTAB.ViewModel
 {
     public partial class TestViewModel : ObservableObject
     {
-        [ObservableProperty] string texto;
+        [ObservableProperty] string opcionSuenoTexto;
+        [ObservableProperty] string opcionSuenoTexto2;
         [ObservableProperty] private bool healthDataManual = Globals.OptionManual;
         [ObservableProperty] private bool optionSueno = Globals.OptionSueno;
         [ObservableProperty] private bool optionHR = Globals.OptionHR;
@@ -18,8 +19,16 @@ namespace MoodTAB.ViewModel
         [ObservableProperty] private bool opcionMostrarConsejos = Globals.OpcionMostrarConsejos;
         public TestViewModel()
         {
-            //constructor
-            texto = "texto";
+            if (optionSueno)
+            {
+                opcionSuenoTexto = "Actual: Horas Totales";
+                opcionSuenoTexto2 = "24 hrs";
+            }
+            else
+            {
+                opcionSuenoTexto = "Actual: Rango de horas";
+                opcionSuenoTexto2 = "00:00 - 23:59 hrs";
+            }
         }
 
         partial void OnHealthDataManualChanged(bool oldValue, bool newValue)
@@ -32,6 +41,16 @@ namespace MoodTAB.ViewModel
         {
             SecureStorage.SetAsync("ingreso_sueno", newValue.ToString());
             Globals.OptionSueno = newValue;
+            if (newValue)
+            {
+                OpcionSuenoTexto = "Actual: Horas Totales";
+                OpcionSuenoTexto2 = "24 hrs";
+            }
+            else
+            {
+                OpcionSuenoTexto = "Actual: Rango de horas";
+                OpcionSuenoTexto2 = "00:00 - 23:59 hrs";
+            }
         }
         partial void OnOptionHRChanged(bool oldValue, bool newValue)
         {

@@ -27,11 +27,11 @@ public partial class DiarioPage : ContentPage
 		viewModel = new DiarioViewModel(stepService, dictationService);
 		BindingContext = viewModel;
 		
-		/*if (viewModel.DebeMostrarTutorial)
+		if (viewModel.DebeMostrarTutorial)
         {
             this.ShowPopup(new DiarioTutorialPopUp());
-        }*/
-        this.ShowPopup(new DiarioTutorialPopUp());
+        }
+        //this.ShowPopup(new DiarioTutorialPopUp());
     }
 
 	// Constructor sin parámetros para Shell/XAML
@@ -66,31 +66,6 @@ public partial class DiarioPage : ContentPage
 #else
 		await Task.CompletedTask;
 #endif
-	}
-	private void OnSliderValueChanged(object sender, ValueChangedEventArgs e)
-	{
-		var slider = (Slider)sender;
-
-		int valor = (int)Math.Round(e.NewValue);
-
-		if (slider.Value != valor)
-			slider.Value = valor;
-
-		if (valor <= 3)
-		{
-			slider.ThumbColor = Colors.Red;
-			slider.MinimumTrackColor = Colors.Red;
-		}
-		else if (valor <= 5)
-		{
-			slider.ThumbColor = Colors.Orange;
-			slider.MinimumTrackColor = Colors.Orange;
-		}
-		else
-		{
-			slider.ThumbColor = Colors.Green;
-			slider.MinimumTrackColor = Colors.Green;
-		}
 	}
 
 	//healthconnect:
