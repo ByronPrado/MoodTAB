@@ -114,13 +114,27 @@ namespace MoodTAB.ViewModel
         {
             if (!string.IsNullOrEmpty(value))
             {
-                HorasSueno = new string(value.Where(char.IsDigit).ToArray());
-            }
-            if (int.TryParse(value, out int intValue) && intValue > 24)
-            {
-                HorasSueno = "24";
+                if (double.TryParse(value, 
+                                    System.Globalization.NumberStyles.Any, 
+                                    System.Globalization.CultureInfo.InvariantCulture, 
+                                    out double horas))
+                {
+                    // Redondear al entero más cercano
+                    int horasInt = (int)Math.Round(horas);
+
+                    // Limitar a 24 horas máximo
+                    if (horasInt > 24)
+                        horasInt = 24;
+
+                    HorasSueno = horasInt.ToString();
+                }
+                else
+                {
+                    HorasSueno = "0"; // fallback si no se puede parsear
+                }
             }
         }
+
 
         #if ANDROID
             private async Task InitializeHealthDataAsync()

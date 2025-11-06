@@ -25,13 +25,8 @@ public partial class DiarioPage : ContentPage
     {
         InitializeComponent();
 		viewModel = new DiarioViewModel(stepService, dictationService);
-		BindingContext = viewModel;
+        BindingContext = viewModel;
 		
-		/*if (viewModel.DebeMostrarTutorial)
-        {
-            this.ShowPopup(new DiarioTutorialPopUp());
-        }*/
-        this.ShowPopup(new DiarioTutorialPopUp());
     }
 
 	// Constructor sin parámetros para Shell/XAML
@@ -44,6 +39,11 @@ public partial class DiarioPage : ContentPage
 	{
 		base.OnAppearing();
 #if ANDROID
+        if (viewModel.DebeMostrarTutorial)
+        {   await Task.Delay(300);
+            this.ShowPopup(new DiarioTutorialPopUp());
+        }
+        //this.ShowPopup(new DiarioTutorialPopUp());
 		SolicitarPermisosAlIniciar();
 		await LoadHealthDataAsync();
 #endif
@@ -67,36 +67,36 @@ public partial class DiarioPage : ContentPage
 		await Task.CompletedTask;
 #endif
 	}
-	private void OnSliderValueChanged(object sender, ValueChangedEventArgs e)
-	{
-		var slider = (Slider)sender;
+    private void OnSliderValueChanged(object sender, ValueChangedEventArgs e)
+    {
+        var slider = (Slider)sender;
 
-		int valor = (int)Math.Round(e.NewValue);
+        int valor = (int)Math.Round(e.NewValue);
 
-		if (slider.Value != valor)
-			slider.Value = valor;
+        if (slider.Value != valor)
+            slider.Value = valor;
 
-		if (valor <= 3)
-		{
-			slider.ThumbColor = Colors.Red;
-			slider.MinimumTrackColor = Colors.Red;
-		}
-		else if (valor <= 5)
-		{
-			slider.ThumbColor = Colors.Orange;
-			slider.MinimumTrackColor = Colors.Orange;
-		}
-		else
-		{
-			slider.ThumbColor = Colors.Green;
-			slider.MinimumTrackColor = Colors.Green;
-		}
-	}
+        if (valor <= 3)
+        {
+            slider.ThumbColor = Colors.Red;
+            slider.MinimumTrackColor = Colors.Red;
+        }
+        else if (valor <= 5)
+        {
+            slider.ThumbColor = Colors.Orange;
+            slider.MinimumTrackColor = Colors.Orange;
+        }
+        else
+        {
+            slider.ThumbColor = Colors.Green;
+            slider.MinimumTrackColor = Colors.Green;
+        }
+    }
 
 	//healthconnect:
 	#if ANDROID
     private KotlinCallback _healthConnectClient;
-           private Instant DateTimeToInstant(DateTime date)
+        private Instant DateTimeToInstant(DateTime date)
         {
             long unixTimestamp = ((DateTimeOffset)date).ToUnixTimeSeconds();
             return Instant.OfEpochSecond(unixTimestamp);
@@ -289,24 +289,29 @@ public partial class DiarioPage : ContentPage
         private async Task LoadAllHealthData()
         {
             DateTime now = DateTime.Now;
-            DateTime startOfToday = new DateTime(now.Year, now.Month, now.Day-1, 0, 0, 0, DateTimeKind.Local);
+        // Restar 10 minutos
+            DateTime tenMinutesAgo = now.AddMinutes(-10);
+            DateTime startOfToday = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0, DateTimeKind.Local);
             DateTime startOfMonth = startOfToday.AddDays(-30);
             
             Instant startTimeMonth = DateTimeToInstant(startOfMonth);
+            Instant startTimeTenMinAgo = DateTimeToInstant(tenMinutesAgo);
             Instant endTimeNow = DateTimeToInstant(now);
             Instant startTimeToday = DateTimeToInstant(startOfToday);
 
-            Android.Util.Log.Info("v0", $"Cargando datos desde {startOfMonth} hasta {now}");
-            Android.Util.Log.Info("v0", $"StartTimeToday: {startTimeToday}, EndTimeNow: {endTimeNow}");
+            Android.Util.Log.Info("v0", $"📊 CARGANDO DATOS HEALTH");
+            Android.Util.Log.Info("v0", $"   Rango mes: {startOfMonth:yyyy-MM-dd HH:mm} → {now:yyyy-MM-dd HH:mm}");
+            Android.Util.Log.Info("v0", $"   Rango hoy: {startOfToday:yyyy-MM-dd HH:mm} → {now:yyyy-MM-dd HH:mm}");
 
             var stepsTask = LoadStepsData(startTimeToday, endTimeNow);
-            var sleepTask = LoadSleepData(startTimeMonth, endTimeNow);
-            var heartRateTask = LoadHeartRateData(startTimeMonth, endTimeNow);
+            var sleepTask = LoadSleepData(startTimeToday, endTimeNow);
+            var heartRateTask = LoadHeartRateData(startTimeTenMinAgo, endTimeNow);
             var distanceTask = LoadDistanceData(startTimeToday, endTimeNow);
-            var hrvTask = LoadHeartRateVariabilityData(startTimeToday,endTimeNow);
+            var hrvTask = LoadHeartRateVariabilityData(startTimeToday, endTimeNow);
 
-            await Task.WhenAll(stepsTask, sleepTask, heartRateTask, distanceTask,hrvTask);
+            await Task.WhenAll(stepsTask, sleepTask, heartRateTask, distanceTask, hrvTask);
         }
+
 
         private async Task LoadStepsData(Instant startTime, Instant endTime)
         {
@@ -344,42 +349,98 @@ public partial class DiarioPage : ContentPage
             }
         }
 
-        private async Task LoadSleepData(Instant startTime, Instant endTime)
+       private async Task LoadSleepData(Instant startTime, Instant endTime)
         {
             try
             {
                 Android.Util.Log.Info("v0", "=== Iniciando carga de sueño ===");
+                var startDt = InstantToDateTime(startTime);
+                var endDt = InstantToDateTime(endTime);
+                Android.Util.Log.Info("v0", $"📅 Rango de búsqueda: {startDt:yyyy-MM-dd HH:mm:ss} → {endDt:yyyy-MM-dd HH:mm:ss}");
+                
                 var records = await _healthConnectClient.ReadSleepRecords(startTime, endTime);
-                Android.Util.Log.Info("v0", $"Registros de sueño encontrados: {records?.Count ?? 0}");
+                Android.Util.Log.Info("v0", $"📊 Registros de sueño encontrados: {records?.Count ?? 0}");
                 
                 double totalHours = 0;
+                
                 if (records != null && records.Count > 0)
                 {
-                    foreach (var record in records)
+                    Android.Util.Log.Info("v0", "📋 TODOS LOS REGISTROS ENCONTRADOS:");
+                    for (int i = 0; i < records.Count; i++)
                     {
+                        var record = records[i];
+                        var recordStart = InstantToDateTime(record.StartTime);
+                        var recordEnd = InstantToDateTime(record.EndTime);
+                        
                         var duration = Java.Time.Duration.Between(record.StartTime, record.EndTime);
-                        double hours = duration.ToMinutes() / 60.0;
-                        Android.Util.Log.Info("v0", $"Sueño: {hours:F2}h - Origen: {record.Metadata?.DataOrigin?.PackageName ?? "desconocido"}");
-                        totalHours += hours;
+                        double recordHours = duration.ToMinutes() / 60.0;
+                        
+                        Android.Util.Log.Info("v0", $"  [{i}] {recordStart:yyyy-MM-dd HH:mm} → {recordEnd:yyyy-MM-dd HH:mm} ({recordHours:F2}h) | EndTime.EpochSecond: {record.EndTime.EpochSecond}");
+                    }
+                    
+                    var sortedRecords = records.OrderByDescending(r => r.EndTime.EpochSecond).ToList();
+                    Android.Util.Log.Info("v0", "⬇️ REGISTROS ORDENADOS (más reciente primero):");
+                    for (int i = 0; i < sortedRecords.Count; i++)
+                    {
+                        var record = sortedRecords[i];
+                        var recordStart = InstantToDateTime(record.StartTime);
+                        var recordEnd = InstantToDateTime(record.EndTime);
+                        var duration = Java.Time.Duration.Between(record.StartTime, record.EndTime);
+                        double recordHours = duration.ToMinutes() / 60.0;
+                        
+                        Android.Util.Log.Info("v0", $"  [{i}] END: {recordEnd:yyyy-MM-dd HH:mm} ({recordHours:F2}h)");
+                    }
+                    
+                    var latestRecord = sortedRecords.FirstOrDefault();
+                    
+                    if (latestRecord != null)
+                    {
+                        var startInstant = latestRecord.StartTime;
+                        var endInstant = latestRecord.EndTime;
+                        
+                        Android.Util.Log.Info("v0", $"🔍 CALCULANDO DURACIÓN:");
+                        Android.Util.Log.Info("v0", $"   StartTime.EpochSecond: {startInstant.EpochSecond}");
+                        Android.Util.Log.Info("v0", $"   EndTime.EpochSecond: {endInstant.EpochSecond}");
+                        Android.Util.Log.Info("v0", $"   Diferencia de segundos: {endInstant.EpochSecond - startInstant.EpochSecond}");
+                        
+                        var duration = Java.Time.Duration.Between(startInstant, endInstant);
+                        
+                        long minutes = duration.ToMinutes();
+                        long seconds = duration.Seconds;
+                        
+                        Android.Util.Log.Info("v0", $"   Duration.ToMinutes(): {minutes}");
+                        Android.Util.Log.Info("v0", $"   Duration.Seconds: {seconds}");
+                        
+                        totalHours = minutes / 60.0;
+                        
+                        Android.Util.Log.Info("v0", $"   totalHours (minutos/60.0): {totalHours}");
+                        
+                        var startDate = InstantToDateTime(latestRecord.StartTime);
+                        var endDate = InstantToDateTime(latestRecord.EndTime);
+                        
+                        Android.Util.Log.Info("v0", $"✅ REGISTRO SELECCIONADO: {startDate:yyyy-MM-dd HH:mm:ss} → {endDate:yyyy-MM-dd HH:mm:ss}");
+                        Android.Util.Log.Info("v0", $"   Duración FINAL mostrada: {totalHours}");
+                        Android.Util.Log.Info("v0", $"   Origen: {latestRecord.Metadata?.DataOrigin?.PackageName ?? "desconocido"}");
                     }
                 }
 
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    EntryHorasSueno.Text = totalHours > 0 ? $"{totalHours:F1}h" : "0h";
-                    Android.Util.Log.Info("v0", $"Total de sueño mostrado: {totalHours:F1}h");
+                    EntryHorasSueno.Text = totalHours > 0 ? $"{totalHours}" : "0";
+                    Android.Util.Log.Info("v0", $"📱 VALOR EN UI: {EntryHorasSueno.Text}");
                 });
             }
             catch (Exception ex)
             {
-                Android.Util.Log.Error("v0", $"Error cargando sueño: {ex.Message}");
-                Android.Util.Log.Error("v0", $"StackTrace: {ex.StackTrace}");
+                Android.Util.Log.Error("v0", $"❌ Error cargando sueño: {ex.Message}");
+                Android.Util.Log.Error("v0", $"   StackTrace: {ex.StackTrace}");
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
                     EntryHorasSueno.Text = "Sin datos";
                 });
             }
         }
+
 
         private async Task LoadHeartRateData(Instant startTime, Instant endTime)
         {
@@ -389,49 +450,83 @@ public partial class DiarioPage : ContentPage
                 var records = await _healthConnectClient.ReadHeartRateRecords(startTime, endTime);
                 Android.Util.Log.Info("v0", $"Registros de ritmo cardíaco encontrados: {records?.Count ?? 0}");
                 
-                double averageBpm = 0;
+                double totalBpm = 0;
                 int totalSamples = 0;
 
                 if (records != null && records.Count > 0)
                 {
                     foreach (var record in records)
                     {
-                        Android.Util.Log.Info("v0", $"Ritmo cardíaco - Origen: {record.Metadata?.DataOrigin?.PackageName ?? "desconocido"}");
-                        if (record.Samples != null)
+                        Android.Util.Log.Info("v0", $"📍 Ritmo cardíaco - Origen: {record.Metadata?.DataOrigin?.PackageName ?? "desconocido"}");
+                        
+                        if (record.Samples == null)
                         {
-                            var samples = record.Samples;
-                            if (samples is Java.Util.IList javaList)
+                            Android.Util.Log.Warn("v0", "   ⚠️ record.Samples es null");
+                            continue;
+                        }
+
+                        try
+                        {
+                            if (record.Samples is Java.Util.IList javaList)
                             {
-                                Android.Util.Log.Info("v0", $"Samples encontrados: {javaList.Size()}");
-                                for (int i = 0; i < javaList.Size(); i++)
+                                int sampleCount = javaList.Size();
+                                Android.Util.Log.Debug("v0", $"   📊 Samples encontrados: {sampleCount}");
+                                
+                                for (int i = 0; i < sampleCount; i++)
                                 {
-                                    if (javaList.Get(i) is HeartRateRecord.Sample sample)
+                                    var item = javaList.Get(i);
+                                    
+                                    if (item is HeartRateRecord.Sample sample)
                                     {
-                                        Android.Util.Log.Debug("v0", $"BPM: {sample.BeatsPerMinute}");
-                                        averageBpm += sample.BeatsPerMinute;
+                                        long bpm = sample.BeatsPerMinute;
+                                        var sampleTime = InstantToDateTime(sample.Time);
+                                        Android.Util.Log.Debug("v0", $"      BPM: {bpm} @ {sampleTime:HH:mm:ss}");
+                                        
+                                        totalBpm += bpm;
+                                        totalSamples++;
+                                    }
+                                    else
+                                    {
+                                        Android.Util.Log.Debug("v0", $"      ⚠️ Item {i} no es HeartRateRecord.Sample, es: {item?.GetType().Name}");
+                                    }
+                                }
+                            }
+                            else if (record.Samples is System.Collections.IEnumerable enumerable)
+                            {
+                                Android.Util.Log.Debug("v0", $"   Samples es IEnumerable (no IList)");
+                                foreach (var item in enumerable)
+                                {
+                                    if (item is HeartRateRecord.Sample sample)
+                                    {
+                                        totalBpm += sample.BeatsPerMinute;
                                         totalSamples++;
                                     }
                                 }
                             }
+                            else
+                            {
+                                Android.Util.Log.Warn("v0", $"   ⚠️ Samples es tipo desconocido: {record.Samples?.GetType().Name}");
+                            }
+                        }
+                        catch (Exception sampleEx)
+                        {
+                            Android.Util.Log.Error("v0", $"   ❌ Error procesando samples: {sampleEx.Message}");
                         }
                     }
-
-                    if (totalSamples > 0)
-                    {
-                        averageBpm /= totalSamples;
-                    }
                 }
+
+                double averageBpm = totalSamples > 0 ? totalBpm / totalSamples : 0;
 
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
                     EntryHR.Text = averageBpm > 0 ? $"{averageBpm:F0}" : "--";
-                    Android.Util.Log.Info("v0", $"Promedio de BPM mostrado: {averageBpm:F0}");
+                    Android.Util.Log.Info("v0", $"✅ Promedio de BPM: {averageBpm:F0} ({totalSamples} muestras)");
                 });
             }
             catch (Exception ex)
             {
-                Android.Util.Log.Error("v0", $"Error cargando ritmo cardíaco: {ex.Message}");
-                Android.Util.Log.Error("v0", $"StackTrace: {ex.StackTrace}");
+                Android.Util.Log.Error("v0", $"❌ Error cargando ritmo cardíaco: {ex.Message}");
+                Android.Util.Log.Error("v0", $"   StackTrace: {ex.StackTrace}");
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
                     EntryHR.Text = "Sin datos";
@@ -547,7 +642,12 @@ public partial class DiarioPage : ContentPage
             var webIntent = new Intent(Intent.ActionView, webUri);
             activity.StartActivity(webIntent);
         }
+        
+        private DateTime InstantToDateTime(Java.Time.Instant instant)
+        {
+            long unixTimestamp = instant.EpochSecond;
+            return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(unixTimestamp).ToLocalTime();
+        }
     #endif
-
 
 }
