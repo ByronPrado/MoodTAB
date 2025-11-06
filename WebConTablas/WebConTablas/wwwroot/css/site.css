@@ -24,7 +24,7 @@
 }
 
 body{
-  background-color: #6493e5;
+  background: linear-gradient(90deg,rgba(92, 145, 216, 1) 0%, rgba(138, 222, 238, 1) 100%);
 }
 
 .main-container{

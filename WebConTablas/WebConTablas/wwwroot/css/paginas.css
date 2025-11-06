@@ -1,11 +1,11 @@
 :root {
   /* Enhanced color palette with better contrast and modern colors */
-  --primary-color: #5199eb;
-  --primary-hover: #3877ca;
-  --secondary-color: #8b5cf6;
-  --success-color: #10b981;
-  --warning-color: #dace4e;
-  --danger-color: #da5151;
+  --primary-color: #567ed3;
+  --primary-hover: #2e5ec5;
+  --secondary-color: #727691;
+  --success-color: #3ac798;
+  --warning-color: #e1d87b;
+  --danger-color: #d35858;
   --light-bg: #f8fafc;
   --card-bg: #ffffff;
   --border-color: #e2e8f0;
@@ -50,10 +50,16 @@
   transition: all 0.2s ease;
 }
 
+.onboarding-icon{
+  cursor: pointer;
+  color: #567ed3;
+}
+
 .btn-outline-danger:hover {
   background: var(--danger-color);
   color: white;
 }
+
 
 body {
   background-color: var(--light-bg);
@@ -104,7 +110,7 @@ body {
 }
 
 .card-list-pacientes {
-  max-height: 53vh;
+  max-height: 50vh;
   overflow-y: auto;
   padding: 0.5rem 0;
   /* Custom scrollbar styling */
