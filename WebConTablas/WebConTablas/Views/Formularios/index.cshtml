@@ -19,6 +19,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="@Url.Content("~/css/paginas.css")" />
+    <style>
+        .onboarding-steps { display: flex; flex-direction: column; gap: 1.5rem; }
+        .onboarding-step { display: flex; align-items: flex-start; gap: 1.5rem; }
+        .onboarding-icon { flex-shrink: 0; width: 50px; height: 50px; background-color: var(--bs-primary-bg-subtle); color: var(--bs-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; }
+        .onboarding-text p { margin-bottom: 0; color: var(--bs-secondary-color); }
+        .modal-body { background-color: #f8f9fa; }
+    </style>
 </head>
 <body>
     <div class="main-container">
@@ -26,6 +33,9 @@
         <div class="sidebar">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h4 class="mb-0">Lista de Formularios</h4>
+                <button type="button" class="btn btn-outline-primary btn-sm" id="btnReabrirOnboardingFormularios">
+                    <i class="fas fa-question-circle me-1"></i> Ver Tour
+                </button>
                 <a asp-action="Create" class="btn btn-primary btn-sm">
                     <i class="fas fa-plus"></i> Nuevo Formulario
                 </a>
@@ -246,6 +256,103 @@
                 card.style.display = visible ? "block" : "none";
             });
         }
+        let onboardingModalFormularios; 
+
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            const modalElement = document.getElementById('onboardingModalFormularios');
+            if (!modalElement) return;
+
+            // 2. Creamos la instancia del modal
+            onboardingModalFormularios = new bootstrap.Modal(modalElement);
+            
+            // ¡¡Usamos una clave de guardado DIFERENTE!!
+            const storageKey = 'onboardingCompleto_Formularios'; 
+
+            // 3. Lógica para mostrar automáticamente la primera vez
+            const yaVioOnboarding = localStorage.getItem(storageKey);
+            if (!yaVioOnboarding) {
+                onboardingModalFormularios.show();
+            }
+
+            // 4. Lógica para "recordar" cuando el usuario lo cierra
+            const btnComenzar = document.getElementById('btnComenzarOnboardingFormularios');
+            if (btnComenzar) {
+                btnComenzar.addEventListener('click', () => {
+                    localStorage.setItem(storageKey, 'true');
+                });
+            }
+            
+            modalElement.addEventListener('hidden.bs.modal', () => {
+                if (!localStorage.getItem(storageKey)) {
+                    localStorage.setItem(storageKey, 'true');
+                }
+            });
+
+            // 5. Lógica para el NUEVO botón de "reabrir"
+            const btnReabrir = document.getElementById('btnReabrirOnboardingFormularios');
+            if(btnReabrir) {
+                btnReabrir.addEventListener('click', () => {
+                    if (onboardingModalFormularios) {
+                        onboardingModalFormularios.show(); // Simplemente lo mostramos
+                    }
+                });
+            }
+        });
+        // === FIN CÓDIGO ONBOARDING ===
     </script>
+    <div class="modal fade" id="onboardingModalFormularios" tabindex="-1" aria-labelledby="onboardingModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" id="onboardingModalLabel">
+                        <i class="fas fa-magic me-2 text-primary"></i>
+                        ¡Bienvenido/a a la Biblioteca de Formularios!
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-4 py-4" style="background-color: #f8f9fa;">
+                    <p class="lead text-center mb-4">Desde aquí puedes gestionar todas tus plantillas de preguntas y formularios.</p>
+                    
+                    <div class="onboarding-steps">
+                        <div class="onboarding-step">
+                            <div class="onboarding-icon">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                            <div class="onboarding-text">
+                                <strong>1. Crea un nuevo formulario</strong>
+                                <p>Usa el botón "<strong>+ Nuevo Formulario</strong>" para crear una nueva plantilla (ej: "Escala de Ansiedad", "Diario Emocional").</p>
+                            </div>
+                        </div>
+                        
+                        <div class="onboarding-step">
+                            <div class="onboarding-icon">
+                                <i class="fas fa-tasks"></i>
+                            </div>
+                            <div class="onboarding-text">
+                                <strong>2. Asigna preguntas</strong>
+                                <p>Haz clic en un formulario de la lista. En el panel de detalles, podrás usar el botón "<strong>Asignar Preguntas</strong>" para añadir preguntas de tu biblioteca a ese formulario.</p>
+                            </div>
+                        </div>
+
+                        <div class="onboarding-step">
+                            <div class="onboarding-icon">
+                                <i class="fas fa-filter"></i>
+                            </div>
+                            <div class="onboarding-text">
+                                <strong>3. Filtra y organiza</strong>
+                                <p>Usa los filtros de "Grupo" o la barra de búsqueda para encontrar rápidamente las plantillas que necesitas.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 justify-content-center">
+                    <button type="button" class="btn btn-primary btn-lg" data-bs-dismiss="modal" id="btnComenzarOnboardingFormularios">
+                        ¡Entendido!
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
