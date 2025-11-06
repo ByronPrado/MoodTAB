@@ -21,6 +21,7 @@
             <!-- Botón para nuevo diario -->
             <Button Text="➕ Ingresar nuevo diario"
                     Clicked="OnNewSeleccionado"
+                    Margin="6,5,6,10"
                     HeightRequest="50">
                 <Button.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
@@ -44,30 +45,23 @@
                             IsVisible="true">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame BackgroundColor="#FFD6E8FF"
-                            BorderColor="#FFC7DFFF"
+                        <Frame BackgroundColor="#6B8DD6"
+                            BorderColor="#6B8DD6"
+                            HasShadow="True"
                             Padding="10"
                             Margin="5"
                             IsClippedToBounds="False"
                             InputTransparent="True">
                             <VerticalStackLayout>
-                                <Grid RowDefinitions="10,*,*" ColumnDefinitions="*,*">
-                                    <Label Text="Fecha:" Grid.Row="1" Grid.Column="0"
+                                <Grid RowDefinitions="*,*">
+                                    <Label Text="Diario ingresado a las:" Grid.Row="0" Grid.Column="0"
                                         FontAttributes="Bold"
                                         FontFamily="BreeSerif-Regular.ttf"
-                                        TextColor="#DD000000"/>
-                                    <Label Text="{Binding CreatedAt, StringFormat='{0:dd/MM}'}" Grid.Row="2" Grid.Column="0"
+                                        TextColor="White"/>
+                                    <Label Text="{Binding CreatedAt, StringFormat='{0:HH:mm}'}" Grid.Row="1" Grid.Column="0"
                                         FontSize="16"
                                         FontFamily="BreeSerif-Regular.ttf"
-                                        TextColor="#DD000000"/>
-                                    <Label Text="Hora:" Grid.Row="1" Grid.Column="1"
-                                        FontAttributes="Bold"
-                                        FontFamily="BreeSerif-Regular.ttf"
-                                        TextColor="#DD000000"/>
-                                    <Label Text="{Binding CreatedAt, StringFormat='{0:HH:mm}'}" Grid.Row="2" Grid.Column="1"
-                                        FontSize="16"
-                                        FontFamily="BreeSerif-Regular.ttf"
-                                        TextColor="#DD000000"/>
+                                        TextColor="White"/>
                                 </Grid>
                             </VerticalStackLayout>
                         </Frame>

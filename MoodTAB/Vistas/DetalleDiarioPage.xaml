@@ -32,7 +32,7 @@
 
             <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="10" RowSpacing="10">
 
-                <Frame Grid.Column="0" Grid.Row="0" CornerRadius="15" Padding="15" BackgroundColor="#FEF3C7" BorderColor="#F59E0B">
+                <Frame Grid.Column="0" Grid.Row="0" CornerRadius="15" Padding="15" BackgroundColor="#FEF3C7" BorderColor="#FEF3C7" HasShadow="True">
                     <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
                         <Label Text="😊" FontSize="24" HorizontalOptions="Center"/>
                         <Label Text="Estado de ánimo" 
@@ -48,7 +48,7 @@
                     </VerticalStackLayout>
                 </Frame>
 
-                <Frame Grid.Column="1" Grid.Row="0" CornerRadius="15" Padding="15" BackgroundColor="#DCFCE7" BorderColor="#10B981">
+                <Frame Grid.Column="1" Grid.Row="0" CornerRadius="15" Padding="15" BackgroundColor="#DCFCE7" BorderColor="#DCFCE7" HasShadow="True">
                     <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
                         <Label Text="🍽️" FontSize="24" HorizontalOptions="Center"/>
                         <Label Text="Apetito" 
@@ -64,7 +64,7 @@
                     </VerticalStackLayout>
                 </Frame>
 
-                <Frame Grid.Column="0" Grid.Row="1" CornerRadius="15" Padding="15" BackgroundColor="#FED7AA" BorderColor="#F97316">
+                <Frame Grid.Column="0" Grid.Row="1" CornerRadius="15" Padding="15" BackgroundColor="#FFFFDFBA" BorderColor="#FFFFDFBA" HasShadow="True">
                     <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
                         <Label Text="⚡" FontSize="24" HorizontalOptions="Center"/>
                         <Label Text="Energía" 
@@ -80,7 +80,7 @@
                     </VerticalStackLayout>
                 </Frame>
  
-                <Frame Grid.Column="1" Grid.Row="1" CornerRadius="15" Padding="15" BackgroundColor="#E0E7FF" BorderColor="#6366F1">
+                <Frame Grid.Column="1" Grid.Row="1" CornerRadius="15" Padding="15" BackgroundColor="#E0E7FF" BorderColor="#E0E7FF" HasShadow="True">
                     <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
                         <Label Text="👥" FontSize="24" HorizontalOptions="Center"/>
                         <Label Text="Batería social" 
@@ -102,8 +102,8 @@
                     BackgroundColor="#FFD6E8FF"
                     CornerRadius="15"
                     Padding="15"
-                    BorderColor="#FFC7DFFF"
-                    HasShadow="False">
+                    BorderColor="#FFD6E8FF"
+                    HasShadow="True">
                     <VerticalStackLayout Spacing="15">
                         <Label 
                             Text="💭 Mis reflexiones del día" 
@@ -173,26 +173,29 @@
                        TextColor="#0F172A"/>
 
                 <Frame CornerRadius="15" 
-                       Padding="10" 
-                       BackgroundColor="#FEE2E2" 
-                       BorderColor="#EF4444">
+                       Padding="10"
+                       HasShadow="True"
+                       BackgroundColor="#FFCEDEFF" 
+                       BorderColor="#FFCEDEFF">
                     <VerticalStackLayout>
                         <Label Text="❤️ Ritmo Cardiaco"
                                FontAttributes="Bold"
                                FontFamily="BreeSerif-Regular.ttf" 
                                FontSize="16"
-                               TextColor="#B91C1C"/>
+                               TextColor="#FF1C31B9"/>
                         <Label Text="{Binding DiarioDetallado.HR_RitmoCardiaco, StringFormat='{0} BPM'}" 
-                               FontSize="22"
+                               FontFamily="BreeSerif-Regular.ttf" 
+                               FontSize="16"
                                FontAttributes="Bold"
-                               TextColor="#B91C1C"/>
+                               TextColor="#FF1C31B9"/>
                     </VerticalStackLayout>
                 </Frame>
 
                 <Frame CornerRadius="15" 
-                       Padding="10" 
+                       Padding="10"
+                       HasShadow="True"
                        BackgroundColor="#E0E7FF" 
-                       BorderColor="#6366F1">
+                       BorderColor="#E0E7FF">
                     <VerticalStackLayout>
                         <Label Text="💓 Variabilidad Frecuencia Cardiaca"
                                FontAttributes="Bold"
@@ -200,16 +203,18 @@
                                FontSize="16"
                                TextColor="#3730A3"/>
                         <Label Text="{Binding DiarioDetallado.HRV_VariabilidadFrecuencia, StringFormat='{0} ms'}" 
-                               FontSize="22"
+                               FontFamily="BreeSerif-Regular.ttf" 
+                               FontSize="16"
                                FontAttributes="Bold"
                                TextColor="#3730A3"/>
                     </VerticalStackLayout>
                 </Frame>
 
                 <Frame CornerRadius="15" 
-                       Padding="10" 
+                       Padding="10"
+                       HasShadow="True"
                        BackgroundColor="#DCFCE7" 
-                       BorderColor="#FFA2FFC2">
+                       BorderColor="#DCFCE7">
                     <VerticalStackLayout>
                         <Label Text="🚶 Pasos"
                                FontAttributes="Bold"
@@ -217,7 +222,8 @@
                                FontSize="16"
                                TextColor="#166534"/>
                         <Label Text="{Binding DiarioDetallado.Cantidad_Pasos}" 
-                               FontSize="22"
+                               FontFamily="BreeSerif-Regular.ttf" 
+                               FontSize="16"
                                FontAttributes="Bold"
                                TextColor="#166534"/>
                     </VerticalStackLayout>
@@ -231,9 +237,10 @@
                        TextColor="#0F172A"/>
 
                 <Frame CornerRadius="15" 
-                       Padding="15" 
-                       BackgroundColor="#FFC1E4FF" 
-                       BorderColor="#FF86C8FA">
+                       Padding="15"
+                       HasShadow="True"
+                       BackgroundColor="#FFD5EDFF" 
+                       BorderColor="#FFD5EDFF">
                     <VerticalStackLayout Spacing="10">
                         <VerticalStackLayout Spacing="5">
                             <Label Text="🌟 Calidad de sueño" 
@@ -242,7 +249,8 @@
                                    FontSize="16" 
                                    TextColor="#FF1A4E75"/>
                             <Label Text="{Binding CalidadSueno, StringFormat='{0:F1}/10'}" 
-                                   FontSize="22" 
+                                   FontFamily="BreeSerif-Regular.ttf" 
+                                   FontSize="16"
                                    FontAttributes="Bold" 
                                    TextColor="#FF1A4E75"/>
                         </VerticalStackLayout>
@@ -254,7 +262,8 @@
                                    FontSize="16" 
                                    TextColor="#FF1A4E75"/>
                             <Label Text="{Binding DiarioDetallado.Horas_Sueno, StringFormat='{0:F1} hrs'}" 
-                                   FontSize="22" 
+                                   FontFamily="BreeSerif-Regular.ttf" 
+                                   FontSize="16"
                                    FontAttributes="Bold" 
                                    TextColor="#FF1A4E75"
                                    IsVisible="{Binding OptionSuenoTrue}"/>
@@ -265,10 +274,11 @@
                                 <Label Text="🌙 Me dormí" 
                                        FontAttributes="Bold" 
                                        FontFamily="BreeSerif-Regular.ttf" 
-                                       FontSize="14" 
+                                       FontSize="16" 
                                        TextColor="#0C4A6E"/>
                                 <Label Text="{Binding DiarioDetallado.Hora_Durmio, StringFormat='{0:hh\\:mm}'}" 
-                                       FontSize="18" 
+                                       FontFamily="BreeSerif-Regular.ttf" 
+                                        FontSize="16"
                                        FontAttributes="Bold" 
                                        TextColor="#0C4A6E"/>
                             </VerticalStackLayout>
@@ -277,10 +287,11 @@
                                 <Label Text="☀️ Desperté" 
                                        FontAttributes="Bold" 
                                        FontFamily="BreeSerif-Regular.ttf" 
-                                       FontSize="14" 
+                                       FontSize="16" 
                                        TextColor="#0C4A6E"/>
                                 <Label Text="{Binding DiarioDetallado.Hora_Desperto, StringFormat='{0:hh\\:mm}'}" 
-                                       FontSize="18" 
+                                       FontFamily="BreeSerif-Regular.ttf" 
+                                       FontSize="16"
                                        FontAttributes="Bold" 
                                        TextColor="#0C4A6E"/>
                             </VerticalStackLayout>
@@ -297,8 +308,9 @@
 
                 <Frame CornerRadius="15"
                        Padding="15"
+                       HasShadow="True"
                        BackgroundColor="#DBEAFE" 
-                       BorderColor="#FFA2CAFF">
+                       BorderColor="#DBEAFE">
                     <VerticalStackLayout Spacing="10">
                         <VerticalStackLayout Spacing="5">
                             <Label Text="🕑 Horas totales"

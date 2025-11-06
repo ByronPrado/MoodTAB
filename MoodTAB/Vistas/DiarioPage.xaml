@@ -155,18 +155,26 @@
                 BackgroundColor="#FFD6E8FF"
                 CornerRadius="15"
                 Padding="10"
-                BorderColor="#FFC7DFFF"
-                HasShadow="False">
+                BorderColor="#FFD6E8FF"
+                HasShadow="True">
                 <VerticalStackLayout Spacing="5">
+                    <Label 
+                            Text="💭 Mis reflexiones del día" 
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            FontFamily="BreeSerif-Regular.ttf"
+                            TextColor="#0F172A"
+                            HorizontalOptions="Center"/>
                     <Label 
                         Text="¿Cómo han estado tus pensamientos?" 
                         FontSize="14"
                         FontFamily="BreeSerif-Regular.ttf"
                         TextColor="#0F172A"/>
                     <Editor 
-                        HeightRequest="100"
+                        HeightRequest="75"
                         BackgroundColor="White"
                         TextColor="Black"
+                        Margin="0,0,0,8"
                         Text="{Binding Pregunta1}" />
                     <Button
                         Text="Dictar por voz"
@@ -175,24 +183,19 @@
                         FontFamily="BreeSerif-Regular.ttf"
                         HorizontalOptions="Center"
                         HeightRequest="30"
-                        Padding="10,0"
-                        >
-                        <Button.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                            <GradientStop Color="#3B82F6" Offset="0.0" />
-                            <GradientStop Color="#10B981" Offset="1.0" />
-                        </LinearGradientBrush>
-                    </Button.Background>                   
-                    </Button>
+                        Padding="10,0"/>
+                        <Label Text=" " HeightRequest="8"
+                               FontAttributes="Bold"/>
                     <Label 
                         Text="¿Algo que consideres importante de tu día?" 
                         FontSize="14"
                         FontFamily="BreeSerif-Regular.ttf"
                         TextColor="#0F172A"/>
                     <Editor 
-                        HeightRequest="100"
+                        HeightRequest="75"
                         BackgroundColor="White"
                         TextColor="Black"
+                        Margin="0,0,0,8"
                         Text="{Binding Pregunta2}" />
                     <Button
                         Text="Dictar por voz"
@@ -201,24 +204,19 @@
                         FontFamily="BreeSerif-Regular.ttf"
                         HorizontalOptions="Center"
                         HeightRequest="30"
-                        Padding="10,0"
-                        >
-                        <Button.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                            <GradientStop Color="#3B82F6" Offset="0.0" />
-                            <GradientStop Color="#10B981" Offset="1.0" />
-                        </LinearGradientBrush>
-                    </Button.Background>                   
-                    </Button>
+                        Padding="10,0"/>
+                    <Label Text=" " HeightRequest="8"
+                               FontAttributes="Bold"/>
                     <Label 
                         Text="¿Algo más que quieras contar?" 
                         FontSize="14"
                         FontFamily="BreeSerif-Regular.ttf"
                         TextColor="#0F172A"/>
                     <Editor 
-                        HeightRequest="100"
+                        HeightRequest="75"
                         BackgroundColor="White"
                         TextColor="Black"
+                        Margin="0,0,0,8"
                         Text="{Binding Pregunta3}" />
                     <Button
                         Text="Dictar por voz"
@@ -227,21 +225,13 @@
                         FontFamily="BreeSerif-Regular.ttf"
                         HorizontalOptions="Center"
                         HeightRequest="30"
-                        Padding="10,0"
-                        >
-                        <Button.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                            <GradientStop Color="#3B82F6" Offset="0.0" />
-                            <GradientStop Color="#10B981" Offset="1.0" />
-                        </LinearGradientBrush>
-                    </Button.Background>                   
-                    </Button>
+                        Padding="10,0"/>
+                    <Label Text=" " HeightRequest="8"
+                               FontAttributes="Bold"/>
                 </VerticalStackLayout>
             </Frame>
             </VerticalStackLayout>
             
-            <Label Text=" " 
-                               FontAttributes="Bold"/>
             <!-- Actividad diaria -->
             <VerticalStackLayout Spacing="10">
                 <Label Text="📈 Actividad del día" 
@@ -254,24 +244,27 @@
 
                 <!-- Ritmo Cardiaco -->
                 <Frame CornerRadius="15" 
-                       Padding="10" 
-                       BackgroundColor="#FEE2E2" 
-                       BorderColor="#EF4444"
+                       Padding="10"
+                       HasShadow="True"
+                       BackgroundColor="#FFCEDEFF"
+                       BorderColor="#FFCEDEFF" 
                        IsVisible="{Binding OptionHR}">
                     <VerticalStackLayout Spacing="5">
                         <Label Text="❤️ Ritmo Cardiaco (BPM)" 
                                FontAttributes="Bold" 
                                FontFamily="BreeSerif-Regular.ttf" 
                                FontSize="16" 
-                               TextColor="#B91C1C"/>
+                               TextColor="#FF1C31B9"/>
                         <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
                             <Entry x:Name="EntryHR"
                                 Text="{Binding RitmoCardiaco}" 
                                    IsEnabled="{Binding HealthDataManual}" 
                                    Keyboard="Numeric" 
-                                   FontSize="22" 
+                                   FontFamily="BreeSerif-Regular.ttf" 
+                                   FontSize="16" 
+                                   WidthRequest="200"
                                    FontAttributes="Bold" 
-                                   TextColor="#B91C1C"/>
+                                   TextColor="#FF1C31B9"/>
                         </HorizontalStackLayout>
                     </VerticalStackLayout>
                 </Frame>
@@ -280,7 +273,8 @@
                 <Frame CornerRadius="15" 
                        Padding="10" 
                        BackgroundColor="#E0E7FF" 
-                       BorderColor="#6366F1"
+                       BorderColor="#E0E7FF"
+                       HasShadow="True"
                        IsVisible="{Binding OptionHRV}">
                     <VerticalStackLayout Spacing="5">
                         <Label Text="💓 Variabilidad Frecuencia Cardiaca (ms)" 
@@ -293,7 +287,9 @@
                                 Text="{Binding VariabilidadFrecuenciaCardiaca}" 
                                    IsEnabled="{Binding HealthDataManual}" 
                                    Keyboard="Numeric" 
-                                   FontSize="22" 
+                                   FontFamily="BreeSerif-Regular.ttf" 
+                                   FontSize="16" 
+                                   WidthRequest="200" 
                                    FontAttributes="Bold" 
                                    TextColor="#3730A3"/>
                         </HorizontalStackLayout>
@@ -304,7 +300,8 @@
                 <Frame CornerRadius="15" 
                        Padding="10" 
                        BackgroundColor="#DCFCE7" 
-                       BorderColor="#FFA2FFC2"
+                       BorderColor="#DCFCE7"
+                       HasShadow="True"
                        IsVisible="{Binding OptionPasos}">
                     <VerticalStackLayout Spacing="5">
                         <Label Text="🚶 Cantidad de Pasos" 
@@ -317,7 +314,9 @@
                                 Text="{Binding CantidadPasos}" 
                                    IsEnabled="{Binding HealthDataManual}" 
                                    Keyboard="Numeric" 
-                                   FontSize="22" 
+                                   FontFamily="BreeSerif-Regular.ttf" 
+                                   FontSize="16" 
+                                   WidthRequest="200"
                                    FontAttributes="Bold" 
                                    TextColor="#166534"/>
                         </HorizontalStackLayout>
@@ -325,8 +324,7 @@
                 </Frame>
 
 
-                <Label Text=" " 
-                               FontAttributes="Bold"/>
+
                 <Label Text="💤 Sueño" 
                        FontFamily="BreeSerif-Regular.ttf" 
                        FontAttributes="Bold" 
@@ -336,8 +334,9 @@
                 <!-- Cantidad de horas de sueño -->
                 <Frame CornerRadius="15"
                        Padding="10" 
-                       BackgroundColor="#FFC1E4FF" 
-                       BorderColor="#FF86C8FA">
+                       BackgroundColor="#FFD5EDFF"
+                       HasShadow="True"
+                       BorderColor="#FFD5EDFF">
                     <VerticalStackLayout Spacing="5">
                         <!-- Calidad de sueño -->
                         <Label Text="¿Cómo dormiste hoy?"
@@ -362,8 +361,7 @@
                             <Label Text="😴" FontSize="20" Grid.Column="2" Grid.Row="0" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
                             <Label Text="Bien" FontSize="12" TextColor="#FF1A4E75" Grid.Column="2" Grid.Row="1" HorizontalTextAlignment="Center" />
                         </Grid>
-                        <Label Text=" " 
-                               FontAttributes="Bold"/>
+
                         <Label Text="¿Cuantas Horas dormiste?" 
                                FontAttributes="Bold" 
                                FontFamily="BreeSerif-Regular.ttf" 
@@ -375,11 +373,14 @@
                                 Text="{Binding HorasSueno}" 
                                    IsEnabled="{Binding HealthDataManual}" 
                                    Keyboard="Numeric" 
-                                   FontSize="22" 
+                                   FontFamily="BreeSerif-Regular.ttf" 
+                                   FontSize="16"
                                    FontAttributes="Bold" 
                                    TextColor="#FF1A4E75"/>
                             <Label Text="hrs" 
-                                   FontSize="22" 
+                                   FontFamily="BreeSerif-Regular.ttf" 
+                                   FontSize="16" 
+                                   WidthRequest="200"
                                    FontAttributes="Bold" 
                                    Padding="-10,10,0,0"
                                    TextColor="#FF1A4E75"/>
@@ -393,7 +394,8 @@
                         <HorizontalStackLayout Spacing="10" VerticalOptions="Center" IsVisible="{Binding OptionSuenoFalse}">
                             <TimePicker Time="{Binding HoraDurmio}" 
                                         IsEnabled="{Binding HealthDataManual}" 
-                                        FontSize="22" 
+                                        FontFamily="BreeSerif-Regular.ttf" 
+                               FontSize="16"
                                         TextColor="#0C4A6E"/>
                         </HorizontalStackLayout>
                         <Label Text="☀️ Hora en que despertó" 
@@ -405,14 +407,13 @@
                         <HorizontalStackLayout Spacing="10" VerticalOptions="Center" IsVisible="{Binding OptionSuenoFalse}">
                             <TimePicker Time="{Binding HoraDesperto}" 
                                         IsEnabled="{Binding HealthDataManual}" 
-                                        FontSize="22" 
+                                        FontFamily="BreeSerif-Regular.ttf" 
+                                        FontSize="16" 
                                         TextColor="#0C4A6E"/>
                         </HorizontalStackLayout>
                     </VerticalStackLayout>
                 </Frame>
 
-                <Label Text=" " 
-                               FontAttributes="Bold"/>
                 <Label Text="📱 Uso del celular" 
                        FontFamily="BreeSerif-Regular.ttf" 
                        FontAttributes="Bold" 
@@ -421,9 +422,10 @@
                        TextColor="#0F172A"/>
                 <!-- Uso del celular -->
                 <Frame CornerRadius="15" 
-                       Padding="10" 
+                       Padding="10"
+                       HasShadow="True"
                        BackgroundColor="#DBEAFE" 
-                       BorderColor="#FFA2CAFF">
+                       BorderColor="#DBEAFE">
                     <VerticalStackLayout>
                         <Label Text="🕑 Horas totales" 
                                FontAttributes="Bold" 
@@ -432,7 +434,8 @@
                                TextColor="#1E3A8A"/>
 
                         <Label Text="{Binding HorasCelular, StringFormat='{0:F1} hrs'}" 
-                               FontSize="22" 
+                               FontFamily="BreeSerif-Regular.ttf" 
+                               FontSize="16" 
                                FontAttributes="Bold" 
                                TextColor="#1E3A8A"/>
                         <Label Text=" " 
@@ -443,13 +446,12 @@
                                FontSize="16"
                                TextColor="#1E3A8A"/>
                         <Label Text="{Binding HorasRedes, StringFormat='{0:F1} hrs'}" 
-                               FontSize="22" 
+                               FontFamily="BreeSerif-Regular.ttf" 
+                               FontSize="16"  
                                FontAttributes="Bold" 
                                TextColor="#1E3A8A"/>
                     </VerticalStackLayout>
                 </Frame>
-                <Label Text=" " 
-                               FontAttributes="Bold"/>
             </VerticalStackLayout>
 
             <Button Text="💾 Guardar registro del día"
@@ -472,17 +474,14 @@
                     Background="red" 
                     Command="{Binding BorrarDiarioCommand}"
                     IsVisible="False"/>
-            <Label Text="{Binding Error}" TextColor="Red" FontSize="14" FontAttributes="Bold"
-                IsVisible="true" />
             <Label
                 x:Name="StatusLabel"
                 Text="Presiona el botón para cargar datos"
                 FontSize="12"
+                IsVisible="False"
                 TextColor="#7F8C8D"
                 HorizontalOptions="Center"
                 Margin="0,10,0,0"/>
-            
-
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

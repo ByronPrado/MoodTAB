@@ -10,6 +10,7 @@ namespace MoodTAB.ViewModel
     public partial class PastilleroViewModel : ObservableObject
     {
         [ObservableProperty] EventCollection events = new();
+        [ObservableProperty] bool medVisible = false;
         [ObservableProperty] CultureInfo cultura = new("es-ES");
         [ObservableProperty] DateTime shownDate = DateTime.Today;
         [ObservableProperty] string nombreMed = string.Empty;
@@ -19,7 +20,7 @@ namespace MoodTAB.ViewModel
         public IRelayCommand<DateTime> DiaTocadoCommand { get; }
         public IRelayCommand RegistrarMedicamentoCommand { get; }
 
-        private readonly int usuarioId = int.TryParse(Globals.id_paciente_DB, out int id) ? id : 0;
+        private readonly int usuarioId = int.TryParse(Globals.id_paciente_DB, out int id) ? id : 1;
 
         public PastilleroViewModel()
         {
@@ -63,8 +64,22 @@ namespace MoodTAB.ViewModel
 
             if (fecha.Date != DateTime.Today)
             {
+                MedVisible = false;
                 if (medicamentos.Count == 0)
+                {
                     await Application.Current.MainPage.DisplayAlert("Sin registro", "No hay medicamentos en este día.", "OK");
+                }
+            }
+            else
+            {
+                if (medicamentos.Count == 0)
+                {
+                    MedVisible = false;
+                }
+                else
+                {
+                    MedVisible = true;
+                }
             }
         }
 

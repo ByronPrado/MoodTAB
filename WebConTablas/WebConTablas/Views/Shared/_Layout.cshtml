@@ -8,6 +8,12 @@
     <link rel="stylesheet" href="@Url.Content("~/css/navbar.css")" />
 </head>
 <body>
+    @{
+        var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+        var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+    }
+    @if (currentAction != "Login")
+    {
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" asp-controller="Psiquiatras" asp-action="Details"><img style="height : 30px;" src="@Url.Content("~/moodtablogo_white.svg")"></a>
@@ -46,10 +52,6 @@
                         </li>
                     }
                 </ul>
-                @{
-                    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
-                    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
-                }
 
                 @if (currentController == "Pacientes" && currentAction == "Index")
                 {
@@ -109,7 +111,7 @@
             </div>
         </div>
     </nav>
-
+    }
     @RenderBody()
     
     @RenderSection("Scripts", required: false)
