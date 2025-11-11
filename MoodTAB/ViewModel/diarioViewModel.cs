@@ -321,6 +321,7 @@ namespace MoodTAB.ViewModel
                         else
                         {
                             System.Diagnostics.Debug.WriteLine("Log subido correctamente.");
+                            await Microsoft.Maui.Controls.Application.Current.MainPage.Navigation.PopAsync();
                         }
                     }
                     catch (Exception ex)
