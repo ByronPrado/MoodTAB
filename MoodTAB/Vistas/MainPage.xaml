@@ -232,7 +232,7 @@
                         Command="{Binding MovetoPageCommand}"
                         CommandParameter="Healthconn"
                         BackgroundColor="Red"
-                         IsVisible="true"/>
+                         IsVisible="false"/>
                 <Button Text="Probar Notificación"
                         Clicked="NotificationClick"
                         BackgroundColor="#68ACD5"

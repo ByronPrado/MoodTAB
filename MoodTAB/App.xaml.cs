@@ -5,6 +5,7 @@ using MoodTAB.Vistas;
 using MoodTAB.Services;
 using MoodTAB.Platforms.Android;
 using Microsoft.Maui.Controls;
+using Microsoft.Maui.Controls.Hosting;
 
 public partial class App : Application
 {
@@ -23,14 +24,14 @@ public partial class App : Application
             return database;
         }
     }
-    
-    
-	
+
+
+
     public App()
     {
         InitializeComponent();
         //Register Syncfusion<sup>®</sup> license
-	    Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1JFaF5cXGRCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdmWH9ed3VTRGhfUkN2XkNWYEg=");
+        Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1JFaF5cXGRCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdmWH9ed3VTRGhfUkN2XkNWYEg=");
         // Verificar si el usuario ya tiene sesión guardada
         var userId = SecureStorage.GetAsync("user_id").Result;
         var userNombre = SecureStorage.GetAsync("user_nombre").Result;
@@ -49,24 +50,13 @@ public partial class App : Application
 
         var notificationManager = new NotificationManagerService();
         var dictationService = new DictationService();
+        
+        Page root = string.IsNullOrEmpty(SecureStorage.GetAsync("user_id").Result)
+        ? new LoginPage()
+        : (Globals.esFamiliar
+            ? new UsuarioExternoPage(notificationManager, dictationService)
+            : new MainPage(notificationManager));
 
-        if (!string.IsNullOrEmpty(userId)) // Solo si hay sesión guardada
-        {
-            if (!Globals.esFamiliar)
-            {
-                MainPage = new NavigationPage(new MainPage(notificationManager));
-            }
-            else
-            {
-                MainPage = new NavigationPage(new UsuarioExternoPage(notificationManager, dictationService));
-            }
-        }
-        else
-        {
-            // Si no hay sesión, siempre LoginPage
-            MainPage = new NavigationPage(new LoginPage());
-        }
+        MainPage = new NavigationPage(root);
     }
-
-
 }

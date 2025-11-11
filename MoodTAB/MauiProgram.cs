@@ -31,6 +31,8 @@ public static class MauiProgram
 		builder.Services.AddSingleton(Connectivity.Current);
 		builder.Services.AddSingleton<ViewModel.MainViewModel>();
 		builder.Services.AddSingleton<MainPage>();
+		builder.Services.AddSingleton<PlanSeguroPage>();
+		builder.Services.AddSingleton<ViewModel.PlanSeguroViewModel>();
 
 		builder.Services.AddTransient<ViewModel.DataBaseViewModel>();
 		builder.Services.AddTransient<DataBasePage>();

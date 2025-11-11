@@ -56,17 +56,16 @@ namespace MoodTAB.ViewModels
                 await SecureStorage.SetAsync("es_familiar", EsFamiliar.ToString());
 
                 var notificationManager = App.ServiceProvider.GetService<INotificationManagerService>();
-                if (EsFamiliar)
+                var nav = Application.Current.MainPage as NavigationPage;
+                if (nav != null)
                 {
-                    Console.WriteLine($"[DEBUG] Obtenido idexterno={success.user.IdUsuarioExterno}");
+                    Page next = EsFamiliar
+                        ? new UsuarioExternoPage(notificationManager, dictationService)
+                        : new MainPage(notificationManager);
 
-                    //await SecureStorage.SetAsync("user_id", success.user.ID_Paciente.ToString());
-                    Microsoft.Maui.Controls.Application.Current.MainPage = new NavigationPage(new UsuarioExternoPage(notificationManager, dictationService));
-                }
-                else
-                {
-                    Console.WriteLine($"[DEBUG] Obtenido idpaciente={success.user.ID_Paciente}");
-                    Application.Current.MainPage = new NavigationPage(new MainPage(notificationManager));
+                    // insertamos la nueva raíz antes de la actual y volvemos al inicio
+                    nav.Navigation.InsertPageBefore(next, nav.Navigation.NavigationStack.First());
+                    await nav.Navigation.PopToRootAsync();
                 }
             }
             else
@@ -97,7 +96,13 @@ namespace MoodTAB.ViewModels
 
             // Navega a la página de login
             //Application.Current.MainPage = new LoginPage();
-            Microsoft.Maui.Controls.Application.Current.MainPage = new NavigationPage(new LoginPage());
+            var nav = Application.Current.MainPage as NavigationPage;
+            if (nav != null)
+            {
+                var login = new LoginPage();
+                nav.Navigation.InsertPageBefore(login, nav.Navigation.NavigationStack.First());
+                await nav.Navigation.PopToRootAsync();
+            }
 
         }
     }

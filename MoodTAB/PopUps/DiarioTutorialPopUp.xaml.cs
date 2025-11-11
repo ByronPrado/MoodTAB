@@ -16,8 +16,8 @@ namespace MoodTAB.Popups
             _ = AnimateInAsync();
             TutorialCarousel.ItemsSource = new List<TutorialPage>
             {
-                new() { Title = "Acepta los permisos", Description = "Descripción 1" , Imagen="tutorialpermisosdiarios.gif"},
-                new() { Title = "Ingreso por voz", Description = "Descripción 2" , Imagen="tutorialingresoporvoz.gif"}
+                new() { Title = "Acepta los permisos", Description = "Asi podrás llevar registro de tu rutina" , Imagen="tutorialpermisosdiarios.gif"},
+                new() { Title = "Ingreso por voz", Description = "Puedes escribir o dictar tu respuesta" , Imagen="tutorialingresoporvoz.gif"}
             };
         }
 

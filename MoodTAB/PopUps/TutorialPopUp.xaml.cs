@@ -16,10 +16,10 @@ namespace MoodTAB.Popups
             _ = AnimateInAsync();
             TutorialCarousel.ItemsSource = new List<TutorialPage>
             {
-                new() { Title = "Registra tus emociones", Description = "Descripción 1" , Imagen="TutorialDiario.gif"},
-                new() { Title = "Responde cuestionarios", Description = "Descripción 2" , Imagen="TutorialCuestionario.gif"},
-                new() { Title = "Revisa tus respuestas", Description = "Descripción 3" , Imagen="TutorialHistorial.gif"},
-                new() { Title = "Personaliza tus registros", Description = "Descripción 4", Imagen="TutorialAjustes.gif" }
+                new() { Title = "Registra tus emociones", Description = "Responde cuantas veces quieras,expresate con comodidad." , Imagen="TutorialDiario.gif"},
+                new() { Title = "Responde cuestionarios", Description = "Menos Papeles y el en momento que desees." , Imagen="TutorialCuestionario.gif"},
+                new() { Title = "Revisa tus respuestas", Description = "Tambien puedes ver tus horas de sueño" , Imagen="TutorialHistorial.gif"},
+                new() { Title = "Personaliza tus registros", Description = "Elige en todo momento que compartir con tu Psiquiatra", Imagen="TutorialAjustes.gif" }
             };
         }
 
