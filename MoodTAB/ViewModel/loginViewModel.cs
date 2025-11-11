@@ -94,6 +94,10 @@ namespace MoodTAB.ViewModels
             SecureStorage.Remove("externo_id");
             SecureStorage.Remove("psiquiatra_id");
 
+            //borramos datos del usuario al cerrar sesion
+            await App.Database.ClearAllTablesAsync();
+
+
             // Navega a la página de login
             //Application.Current.MainPage = new LoginPage();
             var nav = Application.Current.MainPage as NavigationPage;

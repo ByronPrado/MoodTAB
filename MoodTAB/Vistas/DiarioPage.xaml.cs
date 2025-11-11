@@ -269,22 +269,20 @@ public partial class DiarioPage : ContentPage
         private async Task LoadAllHealthData()
         {
             DateTime now = DateTime.Now;
-        // Restar 10 minutos
-            DateTime tenMinutesAgo = now.AddMinutes(-10);
+            DateTime oneHourAgo = now.AddHours(-1);
             DateTime startOfToday = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0, DateTimeKind.Local);
-            DateTime startOfMonth = startOfToday.AddDays(-30);
+            DateTime startOfYesterday = startOfToday.AddDays(-1);
             
-            Instant startTimeMonth = DateTimeToInstant(startOfMonth);
-            Instant startTimeTenMinAgo = DateTimeToInstant(tenMinutesAgo);
+            Instant startTimeYesterday = DateTimeToInstant(startOfYesterday);
+            Instant startTimeTenMinAgo = DateTimeToInstant(oneHourAgo);
             Instant endTimeNow = DateTimeToInstant(now);
             Instant startTimeToday = DateTimeToInstant(startOfToday);
 
             Android.Util.Log.Info("v0", $"📊 CARGANDO DATOS HEALTH");
-            Android.Util.Log.Info("v0", $"   Rango mes: {startOfMonth:yyyy-MM-dd HH:mm} → {now:yyyy-MM-dd HH:mm}");
             Android.Util.Log.Info("v0", $"   Rango hoy: {startOfToday:yyyy-MM-dd HH:mm} → {now:yyyy-MM-dd HH:mm}");
 
             var stepsTask = LoadStepsData(startTimeToday, endTimeNow);
-            var sleepTask = LoadSleepData(startTimeToday, endTimeNow);
+            var sleepTask = LoadSleepData(startTimeYesterday, endTimeNow);
             var heartRateTask = LoadHeartRateData(startTimeTenMinAgo, endTimeNow);
             var distanceTask = LoadDistanceData(startTimeToday, endTimeNow);
             var hrvTask = LoadHeartRateVariabilityData(startTimeToday, endTimeNow);
@@ -505,7 +503,7 @@ public partial class DiarioPage : ContentPage
             }
             catch (Exception ex)
             {
-                Android.Util.Log.Error("v0", $"❌ Error cargando ritmo cardíaco: {ex.Message}");
+                Android.Util.Log.Error("v0", $"Error cargando ritmo cardíaco: {ex.Message}");
                 Android.Util.Log.Error("v0", $"   StackTrace: {ex.StackTrace}");
                 MainThread.BeginInvokeOnMainThread(() =>
                 {

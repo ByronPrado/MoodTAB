@@ -165,4 +165,16 @@ public class TodoItemDataBase
         return GetMedsBetweenAsync(start, end);
     }
 
+    public async Task ClearAllTablesAsync()
+    {
+        // Borra todas las tablas locales relevantes
+        await _database.DeleteAllAsync<TodoItem>();
+        await _database.DeleteAllAsync<Pregunta>();
+        await _database.DeleteAllAsync<Respuestas>();
+        await _database.DeleteAllAsync<Diario>();
+        await _database.DeleteAllAsync<Medicamento>();
+
+        System.Diagnostics.Debug.WriteLine("[DB] Todas las tablas locales fueron limpiadas correctamente.");
+    }
+
 }

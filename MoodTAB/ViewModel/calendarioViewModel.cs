@@ -13,6 +13,10 @@ using System.Collections.ObjectModel;
 using System.IO;
 using Microsoft.Maui.Graphics.Text;
 
+using System.Net.Http;
+using System.Text.Json;
+using System.Linq;
+
 
 
 
@@ -31,8 +35,8 @@ namespace MoodTAB.ViewModel
         }
 
     }
-    
-    
+
+
     public partial class CalendarioViewModel : ObservableObject
     {
         //Calendario
@@ -71,12 +75,12 @@ namespace MoodTAB.ViewModel
                 OnPropertyChanged(nameof(CalidadSueno)); // o RaisePropertyChanged("Data")
             }
         }
-        
+
         public string logtext = "";
 
         public CalendarioViewModel()
         {
-            CargarEventos();
+            
             // inicializar comandos
             MesCambiadoCommand = new RelayCommand<DateTime>(fecha => ShownDate = fecha);
             DiaTocadoCommand = new RelayCommand<DateTime>(async fecha => OnDiaTocado(fecha));
@@ -85,17 +89,91 @@ namespace MoodTAB.ViewModel
                 if (int.TryParse(delta, out var d)) ShownDate = ShownDate.AddMonths(d);
             });
 
-            Task.Run(async () => await InicializarDatosGraficoAsync());
+            Task.Run(async () => { 
+                await CargarEventos();
+                await InicializarDatosGraficoAsync(); });
 
         }
+
+        private async Task<List<Diario>> GetDiariosDesdeApiAsync(int pacienteId)
+        {
+            try
+            {
+                using var client = new HttpClient
+                {
+                    Timeout = TimeSpan.FromSeconds(15)
+                };
+
+                var url = $"{Globals.direccion_ngrok}api/diarios/{pacienteId}";
+                var response = await client.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[API] No se pudo obtener diarios: {response.StatusCode}");
+                    return new List<Diario>();
+                }
+
+                var json = await response.Content.ReadAsStringAsync();
+                using var doc = JsonDocument.Parse(json);
+                var root = doc.RootElement;
+
+                if (!root.TryGetProperty("diarios", out var diariosArray) || diariosArray.ValueKind != JsonValueKind.Array)
+                {
+                    System.Diagnostics.Debug.WriteLine("[API] No se encontró el campo 'diarios'");
+                    return new List<Diario>();
+                }
+
+                var lista = new List<Diario>();
+
+                foreach (var d in diariosArray.EnumerateArray())
+                {
+                    // Función local para obtener valores seguros
+                    string GetStringSafe(string prop) => d.TryGetProperty(prop, out var val) ? val.GetString() ?? "" : "";
+                    double GetDoubleSafe(string prop) => d.TryGetProperty(prop, out var val) && val.TryGetDouble(out double num) ? num : 0;
+                    int GetIntSafe(string prop) => d.TryGetProperty(prop, out var val) && val.TryGetInt32(out int num) ? num : 0;
+                    DateTime GetDateSafe(string prop) => d.TryGetProperty(prop, out var val) && val.ValueKind == JsonValueKind.String && DateTime.TryParse(val.GetString(), out var dt) ? dt : DateTime.MinValue;
+
+                    var diario = new Diario
+                    {
+                        Descripcion = GetStringSafe("descripcion"),
+                        HR_RitmoCardiaco = GetIntSafe("hR_RitmoCardiaco"),
+                        HRV_VariabilidadFrecuencia = GetIntSafe("hrV_VariabilidadFrecuencia"),
+                        Cantidad_Pasos = GetIntSafe("pasos"),
+                        Horas_Sueno = GetIntSafe("hora_dormida").ToString(),
+                        Horas_Celular = GetDoubleSafe("horas_celular"),
+                        Horas_Redes = GetDoubleSafe("horas_redes"),
+                        Emocion_Diaria = GetStringSafe("emociones"),
+                        CreatedAt = GetDateSafe("fecha"),
+                    };
+
+                    lista.Add(diario);
+                }
+
+                System.Diagnostics.Debug.WriteLine($"[API] Se obtuvieron {lista.Count} diarios desde la API.");
+                return lista;
+            }
+            catch (TaskCanceledException)
+            {
+                System.Diagnostics.Debug.WriteLine("[API] Timeout al obtener diarios");
+                return new List<Diario>();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[API] IDPAC:{pacienteId} Error obteniendo diarios: {ex}");
+                return new List<Diario>();
+            }
+        }
+
 
         private async Task InicializarDatosGraficoAsync()
         {
             var data = await CrearDatosGraficoSemanaAsync();
             var calidadSleep = await CrearDatosGraficoSuenoAsync();
-            MainThread.BeginInvokeOnMainThread(() => {
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
                 Data = data;
-                CalidadSueno = calidadSleep;});
+                CalidadSueno = calidadSleep;
+            });
         }
 
 
@@ -107,7 +185,7 @@ namespace MoodTAB.ViewModel
 
                 // Generar los 7 días (lunes a domingo)
                 var ultimos7Dias = Enumerable.Range(0, 7)
-                                       .Select(i => hoy.AddDays(-6+i))
+                                       .Select(i => hoy.AddDays(-6 + i))
                                        .ToList();
 
                 if (App.Database == null)
@@ -147,7 +225,7 @@ namespace MoodTAB.ViewModel
                 {
                     double valor = agrupado.ContainsKey(dia) ? agrupado[dia] : 0;
                     //string etiqueta = dia.ToString("dd/MM");
-                    string etiqueta = dia.ToString("ddd",cultura);
+                    string etiqueta = dia.ToString("ddd", cultura);
 
                     data.Add(new Model(etiqueta, valor));
 
@@ -162,15 +240,15 @@ namespace MoodTAB.ViewModel
                 return new ObservableCollection<Model>();
             }
         }
-        
-        public async Task<ObservableCollection<Model>>CrearDatosGraficoSuenoAsync()
+
+        public async Task<ObservableCollection<Model>> CrearDatosGraficoSuenoAsync()
         {
             try
             {
                 DateTime hoy = DateTime.Today;
 
                 var ultimos7Dias = Enumerable.Range(0, 7)
-                                    .Select(i => hoy.AddDays(-6+i))
+                                    .Select(i => hoy.AddDays(-6 + i))
                                     .ToList();
 
                 if (App.Database == null)
@@ -194,7 +272,7 @@ namespace MoodTAB.ViewModel
                         })
                     );
                 System.Diagnostics.Debug.WriteLine($"Agrupado:{agrupado}");
-                
+
                 var data = new ObservableCollection<Model>();
 
                 foreach (var dia in ultimos7Dias)
@@ -260,12 +338,37 @@ namespace MoodTAB.ViewModel
         }
 
         //funcion para mostrar los diarios en el calendario
-        private async void CargarEventos()
+        private async Task CargarEventos()
         {
-            //var diarios = await App.Database.GetDiarioAsync();
+        try
+        {
             var diarios = await App.Database.GetDiariosMesActualAsync();
 
-            // Limpio primero
+            // Si no hay diarios locales, obtener desde la API
+            if (diarios == null || diarios.Count == 0)
+            {
+                System.Diagnostics.Debug.WriteLine("[CALENDARIO] No hay diarios locales, consultando API...");
+                var idPaciente = Globals.id_paciente_DB;
+
+                var diariosApi = await GetDiariosDesdeApiAsync(int.Parse(idPaciente));
+
+                if (diariosApi.Any())
+                {
+                    System.Diagnostics.Debug.WriteLine($"[CALENDARIO] Guardando {diariosApi.Count} diarios desde API a la BD local...");
+
+                    foreach (var diario in diariosApi)
+                        await App.Database.SaveDiarioAsync(diario);
+
+                    diarios = diariosApi;
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine("[CALENDARIO] API no devolvió diarios.");
+                    return;
+                }
+            }
+
+            // Limpio eventos
             Events.Clear();
 
             foreach (var diario in diarios)
@@ -277,6 +380,13 @@ namespace MoodTAB.ViewModel
 
                 (Events[fecha] as List<Diario>)!.Add(diario);
             }
+
+            System.Diagnostics.Debug.WriteLine($"[CALENDARIO] Se cargaron {Events.Count} fechas con diarios.");
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[CALENDARIO] Error al cargar eventos: {ex}");
+        }
         }
 
         //funcion Para crear el pdf en funcion de los datos.
@@ -354,7 +464,7 @@ namespace MoodTAB.ViewModel
                 if (Data != null && Data.Any())
                 {
                     // Tamaños base
-                    float chartWidth = cardWidth*0.9f;
+                    float chartWidth = cardWidth * 0.9f;
                     float chartHeight = 180f;
 
                     // Márgenes externos (marco)
@@ -370,9 +480,9 @@ namespace MoodTAB.ViewModel
                     float scaleFactor = chartHeight / (maxY > 0 ? maxY : 1);
 
                     // Coordenadas
-                    float frameX = x + outerMargin +20f;
+                    float frameX = x + outerMargin + 20f;
                     float frameY = y + outerMargin;
-                    float chartX = frameX + innerMargin+10f;
+                    float chartX = frameX + innerMargin + 10f;
                     float chartY = frameY + innerMargin;
 
                     // Marco general
@@ -390,7 +500,7 @@ namespace MoodTAB.ViewModel
 
                         float yValue = i * maxY / gridLines;
                         g.DrawString(yValue.ToString("0.##"), emoFont, PdfBrushes.Black,
-                            new Syncfusion.Drawing.PointF(frameX +15f, yPos));
+                            new Syncfusion.Drawing.PointF(frameX + 15f, yPos));
                     }
 
                     // Barras y etiquetas del eje X
@@ -416,10 +526,10 @@ namespace MoodTAB.ViewModel
 
                     // Eje Y: “Horas de sueño”
                     g.Save();
-                    g.TranslateTransform(frameX+5, chartY + chartHeight / 2);
+                    g.TranslateTransform(frameX + 5, chartY + chartHeight / 2);
                     g.RotateTransform(-90);
                     g.DrawString("Horas de sueño", emoFont, PdfBrushes.Black,
-                        new Syncfusion.Drawing.PointF(-50,-emoFont.Size / 2));
+                        new Syncfusion.Drawing.PointF(-50, -emoFont.Size / 2));
                     g.Restore();
 
                     // Eje X: “Días de la semana”
@@ -457,7 +567,7 @@ namespace MoodTAB.ViewModel
                 if (CalidadSueno != null && CalidadSueno.Any())
                 {
                     //base
-                    float chartWidth = cardWidth*0.9f;
+                    float chartWidth = cardWidth * 0.9f;
                     float chartHeight = 180f;
                     //marco
                     float outerMargin = 10f;
@@ -471,7 +581,7 @@ namespace MoodTAB.ViewModel
                     //coordenadas
                     float frameX = x + outerMargin + 20f;
                     float frameY = y + outerMargin;
-                    float chartX = frameX + innerMargin+10f;
+                    float chartX = frameX + innerMargin + 10f;
                     float chartY = frameY + innerMargin;
                     // marco general
                     float frameHeight = chartHeight + innerMargin * 2 + 60;
@@ -542,7 +652,7 @@ namespace MoodTAB.ViewModel
             {
                 System.Diagnostics.Debug.WriteLine($"Error generando gráfico de calidad de sueño en PDF: {ex}");
             }
-            
+
             //
             if (y > page.Graphics.ClientSize.Height - 200)
             {
@@ -561,7 +671,7 @@ namespace MoodTAB.ViewModel
             }
 
             //Lista de los diarios emocionales
-             
+
             g.DrawString("Mis Diarios Emocionales", titleFont, PdfBrushes.Black, new Syncfusion.Drawing.PointF(x, y));
             y += 30;
 
@@ -582,7 +692,7 @@ namespace MoodTAB.ViewModel
                         < 3 => new PdfColor(231, 76, 60),   // rojo calidad baja
                         < 5 => new PdfColor(241, 196, 15),  // amarillo 
                         < 7 => new PdfColor(52, 152, 219),  // azul 
-                        _   => new PdfColor(46, 204, 113)   // verde para valores altos
+                        _ => new PdfColor(46, 204, 113)   // verde para valores altos
                     };
 
                     // Hora y emoción
