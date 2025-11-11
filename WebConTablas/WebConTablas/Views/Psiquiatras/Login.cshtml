@@ -22,13 +22,14 @@
                     <input type="password" id="Contrasena" name="Contrasena" required class="input-login"/>
                 </div>
                 <input type="hidden" name="EsFamiliar" value="false" />
-                <button class="botonenviar" type="submit">Iniciar sesión</button>
+                @if (ViewBag.Error != null)
+                {
+                    <p style="height : 1rem; color:red">@ViewBag.Error</p>
+                }else{
+                    <p style="height : 1rem;  color:red"></p>
+                }
+                <button class="botonenviar btn btn-primary btn-sm" type="submit">Iniciar sesión</button>
             </form>
-
-            @if (ViewBag.Error != null)
-            {
-                <p style="color:red">@ViewBag.Error</p>
-            }
         </div>
     </div>
 </div>

@@ -11,69 +11,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/luxon@3.5.0/build/global/luxon.min.js"></script>
     <link rel="stylesheet" href="@Url.Content("~/css/paginas.css")" />
-    <style>
-        .onboarding-steps {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-        .onboarding-step {
-            display: flex;
-            align-items: flex-start;
-            gap: 1.5rem;
-        }
-        .onboarding-icon {
-            flex-shrink: 0;
-            width: 50px;
-            height: 50px;
-            background-color: var(--bs-primary-bg-subtle);
-            color: var(--bs-primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-        }
-        .onboarding-text p {
-            margin-bottom: 0;
-            color: var(--bs-secondary-color);
-        }
-        .modal-body {
-            background-color: #f8f9fa;
-        }
-    </style>
-    <style>
-        .onboarding-steps {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-        .onboarding-step {
-            display: flex;
-            align-items: flex-start;
-            gap: 1.5rem;
-        }
-        .onboarding-icon {
-            flex-shrink: 0;
-            width: 50px;
-            height: 50px;
-            background-color: var(--bs-primary-bg-subtle);
-            color: var(--bs-primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-        }
-        .onboarding-text p {
-            margin-bottom: 0;
-            color: var(--bs-secondary-color);
-        }
-        .modal-body {
-            background-color: #f8f9fa;
-        }
-    </style>
-    
 </head>
 <body>
     <div class="main-container">
@@ -128,20 +65,20 @@
                     <div class="d-flex align-items-start mb-2">
                         <div class="flex-grow-1">
                             <h6 class="mb-1 fw-semibold" id="paciente-nombre">@paciente.Nombre</h6>
-                            <span id="paciente-diagnostico" class="condition-badge condition-@paciente.Diagnostico?.ToLower()">
+                            <span id="paciente-diagnostico" class="condition-badge condition-badge-@paciente.Diagnostico?.ToLower()">
                                 @paciente.Diagnostico
                             </span>
                         </div>
                         <div class="d-flex gap-2">
                             @if (tieneAlertaPlan)
                             {
-                                <span class="badge bg-success" id="alerta-plan">
+                                <span class="badge" style="background : #498750;" id="alerta-plan">
                                     <i class="fas fa-shield-alt me-1"></i>Plan
                                 </span>
                             }
                             @if (tieneAlerta)
                             {
-                                <span class="badge bg-warning" id="alerta">
+                                <span class="badge" style="background : #e4b96f;" id="alerta">
                                     <i class="fas fa-exclamation-triangle me-1"></i>Alerta
                                 </span>
                             }
@@ -438,26 +375,25 @@
             if (patient.TieneAlerta && patient.Alertas && patient.Alertas.length > 0) {
                 const alertasHTML = patient.Alertas.map(alerta => `
                     <div class="alert-item" data-alertaP-id="${alerta.ID_Alerta}">
-                        <div class="d-flex justify-content-between align-items-start">
+                        <div justify-content-between align-items-start">
                             <div class="flex-grow-1">
-                                <span class="badge bg-warning text-dark me-2">${alerta.Tipo}</span>
-                                <span>${alerta.Contenido}</span>
+                                <span class="badge me-2" style="color : white; background: ${(alerta.Tipo == "Desvio Pasos") || (alerta.Tipo == "Días Exaltado") || (alerta.Tipo == "Desvio Celular") || (alerta.Tipo == "Días Inhibidos") || (alerta.Tipo == "Desvio Sueño") ? "#e4b96f" : "#498750"};">${alerta.Tipo}</span>
                                 ${
                                     alerta.Tipo === "PlanSeguro"
                                     ? `
-                                        <button class="btn btn-sm btn-outline-primary"
-                                                onclick="handleViewPlanChange(${alerta.ID_Alerta}, ${alerta.ID_Paciente}, event)">
-                                            Ver cambio
-                                        </button>
+                                        <a style="cursor: pointer; color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1)); text-decoration: underline;" onclick="handleViewPlanChange(${alerta.ID_Alerta}, ${alerta.ID_Paciente}, event)">
+                                            ${alerta.Contenido}
+                                        </a>
                                     `
                                     : `
-                                        <a href="/Pacientes/Details/${alerta.ID_Paciente.toString()}" 
-                                        class="btn btn-sm btn-outline-primary">
-                                            Detalles
+                                        <a href="/Pacientes/Details/${alerta.ID_Paciente.toString()}">
+                                            ${alerta.Contenido}
                                         </a>
                                     `
                                 }
+                                <br>
                                 <small class="text-muted ms-2">${alerta.Created_at}</small>
+                                <br>
                             </div>
                             <div class="alert-actions">
                                 <button class="btn btn-sm btn-success me-2" onclick="handleAlertAction(${alerta.ID_Alerta}, 'Visto', event)">
@@ -714,50 +650,39 @@
                 <div class="info-grid">
                     <div class="detail-card-p info-paciente">
                         <div class="d-flex align-items-start justify-content-between mb-4">
-                            <div class="flex-grow-1">
-                                <h2 class="mb-2 fw-bold">${patient.Nombre}</h2>
-                            </div>
+                            <h5 class="fw-bold">${patient.Nombre}</h5>
+                            <a href="/Pacientes/Edit/${patient.ID_Paciente}" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-edit me-1"></i>Editar Información
+                            </a>
                         </div>
-                        
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <div class="datos-paciente">
-                                    <i class="fas fa-birthday-cake text-primary"></i>
-                                    <span><strong>${patient.Edad}</strong> años</span>
-                                </div>
-                                <div class="datos-paciente">
-                                    <i class="fas fa-venus-mars text-primary"></i>
-                                    <span>${patient.Sexo}</span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="datos-paciente">
-                                    <i class="fas fa-envelope text-primary"></i>
-                                    <span>${patient.Email}</span>
-                                </div>
-                                <div class="datos-paciente">
-                                    <i class="fas fa-phone text-primary"></i>
-                                    <span>${patient.Telefono}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="info-diagnostico detail-card-p">
-                        <h6>Diagnóstico General</h6>
-                        <span class="condition-badge condition-${diagnosticoClass}">
-                           ${patient.Diagnostico || 'Sin diagnóstico'}
-                        </span>
-                        <br><br>
-                        <small>
-                        Fecha del Diagnóstico
-                        </small>
-                        <p>15 / 10 / 2023</p>
-                        <small>Severidad</small>
-                        <p>${(patient.Severidad == "Leve") ? "⭐" : (patient.Severidad == "Moderada" ? "⭐⭐" : "⭐⭐⭐")} ${patient.Severidad}</p>
-                        <a href="/Pacientes/Edit/${patient.ID_Paciente}" class="btn btn-sm btn-outline-primary mt-3">
-                            <i class="fas fa-edit me-1"></i>Editar Información
-                        </a>
+                        <div class="patient-info">
+                            <div class="datos-paciente patient-info1">
+                                <i class="fas fa-birthday-cake text-primary"></i>
+                                <span><strong>${patient.Edad}</strong> años</span>
+                            </div>
+                            <div class="datos-paciente patient-info2">
+                                <i class="fas fa-venus-mars text-primary"></i>
+                                <span>${patient.Sexo}</span>
+                            </div>
+                            <div class="datos-paciente patient-info3">
+                                <i class="fas fa-envelope text-primary"></i>
+                                <span>${patient.Email}</span>
+                            </div>
+                            <div class="datos-paciente patient-info4">
+                                <i class="fas fa-phone text-primary"></i>
+                                <span>${patient.Telefono}</span>
+                            </div>
+                            <div class="patient-info5">
+                                <h5>Diagnóstico General:</h5>
+                                <h6 class="condition-${diagnosticoClass}">
+                                    ${patient.Diagnostico || 'Sin diagnóstico'}
+                                </h6>
+                                <br><br>
+                                <h5>Severidad:</h5>
+                                <h6>${(patient.Severidad == "Leve") ? "⭐" : (patient.Severidad == "Moderada" ? "⭐⭐" : "⭐⭐⭐")} ${patient.Severidad}</h6>
+                            </div>
+                        </div>   
                     </div>
                 </div>
                 

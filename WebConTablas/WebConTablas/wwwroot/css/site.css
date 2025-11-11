@@ -1,6 +1,3 @@
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
   color: var(--bs-secondary-color);
@@ -88,10 +85,15 @@ input
   border: 0;
   outline: none;
   border-radius: 10px;
-	border:1px solid rgba(0, 0, 0, 0.1);
 	font-size:16px;
-	background-color: rgb(238, 238, 238);
+	background-color: #567ed3;
 	text-align:center;
 	margin: 5% 0 5% 0;
 	font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.botonenviar:hover{
+  background-color: #2e5ec5;
+  box-shadow: 0 4px 12px rgba(66, 93, 190, 0.3);
 }
