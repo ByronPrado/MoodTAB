@@ -25,11 +25,16 @@ public partial class App : Application
         }
     }
 
+    protected override async void OnStart()
+    {
+        await Globals.InitAsync();
+    }
 
 
     public App()
     {
         InitializeComponent();
+        OnStart();
         //Register Syncfusion<sup>®</sup> license
         Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1JFaF5cXGRCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdmWH9ed3VTRGhfUkN2XkNWYEg=");
         // Verificar si el usuario ya tiene sesión guardada

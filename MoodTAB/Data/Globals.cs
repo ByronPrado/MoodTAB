@@ -1,7 +1,9 @@
 //using Foundation;
 using System;
 using System.Collections.Generic;
-//
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace MoodTAB
 {
@@ -18,8 +20,8 @@ namespace MoodTAB
         public static string? id_usuario_externo_DB { get; set; }
         public static string numeroEmergencia { get; set; } = "*4141";
 
-        public static string direccion_ngrok = "http://10.0.2.2:5051/";
-        //public static string direccion_ngrok = "https://3ef70a8f1d1a.ngrok-free.app/";
+        //public static string direccion_ngrok = "http://10.0.2.2:5051/";
+        public static string direccion_ngrok = "https://f2e706394f11.ngrok-free.app/";
 
         public static bool toBool(string? boole)
         {
@@ -27,6 +29,25 @@ namespace MoodTAB
 
         }
 
+        public static async Task InitAsync()
+        {
+            try
+            {
+                using var client = new HttpClient();
+                // ⚠️ Cambia esta URL por la de tu archivo config.json en GitHub (raw)
+                var json = await client.GetStringAsync("https://raw.githubusercontent.com/<usuario>/<repo>/<branch>/config.json");
+
+                using var doc = JsonDocument.Parse(json);
+                if (doc.RootElement.TryGetProperty("NgrokUrl", out var urlElement))
+                {
+                    direccion_ngrok = urlElement.GetString() ?? direccion_ngrok;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error cargando config remota: {ex.Message}");
+            }
+        }
         public static Dictionary<string, ConsejoInfo> consejos = new Dictionary<string, ConsejoInfo>
         {
             { "1", new ConsejoInfo("Monitorea tus horas de sueño", 
