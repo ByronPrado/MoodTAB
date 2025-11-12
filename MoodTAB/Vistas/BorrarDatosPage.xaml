@@ -3,14 +3,27 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MoodTAB.Vistas.BorrarDatosPage"
              Title="Eliminar mis datos">
-             <ScrollView>
-    <VerticalStackLayout Padding="20" Spacing="20">
+    
+        <NavigationPage.TitleView>
+          <Grid>
+              <Label Text="Eliminar mis Datos"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    FontSize="20"
+                    Padding="-66,0,0,0"
+                    FontFamily="BreeSerif-Regular.ttf"
+                    TextColor="#FF191919"/>
+          </Grid>
+        </NavigationPage.TitleView>
+    <ScrollView>
+    <VerticalStackLayout  BackgroundColor="#FFF3F3FF" Padding="20" Spacing="20">
 
       <!-- Título principal -->
       <Label
         Text="Ley 19.628 – Protección de Datos Personales"
         FontSize="22"
         FontAttributes="Bold"
+        FontFamily="BreeSerif-Regular.ttf"
         HorizontalOptions="Center" />
 
       <!-- Resumen de los derechos de cancelación -->
@@ -21,15 +34,15 @@
         Padding="15">
         <VerticalStackLayout Spacing="8">
 
-          <Label Text="• Ley N° 19.628: regula el tratamiento de datos personales mediante consentimiento informado y lealtad." />
+          <Label Text="• Ley N° 19.628: regula el tratamiento de datos personales mediante consentimiento informado y lealtad." FontFamily="BreeSerif-Regular.ttf"/>
 
-          <Label Text="• Derecho ARCO: Acceso, Rectificación, Cancelación y Oposición de tus datos." />
+          <Label Text="• Derecho ARCO: Acceso, Rectificación, Cancelación y Oposición de tus datos." FontFamily="BreeSerif-Regular.ttf" />
 
-          <Label Text="• Art. 13 N° 2 – Derecho de Cancelación: solicita la eliminación de datos inexactos, innecesarios o caducados." />
+          <Label Text="• Art. 13 N° 2 – Derecho de Cancelación: solicita la eliminación de datos inexactos, innecesarios o caducados." FontFamily="BreeSerif-Regular.ttf" />
 
-          <Label Text="• Plazos de atención: respuesta en 10 días hábiles; ejecución de la cancelación en 20 días hábiles." />
+          <Label Text="• Plazos de atención: respuesta en 10 días hábiles; ejecución de la cancelación en 20 días hábiles." FontFamily="BreeSerif-Regular.ttf" />
 
-          <Label Text="• Vías de reclamo: puedes acudir al Consejo para la Transparencia o la vía judicial en caso de negativa o silencio." />
+          <Label Text="• Vías de reclamo: puedes acudir al Consejo para la Transparencia o la vía judicial en caso de negativa o silencio." FontFamily="BreeSerif-Regular.ttf" />
 
         </VerticalStackLayout>
       </Frame>
@@ -50,6 +63,7 @@
 
           <Label
             Text="He leído y acepto eliminar mis datos"
+            FontFamily="BreeSerif-Regular.ttf"
             Grid.Column="1"
             VerticalOptions="Center"
             LineBreakMode="WordWrap" />
@@ -58,6 +72,7 @@
             x:Name="btnEnviar"
             Grid.Column="2"
             Text="Enviar solicitud"
+            FontFamily="BreeSerif-Regular.ttf"
             Clicked="OnEnviarSolicitudClicked" />
 
         </Grid>

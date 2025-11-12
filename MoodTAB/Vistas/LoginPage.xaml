@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="MoodTAB.Vistas.LoginPage"
              NavigationPage.HasNavigationBar="False"             
              >
@@ -22,7 +23,35 @@
                 <Grid RowDefinitions="*,*,*,*,*,*" RowSpacing="5">
                     <Label Grid.Row="0" Text="Iniciar Sesión" FontFamily="BreeSerif-Regular.ttf" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center"/>
                     <Entry  Grid.Row="1" Placeholder="Email" Text="{Binding Email}"  MaximumWidthRequest="200" IsSpellCheckEnabled="false"/>
-                    <Entry  Grid.Row="2" IsPassword="True" Placeholder="Contraseña" MaximumWidthRequest="200" IsSpellCheckEnabled="false" Text="{Binding Password}" />
+                    <Grid Grid.Row="2" ColumnDefinitions="*, Auto" MaximumWidthRequest="200">
+                        <!-- Entry de la contraseña -->
+                        <Entry
+                            x:Name="PasswordEntry"
+                            Grid.Column="0"
+                            Placeholder="Contraseña"
+                            IsPassword="True"
+                            Text="{Binding Password}"
+                            IsSpellCheckEnabled="false">
+                            <Entry.Behaviors>
+                                <toolkit:EventToCommandBehavior
+                                    EventName="Completed"
+                                    Command="{Binding LoginCommand}" />
+                            </Entry.Behaviors>
+                        </Entry>
+
+                        <!-- Botón de mostrar/ocultar contraseña -->
+                        <ImageButton
+                            Grid.Column="1"
+                            Source="debug.png"
+                            Clicked="OnTogglePasswordVisibility"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            BackgroundColor="Transparent"
+                            WidthRequest="24"
+                            HeightRequest="24"
+                            Padding="0"
+                            Margin="0"/>
+                    </Grid>
                     <HorizontalStackLayout  Grid.Row="3" HorizontalOptions="Start">
                         <CheckBox IsChecked="{Binding EsFamiliar}" Color="#FF567ED3"/>
                         <Label Text="Soy familiar/tutor" VerticalOptions="Center" HorizontalOptions="Start" FontFamily="BreeSerif-Regular.ttf"/>

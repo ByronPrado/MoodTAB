@@ -16,7 +16,7 @@
         </Grid>
     </NavigationPage.TitleView>
 
-    <ScrollView>
+    <ScrollView  BackgroundColor="#FFF3F3FF"> 
         <VerticalStackLayout Padding="20" Spacing="15">
             
             <!-- Título del formulario -->

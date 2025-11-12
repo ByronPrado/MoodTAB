@@ -8,4 +8,9 @@ public partial class LoginPage : ContentPage
 		InitializeComponent();
 		BindingContext = new LoginViewModel();
 	}
+
+	private void OnTogglePasswordVisibility(object sender, EventArgs e)
+	{
+		PasswordEntry.IsPassword = !PasswordEntry.IsPassword;
+	}
 }

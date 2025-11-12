@@ -10,9 +10,6 @@
         <!-- Contenido principal -->
         <ScrollView BackgroundColor="#FFF3F3FF" VerticalScrollBarVisibility="Always">
             <VerticalStackLayout Padding="20,20,20,90" Spacing="15">
-
-                <!-- ... existing code ... -->
-
                 <!-- Frame con título de la API -->
                 <Image Source="moodtablogo_color.png"/>
                 <Frame BackgroundColor="White"

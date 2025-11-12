@@ -22,7 +22,7 @@
         </Grid>
     </NavigationPage.TitleView>
 
-   <ScrollView VerticalScrollBarVisibility="Always">
+   <ScrollView  BackgroundColor="#FFF3F3FF" VerticalScrollBarVisibility="Always">
         <VerticalStackLayout Spacing="20">
                     <!-- Título -->
             <Label Text="Formularios Completados"
