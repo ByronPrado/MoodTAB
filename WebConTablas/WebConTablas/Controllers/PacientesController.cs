@@ -16,6 +16,21 @@ public class PacientesController : Controller
         _context = context;
     }
 
+    private void CargarDiagnosticos()
+    {
+        ViewBag.Diagnosticos = new SelectList(new[]
+        {
+            "Depresión",
+            "Ansiedad",
+            "Manía",
+            "Trastorno afectivo bipolar",
+            "Estrés postraumático",
+            "Esquizofrenia",
+            "Munchausen",
+            "Despersonalización"
+        });
+    }
+
     public async Task<IActionResult> Index()
     {
         var idPsiquiatra = HttpContext.Session.GetInt32("PsiquiatraId");
@@ -39,6 +54,8 @@ public class PacientesController : Controller
         .Include(p => p.Logs)
         .ToListAsync();
 
+        CargarDiagnosticos();
+        
         foreach (var paciente in pacientes)
         {
             var ultimosDiarios = paciente.DiariosEmocionales
@@ -67,14 +84,14 @@ public class PacientesController : Controller
                 // Check for steps deviation alert
                 if (margen_pasos + promedio_pasos < ultimosDiarios.Last().Pasos || promedio_pasos - margen_pasos > ultimosDiarios.Last().Pasos)
                 {
-                    await CrearAlertaSiNoExiste(paciente.ID_Paciente, "Desvio Pasos", 
+                    await CrearAlertaSiNoExiste(paciente.ID_Paciente, "Desvio Pasos",
                         $"Desviación significativa en pasos detectada. Promedio: {promedio_pasos}, Último registro: {ultimosDiarios.Last().Pasos}");
                 }
 
                 // Check for phone usage deviation alert
                 if (margen_celular + promedio_celular < ultimosDiarios.Last().Horas_celular || promedio_celular - margen_celular > ultimosDiarios.Last().Horas_celular)
                 {
-                    await CrearAlertaSiNoExiste(paciente.ID_Paciente, "Desvio Celular", 
+                    await CrearAlertaSiNoExiste(paciente.ID_Paciente, "Desvio Celular",
                         $"Desviación significativa en uso de celular detectada. Promedio: {promedio_celular}h, Último registro: {ultimosDiarios.Last().Horas_celular}h");
                 }
 
@@ -86,7 +103,7 @@ public class PacientesController : Controller
                 }
                 if (diasAlteradosEx >= 2)
                 {
-                    await CrearAlertaSiNoExiste(paciente.ID_Paciente, "Días Exaltado", 
+                    await CrearAlertaSiNoExiste(paciente.ID_Paciente, "Días Exaltado",
                         $"Estado exaltado detectado en {diasAlteradosEx} de los últimos {ultimosDiarios.Count} días");
                 }
             }
@@ -165,6 +182,7 @@ public class PacientesController : Controller
 
     public IActionResult Create()
     {
+        CargarDiagnosticos();
         var idPsiquiatra = HttpContext.Session.GetInt32("PsiquiatraId");
 
         if (idPsiquiatra == null)
@@ -197,6 +215,7 @@ public class PacientesController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(Paciente paciente, int? ID_FormularioSeleccionado)
     {
+        CargarDiagnosticos();
         var idPsiquiatra = HttpContext.Session.GetInt32("PsiquiatraId");
 
         if (idPsiquiatra == null)
@@ -243,6 +262,7 @@ public class PacientesController : Controller
     [HttpPost]
     public async Task<IActionResult> Edit(Paciente paciente)
     {
+        CargarDiagnosticos();
         var idPsiquiatra = HttpContext.Session.GetInt32("PsiquiatraId");
 
         if (idPsiquiatra == null)

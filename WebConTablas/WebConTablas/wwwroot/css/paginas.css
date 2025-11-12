@@ -672,15 +672,39 @@ body {
   border-color: rgba(30, 64, 175, 0.2);
 }
 
-.condition-badge-estres {
+.condition-badge-despersonalización {
+  background-color: #dbeafe;
+  color: #1e40af;
+  border-color: rgba(30, 64, 175, 0.2);
+}
+
+.condition-badge-manía {
   background-color: #fce7f3;
   color: #be185d;
   border-color: rgba(190, 24, 93, 0.2);
 }
 
-.condition-badge-tda {
+.condition-badge-munchausen {
+  background-color: #fce7f3;
+  color: #be185d;
+  border-color: rgba(190, 24, 93, 0.2);
+}
+
+.condition-badge-tab {
   background-color: #e9d5ff;
   color: #7e22ce;
+  border-color: rgba(126, 34, 206, 0.2);
+}
+
+.condition-badge-tept {
+  background-color: #e9d5ff;
+  color: #7e22ce;
+  border-color: rgba(126, 34, 206, 0.2);
+}
+
+.condition-badge-esquizofrenia {
+  background-color: #b2edd5;
+  color: #1d6039;
   border-color: rgba(126, 34, 206, 0.2);
 }
 
@@ -712,12 +736,32 @@ body {
   border-color: rgba(30, 64, 175, 0.2);
 }
 
-.condition-estres {
+.condition-despersonalización {
+  color: #1e40af;
+  border-color: rgba(30, 64, 175, 0.2);
+}
+
+.condition-esquizofrenia {
+  color: #1d6039;
+  border-color: rgba(34, 206, 117, 0.2);
+}
+
+.condition-manía {
   color: #be185d;
   border-color: rgba(190, 24, 93, 0.2);
 }
 
-.condition-tda {
+.condition-munchausen {
+  color: #be185d;
+  border-color: rgba(190, 24, 93, 0.2);
+}
+
+.condition-tab {
+  color: #7e22ce;
+  border-color: rgba(126, 34, 206, 0.2);
+}
+
+.condition-tept {
   color: #7e22ce;
   border-color: rgba(126, 34, 206, 0.2);
 }

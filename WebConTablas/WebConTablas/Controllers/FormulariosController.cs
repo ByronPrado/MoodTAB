@@ -7,14 +7,7 @@ public class FormulariosController : Controller
 {
     private readonly AppDbContext _context;
     public FormulariosController(AppDbContext context) => _context = context;
-
-    public async Task<IActionResult> Index() => View(await _context.Formularios
-    .Include(f => f.Psiquiatra)
-    .Include(f => f.Preguntas)
-        .ThenInclude(fp => fp.Pregunta)
-    .ToListAsync());
-
-    public IActionResult Create()
+    private void CargarGrupos()
     {
         ViewBag.Grupos = new SelectList(new[] 
         {
@@ -22,8 +15,27 @@ public class FormulariosController : Controller
             "Seguimiento",
             "Diagnóstico",
             "Control",
-            "Alta médica"
+            "Alta médica",
+            "Otro"
         });
+    }
+
+    public async Task<IActionResult> Index()
+    {
+        CargarGrupos();
+
+        var formularios = await _context.Formularios
+            .Include(f => f.Psiquiatra)
+            .Include(f => f.Preguntas)
+                .ThenInclude(fp => fp.Pregunta)
+            .ToListAsync();
+
+        return View(formularios);
+    }
+
+    public IActionResult Create()
+    {
+        CargarGrupos();
 
         var psiquiatraId = HttpContext.Session.GetInt32("PsiquiatraId");
         if (psiquiatraId == null)

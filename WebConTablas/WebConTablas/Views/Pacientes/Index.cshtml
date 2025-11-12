@@ -22,7 +22,7 @@
                 <a id="btnReabrirOnboarding">
                     <i class="fas fa-question-circle me-1"></i>
                 </a>
-                <a href="/Pacientes/Create" class="btn btn-primary btn-sm">
+                <a href="/Pacientes/Create" class="btn btn-primary btn-sm" style="width : 110px;">
                     <i class="fas fa-plus me-1"></i> Nuevo
                 </a>
             </div>
@@ -35,12 +35,8 @@
             
             <div class="mb-3">
                 <label for="diagnostico" class="form-label">Diagnóstico</label>
-                <select name="diagnostico" id="filtro-diagnostico" class="form-select">
-                    <option value="none">Todos los diagnósticos</option>
-                    <option value="Ansiedad">Ansiedad</option>
-                    <option value="TDA">TDA</option>
-                    <option value="Depresión">Depresión</option>
-                    <option value="Manía">Manía</option>
+                <select name="diagnostico" id="filtro-diagnostico" asp-items="ViewBag.Diagnosticos" class="form-select">
+                    <option value="none">Selecciona diagnostico..</option>
                 </select>
             </div>
             
@@ -65,7 +61,7 @@
                     <div class="d-flex align-items-start mb-2">
                         <div class="flex-grow-1">
                             <h6 class="mb-1 fw-semibold" id="paciente-nombre">@paciente.Nombre</h6>
-                            <span id="paciente-diagnostico" class="condition-badge condition-badge-@paciente.Diagnostico?.ToLower()">
+                            <span id="paciente-diagnostico" class="condition-badge condition-badge-@((paciente.Diagnostico == "Trastorno afectivo bipolar") ? "tab" : (paciente.Diagnostico == "Estrés postraumático") ? "tept" : paciente.Diagnostico?.ToLower())">
                                 @paciente.Diagnostico
                             </span>
                         </div>
@@ -651,7 +647,7 @@
                     <div class="detail-card-p info-paciente">
                         <div class="d-flex align-items-start justify-content-between mb-4">
                             <h5 class="fw-bold">${patient.Nombre}</h5>
-                            <a href="/Pacientes/Edit/${patient.ID_Paciente}" class="btn btn-sm btn-outline-primary">
+                            <a href="/Pacientes/Edit/${patient.ID_Paciente}" class="btn btn-primary btn-sm" style="width : 176px;">
                                 <i class="fas fa-edit me-1"></i>Editar Información
                             </a>
                         </div>
@@ -675,12 +671,12 @@
                             </div>
                             <div class="patient-info5">
                                 <h5>Diagnóstico General:</h5>
-                                <h6 class="condition-${diagnosticoClass}">
+                                <h6 class="condition-${(patient.Diagnostico == 'Trastorno afectivo bipolar') ? 'tab' : (patient.Diagnostico == 'Estrés postraumático') ? 'tept' : diagnosticoClass}">
                                     ${patient.Diagnostico || 'Sin diagnóstico'}
                                 </h6>
                                 <br><br>
                                 <h5>Severidad:</h5>
-                                <h6>${(patient.Severidad == "Leve") ? "⭐" : (patient.Severidad == "Moderada" ? "⭐⭐" : "⭐⭐⭐")} ${patient.Severidad}</h6>
+                                <h6>${(patient.Severidad == "Leve") ? "⭐" : (patient.Severidad == "Moderado" ? "⭐⭐" : "⭐⭐⭐")} ${patient.Severidad}</h6>
                             </div>
                         </div>   
                     </div>
@@ -691,7 +687,7 @@
                         <h5 class="mb-0 summary-title">
                             <i class="fas fa-calendar-day me-2 text-primary"></i></i>Diario emocional reciente
                         </h5>
-                        <a href="/Pacientes/Details/${patient.ID_Paciente.toString()}" class="btn btn-sm btn-outline-primary">
+                        <a href="/Pacientes/Details/${patient.ID_Paciente.toString()}" class="btn btn-primary btn-sm" style="width : 176px;">
                             <i class="fas fa-external-link-alt me-1"></i>Ver todos
                         </a>
                     </summary>
@@ -705,7 +701,7 @@
                         <h5 class="mb-0 summary-title">
                             <i class="fas fa-clipboard-list me-2 text-primary"></i>Formularios asignados
                         </h5>
-                        <a href="/FormulariosAsignados/Asignar" class="btn btn-sm btn-outline-primary">
+                        <a href="/FormulariosAsignados/Asignar" class="btn btn-primary btn-sm" style="width : 176px;">
                             <i class="fas fa-plus me-1"></i>Asignar formulario
                         </a>
                     </summary>
@@ -730,7 +726,7 @@
                         <h5 class="mb-0 summary-title">
                             <i class="fas fa-shield-alt me-2 text-primary"></i>Plan de Seguridad
                         </h5>
-                        <button typebutton="button" class="btn btn-sm btn-outline-primary" onclick="event.preventDefault(); printSafetyPlan(${patient.ID_Paciente})">
+                        <button typebutton="button" class="btn btn-primary btn-sm" style="width : 176px;" onclick="event.preventDefault(); printSafetyPlan(${patient.ID_Paciente})">
                             <i class="fas fa-print me-1"></i>Imprimir Plan
                         </button>
                         </summary>

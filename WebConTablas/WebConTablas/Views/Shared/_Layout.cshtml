@@ -24,13 +24,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
-                        <a class="nav-link text-light" asp-controller="Pacientes" asp-action="Index">Pacientes</a>
+                        <a class="nav-link text-light" asp-controller="Pacientes" style="color : white !important;" asp-action="Index">Pacientes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light" asp-controller="Formularios" asp-action="Index">Formularios</a>
+                        <a class="nav-link text-light" asp-controller="Formularios" style="color : white !important;" asp-action="Index">Formularios</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light" asp-controller="Preguntas" asp-action="Index">Preguntas</a>
+                        <a class="nav-link text-light" asp-controller="Preguntas" style="color : white !important;" asp-action="Index">Preguntas</a>
                     </li>
                 </ul>
                 @{
@@ -40,14 +40,14 @@
                 @if (!string.IsNullOrEmpty(psiquiatraNombre))
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-controller="Psiquiatras" asp-action="Details" title="Mi Agenda">
+                            <a class="nav-link text-light" style="color : white !important;" asp-controller="Psiquiatras" asp-action="Details" title="Mi Agenda">
                                 @psiquiatraNombre
                             </a>
                         </li>
                         
                         <li class="nav-item">
                             <form class="form-inline" asp-controller="Psiquiatras" asp-action="Logout" method="post">
-                                <button type="submit" class="nav-link btn btn-link text-light">Cerrar Sesión</button>
+                                <button type="submit" class="nav-link btn btn-link text-light" style="color : white !important;">Cerrar Sesión</button>
                             </form>
                         </li>
                     }
@@ -82,7 +82,7 @@
                                     @* Add null check for alerts display *@
                                     @if (alertasNoVistas != null && alertasNoVistas.Any())
                                     {
-                                        <ul class="list-group">
+                                        <ul class="list-group gap-3">
                                             @foreach (var alerta in alertasNoVistas)
                                             {
                                                 <li class="list-group-item list-group-item-action alerta-item" 
@@ -90,7 +90,7 @@
                                                     data-alerta-id="@alerta.ID_Alerta"
                                                     style="cursor:pointer;">
                                                     <strong>@(alerta.Paciente?.Nombre ?? "Paciente desconocido")</strong>
-                                                    <span class="badge bg-warning text-dark ms-2">@(alerta.Tipo ?? "Alerta")</span>
+                                                    <span class="badge ms-2" style="background-color : @((alerta.Tipo == "PlanSeguro") ? "#498750" : "#e4b96f"); color : white;">@(alerta.Tipo ?? "Alerta")</span>
                                                     <br />
                                                     <small class="text-muted">@(alerta.Contenido ?? "Sin descripción")</small>
                                                     <br />

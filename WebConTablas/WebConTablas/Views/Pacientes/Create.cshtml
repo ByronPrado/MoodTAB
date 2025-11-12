@@ -48,7 +48,7 @@
                         <label asp-for="Nombre" class="form-label fw-semibold">
                             <i class="fas fa-user me-2"></i>Nombre Completo
                         </label>
-                        <input asp-for="Nombre" class="form-control" placeholder="Ingrese el nombre completo del paciente" required />
+                        <input asp-for="Nombre" class="form-control" placeholder="Ingrese el nombre completo del paciente" required/>
                         <span asp-validation-for="Nombre" class="text-danger"></span>
                     </div>
                     
@@ -56,7 +56,7 @@
                         <label asp-for="Edad" class="form-label fw-semibold">
                             <i class="fas fa-calendar-alt me-2"></i>Edad
                         </label>
-                        <input asp-for="Edad" type="number" class="form-control" placeholder="Edad del paciente" min="0" max="150" />
+                        <input asp-for="Edad" type="number" class="form-control" placeholder="Edad del paciente" min="0" max="150" required/>
                         <span asp-validation-for="Edad" class="text-danger"></span>
                     </div>
 
@@ -64,7 +64,7 @@
                         <label asp-for="Sexo" class="form-label fw-semibold">
                             <i class="fas fa-venus-mars me-2"></i>Sexo
                         </label>
-                        <select asp-for="Sexo" class="form-select">
+                        <select asp-for="Sexo" class="form-select" required>
                             <option value="">Seleccione...</option>
                             <option value="M">Masculino</option>
                             <option value="F">Femenino</option>
@@ -86,7 +86,7 @@
                         <label asp-for="Email" class="form-label fw-semibold">
                             <i class="fas fa-envelope me-2"></i>Correo Electrónico
                         </label>
-                        <input asp-for="Email" type="email" class="form-control" placeholder="ejemplo@correo.com" />
+                        <input asp-for="Email" type="email" class="form-control" placeholder="ejemplo@correo.com" required/>
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
 
@@ -94,7 +94,7 @@
                         <label asp-for="Telefono" class="form-label fw-semibold">
                             <i class="fas fa-phone me-2"></i>Teléfono
                         </label>
-                        <input asp-for="Telefono" class="form-control" placeholder="Número de teléfono" />
+                        <input asp-for="Telefono" class="form-control" placeholder="Número de teléfono" required/>
                         <span asp-validation-for="Telefono" class="text-danger"></span>
                     </div>
                 </div>
@@ -110,10 +110,23 @@
                     <div class="col-md-12 mb-3">
                         <label asp-for="Diagnostico" class="form-label fw-semibold">
                             <i class="fas fa-stethoscope me-2"></i>Diagnóstico
-                            <span class="text-muted fw-normal">(opcional)</span>
                         </label>
-                        <input asp-for="Diagnostico" class="form-control" placeholder="Ingrese el diagnóstico si está disponible" />
+                        <select asp-for="Diagnostico" asp-items="ViewBag.Diagnosticos" class="form-select" required>
+                            <option value="">Seleccione un tipo...</option>
+                        </select>
                         <span asp-validation-for="Diagnostico" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-12 mb-3">
+                        <label asp-for="Diagnostico" class="form-label fw-semibold">
+                            <i class="fas fa-stethoscope me-2"></i>Severidad
+                        </label>
+                        <select asp-for="Severidad" class="form-select" required>
+                            <option value="Leve">Leve</option>
+                            <option value="Moderado">Moderado</option>
+                            <option value="Severo">Severo</option>
+                        </select>
+                        <span asp-validation-for="Severidad" class="text-danger"></span>
                     </div>
 
                     <div class="col-md-12 mb-3">

@@ -36,7 +36,7 @@
                 <a id="btnReabrirOnboardingFormularios">
                     <i class="fas fa-question-circle me-1"></i>
                 </a>
-                <a asp-action="Create" class="btn btn-primary btn-sm">
+                <a asp-action="Create" class="btn btn-primary btn-sm" style="width : 110px;">
                     <i class="fas fa-plus"></i> Nuevo
                 </a>
             </div>
@@ -47,12 +47,8 @@
             </div>
 
             <label for="filtro-grupo">Grupo</label>
-            <select id="filtro-grupo" class="form-select" onchange="filterForm()">
-                <option value="all">Todos</option>
-                @foreach (var grupo in grupos)
-                {
-                    <option value="@grupo">@grupo</option>
-                }
+            <select id="filtro-grupo" asp-items="ViewBag.Grupos" class="form-select" onchange="filterForm()">
+                <option value="all">Selecciones grupo...</option>
             </select>
             <div style="height: 2rem;"></div>
 
