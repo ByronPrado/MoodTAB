@@ -35,7 +35,7 @@ namespace MoodTAB
             {
                 using var client = new HttpClient();
                 // ⚠️ Cambia esta URL por la de tu archivo config.json en GitHub (raw)
-                var json = await client.GetStringAsync("https://raw.githubusercontent.com/<usuario>/<repo>/<branch>/config.json");
+                var json = await client.GetStringAsync("https://raw.githubusercontent.com/ByronPrado/MoodTAB/Temporal/Ngrok/config.json");
 
                 using var doc = JsonDocument.Parse(json);
                 if (doc.RootElement.TryGetProperty("NgrokUrl", out var urlElement))
