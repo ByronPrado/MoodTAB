@@ -71,7 +71,7 @@ namespace MoodTAB.ViewModels
             else
             {
                 ErrorMessage = "Nombre o email inválidos.";
-                Console.WriteLine($"Error: {ErrorMessage}");
+                Console.WriteLine($"Error: {ErrorMessage}, {Globals.direccion_ngrok},password {Password}");
             }
         }
 

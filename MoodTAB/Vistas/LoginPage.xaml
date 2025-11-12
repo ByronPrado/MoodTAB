@@ -32,11 +32,6 @@
                             IsPassword="True"
                             Text="{Binding Password}"
                             IsSpellCheckEnabled="false">
-                            <Entry.Behaviors>
-                                <toolkit:EventToCommandBehavior
-                                    EventName="Completed"
-                                    Command="{Binding LoginCommand}" />
-                            </Entry.Behaviors>
                         </Entry>
 
                         <!-- Botón de mostrar/ocultar contraseña -->

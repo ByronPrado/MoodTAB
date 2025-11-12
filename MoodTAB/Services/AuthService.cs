@@ -10,10 +10,7 @@ namespace MoodTAB.Services
 
         public AuthService()
         {
-            _httpClient = new HttpClient
-            {
-                BaseAddress = new Uri($"{Globals.direccion_ngrok}api/") // emulador Android
-            };
+            _httpClient = new HttpClient();
         }
 
         public async Task<(bool success, string log, PacienteDto user)> LoginAsync(string email, string contrasena,bool esFamiliar)
@@ -22,17 +19,25 @@ namespace MoodTAB.Services
 
             try
             {
+                var baseUrl = $"{Globals.direccion_ngrok}api/";
+                _httpClient.BaseAddress = new Uri(baseUrl); // 🔹 se actualiza cada vez
+                
                 log += $"Intentando login con Email={email}\n";
-
+                Console.WriteLine($"Log:{log}");
                 var payload = new { Email = email , Password = contrasena , EsFamiliar = esFamiliar};
                 var jsonPayload = JsonSerializer.Serialize(payload);
                 log += $"JSON enviado: {jsonPayload}\n";
+                Console.WriteLine($"Log:{log}");
+
 
                 var response = await _httpClient.PostAsJsonAsync("autenticacionlogin/login", payload);
                 log += $"StatusCode: {response.StatusCode}\n";
 
+                Console.WriteLine($"Log:{log}");
+
                 var responseBody = await response.Content.ReadAsStringAsync();
                 log += $"Respuesta del backend: {responseBody}\n";
+                Console.WriteLine($"Log:{log}");
 
                 if (!response.IsSuccessStatusCode)
                     return (false, log, null);
@@ -60,6 +65,8 @@ namespace MoodTAB.Services
             catch (Exception ex)
             {
                 log += $"Excepción: {ex.Message}\n";
+                Console.WriteLine($"Log:{log}");
+
                 return (false, log, null);
             }
         }

@@ -34,13 +34,17 @@ namespace MoodTAB
             try
             {
                 using var client = new HttpClient();
-                // ⚠️ Cambia esta URL por la de tu archivo config.json en GitHub (raw)
                 var json = await client.GetStringAsync("https://raw.githubusercontent.com/ByronPrado/MoodTAB/Temporal/Ngrok/config.json");
 
                 using var doc = JsonDocument.Parse(json);
                 if (doc.RootElement.TryGetProperty("NgrokUrl", out var urlElement))
                 {
+                    Console.WriteLine($"direccion_ngrok antes:{direccion_ngrok}");
+
                     direccion_ngrok = urlElement.GetString() ?? direccion_ngrok;
+
+                    Console.WriteLine($"direccion_ngrok despues:{direccion_ngrok}");
+
                 }
             }
             catch (Exception ex)
