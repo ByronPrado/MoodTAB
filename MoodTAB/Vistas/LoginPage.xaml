@@ -37,7 +37,7 @@
                         <!-- Botón de mostrar/ocultar contraseña -->
                         <ImageButton
                             Grid.Column="1"
-                            Source="debug.png"
+                            Source="mostrar_contrasena.png"
                             Clicked="OnTogglePasswordVisibility"
                             HorizontalOptions="Center"
                             VerticalOptions="Center"
